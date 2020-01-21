@@ -52,3 +52,5 @@ The main APIs offered by CoGoMo are:
 * ``refine_goal(abstract_goal, refined_goal)``
 * ``prioritize_goal(first_priority_goal, second_priority_goal)``
 
+CoGoMo runs with Python3.7 and depends only on z3-solver
+
