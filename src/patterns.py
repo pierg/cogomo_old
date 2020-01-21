@@ -1,9 +1,6 @@
 from src.contract import *
 
 
-class PatternException(object):
-    print("Pattern Exception")
-
 
 class Pattern(Contract):
     """
@@ -60,7 +57,7 @@ class Visit(CoreMovement):
         """
         super().__init__(name)
         if list_of_locations is None:
-            raise PatternException
+            raise Exception("no list of location provided")
 
         for location in list_of_locations:
             self.add_variable((location, 'FALSE'))
@@ -79,7 +76,7 @@ class SequencedVisit(CoreMovement):
         """
         super().__init__(name)
         if list_of_locations is None:
-            raise PatternException
+            raise Exception("no list of location provided")
 
         guarantee = "F("
         for n, location in enumerate(list_of_locations):
@@ -110,7 +107,7 @@ class OrderedVisit(CoreMovement):
         """
         super().__init__(name)
         if list_of_locations is None:
-            raise PatternException
+            raise Exception("no list of location provided")
 
         guarantee = "F("
         for n, location in enumerate(list_of_locations):
@@ -142,7 +139,7 @@ class GlobalAvoidance(Pattern):
         """
         super().__init__(name)
         if list_of_locations is None:
-            raise PatternException
+            raise Exception("no list of location provided")
 
         for location in list_of_locations:
             self.add_variable((location, 'boolean'))
@@ -162,7 +159,7 @@ class DelayedReaction(Pattern):
         """
         super().__init__(name)
         if trigger is None or reaction is None:
-            raise PatternException
+            raise Exception("no trigger or reaction provided")
 
         self.add_variable((trigger, 'boolean'))
         self.add_variable((reaction, 'boolean'))

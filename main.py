@@ -20,7 +20,7 @@ if __name__ == "__main__":
     """Adding contextual assumptions relative to location and the lifting the weight"""
     visit_locations.add_physical_assumptions()
     pickup_object.add_variable(("weight_power", "5..15"))
-    pickup_object.add_assumption("G (weight_power > 10)")
+    pickup_object.add_assumption("G(weight_power > 10)")
 
 
     """Building  the CGT with the Mission"""
@@ -30,27 +30,47 @@ if __name__ == "__main__":
 
     goals["mission"] = compose_goals([goals["visit_locations"], goals["pickup_object"]])
 
-    print(goals["mission"])
+    # print(goals["mission"])
 
     """Istanciating a Library of Componenents"""
     component_library = ComponentsLibrary(name="robots")
+
     component_library.add_components(
         [
-            Robot("robot_1", "weight_power > 5 & weight_power < 10"),
-            Robot("robot_2", "weight_power > 5 & weight_power < 10"),
-            Robot("robot_3", "weight_power > 7 & weight_power < 10"),
-            Collaborate("collaborate", "weight_power > 10")
+            Component(
+                id="robot_1",
+                variables={"robot_power": "0..15"},
+                guarantees="robot_power = 7",
+            ),
+            Component(
+                id="robot_2",
+                variables={"robot_power": "0..15"},
+                guarantees="robot_power >= 8",
+            ),
+            Component(
+                id="robot_3",
+                variables={"robot_power": "0..15"},
+                guarantees="robot_power >= 9",
+            ),
+            Component(
+                id="collaborate",
+                variables={"robot_power": "0..15",
+                           "weight_power": "0..15"},
+                assumptions=["robot_power_port_1 >= 8", "robot_power_port_2 >= 8"],
+                guarantees="G(weight_power > 12)"
+            )
         ])
 
-    specification = Contract(variables={"weight_power": "0..100"}, guarantees=["weight_power > 10"])
-
-    components_selection(component_library, specification)
-
-
-    robot_1 = Robot("robot_1", "weight_power > 5 & weight_power < 10")
-    goals["robot_1"] = CGTGoal("robot_1", contracts=[robot_1])
-
-    goals["mission"] = compose_goals([goals["mission"], goals["robot_1"]])
-
     print(goals["mission"])
+
+    specification = Contract(variables={"weight_power": "0..15"}, guarantees=["G(weight_power > 10)"])
+
+    components = components_selection(component_library, specification)
+
+    if len(components) > 0:
+        new_goal = mapping_to_goal(components, name="new_goal", abstract_on=specification)
+        goals["mission"] = compose_goals([goals["mission"], new_goal])
+        print(goals["mission"])
+
+
 

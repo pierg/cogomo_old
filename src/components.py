@@ -85,17 +85,14 @@ class ComponentsLibrary:
 
     def get_components(self):
         return self.list_of_components
-    
-    def extract_selection(self, variables, assumptions, to_be_refined):
-        """
-        Extract all candidate compositions in the library that once combined refine 'to_be_refined'
-        and are consistent with assumptions
-        :param assumptions: List of assumptions
-        :param to_be_refined: List of propositions
-        :return: List
-        """
+
+
+    def _search_candidate_compositions(self, variables, assumptions, to_be_refined):
 
         candidates_for_each_proposition = {}
+
+        if len(to_be_refined) == 0:
+            return []
 
         for proposition in to_be_refined:
 
@@ -107,10 +104,15 @@ class ComponentsLibrary:
                     """Check Assumptions Consistency"""
                     if len(assumptions) > 0:
 
-                        assumptions = {component.id(): component.get_assumptions(),
-                                       "specification": assumptions}
+                        props_to_check = set()
 
-                        satis, model = sat_check(assumptions)
+                        for assumption in assumptions:
+                            props_to_check.add(assumption)
+
+                        for assumption in component.get_assumptions():
+                            props_to_check.add(assumption)
+
+                        satis = check_satisfiability(merge_two_dicts(component.get_variables(), variables), list(props_to_check))
 
                         """If the contract has compatible assumptions, add it to the list of contracts 
                         that can refine to_be_refined"""
@@ -133,24 +135,75 @@ class ComponentsLibrary:
         candidates_compositions = [[value for (key, value) in zip(candidates_for_each_proposition, values)]
                                    for values in it.product(*candidates_for_each_proposition.values())]
 
-        """Eliminate duplicate components (a component might refine mutiple guarantees)"""
-        for i, c in enumerate(candidates_compositions):
-            c = list(set(c))
-            candidates_compositions[i] = c
-
         """Filter incomposable candidates"""
         candidates_compositions[:] = it.filterfalse(incomposable_check, candidates_compositions)
 
-        print(str(len(candidates_compositions)) + " candidate compositions found:")
-        for i, candidate in enumerate(candidates_compositions):
+        return candidates_compositions
+    
+    def extract_selection(self, variables, assumptions, to_be_refined):
+        """
+        Extract all candidate compositions in the library that once combined refine 'to_be_refined'
+        and are consistent with assumptions
+        :param assumptions: List of assumptions
+        :param to_be_refined: List of propositions
+        :return: List
+        """
+
+        """Dividing the propositions to be refined, if they are general ports or not"""
+        general_to_be_refined = []
+        specific_to_be_refined = []
+
+        for prop in to_be_refined:
+            if "port" in prop:
+                general_to_be_refined.append(prop)
+            else:
+                specific_to_be_refined.append(prop)
+
+
+        specific_candidates_compositions = self._search_candidate_compositions(variables, assumptions,
+                                                                               specific_to_be_refined)
+
+        general_candidates_compositions = self._search_candidate_compositions(variables, assumptions,
+                                                                               general_to_be_refined)
+
+        """Remove the candidates that having the same component refining more general ports"""
+        general_candidates_compositions[:] = it.filterfalse(duplicate_contract, general_candidates_compositions)
+
+        all_candidates = []
+
+        if len(specific_candidates_compositions) > 0:
+            all_candidates = specific_candidates_compositions
+            for candidate_specific in specific_candidates_compositions:
+                for candidate_general in general_candidates_compositions:
+                    candidate_specific.append(candidate_general)
+
+        elif len(general_candidates_compositions) > 0:
+            all_candidates = general_candidates_compositions
+
+        """Eliminate duplicate components (a component might refine multiple propositions)"""
+        for i, c in enumerate(all_candidates):
+            c = list(set(c))
+            all_candidates[i] = c
+
+        print(str(len(all_candidates)) + " candidate compositions found:")
+        for i, candidate in enumerate(all_candidates):
             print("\tcandidate_" + str(i) + ":")
             for component in candidate:
                 print(str(component))
             print("\n")
 
-        return candidates_compositions
+        if len(all_candidates) == 0:
+            raise Exception("No candidate available")
+
+        return all_candidates
 
 
+
+def duplicate_contract(list_contracts):
+    if not isinstance(list_contracts, list):
+        raise Exception("Wrong Parameter")
+
+    return len(list_contracts) != len(set(list_contracts))
 
 def incomposable_check(list_contracts):
     """Return True if the list of contracts is not satisfiable, not compatible or not feasible"""

@@ -46,6 +46,10 @@ class CGTGoal:
         self.sub_goals = [refined_goal]
         self.sub_operation = 'REFINEMENT'
 
+    def set_mapping(self, list_mapped_goals):
+        self.sub_goals = list_mapped_goals
+        self.sub_operation = 'MAPPING'
+
     def set_name(self, name):
         self.name = name
 

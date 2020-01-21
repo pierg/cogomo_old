@@ -47,7 +47,7 @@ def check_satisfiability(variables, propositions):
 
     for index, prop in enumerate(propositions_copy):
         """Renaming propositions"""
-        propositions_copy[index] = re.sub("_port_\d+", "", prop)
+        propositions_copy[index] = re.sub("_port_\d+|_port", "", prop)
 
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:
@@ -84,7 +84,7 @@ def check_satisfiability(variables, propositions):
 def check_validity(variables, proposition):
 
     """Renaming propositions"""
-    proposition_copy = re.sub("_port_\d+", "", proposition)
+    proposition_copy = re.sub("_port_\d+|_port", "", proposition)
 
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:

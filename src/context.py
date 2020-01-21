@@ -20,7 +20,7 @@ class Robot(Context):
         """
         super().__init__(name)
 
-        self.add_variable(('weight_power', "5..15"))
+        self.add_variable(('robot_power', "5..15"))
         self.add_guarantee(weight_power)
 
 
@@ -30,6 +30,8 @@ class Collaborate(Context):
         super().__init__(name)
 
         self.add_variable(('weight_power', "5..15"))
-        self.add_assumptions(["weight_power_port_1 > 5", "weight_power_port_2 > 5"])
+        self.add_variable(('robot_power', "5..15"))
+        self.add_assumptions(["robot_power_port_1 > 5", "robot_power_port_2 > 5",
+                              "robot_power_port_1 < 8", "robot_power_port_2 < 8"])
         self.add_guarantee(weight_power)
 

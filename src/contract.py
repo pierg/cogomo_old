@@ -24,13 +24,17 @@ class Contract(object):
             self.guarantees = []
         elif isinstance(guarantees, list):
             self.add_guarantees(guarantees)
+        elif isinstance(guarantees, str):
+            self.add_guarantee(guarantees)
         else:
             raise Exception("Attribute Error")
 
         if assumptions is None:
-            self.assumptions = []
+            self.assumptions = ["TRUE"]
         elif isinstance(assumptions, list):
             self.add_assumptions(assumptions)
+        elif isinstance(assumptions, str):
+            self.add_assumption(assumptions)
         else:
             raise Exception("Attribute Error")
 
@@ -79,6 +83,9 @@ class Contract(object):
     def add_assumption(self, assumption):
         if isinstance(assumption, str) == False:
             raise AttributeError
+
+        if "TRUE" in self.assumptions:
+            self.assumptions.remove("TRUE")
 
         """Check if assumption is a refinement of exising assumptions and vice-versa"""
         for a in self.assumptions:
@@ -179,7 +186,7 @@ class Contract(object):
 
 
 def same_variable(var_a, var_b):
-    var_a = re.sub("_port_\d+", "", var_a)
-    var_b = re.sub("_port_\d+", "", var_b)
+    var_a = re.sub("_port_\d+|_port", "", var_a)
+    var_b = re.sub("_port_\d+|_port", "", var_b)
 
     return var_a == var_b

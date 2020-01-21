@@ -43,7 +43,9 @@ def compose_goals(list_of_goal, name=None, description=""):
 
     composed_contract_list = []
     for contracts in composition_contracts:
-        composed_contract = compose_contracts(contracts)
+        # composed_contract = compose_contracts(contracts)
+        contract_list = list(contracts.values())
+        composed_contract = compose_contracts(contract_list)
         composed_contract_list.append(composed_contract)
 
     composed_goal = CGTGoal(name=name,
@@ -142,6 +144,35 @@ def prioritize_goal(first_priority_goal, second_priority_goal):
         contract.add_assumption(Not(Or(stronger_assumptions_list)))
 
 
+def mapping_to_goal(list_of_components, name=None, description=None, abstract_on=None):
+
+    if not isinstance(list_of_components, list):
+        raise Exception("Attribute Error")
+
+    if name==None:
+        name = ""
+
+    if description==None:
+        description = ""
+
+
+    new_goal = CGTGoal(name=name,
+                       description=description,
+                       contracts=compose_contracts(list_of_components, abstract_on=abstract_on))
+
+    goal_list = []
+    for component in list_of_components:
+        goal_component = CGTGoal(name=component.get_id(),
+                                 contracts=component)
+        goal_component.set_parent(new_goal, "COMPOSITION")
+
+        goal_list.append(goal_component)
+
+    new_goal.set_mapping(goal_list)
+
+    return new_goal
+
+
 def components_selection(component_library, specification):
     if not isinstance(component_library, ComponentsLibrary):
         raise Exception("Attribute Error")
@@ -185,6 +216,9 @@ def components_selection(component_library, specification):
 
             component_variables = component.get_variables()
             component_assumptions = component.get_assumptions()
+
+            if "TRUE" in component_assumptions:
+                continue
 
             variables = merge_two_dicts(component_variables, spec_variables)
 
@@ -314,24 +348,25 @@ def refine_goal(abstract_goal, refined_goal):
     print("The goals are now connected with each other")
 
 
-def compose_contracts(contracts):
+def compose_contracts(contracts, abstract_on=None):
     """
-    :param contracts: dictionary of goals name and contract
+    :param contracts: list of goals name and contract
     :return: True, contract which is the composition of the contracts in the goals or the contracts in the list
              False, unsat core of smt, list of proposition to fix that cause a conflict when composing
     """
 
-    contracts_dictionary = {}
-    if isinstance(contracts, dict):
-        contracts_dictionary = contracts
-    else:
+    if not isinstance(contracts, list):
         raise WrongParametersError
+
+    g_abstracted = None
+    if abstract_on is not None:
+        g_abstracted = abstract_on.get_guarantees()
 
     variables = {}
     assumptions = []
     guarantees = []
 
-    for name, contract in list(contracts_dictionary.items()):
+    for contract in contracts:
         variables = merge_two_dicts(variables, contract.get_variables())
         assumptions.extend(contract.get_assumptions())
         guarantees.extend(contract.get_guarantees())
@@ -361,18 +396,68 @@ def compose_contracts(contracts):
     a_composition = list(set(assumptions))
     g_composition = list(set(guarantees))
 
+    """Remove 'TRUE' from assumptions if exists"""
+    if "TRUE" in a_composition:
+        a_composition.remove("TRUE")
+
     a_composition_simplified = a_composition[:]
     g_composition_simplified = g_composition[:]
 
     # List of guarantees used to simpolify assumptions, used later for abstraction
     g_elem_list = []
     # Compare each element in a_composition with each element in g_composition
-    for a_elem in a_composition:
-        for g_elem in g_composition:
-            if is_set_smaller_or_equal(variables, variables, a_elem, g_elem):
+
+    """Combinations of guarantees"""
+    g_combinations = []
+    for i in range(len(g_composition)):
+        oc = it.combinations(g_composition, i + 1)
+        for c in oc:
+            g_combinations.append(list(c))
+
+    """Combinations of assumptions"""
+    a_combinations = []
+    for i in range(len(a_composition)):
+        oc = it.combinations(a_composition, i + 1)
+        for c in oc:
+            a_combinations.append(list(c))
+
+    for a_elem in a_combinations:
+        for g_elem in g_combinations:
+
+            """Avoid comparing things that have already been removed"""
+            if isinstance(a_elem, list):
+                flag = False
+                for a in a_elem:
+                    if a not in a_composition_simplified:
+                        flag = True
+                if flag:
+                    continue
+            else:
+                if a_elem not in a_composition_simplified:
+                    continue
+
+            if is_set_smaller_or_equal(variables, variables, g_elem, a_elem):
                 print("Simplifying assumption " + str(a_elem))
-                a_composition_simplified.remove(a_elem)
+                if isinstance(a_elem, list):
+                    for a in a_elem:
+                        if a in a_composition_simplified:
+                            a_composition_simplified.remove(a)
+                else:
+                    if a_elem in a_composition_simplified:
+                        a_composition_simplified.remove(a_elem)
                 g_elem_list.append(g_elem)
+
+    if len(a_composition_simplified) == 0:
+        a_composition_simplified.append("TRUE")
+
+    if g_abstracted is not None:
+        if is_set_smaller_or_equal(variables, variables, g_composition_simplified, g_abstracted):
+            composed_contract = Contract(variables=variables,
+                                         assumptions=a_composition_simplified,
+                                         guarantees=g_abstracted)
+            return composed_contract
+        else:
+            raise Exception("abstraction not correct")
 
     composed_contract = Contract(variables=variables,
                                  assumptions=a_composition_simplified,
