@@ -77,11 +77,17 @@ class Contract(object):
         self.variables[name] = value
 
     def add_assumptions(self, assumptions):
-        for assumption in assumptions:
-            self.add_assumption(assumption)
+        if isinstance(assumptions, list):
+            for assumption in assumptions:
+                self.add_assumption(assumption)
+        elif isinstance(assumptions, str):
+            self.add_assumption(assumptions)
+        else:
+            raise AttributeError
+
 
     def add_assumption(self, assumption):
-        if isinstance(assumption, str) == False:
+        if not isinstance(assumption, str):
             raise AttributeError
 
         if "TRUE" in self.assumptions:

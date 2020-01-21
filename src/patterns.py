@@ -11,6 +11,18 @@ class Pattern(Contract):
         self.name = name
         self.add_assumption("TRUE")
 
+    def add_physical_assumptions(self):
+        pass
+
+    def add_context(self, name=None, context=None):
+        if name in self.name:
+            for variables, assumption in context:
+                self.add_variables(variables)
+                self.add_assumptions(assumption)
+
+    def get_name(self):
+        return self.name
+
 
 class CoreMovement(Pattern):
     """
