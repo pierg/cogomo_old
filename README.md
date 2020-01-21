@@ -46,9 +46,9 @@ Once a conflict or an incorrect refinement is detected, CoGoMo informs the desig
 
 The main APIs offered by CoGoMo are:
 
-``conjoin_goals(list_of_goals, name=None, description=None)``
-``compose_goals(list_of_goals, name=None, description=None)``
-``mapping(component_library, specification)``
-``refine_goal(abstract_goal, refined_goal)``
-``prioritize_goal(first_priority_goal, second_priority_goal)``
+. ``conjoin_goals(list_of_goals, name=None, description=None)``
+. ``compose_goals(list_of_goals, name=None, description=None)``
+. ``mapping(component_library, specification)``
+. ``refine_goal(abstract_goal, refined_goal)``
+. ``prioritize_goal(first_priority_goal, second_priority_goal)``
 
