@@ -5,4 +5,4 @@ VAR
 	HI_pickup: boolean;
 	weight_power: 5..15;
 
-LTLSPEC ! (F(locA & F(locB)) & weight_power > 5 & weight_power < 10 & G((locA & !locB) | (locB & !locA)) & G(locA -> F(HI_pickup)) & G (weight_power > 10) & !locB U locA & TRUE)
+LTLSPEC ! (F(locA & F(locB)) & G (weight_power > 10) & weight_power > 5 & weight_power < 10 & TRUE & !locB U locA & G((locA & !locB) | (locB & !locA)) & G(locA -> F(HI_pickup)))
