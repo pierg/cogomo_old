@@ -72,7 +72,7 @@ class CGTGoal:
     def __str__(self, level=0):
         """Override the print behavior"""
         ret = "\t" * level + repr(self.name) + "\n"
-        ret += "\t" * level + repr(self.description) + "\n"
+        # ret += "\t" * level + repr(self.description) + "\n"
         for n, contract in enumerate(self.contracts):
             if n > 0:
                 ret += "\t" * level + "\t/\\ \n"
