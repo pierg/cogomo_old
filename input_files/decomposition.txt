@@ -13,28 +13,25 @@ GOAL:
     DESCRIPTION:
         communicate with the leader of the platoon
     VARIABLES:
-        tr              := REAL   # Transmission rate
 		delay           := REAL   # Propagation delay
-		n               := INT    # N vehicles in the platoon
 		a_l             := REAL   # steering angle of the leader
 		s_l             := REAL   # speed of the leader
+		comm            := BOOL   # communication
 	ASSUMPTIONS:
-		tr >= TR_min
-		tr <= TR_max
-		tr != 0
+        comm
 	GUARANTEES:
 		a_l >= -1
 	    a_l <= 1
 	    s_l >= 0
-		delay < DELAYMAX
+	    delay <= DELAYMAX
 
 GOAL:
 	NAME:
 		enstablish_connection
     DESCRIPTION:
-        enstablish a connection with a VANET
+        enstablish a comm with a VANET
     VARIABLES:
-        connection      := BOOL   # Connection enstablished
+        comm            := BOOL   # Connection enstablished
         tr              := REAL   # Transmission rate
 		delay           := REAL   # Propagation delay
 		n               := INT    # N vehicles in the platoon
@@ -43,7 +40,7 @@ GOAL:
 		tr <= TR_max
 		tr != 0
 	GUARANTEES:
-	    connection
+	    comm
 		delay == (L * n) / tr
 
 
@@ -51,9 +48,9 @@ GOAL:
 	NAME:
 		enstablish_connection_fixed
     DESCRIPTION:
-        enstablish a connection with a VANET
+        enstablish a comm with a VANET
     VARIABLES:
-        connection      := BOOL   # Connection enstablished
+        comm      := BOOL   # Connection enstablished
         tr              := REAL   # Transmission rate
 		delay           := REAL   # Propagation delay
 		n               := INT    # N vehicles in the platoon
@@ -63,7 +60,7 @@ GOAL:
 		tr != 0
 		n < 10
 	GUARANTEES:
-	    connection
+	    comm
 		delay == (L * n) / tr
 
 
@@ -73,11 +70,11 @@ GOAL:
     DESCRIPTION:
         retrieve needed information about speed, steering angle and other info
     VARIABLES:
-        connection      := BOOL   # Connection enstablished
+        comm      := BOOL   # Connection enstablished
         a_l             := REAL   # steering angle of the leader
         s_l             := REAL   # speed of the leader
 	ASSUMPTIONS:
-		connection
+		comm
 	GUARANTEES:
 		a_l >= -0.52
 	    a_l <= 0.52

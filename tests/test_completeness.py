@@ -12,7 +12,7 @@ from src.operations import *
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
 
-def case1():
+def case2():
     goals = parse('../input_files/test_completeness.txt')
 
     try:
@@ -26,24 +26,6 @@ def case1():
 
         print(goals['communicate_with_platoon_leader_abstracted_complete'])
         print(goals['communicate_with_platoon_leader_refined_complete'])
-
-def case2():
-    goals = parse('../input_files/decomposition.txt')
-
-    try:
-        communicate_with_platoon_leader_refined = compose_goals([
-            goals['enstablish_connection'],
-            goals['enstablish_connection']], "communicate_with_platoon_leader_refined")
-
-        refine_goal(goals['communicate_with_platoon_leader'],
-                    communicate_with_platoon_leader_refined)
-
-    except Exception:
-        print("Refinement not complete, Fixing..")
-
-        refine_goal(goals['communicate_with_platoon_leader_abstracted_complete'],
-                    goals['communicate_with_platoon_leader_refined_complete'])
-
 
 
 
@@ -59,6 +41,8 @@ if __name__ == "__main__":
         refine_goal(goals['communicate_with_platoon_leader'],
                     communicate_with_platoon_leader_refined)
 
+        print(goals['communicate_with_platoon_leader'])
+
     except Exception:
         print("Exception occurred")
         print("Fixing the assumptions..")
@@ -69,6 +53,9 @@ if __name__ == "__main__":
 
         refine_goal(goals['communicate_with_platoon_leader'],
                     communicate_with_platoon_leader_refined)
+
+        print(goals['communicate_with_platoon_leader'])
+
 
 
 
