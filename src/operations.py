@@ -78,13 +78,13 @@ def conjoin_goals(goals, name="", description=""):
 
         for contract_1 in pair_of_goals[0].get_contracts():
 
-            assumptions[pair_of_goals[0].get_name() + "_assumptions"] = contract_1.get_assumptions()
-            guarantees[pair_of_goals[0].get_name() + "_guarantees"] = contract_1.get_guarantees()
+            assumptions[pair_of_goals[0].get_name() + "_assumptions"] = contract_1.get_list_assumptions()
+            guarantees[pair_of_goals[0].get_name() + "_guarantees"] = contract_1.get_list_guarantees()
 
             for contract_2 in pair_of_goals[1].get_contracts():
 
-                assumptions[pair_of_goals[1].get_name() + "_assumptions"] = contract_2.get_assumptions()
-                guarantees[pair_of_goals[1].get_name() + "_guarantees"] = contract_2.get_guarantees()
+                assumptions[pair_of_goals[1].get_name() + "_assumptions"] = contract_2.get_list_assumptions()
+                guarantees[pair_of_goals[1].get_name() + "_guarantees"] = contract_2.get_list_guarantees()
 
                 """Checking Consistency only when the assumptions are satisfied together"""
                 sat_1, model = sat_check(assumptions)
@@ -132,7 +132,7 @@ def prioritize_goal(first_priority_goal, second_priority_goal):
     stronger_assumptions_list = []
 
     for contract in first_priority_goal.get_contracts():
-        stronger_assumptions_list.append(And(contract.get_assumptions()))
+        stronger_assumptions_list.append(And(contract.get_list_assumptions()))
 
     print(second_priority_goal)
 
@@ -149,8 +149,8 @@ def mapping(component_library, specification):
     if not isinstance(specification, Contract):
         raise Exception("Attribute Error")
 
-    spec_assumptions = specification.get_assumptions()
-    spec_guarantees = specification.get_guarantees()
+    spec_assumptions = specification.get_list_assumptions()
+    spec_guarantees = specification.get_list_guarantees()
 
     set_components_to_return = []
 
@@ -182,7 +182,7 @@ def mapping(component_library, specification):
             components_to_search.remove(component)
             component_already_searched.append(component)
 
-            component_assumptions = component.get_assumptions()
+            component_assumptions = component.get_list_assumptions()
 
             """Extract all candidate compositions that can provide the assumptions, if they exists"""
             try:
@@ -237,7 +237,7 @@ def propagate_assumptions(abstract_goal, refined_goal):
         """And(.....) of all the assumptions of the abstracted contract"""
         assumptions_abs_z3 = contracts_abstracted[i].get_z3_assumptions()
         """List of all the assumptions of the refined contract"""
-        assumptions_ref = contract.get_assumptions()
+        assumptions_ref = contract.get_list_assumptions()
         assumptions_to_add = []
         for assumption in assumptions_ref:
             if not is_set_smaller_or_equal(assumptions_abs_z3, assumption):
@@ -249,38 +249,30 @@ def propagate_assumptions(abstract_goal, refined_goal):
         contracts_abstracted[i].add_assumptions(assumptions_to_add)
 
 
-def is_a_refinement(refined_contract, abstracted_contract):
+
+def is_refinement_correct(refined_contract, abstracted_contract, couterexample=False):
     """
     Check if A1 >= A2 and if G1 <= G2
     """
 
-    a_check, model_a = z3_validity_check(Implies(abstracted_contract.get_assumptions()[0],
-                                                 refined_contract.get_assumptions()[0]))
+    a_check = is_set_smaller_or_equal(abstracted_contract.get_list_assumptions(), refined_contract.get_list_assumptions())
 
-    g_check, model_g = z3_validity_check(Implies(refined_contract.get_guarantees()[0],
-                                                 abstracted_contract.get_guarantees()[0]))
+    g_check = is_set_smaller_or_equal(refined_contract.get_list_guarantees_saturated(), abstracted_contract.get_list_guarantees_saturated())
 
-    if not a_check:
-        print("Assumptions are not a valid refinement: " + str(model_a))
+    if couterexample:
+        if not a_check:
+            a_check, model_a = z3_validity_check(Implies(abstracted_contract.get_list_assumptions()[0],
+                                                         refined_contract.get_list_assumptions()[0]))
+            print("Assumptions are not a valid refinement: " + str(model_a))
 
-    if not g_check:
-        print("Guarantees are not a valid refinement")
-        print("REFINED:\n" + str(refined_contract.get_guarantees()[0]))
-        print("\n\nABSTRACT:\n" + str(abstracted_contract.get_guarantees()[0]))
-        print("\n\nCOUNTEREXAMPLE:\n" + str(model_g))
+        if not g_check:
+            g_check, model_g = z3_validity_check(Implies(refined_contract.get_list_guarantees_saturated()[0],
+                                                         abstracted_contract.get_list_guarantees_saturated()[0]))
+            print("Guarantees are not a valid refinement")
+            print("REFINED:\n" + str(refined_contract.get_list_guarantees()[0]))
+            print("\n\nABSTRACT:\n" + str(abstracted_contract.get_list_guarantees()[0]))
+            print("\n\nCOUNTEREXAMPLE:\n" + str(model_g))
 
-    return a_check and g_check
-
-
-
-def is_refinement_correct(refined_contract, abstracted_contract):
-    """
-    Check if A1 >= A2 and if G1 <= G2
-    """
-
-    a_check = is_set_smaller_or_equal(abstracted_contract.get_assumptions(), refined_contract.get_assumptions())
-
-    g_check = is_set_smaller_or_equal(refined_contract.get_guarantees(), abstracted_contract.get_guarantees())
 
     return a_check and g_check
 
@@ -298,7 +290,7 @@ def refine_goal(abstract_goal, refined_goal):
     abstracted_contracts = get_z3_contract(abstract_goal)
     refined_contracts = get_z3_contract(refined_goal)
 
-    if not is_a_refinement(refined_contracts, abstracted_contracts):
+    if not is_refinement_correct(refined_contracts, abstracted_contracts, couterexample=True):
         raise Exception("Incomplete Refinement!")
 
     print("The refinement has been proven, connecting the goals..")
@@ -351,8 +343,8 @@ def compose_contracts(contracts):
     for name, contract in list(contracts_dictionary.items()):
         composed_name += name + "_"
         merge_two_dicts(variables, contract.get_variables())
-        assumptions[name + "_assumptions"] = contract.get_assumptions()
-        guarantees[name + "_guarantees"] = contract.get_guarantees()
+        assumptions[name + "_assumptions"] = contract.get_list_assumptions()
+        guarantees[name + "_guarantees"] = contract.get_list_guarantees()
 
     # CHECK COMPATILITY
     satis, model = sat_check(assumptions)
@@ -397,6 +389,9 @@ def compose_contracts(contracts):
                 print("Simplifying assumption " + str(a_elem))
                 a_composition_simplified.remove(a_elem)
                 g_elem_list.append(g_elem)
+
+    """Remove True if exists"""
+    a_composition_simplified = [a for a in a_composition_simplified if a is not True]
 
     print(("Assumptions:\n\t\t" + str(a_composition_simplified)))
     print(("Guarantees:\n\n\t\t" + str(g_composition_simplified)))
@@ -459,12 +454,12 @@ def greedy_selection(candidate_compositions):
             contract_b = Contract()
 
             for component_a in candidate_a:
-                contract_a.add_assumptions(component_a.get_assumptions())
-                contract_a.add_guarantees(component_a.get_guarantees())
+                contract_a.add_assumptions(component_a.get_list_assumptions())
+                contract_a.add_guarantees(component_a.get_list_guarantees())
 
             for component_b in candidate_b:
-                contract_b.add_assumptions(component_b.get_assumptions())
-                contract_b.add_guarantees(component_b.get_guarantees())
+                contract_b.add_assumptions(component_b.get_list_assumptions())
+                contract_b.add_guarantees(component_b.get_list_guarantees())
 
             if is_refinement_correct(contract_a, contract_b):
                 candidates_points[tuple(candidate_a)] += 1

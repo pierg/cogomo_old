@@ -33,10 +33,11 @@ if __name__ == "__main__":
 
     goals = parse('../input_files/decomposition.txt')
 
+    communicate_with_platoon_leader_refined = compose_goals([
+        goals['enstablish_connection'],
+        goals['retrieve_information']], "communicate_with_platoon_leader_refined")
+
     try:
-        communicate_with_platoon_leader_refined = compose_goals([
-            goals['enstablish_connection'],
-            goals['retrieve_information']], "communicate_with_platoon_leader_refined")
 
         refine_goal(goals['communicate_with_platoon_leader'],
                     communicate_with_platoon_leader_refined)
@@ -47,14 +48,14 @@ if __name__ == "__main__":
         print("Exception occurred")
         print("Fixing the assumptions..")
 
-        communicate_with_platoon_leader_refined = compose_goals([
-            goals['enstablish_connection_fixed'],
-            goals['retrieve_information']], "communicate_with_platoon_leader_refined")
+        # communicate_with_platoon_leader_refined = compose_goals([
+        #     goals['enstablish_connection_fixed'],
+        #     goals['retrieve_information']], "communicate_with_platoon_leader_refined")
 
-        refine_goal(goals['communicate_with_platoon_leader'],
+        refine_goal(goals['communicate_with_platoon_leader_fixed'],
                     communicate_with_platoon_leader_refined)
 
-        print(goals['communicate_with_platoon_leader'])
+        print(goals['communicate_with_platoon_leader_fixed'])
 
 
 

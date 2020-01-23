@@ -75,9 +75,9 @@ class CGTGoal:
             if n > 0:
                 ret += "\t" * level + "\t/\\ \n"
             ret += "\t" * level + "A:\t\t" + \
-                   ', '.join(str(x) for x in contract.get_assumptions()).replace('\n', ' ').replace(' ', '') + "\n"
+                   ', '.join(str(x) for x in contract.get_list_assumptions_to_print()).replace('\n', ' ').replace(' ', '') + "\n"
             ret += "\t" * level + "G:\t\t" + \
-                   ', '.join(str(x) for x in contract.get_guarantees()).replace('\n', ' ').replace(' ', '') + "\n"
+                   ', '.join(str(x) for x in contract.get_list_guarantees()).replace('\n', ' ').replace(' ', '') + "\n"
             # if contract.is_abstracted():
             #     ret += "\t" * level + "G_abs:\t" + \
             #            ', '.join(str(x) for x in contract.get_abstract_guarantees()).replace('\n', ' ').replace(' ',

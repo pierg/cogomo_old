@@ -1,0 +1,41 @@
+CONSTANTS:
+    DELAYMAX      := 0.01       # seconds
+    TR_min        := 3000000    # bits/s
+    TR_max        := 27000000   # bits/s
+    L             := 3200       # bits
+    MAX_PLATOON   := 5          # maximum number of vehicles
+
+
+
+GOAL:
+	NAME:
+		goal_1
+    DESCRIPTION:
+        communicate with the leader of the platoon
+    VARIABLES:
+		delay           := REAL   # Propagation delay
+		comm            := BOOL   # communication
+	ASSUMPTIONS:
+        --
+	GUARANTEES:
+		delay < DELAYMAX
+
+
+GOAL:
+	NAME:
+		goal_2
+    DESCRIPTION:
+        enstablish a comm with a VANET
+    VARIABLES:
+        comm            := BOOL   # Connection enstablished
+        tr              := REAL   # Transmission rate
+		delay           := REAL   # Propagation delay
+		n               := INT    # N vehicles in the platoon
+	ASSUMPTIONS:
+		tr >= TR_min
+		tr <= TR_max
+	GUARANTEES:
+		comm
+
+
+ENDGOALS

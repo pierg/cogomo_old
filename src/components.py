@@ -102,12 +102,12 @@ class ComponentsLibrary:
             """Check if any component refine the to_be_refined"""
             for component in self.get_components():
 
-                if is_set_smaller_or_equal(component.get_guarantees(), proposition):
+                if is_set_smaller_or_equal(component.get_list_guarantees(), proposition):
 
                     """Check Assumptions Consistency"""
                     if len(assumptions) > 0:
 
-                        assumptions = {component.id(): component.get_assumptions(),
+                        assumptions = {component.id(): component.get_list_assumptions(),
                                        "specification": assumptions}
 
                         satis, model = sat_check(assumptions)
@@ -160,9 +160,9 @@ def incomposable_check(list_contracts):
     propositions = set([])
 
     for contract in list_contracts:
-        for elem in contract.get_assumptions():
+        for elem in contract.get_list_assumptions():
             propositions.add(elem)
-        for elem in contract.get_guarantees():
+        for elem in contract.get_list_guarantees():
             propositions.add(elem)
 
     return not sat_check_simple(propositions)

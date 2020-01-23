@@ -8,16 +8,19 @@ def sat_check(propositions_dictionary):
     If satisfiabile it returns True and an assignment example
     If insatisfiabile it returns False and the list of elements generating the insatisfiability (unsat_core)"""
 
+    # # Eliminate entries which are always True
+    # propositions_dictionary = {k: v for k, v in propositions_dictionary.items() if True not in v}
+
     s = Optimize()
 
     for name, value in list(propositions_dictionary.items()):
         if isinstance(value, list):
             for elem in value:
-                prop_strign = name + ": " + str(elem)
-                s.assert_and_track(elem, Bool(prop_strign))
+                prop_string = name + ": " + str(elem)
+                s.assert_and_track(elem, Bool(prop_string))
         else:
-            prop_strign = name + ": " + str(value)
-            s.assert_and_track(value, Bool(prop_strign))
+            prop_string = name + ": " + str(value)
+            s.assert_and_track(value, Bool(prop_string))
 
     r = s.check()
 
@@ -77,16 +80,17 @@ def check_ports_are_compatible(prop_1, prop_2):
     prop_1_names = []
     prop_2_names = []
 
-    if isinstance(prop_1, BoolRef):
+    if not isinstance(prop_1, list):
         prop_1 = [prop_1]
-    if isinstance(prop_2, BoolRef):
+    if not isinstance(prop_2, list):
         prop_2 = [prop_2]
 
     for elem in prop_1:
-        if not isinstance(elem, BoolRef):
+        if not (isinstance(elem, BoolRef) or isinstance(elem, bool)):
             raise Exception("Attribute Error")
 
-        list_var = re.split('(?<![A-Za-z0-9.])[0-9.]+|[\s\W]|(?<![\w\d])True(?![\w\d])|(?<![\w\d])False(?![\w\d])', str(elem))
+        list_var = re.split('(?<![A-Za-z0-9.])[0-9.]+|[\s\W]|(?<![\w\d])True(?![\w\d])|(?<![\w\d])False(?![\w\d])',
+                            str(elem))
 
         for var in list_var:
             stripped = var.strip()
@@ -94,10 +98,11 @@ def check_ports_are_compatible(prop_1, prop_2):
                 prop_1_names.append(stripped)
 
     for elem in prop_2:
-        if not isinstance(elem, BoolRef):
+        if not (isinstance(elem, BoolRef) or isinstance(elem, bool)):
             raise Exception("Attribute Error")
 
-        list_var = re.split('(?<![A-Za-z0-9.])[0-9.]+|[\s\W]|(?<![\w\d])True(?![\w\d])|(?<![\w\d])False(?![\w\d])', str(elem))
+        list_var = re.split('(?<![A-Za-z0-9.])[0-9.]+|[\s\W]|(?<![\w\d])True(?![\w\d])|(?<![\w\d])False(?![\w\d])',
+                            str(elem))
 
         for var in list_var:
             stripped = var.strip()
@@ -110,7 +115,6 @@ def check_ports_are_compatible(prop_1, prop_2):
                 return True
 
     return False
-
 
 
 def is_set_smaller_or_equal(props_refined, props_abstracted):
@@ -129,7 +133,6 @@ def is_set_smaller_or_equal(props_refined, props_abstracted):
 
     refinement = None
     abstract = None
-
 
     """Check Attributes"""
     if isinstance(props_refined, list):
@@ -154,4 +157,3 @@ def is_set_smaller_or_equal(props_refined, props_abstracted):
         print("\t\t\trefined:\t" + str(refinement) + "\n\t\t\tabstract:\t" + str(abstract))
 
     return result
-

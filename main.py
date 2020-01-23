@@ -84,4 +84,7 @@ if __name__ == "__main__":
         description="followin mode of the platoon"
     )
 
+
+    print(following_mode)
+
     print("END")

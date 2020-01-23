@@ -127,26 +127,48 @@ class Contract(object):
         else:
             self.guarantees.append(guarantee)
 
-    def get_assumptions(self):
-        return self.assumptions
-
     def get_z3_assumptions(self):
         if len(self.assumptions) > 1:
             return And(self.assumptions)
+        elif len(self.assumptions) == 0:
+            return True
+        elif True in self.assumptions:
+            return True
         else:
             return self.assumptions[0]
 
     def get_z3_guarantees(self):
+        """Saturated guarantees"""
         if len(self.guarantees) > 1:
-            # return And(self.guarantees)
             return Implies(self.get_z3_assumptions(), And(self.guarantees))
         else:
-            # return self.guarantees[0]
             return Implies(self.get_z3_assumptions(), self.guarantees[0])
 
-    def get_guarantees(self):
+    def get_list_assumptions_to_print(self):
+        if True in self.assumptions:
+            return [True]
+        return self.assumptions
+
+    def get_list_assumptions(self):
+
+        if True in self.assumptions:
+            return []
+
+        return self.assumptions
+
+    def get_list_guarantees_saturated(self):
+
+        guarantees_saturated = []
+
+        for g in self.guarantees:
+            guarantees_saturated.append(Implies(self.get_z3_assumptions(), g))
+
+        return guarantees_saturated
+
+    def get_list_guarantees(self):
 
         return self.guarantees
+
 
     def is_full(self):
         """
