@@ -28,7 +28,7 @@ RUN \
 
 WORKDIR /home/cogomo_Z3
 
-ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo_Z3/src:/home/cogomo_Z3/evaluation"
+ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo/src:/home/cogomo/evaluation"
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD [""]

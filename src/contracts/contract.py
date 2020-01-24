@@ -1,13 +1,15 @@
-from src.sat_checks import *
+from typing import Dict, List, Tuple
+from src.checks.nsmvhelper import *
+
 
 class Contract(object):
-    """Contract class stores data attributes of a contract
-    """
+    """Contract class stores data attributes of a contract"""
 
     def __init__(self,
-                 variables=None,
-                 assumptions=None,
-                 guarantees=None):
+                 variables: Dict[str, str] = None,
+                 assumptions: List[str] = None,
+                 guarantees: List[str] = None):
+
         """Initialize a contract object"""
         self.variables = {}
         self.assumptions = []
@@ -18,75 +20,46 @@ class Contract(object):
         elif isinstance(variables, dict):
             self.variables = variables
         else:
-            raise Exception("Attribute Error")
+            raise AttributeError
 
         if guarantees is None:
             self.guarantees = []
         elif isinstance(guarantees, list):
             self.add_guarantees(guarantees)
-        elif isinstance(guarantees, str):
-            self.add_guarantee(guarantees)
         else:
-            raise Exception("Attribute Error")
+            raise AttributeError
 
         if assumptions is None:
             self.assumptions = ["TRUE"]
         elif isinstance(assumptions, list):
             self.add_assumptions(assumptions)
-        elif isinstance(assumptions, str):
-            self.add_assumption(assumptions)
         else:
-            raise Exception("Attribute Error")
+            raise AttributeError
 
-    def add_variable(self, variable):
-        """Adds a variable to the contract variables
+    """Variables"""
 
-        Args:param variable: a tuple of strings containing name of the variable and a its type
-        """
+    def add_variable(self, variable: Tuple[str, str]):
         name, var_type = variable
         self.variables[name] = var_type
 
-
-    def add_variables(self, variables):
-        """Adds a list of variables to the contract variables
-
-        :param variables: list of tuple of strings each containing name of the variable and a its type
-        """
+    def add_variables(self, variables: List[Tuple[str, str]]):
         if isinstance(variables, tuple):
             for variable in variables:
                 self.add_variable(variable)
         elif isinstance(variables, dict):
             self.variables.update(variables)
 
-
-    def merge_variables(self, variables_dictionary):
-
+    def merge_variables(self, variables_dictionary: Dict[str, str]):
         variables_copy = self.variables.copy()
         variables_copy.update(variables_dictionary)
         self.variables = variables_copy
 
     def get_variables(self):
-
         return self.variables
 
-    def add_constant(self, constant):
-        """Add integer constant together with the contract variables
-        :param constant: a tuple containing the constant name and the value (int)
-        """
-        name, value = constant
-        self.variables[name] = value
+    """Assumptions"""
 
-    def add_assumptions(self, assumptions):
-        if isinstance(assumptions, list):
-            for assumption in assumptions:
-                self.add_assumption(assumption)
-        elif isinstance(assumptions, str):
-            self.add_assumption(assumptions)
-        else:
-            raise AttributeError
-
-
-    def add_assumption(self, assumption):
+    def add_assumption(self, assumption: str):
         if not isinstance(assumption, str):
             raise AttributeError
 
@@ -95,44 +68,34 @@ class Contract(object):
 
         """Check if assumption is a refinement of exising assumptions and vice-versa"""
         for a in self.assumptions:
-            if same_variable(a, assumption):
+
+            """Check if the proposition is a port, then don't check"""
+            var_a = re.sub("_port_\d+|_port", "", a)
+            var_b = re.sub("_port_\d+|_port", "", assumption)
+
+            if var_a == var_b:
                 continue
+
             if is_set_smaller_or_equal(self.variables, self.variables, assumption, a):
                 self.assumptions.remove(a)
+
             elif is_set_smaller_or_equal(self.variables, self.variables, a, assumption):
                 return
 
+        """Adding assumption"""
         self.assumptions.append(assumption)
 
         """Check Compatibility"""
         if not check_satisfiability(self.variables, self.assumptions):
+            self.assumptions.remove(assumption)
             raise Exception("adding " + assumption + " resulted in a incompatible contract:\n" + str(self.assumptions))
 
-
-    def add_guarantees(self, guarantees):
-        for guarantee in guarantees:
-            self.add_guarantee(guarantee)
-
-    def add_guarantee(self, guarantee):
-        if isinstance(guarantee, str) == False:
+    def add_assumptions(self, assumptions: List[str]):
+        if isinstance(assumptions, list):
+            for assumption in assumptions:
+                self.add_assumption(assumption)
+        else:
             raise AttributeError
-
-        """Check if guarantee is a refinement of exising gurantee and vice-versa"""
-        for g in self.guarantees:
-            if is_set_smaller_or_equal(self.variables, self.variables, guarantee, g):
-                self.guarantees.remove(g)
-            elif is_set_smaller_or_equal(self.variables, self.variables, g, guarantee):
-                return
-
-        self.guarantees.append(guarantee)
-
-        """Check Consistency"""
-        if not check_satisfiability(self.variables, self.guarantees):
-            raise Exception("adding " + guarantee + " resulted in a inconsistent contract:\n" + str(self.guarantees))
-
-
-    def get_assumptions(self):
-        return self.assumptions
 
     def get_ltl_assumptions(self):
         if len(self.assumptions) > 1:
@@ -140,17 +103,56 @@ class Contract(object):
         else:
             return self.assumptions[0]
 
-    def get_ltl_guarantees(self):
+
+    def get_list_assumptions(self):
+
+        return self.assumptions
+
+    """Guarantees"""
+
+    def add_guarantee(self, guarantee: str):
+        if not isinstance(guarantee, str):
+            raise AttributeError
+
+        """Check if guarantee is a refinement of existing gurantee and vice-versa"""
+        for g in self.guarantees:
+            if is_set_smaller_or_equal(self.variables, self.variables, guarantee, g):
+                self.guarantees.remove(g)
+            elif is_set_smaller_or_equal(self.variables, self.variables, g, guarantee):
+                return
+
+        """Adding guarantee"""
+        self.guarantees.append(guarantee)
+
+        """Check Consistency"""
+        if not check_satisfiability(self.variables, self.guarantees):
+            self.guarantees.remove(guarantee)
+            raise Exception("adding " + guarantee + " resulted in a inconsistent contract:\n" + str(self.guarantees))
+
+    def add_guarantees(self, guarantees: List[str]):
+        for guarantee in guarantees:
+            self.add_guarantee(guarantee)
+
+    def get_ltl_guarantees_saturated(self):
         if len(self.guarantees) > 1:
-            # return And(self.guarantees)
             return Implies(self.get_ltl_assumptions(), And(self.guarantees))
         else:
-            # return self.guarantees[0]
             return Implies(self.get_ltl_assumptions(), self.guarantees[0])
 
-    def get_guarantees(self):
+
+    def get_list_guarantees_saturated(self):
+
+        guarantees_saturated = []
+
+        for g in self.guarantees:
+            guarantees_saturated.append(Implies(self.get_ltl_assumptions(), g))
+
+        return guarantees_saturated
+
+    def get_list_guarantees(self):
 
         return self.guarantees
+
 
     def is_full(self):
         """
@@ -174,8 +176,6 @@ class Contract(object):
 
         return la / lg
 
-
-
     def __str__(self):
         """Override the print behavior"""
         astr = '  variables: [ '
@@ -188,11 +188,3 @@ class Contract(object):
         for guarantee in self.guarantees:
             astr += str(guarantee) + ', '
         return astr[:-2] + ' ]\n]'
-
-
-
-def same_variable(var_a, var_b):
-    var_a = re.sub("_port_\d+|_port", "", var_a)
-    var_b = re.sub("_port_\d+|_port", "", var_b)
-
-    return var_a == var_b

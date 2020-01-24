@@ -1,6 +1,5 @@
-from src.sat_checks import *
-from src.parser import *
-from src.operations import *
+from src.helper.parser import *
+from src.goals.operations import *
 
 """Parse Goals from Structured Text File"""
 

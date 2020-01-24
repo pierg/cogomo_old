@@ -1,38 +1,38 @@
-from src.contract import *
-from src.sat_checks import *
+from typing import List, Set, Dict, Tuple, Optional
+
+from src.contracts.contract import *
+from src.checks.nsmvhelper import *
+
 import itertools as it
 
-
-
-
-class NoSelectionFound(Exception):
-    pass
 
 class Component(Contract):
 
     def __init__(self,
-                 id=None,
-                 description=None,
-                 variables=None,
-                 assumptions=None,
-                 guarantees=None):
+                 id: str = None,
+                 description: str = None,
+                 variables: Dict[str, str] = None,
+                 assumptions: List[str] = None,
+                 guarantees: List[str] = None):
         super().__init__(assumptions=assumptions,
                          variables=variables,
                          guarantees=guarantees)
 
-        if id is None:
-            raise Exception("Attribute Error")
-        elif isinstance(id, str):
-            self.id = id
-        else:
-            raise Exception("Attribute Error")
+        # if id is None:
+        #     raise Exception("Attribute ErrorEMPTY")
+        # elif isinstance(id, str):
+        #     self.id = id
+        # else:
+        #     raise Exception("Attribute ErrorCIAO")
+
+        self.id = id
 
         if description is None:
             self.description = ""
         elif isinstance(description, str):
             self.description = description
         else:
-            raise Exception("Attribute Error")
+            raise AttributeError
 
     def get_id(self):
         return self.id
@@ -56,36 +56,34 @@ class ComponentsLibrary:
                  list_of_components=None):
 
         if name is None:
-            raise Exception("Attribute Error")
+            raise AttributeError
         elif isinstance(name, str):
             self.name = name
         else:
-            raise Exception("Attribute Error")
+            raise AttributeError
 
         if list_of_components is None:
             self.list_of_components = []
         elif isinstance(list_of_components, list):
             self.list_of_components = list_of_components
         else:
-            raise Exception("Attribute Error")
+            raise AttributeError
 
     def add_component(self, component):
         if isinstance(component, Component):
             self.list_of_components.append(component)
         else:
-            raise Exception("Attribute Error")
+            raise AttributeError
 
     def add_components(self, components_list):
         if isinstance(components_list, list):
             for component in components_list:
-                self.add_component((component))
+                self.add_component(component)
         else:
-            raise Exception("Attribute Error")
-
+            raise AttributeError
 
     def get_components(self):
         return self.list_of_components
-
 
     def _search_candidate_compositions(self, variables, assumptions, to_be_refined):
 
@@ -99,7 +97,8 @@ class ComponentsLibrary:
             """Check if any component refine the to_be_refined"""
             for component in self.get_components():
 
-                if is_set_smaller_or_equal(component.get_variables(), variables, component.get_guarantees(), proposition):
+                if is_set_smaller_or_equal(component.get_variables(), variables, component.get_list_guarantees(),
+                                           proposition):
 
                     """Check Assumptions Consistency"""
                     if len(assumptions) > 0:
@@ -109,10 +108,13 @@ class ComponentsLibrary:
                         for assumption in assumptions:
                             props_to_check.add(assumption)
 
-                        for assumption in component.get_assumptions():
+                        for assumption in component.get_list_assumptions():
                             props_to_check.add(assumption)
 
-                        satis = check_satisfiability(merge_two_dicts(component.get_variables(), variables), list(props_to_check))
+                        all_variables = variables.copy()
+                        all_variables.update(component.get_variables())
+
+                        satis = check_satisfiability(all_variables, list(props_to_check))
 
                         """If the contract has compatible assumptions, add it to the list of contracts 
                         that can refine to_be_refined"""
@@ -139,11 +141,12 @@ class ComponentsLibrary:
         candidates_compositions[:] = it.filterfalse(incomposable_check, candidates_compositions)
 
         return candidates_compositions
-    
+
     def extract_selection(self, variables, assumptions, to_be_refined):
         """
         Extract all candidate compositions in the library that once combined refine 'to_be_refined'
         and are consistent with assumptions
+        :param variables: 
         :param assumptions: List of assumptions
         :param to_be_refined: List of propositions
         :return: List
@@ -159,12 +162,11 @@ class ComponentsLibrary:
             else:
                 specific_to_be_refined.append(prop)
 
-
         specific_candidates_compositions = self._search_candidate_compositions(variables, assumptions,
                                                                                specific_to_be_refined)
 
         general_candidates_compositions = self._search_candidate_compositions(variables, assumptions,
-                                                                               general_to_be_refined)
+                                                                              general_to_be_refined)
 
         """Remove the candidates that having the same component refining more general ports"""
         general_candidates_compositions[:] = it.filterfalse(duplicate_contract, general_candidates_compositions)
@@ -198,12 +200,12 @@ class ComponentsLibrary:
         return all_candidates
 
 
-
 def duplicate_contract(list_contracts):
     if not isinstance(list_contracts, list):
         raise Exception("Wrong Parameter")
 
     return len(list_contracts) != len(set(list_contracts))
+
 
 def incomposable_check(list_contracts):
     """Return True if the list of contracts is not satisfiable, not compatible or not feasible"""
@@ -215,9 +217,9 @@ def incomposable_check(list_contracts):
 
     for contract in list_contracts:
         variables.update(contract.get_variables())
-        for elem in contract.get_assumptions():
+        for elem in contract.get_list_assumptions():
             propositions.add(elem)
-        for elem in contract.get_guarantees():
+        for elem in contract.get_list_guarantees():
             propositions.add(elem)
 
     return not check_satisfiability(variables, list(propositions))

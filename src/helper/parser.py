@@ -1,5 +1,5 @@
-import re
-from src.cgtgoal import *
+from src.goals.cgtgoal import *
+from src.contracts.contract import *
 
 # contract file attributes
 TAB_WIDTH = 2
@@ -105,7 +105,7 @@ def parse(specfile):
                         if GOAL_NAME_HEADER in goal_header:
                             cgt_goal.set_name(line.strip())
                             for key, value in constants.items():
-                                contract.add_constant((key, value))
+                                contract.add_variable((key, value))
                         elif GOAL_DESCRIPTION_HEADER in goal_header:
                             cgt_goal.set_description(line.strip())
                         elif CONTRACT_VARIABLES_HEADER in goal_header:

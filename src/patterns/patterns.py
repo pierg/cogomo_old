@@ -1,4 +1,4 @@
-from src.contract import *
+from src.contracts.contract import *
 
 
 

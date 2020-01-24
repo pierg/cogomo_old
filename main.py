@@ -1,10 +1,9 @@
 import os
 import sys
 
-from src.patterns import *
-from src.context import *
+from src.patterns.patterns import *
 
-from src.operations import *
+from src.goals.operations import *
 
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 

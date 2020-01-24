@@ -1,4 +1,4 @@
-from src.components import *
+from src.components.components import *
 
 
 class Context(Component):
