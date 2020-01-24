@@ -70,7 +70,7 @@ def parse(specfile):
                 if GOAL_HEADER in file_header or ENDGOALS_HEADER in file_header:
                     if contract.is_full():
                         # contract.saturate_guarantees()
-                        goal_dictionary[cgt_goal.get_name()] = CGTGoal(cgt_goal.get_name(), contracts=contract)
+                        goal_dictionary[cgt_goal.get_name()] = CGTGoal(cgt_goal.get_name(), contracts=[contract])
                     else:
                         raise Exception("The Goal has Incomplete Parameters")
                 # parse file headers

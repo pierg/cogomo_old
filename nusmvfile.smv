@@ -1,5 +1,9 @@
 MODULE main
 VAR
-	y: 0..100;
+	locA: boolean;
+	locB: boolean;
+	HI_pickup: boolean;
+	weight_power: 0..15;
+	robot_power: 0..15;
 
-LTLSPEC ! (y > 10)
+LTLSPEC ! (G((locA & !locB) | (locB & !locA)))

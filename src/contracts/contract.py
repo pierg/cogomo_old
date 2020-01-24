@@ -103,7 +103,6 @@ class Contract(object):
         else:
             return self.assumptions[0]
 
-
     def get_list_assumptions(self):
 
         return self.assumptions
@@ -139,7 +138,6 @@ class Contract(object):
         else:
             return Implies(self.get_ltl_assumptions(), self.guarantees[0])
 
-
     def get_list_guarantees_saturated(self):
 
         guarantees_saturated = []
@@ -152,7 +150,6 @@ class Contract(object):
     def get_list_guarantees(self):
 
         return self.guarantees
-
 
     def is_full(self):
         """

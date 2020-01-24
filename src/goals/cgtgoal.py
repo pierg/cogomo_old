@@ -1,3 +1,7 @@
+from typing import List
+
+from contracts.contract import Contract
+
 
 class CGTGoal:
     """
@@ -9,65 +13,114 @@ class CGTGoal:
     """
 
     def __init__(self,
-                 name="",
-                 description="",
-                 contracts=None,
-                 sub_goals=None,
-                 sub_operation=None,
-                 parent_goal=None,
-                 parent_operation=None):
-        """Initialize a contracts object"""
+                 name: str = None,
+                 description: str = None,
+                 contracts: List[Contract] = None,
+                 sub_goals: List['CGTGoal'] = None,
+                 sub_operation: str = None,
+                 parent_goal: 'CGTGoal' = None,
+                 parent_operation: str = None):
 
-        super().__init__()
-
-        self.name = name
-        self.description = description
-
-        """List of assumption/guarantees pairs (Contract objects)
-           Each element in the list represents a contract in CONJUNCTION"""
-        if not isinstance(contracts, list):
-            self.contracts = [contracts]
+        if name is None:
+            self.name = ""
+        elif isinstance(name, str):
+            self.name = name
         else:
-            self.contracts = contracts
+            raise AttributeError
 
-        # List of children and its relationship with them (COMPOSITION / CONJUNCTION)
+        if description is None:
+            self.description = ""
+        elif isinstance(description, str):
+            self.description = description
+        else:
+            raise AttributeError
+
+        # if contracts is None:
+        #     self.contracts = []
+        # elif isinstance(contracts, list) and \
+        #         all(isinstance(x, Contract) for x in contracts):
+        #     self.contracts = contracts
+        # else:
+        #     raise AttributeError
+
+        if contracts is None:
+            self.contracts = []
+        elif isinstance(contracts, list):
+            self.contracts = contracts
+        else:
+            raise AttributeError
+
+        self.contracts = contracts
+
+        if sub_goals is None:
+            self.sub_goals = []
+        elif isinstance(sub_goals, list) and \
+                all(isinstance(x, CGTGoal) for x in sub_goals):
+            self.sub_goals = sub_goals
+        else:
+            raise AttributeError
+
+        if sub_operation is None:
+            self.sub_operation = ""
+        elif isinstance(sub_operation, str):
+            self.sub_operation = sub_operation
+        else:
+            raise AttributeError
+
+        if parent_goal is None:
+            self.parent_goal = None
+        elif isinstance(parent_goal, CGTGoal):
+            self.parent_goal = parent_goal
+        else:
+            raise AttributeError
+
+        if parent_operation is None:
+            self.parent_operation = ""
+        elif isinstance(parent_operation, str):
+            self.description = description
+        else:
+            raise AttributeError
+
+    def set_parent(self, parent_goal: 'CGTGoal', parent_operation: str):
+        if not isinstance(parent_goal, CGTGoal):
+            raise AttributeError
+
+        if not isinstance(parent_operation, str):
+            raise AttributeError
+
+        self.parent_goal = parent_goal
+        self.parent_operation = parent_operation
+
+
+    def set_subgoals(self, sub_goals: list, sub_operation: str):
+        if not isinstance(sub_goals, list):
+            raise AttributeError
+
+        if not isinstance(sub_operation, str):
+            raise AttributeError
+
         self.sub_goals = sub_goals
         self.sub_operation = sub_operation
 
-        # Parent goal and its relation (COMPOSITION / CONJUNCTION with other siblings or ABSTRACTION)
-        self.parent_goal = parent_goal
-        self.parent_operation = parent_operation
-
-    def set_parent(self, parent_goal, parent_operation):
-        self.parent_goal = parent_goal
-        self.parent_operation = parent_operation
-
-    def set_refinement(self, refined_goal):
-        self.sub_goals = [refined_goal]
-        self.sub_operation = 'REFINEMENT'
-
-    def set_mapping(self, list_mapped_goals):
-        self.sub_goals = list_mapped_goals
-        self.sub_operation = 'MAPPING'
 
     def set_name(self, name):
+        if not isinstance(name, str):
+            raise AttributeError
         self.name = name
 
     def get_name(self):
         return self.name
 
     def set_description(self, description):
+        if not isinstance(description, str):
+            raise AttributeError
         self.description = description
 
     def get_description(self):
         return self.description
 
-    def get_subgoals_ops(self):
-        return self.sub_goals, self.sub_operation
-
     def get_contracts(self):
         return self.contracts
-
 
     def __str__(self, level=0):
         """Override the print behavior"""
@@ -85,7 +138,10 @@ class CGTGoal:
             ret += "\t" * level + "\t" + self.sub_operation + "\n"
             level += 1
             for child in self.sub_goals:
-                ret += child.__str__(level + 1)
+                try:
+                    ret += child.__str__(level + 1)
+                except Exception:
+                    print("WAIT")
         return ret
 
     def __eq__(self, other):

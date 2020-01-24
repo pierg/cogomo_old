@@ -1,19 +1,12 @@
 from src.goals.cgtgoal import CGTGoal
-from src.components.components import *
+from src.contracts.operations import *
+
 import itertools as it
-import operator
 
 import copy
 
 
 def compose_goals(list_of_goal, name=None, description=""):
-    """
-
-    :param name: Name of the goal
-    :param contracts: List of contracts to compose
-    :return: True, composed_goals if successful
-    """
-
     contracts = {}
 
     for goal in list_of_goal:
@@ -53,14 +46,6 @@ def compose_goals(list_of_goal, name=None, description=""):
 
 
 def conjoin_goals(goals, name="", description=""):
-    """
-
-    :param goals: list of goals to compose
-    :param name: name of the new goal
-    :param description: description of the new goal
-    :return: new goal
-    """
-
     """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
     for pair_of_goals in it.combinations(goals, r=2):
 
@@ -75,7 +60,9 @@ def conjoin_goals(goals, name="", description=""):
 
             for contract_2 in pair_of_goals[1].get_contracts():
 
-                variables = merge_two_dicts(contract_1.get_variables(), contract_2.get_variables())
+                variables = contract_1.get_variables().copy()
+
+                variables.update(contract_2.get_variables())
 
                 assumptions_set.extend(contract_2.get_list_assumptions())
 
@@ -136,119 +123,31 @@ def prioritize_goal(first_priority_goal, second_priority_goal):
 
 
 def mapping_to_goal(list_of_components, name=None, description=None, abstract_on=None):
-
     if not isinstance(list_of_components, list):
         raise AttributeError
 
-    if name==None:
+    if name == None:
         name = ""
 
-    if description==None:
+    if description == None:
         description = ""
 
-
+    composition_contract = compose_contracts(list_of_components, abstract_on=abstract_on)
     new_goal = CGTGoal(name=name,
                        description=description,
-                       contracts=compose_contracts(list_of_components, abstract_on=abstract_on))
+                       contracts=[composition_contract])
 
     goal_list = []
     for component in list_of_components:
         goal_component = CGTGoal(name=component.get_id(),
-                                 contracts=component)
-        goal_component.set_parent(new_goal, "COMPOSITION")
+                                 contracts=[component])
+    goal_component.set_parent(new_goal, "COMPOSITION")
 
-        goal_list.append(goal_component)
+    goal_list.append(goal_component)
 
-    new_goal.set_mapping(goal_list)
+    new_goal.set_subgoals(goal_list, "MAPPING")
 
     return new_goal
-
-
-def components_selection(component_library, specification):
-    if not isinstance(component_library, ComponentsLibrary):
-        raise AttributeError
-
-    if not isinstance(specification, Contract):
-        raise AttributeError
-
-    spec_variables = specification.get_variables()
-    spec_assumptions = specification.get_list_assumptions()
-    spec_guarantees = specification.get_list_guarantees()
-
-    set_components_to_return = []
-
-    try:
-        candidates_compositions = component_library.extract_selection(spec_variables, spec_assumptions, spec_guarantees)
-    except Exception as e:
-        print("No refinement possible")
-        print(e)
-        return []
-
-    first_selected_components = greedy_selection(candidates_compositions)
-    print("Selected components " + str([component.get_id() for component in first_selected_components]) + " out of " +
-          str(len(candidates_compositions)) + " candidates")
-
-    set_components_to_return.append(first_selected_components)
-
-    components_to_search = first_selected_components.copy()
-    component_already_searched = []
-
-    while len(components_to_search) != 0:
-
-        print("Looking for components that refine the assumptions")
-        components_to_search_copy = components_to_search.copy()
-
-        for component in components_to_search_copy:
-
-            """Remove component from list of components to search 
-            and keep track that it has been searched (avoid loops)"""
-            components_to_search.remove(component)
-            component_already_searched.append(component)
-
-            component_variables = component.get_variables()
-            component_assumptions = component.get_list_assumptions()
-
-            if "TRUE" in component_assumptions:
-                continue
-
-            variables = merge_two_dicts(component_variables, spec_variables)
-
-            """Extract all candidate compositions that can provide the assumptions, if they exists"""
-            try:
-                candidates_compositions = component_library.extract_selection(variables, spec_assumptions,
-                                                                              component_assumptions)
-            except Exception as e:
-                print(e)
-                print("No selection found")
-                continue
-
-            """Greedly select one composition"""
-            new_selected_components = greedy_selection(candidates_compositions)
-            print("Selected components " + str(
-                [component.get_id() for component in new_selected_components]) + " out of " +
-                  str(len(candidates_compositions)) + " candidates")
-
-            if new_selected_components not in set_components_to_return:
-                set_components_to_return.append(new_selected_components)
-
-            """Add components to be searched only if they have not already been searched before"""
-            for comp in new_selected_components:
-                if comp not in component_already_searched:
-                    components_to_search.append(comp)
-
-    """Flattening list of selections and eliminating duplicates"""
-    flat_list_refining_components = list(set([item for sublist in set_components_to_return for item in sublist]))
-
-    print(str(len(flat_list_refining_components)) +
-          " components found in the library that composed refine the specifications:")
-
-    for n, l in enumerate(set_components_to_return):
-        ret = "\t" * n
-        for component in l:
-            ret += component.get_id() + " "
-        print(ret)
-
-    return flat_list_refining_components
 
 
 def propagate_assumptions(abstract_goal, refined_goal):
@@ -277,265 +176,26 @@ def propagate_assumptions(abstract_goal, refined_goal):
         contracts_abstracted[i].merge_variables(contract.get_variables())
         contracts_abstracted[i].add_assumptions(assumptions_to_add)
 
-
-def is_a_refinement(refined_contract, abstracted_contract):
-    """
-    Check if A1 >= A2 and if G1 <= G2
-    """
-
-    a_check, model_a = z3_validity_check(Implies(abstracted_contract.get_list_assumptions()[0],
-                                                 refined_contract.get_list_assumptions()[0]))
-
-    g_check, model_g = z3_validity_check(Implies(refined_contract.get_list_guarantees()[0],
-                                                 abstracted_contract.get_list_guarantees()[0]))
-
-    if not a_check:
-        print("Assumptions are not a valid refinement: " + str(model_a))
-
-    if not g_check:
-        print("Guarantees are not a valid refinement")
-        print("REFINED:\n" + str(refined_contract.get_list_guarantees()[0]))
-        print("\n\nABSTRACT:\n" + str(abstracted_contract.get_list_guarantees()[0]))
-        print("\n\nCOUNTEREXAMPLE:\n" + str(model_g))
-
-    return a_check and g_check
-
-
-def is_refinement_correct(refined_contract, abstracted_contract, counterexample=False):
-    """
-    Check if A1 >= A2 and if G1 <= G2
-    """
-
-    a_check = is_set_smaller_or_equal(refined_contract.get_variables(), abstracted_contract.get_variables(),
-                                      abstracted_contract.get_list_assumptions(), refined_contract.get_list_assumptions())
-
-    g_check = is_set_smaller_or_equal(abstracted_contract.get_variables(), refined_contract.get_variables(),
-                                      refined_contract.get_list_guarantees(), abstracted_contract.get_list_guarantees())
-
-    return a_check and g_check
-
-
-def refine_goal(abstract_goal, refined_goal):
-    """
-
-    :param abstract_goal:
-    :param refined_goal:
-    :return:
-    """
-
-    propagate_assumptions(abstract_goal, refined_goal)
-
-    abstracted_contracts = get_z3_contract(abstract_goal)
-    refined_contracts = get_z3_contract(refined_goal)
-
-    if not is_refinement_correct(refined_contracts, abstracted_contracts, counterexample=True):
-        raise Exception("Incomplete Refinement!")
-
-    print("The refinement has been proven, connecting the goals..")
-    refined_goal.set_parent(abstract_goal, "ABSTRACTION")
-
-    abstract_goal.set_refinement(refined_goal)
-
-    print("The goals are now connected with each other")
-
-
-def compose_contracts(contracts, abstract_on=None):
-    """
-    :param contracts: list of goals name and contract
-    :return: True, contract which is the composition of the contracts in the goals or the contracts in the list
-             False, unsat core of smt, list of proposition to fix that cause a conflict when composing
-    """
-
-    if not isinstance(contracts, list):
-        raise Exception("Wrong Parameters")
-
-    g_abstracted = None
-    if abstract_on is not None:
-        g_abstracted = abstract_on.get_list_guarantees()
-
-    variables = {}
-    assumptions = []
-    guarantees = []
-    guarantees_saturated = []
-
-    for contract in contracts:
-        variables = merge_two_dicts(variables, contract.get_variables())
-        assumptions.extend(contract.get_list_assumptions())
-        guarantees.extend(contract.get_list_guarantees())
-        guarantees_saturated.extend(contract.get_list_guarantees_saturated())
-
-    # CHECK COMPATILITY
-    satis = check_satisfiability(variables, list(set(assumptions)))
-    if not satis:
-        print(str(list(set(assumptions))))
-        raise Exception("The composition is uncompatible")
-
-    # CHECK CONSISTENCY
-    satis = check_satisfiability(variables, list(set(guarantees_saturated)))
-    if not satis:
-        print(str(list(set(guarantees_saturated))))
-        raise Exception("The composition is inconsistent")
-
-    assumptions_guarantees = assumptions.copy()
-    assumptions_guarantees.extend(guarantees_saturated)
-
-    # CHECK FEASIBILITY
-    satis = check_satisfiability(variables, list(set(assumptions_guarantees)))
-    if not satis:
-        raise Exception("The composition is unfeasible")
-
-    print("The composition is compatible, consistent and satisfiable. Composing now...")
-
-    a_composition = list(set(assumptions))
-    g_composition = list(set(guarantees))
-
-    """Remove 'TRUE' from assumptions if exists"""
-    if "TRUE" in a_composition:
-        a_composition.remove("TRUE")
-
-    a_composition_simplified = a_composition[:]
-    g_composition_simplified = g_composition[:]
-
-    # List of guarantees used to simpolify assumptions, used later for abstraction
-    g_elem_list = []
-    # Compare each element in a_composition with each element in g_composition
-
-    """Combinations of guarantees"""
-    g_combinations = []
-    for i in range(len(g_composition)):
-        oc = it.combinations(g_composition, i + 1)
-        for c in oc:
-            g_combinations.append(list(c))
-
-    """Combinations of assumptions"""
-    a_combinations = []
-    for i in range(len(a_composition)):
-        oc = it.combinations(a_composition, i + 1)
-        for c in oc:
-            a_combinations.append(list(c))
-
-    for a_elem in a_combinations:
-        for g_elem in g_combinations:
-
-            """Avoid comparing things that have already been removed"""
-            if isinstance(a_elem, list):
-                flag = False
-                for a in a_elem:
-                    if a not in a_composition_simplified:
-                        flag = True
-                if flag:
-                    continue
-            else:
-                if a_elem not in a_composition_simplified:
-                    continue
-
-            if is_set_smaller_or_equal(variables, variables, g_elem, a_elem):
-                print("Simplifying assumption " + str(a_elem))
-                if isinstance(a_elem, list):
-                    for a in a_elem:
-                        if a in a_composition_simplified:
-                            a_composition_simplified.remove(a)
-                else:
-                    if a_elem in a_composition_simplified:
-                        a_composition_simplified.remove(a_elem)
-                g_elem_list.append(g_elem)
-
-    if len(a_composition_simplified) == 0:
-        a_composition_simplified.append("TRUE")
-
-    if g_abstracted is not None:
-        if is_set_smaller_or_equal(variables, variables, g_composition_simplified, g_abstracted):
-            composed_contract = Contract(variables=variables,
-                                         assumptions=a_composition_simplified,
-                                         guarantees=g_abstracted)
-            return composed_contract
-        else:
-            raise Exception("abstraction not correct")
-
-    composed_contract = Contract(variables=variables,
-                                 assumptions=a_composition_simplified,
-                                 guarantees=g_composition_simplified)
-
-    return composed_contract
-
-
-
-def greedy_selection(candidate_compositions):
-    """
-    Scan all the possible compositions and compute costs for each of them,
-    If there are multiple compositions iwth the same cost, pick the more refined one
-    (bigger assumptions, smaller guarantees)
-    :param: List of List
-    """
-
-    """If only one candidate return that one"""
-    if len(candidate_compositions) == 1:
-        print("\tgreedly seelected the only candidate")
-        return candidate_compositions[0]
-
-    best_candidates = []
-    lowest_cost = float('inf')
-
-    print("Choosing greedly one composition...")
-
-    for composition in candidate_compositions:
-        cost = 0
-        for component in composition:
-            cost += component.cost()
-            """Adding a cost for the number of components"""
-            cost += 0.1
-        if cost < lowest_cost:
-            best_candidates = [composition]
-        elif cost == lowest_cost:
-            best_candidates.append(composition)
-
-    if len(best_candidates) == 1:
-        print("\tgreedly seelected the best candidate based on cost")
-        return best_candidates[0]
-
-    else:
-        """Keep score of the candidates"""
-
-        """Dict: candidate_id -> points"""
-        candidates_points = {}
-        for candidate in best_candidates:
-            candidates_points[tuple(candidate)] = 0
-
-        print("Generating pairs for all " + str(len(best_candidates)) + " candidates")
-        candidate_pairs = it.combinations(best_candidates, 2)
-
-        n_comparisons = 0
-        for candidate_a, candidate_b in candidate_pairs:
-
-            contract_a = Contract()
-            contract_b = Contract()
-
-            for component_a in candidate_a:
-                contract_a.add_variables(component_a.get_variables())
-                contract_a.add_assumptions(component_a.get_list_assumptions())
-                contract_a.add_guarantees(component_a.get_list_guarantees())
-
-            for component_b in candidate_b:
-                contract_b.add_variables(component_b.get_variables())
-                contract_b.add_assumptions(component_b.get_list_assumptions())
-                contract_b.add_guarantees(component_b.get_list_guarantees())
-
-            if is_refinement_correct(contract_a, contract_b):
-                candidates_points[tuple(candidate_a)] += 1
-            else:
-                candidates_points[tuple(candidate_b)] += 1
-
-            n_comparisons += 1
-
-        print(str(n_comparisons) + " comparisons have been made")
-        """Extract the candidate with the highest score (the most refined)"""
-        best_candidate = max(candidates_points.items(), key=operator.itemgetter(1))[0]
-
-        print("\tgreedly seelected the best candidate based on biggest assumption set")
-        return list(best_candidate)
-
-
-def merge_two_dicts(x, y):
-    z = x.copy()
-    z.update(y)
-    return z
+#
+# def refine_goal(abstract_goal, refined_goal):
+#     """
+#
+#     :param abstract_goal:
+#     :param refined_goal:
+#     :return:
+#     """
+#
+#     propagate_assumptions(abstract_goal, refined_goal)
+#
+#     abstracted_contracts = get_z3_contract(abstract_goal)
+#     refined_contracts = get_z3_contract(refined_goal)
+#
+#     if not is_refinement_correct(refined_contracts, abstracted_contracts, counterexample=True):
+#         raise Exception("Incomplete Refinement!")
+#
+#     print("The refinement has been proven, connecting the goals..")
+#     refined_goal.set_parent(abstract_goal, "ABSTRACTION")
+#
+#     abstract_goal.set_subgoals([refined_goal], "REFINEMENT")
+#
+#     print("The goals are now connected with each other")

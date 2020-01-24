@@ -2,8 +2,8 @@ import os
 import sys
 
 from src.patterns.patterns import *
-
 from src.goals.operations import *
+from src.components.operations import *
 
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
@@ -24,7 +24,7 @@ if __name__ == "__main__":
         element.add_context(
             name="pickup",
             context=[
-                ({"weight_power": "5..15"}, "G(weight_power > 10)")
+                ({"weight_power": "5..15"}, ["G(weight_power > 10)"])
             ]
         )
 
@@ -46,24 +46,24 @@ if __name__ == "__main__":
             Component(
                 id="robot_1",
                 variables={"robot_power": "0..15"},
-                guarantees="robot_power = 7",
+                guarantees=["robot_power = 7"],
             ),
             Component(
                 id="robot_2",
                 variables={"robot_power": "0..15"},
-                guarantees="robot_power >= 8",
+                guarantees=["robot_power >= 8"],
             ),
             Component(
                 id="robot_3",
                 variables={"robot_power": "0..15"},
-                guarantees="robot_power >= 9",
+                guarantees=["robot_power >= 9"],
             ),
             Component(
                 id="collaborate",
                 variables={"robot_power": "0..15",
                            "weight_power": "0..15"},
                 assumptions=["robot_power_port_1 >= 8", "robot_power_port_2 >= 8"],
-                guarantees="G(weight_power > 12)"
+                guarantees=["G(weight_power > 12)"]
             )
         ])
 
