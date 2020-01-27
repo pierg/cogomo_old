@@ -6,4 +6,4 @@ VAR
 	weight_power: 0..15;
 	robot_power: 0..15;
 
-LTLSPEC ! (G((locA & !locB) | (locB & !locA)))
+LTLSPEC ! ((G((locA & !locB) | (locB & !locA)) -> G(weight_power > 10)) & (G((locA & !locB) | (locB & !locA)) -> !locB U locA) & (G((locA & !locB) | (locB & !locA)) -> F(locA & F(locB))) & (G((locA & !locB) | (locB & !locA)) -> G(locA -> F(HI_pickup))))

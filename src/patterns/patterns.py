@@ -1,11 +1,11 @@
 from src.contracts.contract import *
 
 
-
 class Pattern(Contract):
     """
     General Pattern Class
     """
+
     def __init__(self, name):
         super().__init__()
         self.name = name
@@ -14,11 +14,11 @@ class Pattern(Contract):
     def add_physical_assumptions(self):
         pass
 
-    def add_context(self, name=None, context=None):
+    def add_context(self, name: str = None, context: List[Contract] = None):
         if name in self.name:
-            for variables, assumption in context:
-                self.add_variables(variables)
-                self.add_assumptions(assumption)
+            for contract in context:
+                self.add_variables(contract.get_variables())
+                self.add_assumptions(contract.get_list_assumptions())
 
     def get_name(self):
         return self.name
@@ -49,7 +49,7 @@ class CoreMovement(Pattern):
                 if loc != loc_other:
                     ltl_formula += " & !" + loc_other
             ltl_formula += ")"
-            if i < len(list_locations) -1 :
+            if i < len(list_locations) - 1:
                 ltl_formula += " | "
 
         ltl_formula += ")"
@@ -111,7 +111,6 @@ class OrderedVisit(CoreMovement):
     before its predecessor.
     """
 
-
     def __init__(self, name, list_of_locations=None):
         """
         :type list_of_locations: list of location, each location is a boolean
@@ -135,8 +134,8 @@ class OrderedVisit(CoreMovement):
         self.add_guarantee(guarantee)
 
         for n, location in enumerate(list_of_locations):
-            if n < len(list_of_locations)-1:
-                self.add_guarantee("!" + list_of_locations[n+1] + " U " + list_of_locations[n])
+            if n < len(list_of_locations) - 1:
+                self.add_guarantee("!" + list_of_locations[n + 1] + " U " + list_of_locations[n])
 
 
 class GlobalAvoidance(Pattern):
@@ -162,6 +161,7 @@ class DelayedReaction(Pattern):
     """
     Delayed Reaction Pattern
     """
+
     def __init__(self, name, trigger=None, reaction=None):
         """
 

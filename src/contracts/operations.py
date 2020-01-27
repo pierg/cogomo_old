@@ -9,7 +9,8 @@ def is_refinement_correct(refined_contract, abstracted_contract, counterexample=
     """
 
     a_check = is_set_smaller_or_equal(refined_contract.get_variables(), abstracted_contract.get_variables(),
-                                      abstracted_contract.get_list_assumptions(), refined_contract.get_list_assumptions())
+                                      abstracted_contract.get_list_assumptions(),
+                                      refined_contract.get_list_assumptions())
 
     g_check = is_set_smaller_or_equal(abstracted_contract.get_variables(), refined_contract.get_variables(),
                                       refined_contract.get_list_guarantees(), abstracted_contract.get_list_guarantees())
@@ -42,6 +43,10 @@ def compose_contracts(contracts, abstract_on=None):
         guarantees.extend(contract.get_list_guarantees())
         guarantees_saturated.extend(contract.get_list_guarantees_saturated())
 
+    """Remove 'TRUE' from assumptions if exists"""
+    if "TRUE" in assumptions:
+        assumptions.remove("TRUE")
+
     # CHECK COMPATILITY
     satis = check_satisfiability(variables, list(set(assumptions)))
     if not satis:
@@ -66,13 +71,9 @@ def compose_contracts(contracts, abstract_on=None):
 
     a_composition = list(set(assumptions))
     g_composition = list(set(guarantees))
-
-    """Remove 'TRUE' from assumptions if exists"""
-    if "TRUE" in a_composition:
-        a_composition.remove("TRUE")
+    g_composition_saturated = list(set(guarantees_saturated))
 
     a_composition_simplified = a_composition[:]
-    g_composition_simplified = g_composition[:]
 
     # List of guarantees used to simpolify assumptions, used later for abstraction
     g_elem_list = []
@@ -122,7 +123,7 @@ def compose_contracts(contracts, abstract_on=None):
         a_composition_simplified.append("TRUE")
 
     if g_abstracted is not None:
-        if is_set_smaller_or_equal(variables, variables, g_composition_simplified, g_abstracted):
+        if is_set_smaller_or_equal(variables, variables, g_composition_saturated, g_abstracted):
             composed_contract = Contract(variables=variables,
                                          assumptions=a_composition_simplified,
                                          guarantees=g_abstracted)
@@ -132,7 +133,7 @@ def compose_contracts(contracts, abstract_on=None):
 
     composed_contract = Contract(variables=variables,
                                  assumptions=a_composition_simplified,
-                                 guarantees=g_composition_simplified)
+                                 guarantees=g_composition)
 
     return composed_contract
 
@@ -160,4 +161,3 @@ def duplicate_contract(list_contracts):
         raise Exception("Wrong Parameter")
 
     return len(list_contracts) != len(set(list_contracts))
-

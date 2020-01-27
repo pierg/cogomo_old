@@ -141,9 +141,9 @@ def mapping_to_goal(list_of_components, name=None, description=None, abstract_on
     for component in list_of_components:
         goal_component = CGTGoal(name=component.get_id(),
                                  contracts=[component])
-    goal_component.set_parent(new_goal, "COMPOSITION")
+        goal_component.set_parent(new_goal, "COMPOSITION")
 
-    goal_list.append(goal_component)
+        goal_list.append(goal_component)
 
     new_goal.set_subgoals(goal_list, "MAPPING")
 
@@ -172,30 +172,5 @@ def propagate_assumptions(abstract_goal, refined_goal):
                 assumptions_to_add.append(assumption)
 
         """Unify alphabets"""
-        vars = contract.get_variables()
         contracts_abstracted[i].merge_variables(contract.get_variables())
         contracts_abstracted[i].add_assumptions(assumptions_to_add)
-
-#
-# def refine_goal(abstract_goal, refined_goal):
-#     """
-#
-#     :param abstract_goal:
-#     :param refined_goal:
-#     :return:
-#     """
-#
-#     propagate_assumptions(abstract_goal, refined_goal)
-#
-#     abstracted_contracts = get_z3_contract(abstract_goal)
-#     refined_contracts = get_z3_contract(refined_goal)
-#
-#     if not is_refinement_correct(refined_contracts, abstracted_contracts, counterexample=True):
-#         raise Exception("Incomplete Refinement!")
-#
-#     print("The refinement has been proven, connecting the goals..")
-#     refined_goal.set_parent(abstract_goal, "ABSTRACTION")
-#
-#     abstract_goal.set_subgoals([refined_goal], "REFINEMENT")
-#
-#     print("The goals are now connected with each other")

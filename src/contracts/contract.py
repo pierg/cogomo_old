@@ -8,12 +8,14 @@ class Contract(object):
     def __init__(self,
                  variables: Dict[str, str] = None,
                  assumptions: List[str] = None,
-                 guarantees: List[str] = None):
+                 guarantees: List[str] = None,
+                 guaratnees_saturated: List[str] = None):
 
         """Initialize a contract object"""
         self.variables = {}
         self.assumptions = []
         self.guarantees = []
+        self.guarantees_saturated = []
 
         if variables is None:
             self.variables = {}
@@ -22,17 +24,25 @@ class Contract(object):
         else:
             raise AttributeError
 
-        if guarantees is None:
-            self.guarantees = []
-        elif isinstance(guarantees, list):
-            self.add_guarantees(guarantees)
-        else:
-            raise AttributeError
-
         if assumptions is None:
             self.assumptions = ["TRUE"]
         elif isinstance(assumptions, list):
             self.add_assumptions(assumptions)
+        else:
+            raise AttributeError
+
+        if guaratnees_saturated is None:
+            self.guarantees_saturated = []
+        elif isinstance(guarantees, list):
+            self.add_guarantees(saturated=guarantees)
+        else:
+            raise AttributeError
+
+        if guarantees is None:
+            self.guarantees = []
+            self.guarantees_saturated = []
+        elif isinstance(guarantees, list):
+            self.add_guarantees(guarantees=guarantees)
         else:
             raise AttributeError
 
@@ -113,32 +123,38 @@ class Contract(object):
         if not isinstance(guarantee, str):
             raise AttributeError
 
+        if len(self.assumptions) == 0:
+            raise Exception("Insert Assumptions First")
+
+        """Saturate the guarantee"""
+        g_sat = Implies(self.get_ltl_assumptions(), guarantee)
+
         """Check if guarantee is a refinement of existing gurantee and vice-versa"""
-        for g in self.guarantees:
-            if is_set_smaller_or_equal(self.variables, self.variables, guarantee, g):
+        for g in self.guarantees_saturated:
+            if is_set_smaller_or_equal(self.variables, self.variables, g_sat, g):
                 self.guarantees.remove(g)
-            elif is_set_smaller_or_equal(self.variables, self.variables, g, guarantee):
+            elif is_set_smaller_or_equal(self.variables, self.variables, g, g_sat):
                 return
 
         """Adding guarantee"""
         self.guarantees.append(guarantee)
+        self.guarantees_saturated.append(g_sat)
 
         """Check Consistency"""
-        if not check_satisfiability(self.variables, self.guarantees):
+        if not check_satisfiability(self.variables, self.guarantees_saturated):
+            self.guarantees_saturated.remove(g_sat)
             self.guarantees.remove(guarantee)
             raise Exception("adding " + guarantee + " resulted in a inconsistent contract:\n" + str(self.guarantees))
 
-    def add_guarantees(self, guarantees: List[str]):
+    def add_guarantees(self, guarantees: List[str] = None,
+                       saturated: List[str] = None):
+
         for guarantee in guarantees:
             self.add_guarantee(guarantee)
 
-    def get_ltl_guarantees_saturated(self):
-        if len(self.guarantees) > 1:
-            return Implies(self.get_ltl_assumptions(), And(self.guarantees))
-        else:
-            return Implies(self.get_ltl_assumptions(), self.guarantees[0])
-
     def get_list_guarantees_saturated(self):
+
+        # return self.guarantees
 
         guarantees_saturated = []
 
