@@ -9,28 +9,47 @@ sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
 if __name__ == "__main__":
 
-    """The designer specifies a mission using the patterns (also a structured txt file)"""
-    mission = [
-        OrderedVisit("visit_locations_A_B", ("locA", "locB")),
-        DelayedReaction("pickup_HI_when_in_A", "locA", "HI_pickup")
+    """The designer specifies a mission using the patterns and building a tree (CGT)
+        The input can also be from a txt file or json
+        In addition to the patterns to use the designer specifies also in which context the goal can be active"""
+
+    list_of_goals = [
+        CGTGoal(
+            context=({"time": "boolean", "day": "boolean"},
+                     ["time = day"]),
+            name="visit_locA_locB",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        ),
+        CGTGoal(
+            context=({"time": "boolean", "night": "boolean"},
+                     ["time = day"]),
+            name="visit_locA_locB",
+            contracts=[OrderedVisit(["locA", "locB"])]
+        ),
+        CGTGoal(
+            context=({"time": "boolean", "night": "boolean"},
+                     ["time = night"]),
+            name="visit_locA_locB",
+            contracts=[GlobalAvoidance(["locC"])]
+        ),
+        CGTGoal(
+            context=None,
+            name="pickup_HI_when_in_locA",
+            contracts=[DelayedReaction("locB", "HI_pickup")]
+        )
     ]
 
-    """Create a goal for each element of the mission"""
-    goal_list = []
+    """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
+    mission_cgt = create_contextual_cgt(list_of_goals)
 
-    for element in mission:
-        goal_list.append(CGTGoal(element.get_name(), contracts=[element]))
-
-    mission_cgt = compose_goals(goal_list)
+    """Adding contextual/instantiations assumptions to the mission (e.g. the item weights 10 kg)"""
+    contextual_assumptions = [
+        Contract(variables={"weight_power": "0..15"}, assumptions=["G(weight_power > 10)"])
+    ]
 
     """Adding physical assumptions to the mission (e.g. locations cannot be the same)"""
     for element in mission:
         element.add_physical_assumptions()
-
-    """Adding contextual assumptions to the mission (e.g. the item weights 10 kg)"""
-    contextual_assumptions = [
-        Contract(variables={"weight_power": "0..15"}, assumptions=["G(weight_power > 10)"])
-    ]
 
     for element in mission:
         element.add_context(
@@ -46,7 +65,7 @@ if __name__ == "__main__":
     for element in mission:
         goal_list.append(CGTGoal(element.get_name(), contracts=[element]))
 
-    mission_cgt = compose_goals(goal_list)
+    mission_cgt = compostion(goal_list)
 
     """Instantiating a Library of Componenents"""
     component_library = ComponentsLibrary(name="robots")
@@ -79,7 +98,6 @@ if __name__ == "__main__":
 
     print(mission_cgt)
 
-
     """Looking in the library for components that can relax the contextual assumptions"""
 
     specification = Contract(variables=contextual_assumptions[0].get_variables(),
@@ -88,10 +106,7 @@ if __name__ == "__main__":
     components = components_selection(component_library, specification)
 
     if len(components) > 0:
-        new_goal = mapping_to_goal(components, name="new_goal", abstract_on=specification)
+        new_goal = mapping(components, name="new_goal", abstract_on=specification)
         print("CGT BEFORE:\n" + str(mission_cgt))
-        mission_cgt = compose_goals([mission_cgt, new_goal])
+        mission_cgt = compostion([mission_cgt, new_goal])
         print("\n\nCGT AFTER:\n" + str(mission_cgt))
-
-
-

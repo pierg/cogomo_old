@@ -2,8 +2,7 @@ MODULE main
 VAR
 	locA: boolean;
 	locB: boolean;
-	HI_pickup: boolean;
-	weight_power: 0..15;
-	robot_power: 0..15;
+	time: boolean;
+	night: boolean;
 
-LTLSPEC ! ((G((locA & !locB) | (locB & !locA)) -> G(weight_power > 10)) & (G((locA & !locB) | (locB & !locA)) -> !locB U locA) & (G((locA & !locB) | (locB & !locA)) -> F(locA & F(locB))) & (G((locA & !locB) | (locB & !locA)) -> G(locA -> F(HI_pickup))))
+LTLSPEC ! (time = day)

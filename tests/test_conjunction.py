@@ -10,14 +10,14 @@ goals_2 = parse('../input_files/test_composition.txt')
 
 
 try:
-    goal_conjoined = conjoin_goals(
+    goal_conjoined = conjunction(
         [goals["goal_1"], goals["goal_2"]],
         name="goal_conjoined",
         description="description of goal_conjoined")
 
 except Exception:
 
-    goal_conjoined = conjoin_goals(
+    goal_conjoined = conjunction(
         [goals["goal_1"], goals["goal_3"]],
         name="goal_conjoined",
         description="description of goal_conjoined")

@@ -18,7 +18,7 @@ def is_refinement_correct(refined_contract, abstracted_contract, counterexample=
     return a_check and g_check
 
 
-def compose_contracts(contracts, abstract_on=None):
+def compose_contracts(contracts):
     """
     :param contracts: list of goals name and contract
     :return: True, contract which is the composition of the contracts in the goals or the contracts in the list
@@ -47,25 +47,25 @@ def compose_contracts(contracts, abstract_on=None):
     if "TRUE" in assumptions:
         assumptions.remove("TRUE")
 
-    # CHECK COMPATILITY
-    satis = check_satisfiability(variables, list(set(assumptions)))
-    if not satis:
-        print(str(list(set(assumptions))))
-        raise Exception("The composition is uncompatible")
-
-    # CHECK CONSISTENCY
-    satis = check_satisfiability(variables, list(set(guarantees_saturated)))
-    if not satis:
-        print(str(list(set(guarantees_saturated))))
-        raise Exception("The composition is inconsistent")
-
     assumptions_guarantees = assumptions.copy()
     assumptions_guarantees.extend(guarantees_saturated)
 
-    # CHECK FEASIBILITY
+    """Checking Feasibility, Compatibility and Consistency"""
     satis = check_satisfiability(variables, list(set(assumptions_guarantees)))
     if not satis:
-        raise Exception("The composition is unfeasible")
+        print("The composition is unfeasible")
+
+        satis = check_satisfiability(variables, list(set(assumptions)))
+        if not satis:
+            print(str(list(set(assumptions))))
+            print("The composition is unfeasible")
+
+        satis = check_satisfiability(variables, list(set(guarantees_saturated)))
+        if not satis:
+            print(str(list(set(guarantees_saturated))))
+            print("The composition is inconsistent")
+
+        raise Exception("Not composable")
 
     print("The composition is compatible, consistent and satisfiable. Composing now...")
 
@@ -122,14 +122,6 @@ def compose_contracts(contracts, abstract_on=None):
     if len(a_composition_simplified) == 0:
         a_composition_simplified.append("TRUE")
 
-    if g_abstracted is not None:
-        if is_set_smaller_or_equal(variables, variables, g_composition_saturated, g_abstracted):
-            composed_contract = Contract(variables=variables,
-                                         assumptions=a_composition_simplified,
-                                         guarantees=g_abstracted)
-            return composed_contract
-        else:
-            raise Exception("abstraction not correct")
 
     composed_contract = Contract(variables=variables,
                                  assumptions=a_composition_simplified,

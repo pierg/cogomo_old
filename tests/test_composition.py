@@ -6,7 +6,7 @@ from src.goals.operations import *
 goals = parse('../input_files/test_composition.txt')
 
 
-goal_composed = compose_goals(
+goal_composed = compostion(
     [goals["goal_1"], goals["goal_2"]],
     name="goal_composed",
     description="description of goal_composed")

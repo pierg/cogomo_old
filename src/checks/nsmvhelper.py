@@ -1,5 +1,17 @@
+from typing import Dict
+
 from src.checks.nusmv import *
 from src.helper.logic import *
+
+
+def is_implied_in(variables: Dict[str, str], formula_a: str, formula_b: str):
+
+    return check_validity(variables, Implies(formula_a, formula_b))
+
+
+def is_satisfied_in(variables: Dict[str, str], formula_a: str, formula_b: str):
+
+    return check_satisfiability(variables, [formula_a, formula_b])
 
 
 def is_set_smaller_or_equal(variables_refined, variables_abstracted, props_refined, props_abstracted):
@@ -9,12 +21,6 @@ def is_set_smaller_or_equal(variables_refined, variables_abstracted, props_refin
     :param props_abstracted: single proposition or list of propositions
     :return: True if prop_1 is a refinement of prop_2
     """
-
-    if props_abstracted is False:
-        return True
-
-    if check_ports_are_compatible(list(variables_refined.keys()), list(variables_abstracted.keys())) is False:
-        return False
 
     refinement = None
     abstract = None
@@ -29,12 +35,20 @@ def is_set_smaller_or_equal(variables_refined, variables_abstracted, props_refin
         refinement = props_refined
 
     if isinstance(props_abstracted, list):
+        if 'TRUE' in props_abstracted:
+            return True
         if len(props_abstracted) == 1:
             abstract = props_abstracted[0]
         else:
             abstract = And(props_abstracted)
     elif isinstance(props_abstracted, str):
+        if props_abstracted is 'TRUE':
+            return True
         abstract = props_abstracted
+
+    """Check port compatibility"""
+    if check_ports_are_compatible(list(variables_refined.keys()), list(variables_abstracted.keys())) is False:
+        return False
 
     """Merging the two dictionaries"""
     all_variables = variables_abstracted.copy()

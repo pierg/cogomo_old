@@ -76,7 +76,7 @@ class Contract(object):
         if "TRUE" in self.assumptions:
             self.assumptions.remove("TRUE")
 
-        """Check if assumption is a refinement of exising assumptions and vice-versa"""
+        """Check if assumption is a abstraction of exising assumptions and vice-versa"""
         for a in self.assumptions:
 
             """Check if the proposition is a port, then don't check"""
@@ -86,10 +86,10 @@ class Contract(object):
             if var_a == var_b:
                 continue
 
-            if is_set_smaller_or_equal(self.variables, self.variables, assumption, a):
+            if is_set_smaller_or_equal(self.variables, self.variables, a, assumption):
                 self.assumptions.remove(a)
 
-            elif is_set_smaller_or_equal(self.variables, self.variables, a, assumption):
+            elif is_set_smaller_or_equal(self.variables, self.variables, assumption, assumption):
                 return
 
         """Adding assumption"""
@@ -129,7 +129,7 @@ class Contract(object):
         """Saturate the guarantee"""
         g_sat = Implies(self.get_ltl_assumptions(), guarantee)
 
-        """Check if guarantee is a refinement of existing gurantee and vice-versa"""
+        """Check if guarantee is a refinement of existing guarantee and vice-versa"""
         for g in self.guarantees_saturated:
             if is_set_smaller_or_equal(self.variables, self.variables, g_sat, g):
                 self.guarantees.remove(g)
@@ -167,6 +167,34 @@ class Contract(object):
 
         return self.guarantees
 
+    def has_smaller_guarantees_than(self, c: 'Contract'):
+
+        return is_set_smaller_or_equal(self.variables,
+                                       c.get_variables(),
+                                       self.guarantees,
+                                       c.get_list_guarantees())
+
+    def has_bigger_assumptions_than(self, c: 'Contract'):
+
+        return is_set_smaller_or_equal(c.get_variables(),
+                                       self.variables,
+                                       c.get_list_assumptions(),
+                                       self.assumptions)
+
+    def propagate_assumptions_to(self, c: 'Contract'):
+        c.merge_variables(self.variables)
+        c.add_assumptions(self.assumptions)
+
+
+    def refined_by(self, c: 'Contract'):
+        c.propagate_assumptions_to(self)
+
+        if not(self.has_smaller_guarantees_than(c) and \
+            self.has_bigger_assumptions_than(c)):
+            raise Exception("Refinement not correct")
+
+
+
     def is_full(self):
         """
         Check if contract parameters are filled
@@ -201,3 +229,21 @@ class Contract(object):
         for guarantee in self.guarantees:
             astr += str(guarantee) + ', '
         return astr[:-2] + ' ]\n]'
+
+
+
+
+class BooleanContract(Contract):
+
+    def __init__(self, assumptions: List[str], guarantees: List[str]):
+
+        variables: Dict[str, str] = {}
+
+        for a in assumptions:
+            variables.update({a: "boolean"})
+        for g in guarantees:
+            variables.update({g: "boolean"})
+
+        super().__init__(variables=variables,
+                         assumptions=assumptions,
+                         guarantees=guarantees)

@@ -7,7 +7,7 @@ goals = parse('../input_files/test_conjunction.txt')
 
 
 try:
-    goal_conjoined = conjoin_goals(
+    goal_conjoined = conjunction(
         [goals["goal_1"], goals["goal_2"]],
         name="goal_conjoined",
         description="description of goal_conjoined")
@@ -21,6 +21,6 @@ except Exception:
     prioritize_goal(goal_1, goal_2)
 
     print("\nTrying to conjoin again...")
-    goal_conjoined = conjoin_goals([goal_1, goal_2])
+    goal_conjoined = conjunction([goal_1, goal_2])
 
     print(goal_conjoined)

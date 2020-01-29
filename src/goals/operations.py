@@ -1,12 +1,13 @@
+import itertools
+from typing import Dict, List, Tuple
+
+from src.components.components import ComponentsLibrary
+from src.components.operations import components_selection
 from src.goals.cgtgoal import CGTGoal
 from src.contracts.operations import *
 
-import itertools as it
 
-import copy
-
-
-def compose_goals(list_of_goal, name=None, description=""):
+def compostion(list_of_goal, name=None, description=""):
     contracts = {}
 
     for goal in list_of_goal:
@@ -27,7 +28,6 @@ def compose_goals(list_of_goal, name=None, description=""):
 
     composed_contract_list = []
     for contracts in composition_contracts:
-        # composed_contract = compose_contracts(contracts)
         contract_list = list(contracts.values())
         composed_contract = compose_contracts(contract_list)
         composed_contract_list.append(composed_contract)
@@ -45,7 +45,7 @@ def compose_goals(list_of_goal, name=None, description=""):
     return composed_goal
 
 
-def conjoin_goals(goals, name="", description=""):
+def conjunction(goals, name="", description=""):
     """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
     for pair_of_goals in it.combinations(goals, r=2):
 
@@ -102,75 +102,108 @@ def conjoin_goals(goals, name="", description=""):
     return conjoined_goal
 
 
-def prioritize_goal(first_priority_goal, second_priority_goal):
-    """
-    Makes the assumption of one goal dependent on the satisfiability of the assumptions of the second goal
-    :param first_priority_goal:
-    :param second_priority_goal:
-    :return: lower priority goal
-    """
-
-    variables = {}
-    stronger_assumptions_list = []
-
-    for contract in first_priority_goal.get_contracts():
-        variables.update(contract.get_variables())
-        stronger_assumptions_list.append(And(contract.get_list_assumptions()))
-
-    for contract in second_priority_goal.get_contracts():
-        contract.merge_variables(variables)
-        contract.add_assumption(Not(Or(stronger_assumptions_list)))
-
-
-def mapping_to_goal(list_of_components, name=None, description=None, abstract_on=None):
-    if not isinstance(list_of_components, list):
-        raise AttributeError
-
+def mapping(component_library: ComponentsLibrary, specification: CGTGoal,
+            name: str = None, description: str = None):
     if name == None:
         name = ""
 
     if description == None:
         description = ""
 
-    composition_contract = compose_contracts(list_of_components, abstract_on=abstract_on)
-    new_goal = CGTGoal(name=name,
-                       description=description,
-                       contracts=[composition_contract])
+    for contract in specification.get_contracts():
 
-    goal_list = []
-    for component in list_of_components:
-        goal_component = CGTGoal(name=component.get_id(),
-                                 contracts=[component])
-        goal_component.set_parent(new_goal, "COMPOSITION")
+        list_of_components = components_selection(component_library, contract)
 
-        goal_list.append(goal_component)
+        composition_contract = compose_contracts(list_of_components)
 
-    new_goal.set_subgoals(goal_list, "MAPPING")
+        composition_goal = CGTGoal(name=name,
+                                   description=description,
+                                   contracts=[composition_contract])
 
-    return new_goal
+        goal_list = []
+        for component in list_of_components:
+            goal_component = CGTGoal(name=component.get_id(),
+                                     contracts=[component])
+            goal_component.set_parent(composition_goal, "COMPOSITION")
+
+            goal_list.append(goal_component)
+
+        composition_goal.set_subgoals(goal_list, "MAPPING")
+
+        contract.refined_by(composition_contract)
+
+        abstracted_goal = CGTGoal(name=name + "_abstracted",
+                                  description=description,
+                                  contracts=[contract],
+                                  sub_goals=[composition_goal],
+                                  sub_operation="REFINEMENT")
+
+        composition_goal.set_parent(abstracted_goal, "ABSTRACTION")
+
+    return abstracted_goal
 
 
-def propagate_assumptions(abstract_goal, refined_goal):
-    """
+def create_contextual_cgt(list_of_goals: List[CGTGoal]):
+    variables = {}
+    contexts = set()
 
-    :return:
-    """
-    contracts_refined = refined_goal.get_contracts()
-    contracts_abstracted = abstract_goal.get_contracts()
+    for goal in list_of_goals:
+        var, ctx_1 = goal.get_context()
+        if "TRUE" not in ctx_1:
+            variables.update(var)
+            contexts.add(And(ctx_1))
 
-    if len(contracts_refined) != len(contracts_abstracted):
-        raise Exception("Propagating assumptions among goals with different number of conjoined contracts")
+    contexts = list(contexts)
 
-    for i, contract in enumerate(contracts_refined):
-        """And(.....) of all the assumptions of the abstracted contract"""
-        assumptions_abs_ltl = contracts_abstracted[i].get_ltl_assumptions()
-        """List of all the assumptions of the refined contract"""
-        assumptions_ref = contract.get_list_assumptions()
-        assumptions_to_add = []
-        for assumption in assumptions_ref:
-            if not is_set_smaller_or_equal(assumptions_abs_ltl, assumption):
-                assumptions_to_add.append(assumption)
+    ctx_combinations = itertools.combinations(contexts, 2)
 
-        """Unify alphabets"""
-        contracts_abstracted[i].merge_variables(contract.get_variables())
-        contracts_abstracted[i].add_assumptions(assumptions_to_add)
+    contexts_mutually_exclusive = set()
+    """List of contrexts to remove because a refinement has been created"""
+    contexts_to_remove = set()
+
+    for ctx_a, ctx_b in ctx_combinations:
+        if is_implied_in(variables, ctx_a, ctx_b):
+            new_ctx = And([ctx_b, Not(ctx_a)])
+            contexts_to_remove.add(ctx_b)
+            contexts_mutually_exclusive.add(new_ctx)
+            continue
+        if is_implied_in(variables, ctx_b, ctx_a):
+            new_ctx = And([ctx_a, Not(ctx_b)])
+            contexts_to_remove.add(ctx_a)
+            contexts_mutually_exclusive.add(new_ctx)
+            continue
+        contexts_mutually_exclusive.add(ctx_a)
+        contexts_mutually_exclusive.add(ctx_b)
+
+    for c in contexts_to_remove:
+        if c in contexts_mutually_exclusive:
+            contexts_mutually_exclusive.remove(c)
+
+    contexts_mutually_exclusive = list(contexts_mutually_exclusive)
+
+    context_goals: Dict[str, List] = {}
+
+    for ctx in contexts_mutually_exclusive:
+        for goal in list_of_goals:
+
+            var, goal_ctx = goal.get_context()
+            goal_ctx = And(goal_ctx)
+
+            if is_implied_in(variables, ctx, goal_ctx):
+                if ctx in context_goals:
+                    if goal not in context_goals[ctx]:
+                        context_goals[ctx].append(goal)
+                else:
+                    context_goals[ctx] = [goal]
+
+    print(contexts_mutually_exclusive)
+
+    composed_goals = []
+    for ctx, goals in context_goals.items():
+        ctx_goals = compostion(goals, name=ctx + "goals")
+        composed_goals.append(ctx_goals)
+
+    cgt = conjunction(composed_goals, name="all_contexts")
+
+    print(cgt)
+    print("CIAO")

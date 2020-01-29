@@ -9,12 +9,12 @@ goals_2 = parse('../input_files/test_composition.txt')
 
 
 
-goal_conjoined = conjoin_goals(
+goal_conjoined = conjunction(
     [goals["goal_1"], goals["goal_3"]],
     name="goal_conjoined",
     description="description of goal_conjoined")
 
-goal_composed = compose_goals(
+goal_composed = compostion(
     [goal_conjoined, goals_2["goal_1"], goals_2["goal_2"]],
     name="goal_composed",
     description="description of goal_composed")
