@@ -1,10 +1,9 @@
 from src.components.components import *
-from src.contracts.operations import is_refinement_correct
 import itertools as it
 import operator
 
 
-def components_selection(component_library, specification):
+def components_selection(component_library: ComponentsLibrary, specification: Contract):
     if not isinstance(component_library, ComponentsLibrary):
         raise AttributeError
 
@@ -20,7 +19,7 @@ def components_selection(component_library, specification):
     try:
         candidates_compositions = component_library.extract_selection(spec_variables, spec_assumptions, spec_guarantees)
     except Exception as e:
-        print("No refinement possible")
+        print("No further refinement possible")
         print(e)
         return []
 
@@ -152,7 +151,7 @@ def greedy_selection(candidate_compositions):
                 contract_b.add_assumptions(component_b.get_list_assumptions())
                 contract_b.add_guarantees(component_b.get_list_guarantees())
 
-            if is_refinement_correct(contract_a, contract_b):
+            if contract_a.is_refined_by(contract_b):
                 candidates_points[tuple(candidate_a)] += 1
             else:
                 candidates_points[tuple(candidate_b)] += 1

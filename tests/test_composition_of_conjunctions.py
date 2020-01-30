@@ -14,7 +14,7 @@ goal_conjoined = conjunction(
     name="goal_conjoined",
     description="description of goal_conjoined")
 
-goal_composed = compostion(
+goal_composed = composition(
     [goal_conjoined, goals_2["goal_1"], goals_2["goal_2"]],
     name="goal_composed",
     description="description of goal_composed")

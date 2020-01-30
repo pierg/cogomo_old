@@ -65,7 +65,7 @@ if __name__ == "__main__":
     for element in mission:
         goal_list.append(CGTGoal(element.get_name(), contracts=[element]))
 
-    mission_cgt = compostion(goal_list)
+    mission_cgt = composition(goal_list)
 
     """Instantiating a Library of Componenents"""
     component_library = ComponentsLibrary(name="robots")
@@ -108,5 +108,5 @@ if __name__ == "__main__":
     if len(components) > 0:
         new_goal = mapping(components, name="new_goal", abstract_on=specification)
         print("CGT BEFORE:\n" + str(mission_cgt))
-        mission_cgt = compostion([mission_cgt, new_goal])
+        mission_cgt = composition([mission_cgt, new_goal])
         print("\n\nCGT AFTER:\n" + str(mission_cgt))

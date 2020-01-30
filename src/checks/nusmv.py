@@ -5,6 +5,7 @@ from src.helper.logic import *
 smvfile = "nusmvfile.smv"
 
 def check_satisfiability(variables, propositions):
+    print("checking sat of: " + str(propositions))
 
     propositions_copy = propositions.copy()
 
@@ -31,8 +32,10 @@ def check_satisfiability(variables, propositions):
 
         ofile.write('\n')
 
-    output = subprocess.check_output(['NuSMV', smvfile], encoding='UTF-8').splitlines()
-
+    try:
+        output = subprocess.check_output(['NuSMV', smvfile], encoding='UTF-8').splitlines()
+    except Exception:
+        print("NuSMV Exception")
     output = [x for x in output if not (x[:3] == '***' or x[:7] == 'WARNING' or x == '')]
 
     for line in output:
@@ -47,6 +50,7 @@ def check_satisfiability(variables, propositions):
 
 
 def check_validity(variables, proposition):
+    print("checking validity of: " + str(proposition))
 
     """Renaming propositions"""
     proposition_copy = re.sub("_port_\d+|_port", "", proposition)

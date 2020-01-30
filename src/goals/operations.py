@@ -1,3 +1,4 @@
+import copy
 import itertools
 from typing import Dict, List, Tuple
 
@@ -7,7 +8,10 @@ from src.goals.cgtgoal import CGTGoal
 from src.contracts.operations import *
 
 
-def compostion(list_of_goal, name=None, description=""):
+def composition(list_of_goal: List[CGTGoal],
+                name: str = None,
+                description: str = "",
+                parent_goal: CGTGoal = None):
     contracts = {}
 
     for goal in list_of_goal:
@@ -32,6 +36,20 @@ def compostion(list_of_goal, name=None, description=""):
         composed_contract = compose_contracts(contract_list)
         composed_contract_list.append(composed_contract)
 
+
+    if parent_goal is not None:
+        parent_goal.update(
+            name=name,
+            description=description,
+            contracts=composed_contract_list,
+            sub_goals=list_of_goal,
+            sub_operation="COMPOSITION"
+        )
+        # Connecting children to the parent
+        for goal in list_of_goal:
+            goal.set_parent(parent_goal, "CONJUNCTION")
+        return parent_goal
+
     composed_goal = CGTGoal(name=name,
                             description=description,
                             contracts=composed_contract_list,
@@ -45,9 +63,15 @@ def compostion(list_of_goal, name=None, description=""):
     return composed_goal
 
 
-def conjunction(goals, name="", description=""):
+def conjunction(list_of_goals: List[CGTGoal],
+                name: str = None,
+                description: str = None,
+                parent_goal: CGTGoal = None) -> CGTGoal:
+    """Conjunction Operations among the goals in list_of_goals.
+       It returns a new goal"""
+
     """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
-    for pair_of_goals in it.combinations(goals, r=2):
+    for pair_of_goals in it.combinations(list_of_goals, r=2):
 
         assumptions_set = []
         guarantees_set = []
@@ -82,71 +106,126 @@ def conjunction(goals, name="", description=""):
     # Creating new list of contracts
     list_of_new_contracts = []
 
-    for goal in goals:
+    for goal in list_of_goals:
         contracts = goal.get_contracts()
         for contract in contracts:
             new_contract = copy.deepcopy(contract)
             list_of_new_contracts.append(new_contract)
 
+    if parent_goal is not None:
+        parent_goal.update(
+            name=name,
+            description=description,
+            contracts=list_of_new_contracts,
+            sub_goals=list_of_goals,
+            sub_operation="CONJUNCTION"
+        )
+        # Connecting children to the parent
+        for goal in list_of_goals:
+            goal.set_parent(parent_goal, "CONJUNCTION")
+        return parent_goal
+
     # Creating a new Goal parent
     conjoined_goal = CGTGoal(name=name,
                              description=description,
                              contracts=list_of_new_contracts,
-                             sub_goals=goals,
+                             sub_goals=list_of_goals,
                              sub_operation="CONJUNCTION")
 
     # Connecting children to the parent
-    for goal in goals:
+    for goal in list_of_goals:
         goal.set_parent(conjoined_goal, "CONJUNCTION")
 
     return conjoined_goal
 
 
-def mapping(component_library: ComponentsLibrary, specification: CGTGoal,
-            name: str = None, description: str = None):
-    if name == None:
+def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, name: str = None,
+            description: str = None):
+    """Given a component library and a specification returns the a goal that is the result
+    of the composition of a selection of component in the library and that refined the specification
+    after having propagated the assumptions"""
+
+    if name is None:
         name = ""
 
-    if description == None:
+    if description is None:
         description = ""
 
-    for contract in specification.get_contracts():
+    if len(specification_goal.get_contracts()) == 1:
+        specification = specification_goal.get_contracts()[0]
+    else:
+        raise Exception("The goal has multiple contracts in conjunction and cannot be mapped")
 
-        list_of_components = components_selection(component_library, contract)
+    """Get a list of components from the specification, greedy algorithm"""
+    list_of_components = components_selection(component_library, specification)
 
-        composition_contract = compose_contracts(list_of_components)
+    if len(list_of_components) == 0:
+        raise Exception("No mapping possible. There is no component available in the library")
 
-        composition_goal = CGTGoal(name=name,
-                                   description=description,
-                                   contracts=[composition_contract])
+    """Compose the components"""
+    composition_contract = compose_contracts(list_of_components)
 
-        goal_list = []
-        for component in list_of_components:
-            goal_component = CGTGoal(name=component.get_id(),
-                                     contracts=[component])
-            goal_component.set_parent(composition_goal, "COMPOSITION")
+    """Create a top level goal 'composition_goal'"""
+    composition_goal = CGTGoal(name=name,
+                               description=description,
+                               contracts=[composition_contract])
 
-            goal_list.append(goal_component)
+    """Connect the components to the 'composition_goal'"""
+    goal_list = []
+    for component in list_of_components:
+        goal_component = CGTGoal(name=component.get_id(),
+                                 contracts=[component])
+        goal_component.set_parent(composition_goal, "COMPOSITION")
 
-        composition_goal.set_subgoals(goal_list, "MAPPING")
+        goal_list.append(goal_component)
 
-        contract.refined_by(composition_contract)
+    composition_goal.set_subgoals(goal_list, "MAPPING")
 
-        abstracted_goal = CGTGoal(name=name + "_abstracted",
-                                  description=description,
-                                  contracts=[contract],
-                                  sub_goals=[composition_goal],
-                                  sub_operation="REFINEMENT")
+    """Propagate the assumptions to the specification and check the refinement"""
+    specification.propagate_assumptions_from(composition_contract)
+    specification.is_refined_by(composition_contract)
 
-        composition_goal.set_parent(abstracted_goal, "ABSTRACTION")
+    """Link 'composition_goal' to thhe 'specification_goal'"""
+    specification_goal.set_subgoals([composition_goal], "REFINEMENT")
 
-    return abstracted_goal
+    """Connect the abstracted and refined goals"""
+    composition_goal.set_parent(specification_goal, "ABSTRACTION")
+
+    """Consolidate the tree from 'specification_goal' to the top"""
+    consolidate(specification_goal)
 
 
-def create_contextual_cgt(list_of_goals: List[CGTGoal]):
+def consolidate(cgt: CGTGoal):
+    """It recursivly re-perfom composition and conjunction operations up to the rood node"""
+    if cgt.get_parent() is not None:
+        parent = cgt.get_parent()
+        if parent.get_sub_operation() == "CONJUNCTION":
+            conjunction(
+                parent.get_sub_goals(),
+                parent.get_name(),
+                parent.get_description(),
+                parent
+            )
+
+        elif parent.get_sub_operation() == "COMPOSITION":
+            composition(
+                parent.get_sub_goals(),
+                parent.get_name(),
+                parent.get_description(),
+                parent,
+            )
+        consolidate(parent)
+    else:
+        return
+
+
+def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
+    """Returns a CGT from a list of goals based on the contexts of each goal"""
+
     variables = {}
     contexts = set()
 
+    """Extract all the contexts"""
     for goal in list_of_goals:
         var, ctx_1 = goal.get_context()
         if "TRUE" not in ctx_1:
@@ -155,12 +234,18 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]):
 
     contexts = list(contexts)
 
+    if len(contexts) == 1:
+        cgt = composition(list_of_goals, name=contexts[0] + "goals")
+        return cgt
+
     ctx_combinations = itertools.combinations(contexts, 2)
 
     contexts_mutually_exclusive = set()
-    """List of contrexts to remove because a refinement has been created"""
+
+    """List of contexts to remove because a refinement has been created"""
     contexts_to_remove = set()
 
+    """Identifies all the mutually exclusive contexts"""
     for ctx_a, ctx_b in ctx_combinations:
         if is_implied_in(variables, ctx_a, ctx_b):
             new_ctx = And([ctx_b, Not(ctx_a)])
@@ -183,6 +268,7 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]):
 
     context_goals: Dict[str, List] = {}
 
+    """Identifies the goals enabled for each mutually exclusive context"""
     for ctx in contexts_mutually_exclusive:
         for goal in list_of_goals:
 
@@ -196,14 +282,13 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]):
                 else:
                     context_goals[ctx] = [goal]
 
-    print(contexts_mutually_exclusive)
-
+    """Compose the goal in each mutually exclusive context"""
     composed_goals = []
     for ctx, goals in context_goals.items():
-        ctx_goals = compostion(goals, name=ctx + "goals")
+        ctx_goals = composition(goals, name=ctx + "goals")
         composed_goals.append(ctx_goals)
 
+    """Conjoin the goals across all the mutually exclusive contexts"""
     cgt = conjunction(composed_goals, name="all_contexts")
 
-    print(cgt)
-    print("CIAO")
+    return cgt

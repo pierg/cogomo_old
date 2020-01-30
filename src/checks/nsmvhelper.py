@@ -1,78 +1,68 @@
-from typing import Dict
+from typing import Dict, List
 
 from src.checks.nusmv import *
 from src.helper.logic import *
+from src.helper.tools import *
 
 
 def is_implied_in(variables: Dict[str, str], formula_a: str, formula_b: str):
+    """Check that at least all the variables in the abstracted are contained in the refined"""
+    var_refined = extract_variables_name([formula_a])
+    var_abstracted = extract_variables_name([formula_b])
+
+    for va in var_abstracted:
+        contained = False
+        for vr in var_refined:
+            if va == vr:
+                contained = True
+                continue
+        if contained is False:
+            return False
 
     return check_validity(variables, Implies(formula_a, formula_b))
 
 
 def is_satisfied_in(variables: Dict[str, str], formula_a: str, formula_b: str):
-
     return check_satisfiability(variables, [formula_a, formula_b])
 
 
-def is_set_smaller_or_equal(variables_refined, variables_abstracted, props_refined, props_abstracted):
-    """
-    Checks if the conjunction of props_refined is contained in the conjunction of props_abstracted, i.e. prop_2 is a bigger set
-    :param props_refined: single proposition or list of propositions
-    :param props_abstracted: single proposition or list of propositions
-    :return: True if prop_1 is a refinement of prop_2
-    """
+def are_implied_in(list_variables: List[Dict[str, str]], props_refined: List[str], props_abstracted: List[str]):
+    """Checks if the conjunction of props_refined is contained in the conjunction of props_abstracted,
+    i.e. props_abstracted is a bigger set than props_refined"""
 
-    refinement = None
-    abstract = None
+    """Merge Dictionaries"""
+    variables = {}
+    for v in list_variables:
+        variables.update(v)
 
     """Check Attributes"""
-    if isinstance(props_refined, list):
-        if len(props_refined) == 1:
-            refinement = props_refined[0]
-        else:
-            refinement = And(props_refined)
-    elif isinstance(props_refined, str):
-        refinement = props_refined
-
     if isinstance(props_abstracted, list):
         if 'TRUE' in props_abstracted:
             return True
-        if len(props_abstracted) == 1:
-            abstract = props_abstracted[0]
-        else:
-            abstract = And(props_abstracted)
-    elif isinstance(props_abstracted, str):
-        if props_abstracted is 'TRUE':
-            return True
-        abstract = props_abstracted
+    else:
+        raise AttributeError
 
-    """Check port compatibility"""
-    if check_ports_are_compatible(list(variables_refined.keys()), list(variables_abstracted.keys())) is False:
-        return False
+    if not isinstance(props_refined, list):
+        raise AttributeError
 
-    """Merging the two dictionaries"""
-    all_variables = variables_abstracted.copy()
-    all_variables.update(variables_refined)
+    """Check that at least all the variables in the abstracted are contained in the refined"""
+    var_refined = extract_variables_name(props_refined)
+    var_abstracted = extract_variables_name(props_abstracted)
 
-    result = check_validity(all_variables, Implies(refinement, abstract))
+    for va in var_abstracted:
+        contained = False
+        for vr in var_refined:
+            if va == vr:
+                contained = True
+                continue
+        if contained is False:
+            return False
+
+    formula = Implies(And(props_refined), And(props_abstracted))
+    print("checking validity of " + formula)
+    result = check_validity(variables, formula)
 
     if result:
-        print("\t\t\trefined:\t" + str(refinement) + "\n\t\t\tabstract:\t" + str(abstract))
+        print("\t\t\trefined:\t" + str(And(props_refined)) + "\n\t\t\tabstract:\t" + str(And(props_abstracted)))
 
     return result
-
-
-def check_ports_are_compatible(prop_1_names, prop_2_names):
-    """Returns True if the two propositions or list of propositions share at least one port (variable)"""
-
-    if not isinstance(prop_1_names, list):
-        prop_1_names = [prop_1_names]
-
-    if not isinstance(prop_2_names, list):
-        prop_2_names = [prop_2_names]
-
-    for var_names_1 in prop_1_names:
-        for var_names_2 in prop_2_names:
-            if var_names_1 == var_names_2:
-                return True
-    return False

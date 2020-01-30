@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from src.contracts.operations import incomposable_check, duplicate_contract
+from src.contracts.helpers import incomposable_check, duplicate_contract
 from src.contracts.contract import Contract
 from src.checks.nsmvhelper import *
 
@@ -18,14 +18,6 @@ class Component(Contract):
         super().__init__(assumptions=assumptions,
                          variables=variables,
                          guarantees=guarantees)
-
-        # if id is None:
-        #     raise Exception("Attribute ErrorEMPTY")
-        # elif isinstance(id, str):
-        #     self.id = id
-        # else:
-        #     raise Exception("Attribute ErrorCIAO")
-
         self.id = id
 
         if description is None:
@@ -86,7 +78,7 @@ class ComponentsLibrary:
     def get_components(self):
         return self.list_of_components
 
-    def _search_candidate_compositions(self, variables, assumptions, to_be_refined):
+    def _search_candidate_compositions(self, variables: Dict[str, str], assumptions: List[str], to_be_refined: List[str]):
 
         candidates_for_each_proposition = {}
 
@@ -98,8 +90,7 @@ class ComponentsLibrary:
             """Check if any component refine the to_be_refined"""
             for component in self.get_components():
 
-                if is_set_smaller_or_equal(component.get_variables(), variables, component.get_list_guarantees(),
-                                           proposition):
+                if are_implied_in([component.get_variables(), variables], component.get_list_guarantees(), [proposition]):
 
                     """Check Assumptions Consistency"""
                     if len(assumptions) > 0:
@@ -143,7 +134,7 @@ class ComponentsLibrary:
 
         return candidates_compositions
 
-    def extract_selection(self, variables, assumptions, to_be_refined):
+    def extract_selection(self, variables: Dict[str, str], assumptions: List[str], to_be_refined: List[str]):
         """
         Extract all candidate compositions in the library that once combined refine 'to_be_refined'
         and are consistent with assumptions

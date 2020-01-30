@@ -1,6 +1,8 @@
 from typing import List, Tuple, Dict
 
 from contracts.contract import Contract
+
+
 # from src.goals.operations import compostion, conjunction
 
 
@@ -78,9 +80,53 @@ class CGTGoal:
         elif isinstance(context, tuple):
             self.context = context
             self.propagate_context(context)
-            # self.propagate_assumptions_to_top()
         else:
             raise AttributeError
+
+    def update(self,
+               name: str = None,
+               description: str = None,
+               contracts: List[Contract] = None,
+               sub_goals: List['CGTGoal'] = None,
+               sub_operation: str = None
+               ):
+
+        if name is None:
+            self.name = ""
+        elif isinstance(name, str):
+            self.name = name
+        else:
+            raise AttributeError
+
+        if description is None:
+            self.description = ""
+        elif isinstance(description, str):
+            self.description = description
+        else:
+            raise AttributeError
+
+        if contracts is None:
+            self.contracts = []
+        elif isinstance(contracts, list):
+            self.contracts = contracts
+        else:
+            raise AttributeError
+
+        if sub_goals is None:
+            self.sub_goals = []
+        elif isinstance(sub_goals, list) and \
+                all(isinstance(x, CGTGoal) for x in sub_goals):
+            self.sub_goals = sub_goals
+        else:
+            raise AttributeError
+
+        if sub_operation is None:
+            self.sub_operation = ""
+        elif isinstance(sub_operation, str):
+            self.sub_operation = sub_operation
+        else:
+            raise AttributeError
+
 
     def propagate_context(self, context: Tuple[Dict[str, str], str]):
         """Set the context as assumptions of all the contracts in the node"""
@@ -92,7 +138,6 @@ class CGTGoal:
     def get_context(self):
         return self.context
 
-
     def set_parent(self, parent_goal: 'CGTGoal', parent_operation: str):
         if not isinstance(parent_goal, CGTGoal):
             raise AttributeError
@@ -102,7 +147,6 @@ class CGTGoal:
 
         self.parent_goal = parent_goal
         self.parent_operation = parent_operation
-
 
     def set_subgoals(self, sub_goals: list, sub_operation: str):
         if not isinstance(sub_goals, list):
@@ -142,7 +186,6 @@ class CGTGoal:
     def get_parent(self):
         return self.parent_goal
 
-
     def __str__(self, level=0):
         """Override the print behavior"""
         ret = "\t" * level + repr(self.name) + "\n"
@@ -174,4 +217,3 @@ class CGTGoal:
     def __ne__(self, other):
         """Define a non-equality test"""
         return not self.__eq__(other)
-

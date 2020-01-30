@@ -3,21 +3,6 @@ from src.checks.nsmvhelper import *
 import itertools as it
 
 
-def is_refinement_correct(refined_contract, abstracted_contract, counterexample=False):
-    """
-    Check if A1 >= A2 and if G1 <= G2
-    """
-
-    a_check = is_set_smaller_or_equal(refined_contract.get_variables(), abstracted_contract.get_variables(),
-                                      abstracted_contract.get_list_assumptions(),
-                                      refined_contract.get_list_assumptions())
-
-    g_check = is_set_smaller_or_equal(abstracted_contract.get_variables(), refined_contract.get_variables(),
-                                      refined_contract.get_list_guarantees(), abstracted_contract.get_list_guarantees())
-
-    return a_check and g_check
-
-
 def compose_contracts(contracts):
     """
     :param contracts: list of goals name and contract
@@ -28,16 +13,19 @@ def compose_contracts(contracts):
     if not isinstance(contracts, list):
         raise Exception("Wrong Parameters")
 
-    g_abstracted = None
-    if abstract_on is not None:
-        g_abstracted = abstract_on.get_list_guarantees()
-
     variables = {}
     assumptions = []
     guarantees = []
     guarantees_saturated = []
 
     for contract in contracts:
+        vars = contract.get_variables()
+        for v, t in vars.items():
+            if v in variables.keys():
+                if variables[v] != t:
+                    raise Exception("Variables Incompatible: \n" + \
+                                    v + ": " + variables[v] + "\n" + \
+                                    v + ": " + t)
         variables.update(contract.get_variables())
         assumptions.extend(contract.get_list_assumptions())
         guarantees.extend(contract.get_list_guarantees())
@@ -108,7 +96,7 @@ def compose_contracts(contracts):
                 if a_elem not in a_composition_simplified:
                     continue
 
-            if is_set_smaller_or_equal(variables, variables, g_elem, a_elem):
+            if are_implied_in([variables], g_elem, a_elem):
                 print("Simplifying assumption " + str(a_elem))
                 if isinstance(a_elem, list):
                     for a in a_elem:
@@ -122,34 +110,19 @@ def compose_contracts(contracts):
     if len(a_composition_simplified) == 0:
         a_composition_simplified.append("TRUE")
 
+    """Delete unused variables"""
+    var_names = []
+    var_names.extend(extract_variables_name(a_composition_simplified))
+    var_names.extend(extract_variables_name(g_composition))
+    var_names = list(set(var_names))
 
-    composed_contract = Contract(variables=variables,
+    try:
+        variables_filtered = {var: variables[var] for var in var_names}
+    except Exception:
+        print("WAIT")
+
+    composed_contract = Contract(variables=variables_filtered,
                                  assumptions=a_composition_simplified,
                                  guarantees=g_composition)
 
     return composed_contract
-
-
-def incomposable_check(list_contracts):
-    """Return True if the list of contracts is not satisfiable, not compatible or not feasible"""
-    if not isinstance(list_contracts, list):
-        raise Exception("Wrong Parameter")
-
-    variables = {}
-    propositions = set([])
-
-    for contract in list_contracts:
-        variables.update(contract.get_variables())
-        for elem in contract.get_list_assumptions():
-            propositions.add(elem)
-        for elem in contract.get_list_guarantees():
-            propositions.add(elem)
-
-    return not check_satisfiability(variables, list(propositions))
-
-
-def duplicate_contract(list_contracts):
-    if not isinstance(list_contracts, list):
-        raise Exception("Wrong Parameter")
-
-    return len(list_contracts) != len(set(list_contracts))

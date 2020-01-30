@@ -20,7 +20,7 @@ class Contract(object):
         if variables is None:
             self.variables = {}
         elif isinstance(variables, dict):
-            self.variables = variables
+            self.add_variables(variables)
         else:
             raise AttributeError
 
@@ -32,27 +32,29 @@ class Contract(object):
             raise AttributeError
 
         if guaratnees_saturated is None:
-            self.guarantees_saturated = []
-        elif isinstance(guarantees, list):
-            self.add_guarantees(saturated=guarantees)
+            if guarantees is None:
+                self.guarantees = []
+                self.guarantees_saturated = []
+            elif isinstance(guarantees, list):
+                self.add_guarantees(guarantees)
         else:
-            raise AttributeError
-
-        if guarantees is None:
-            self.guarantees = []
-            self.guarantees_saturated = []
-        elif isinstance(guarantees, list):
-            self.add_guarantees(guarantees=guarantees)
-        else:
-            raise AttributeError
+            if guarantees is None:
+                raise AttributeError
+            elif isinstance(guarantees, list):
+                self.add_guarantees(guarantees, saturated=guaratnees_saturated)
 
     """Variables"""
 
     def add_variable(self, variable: Tuple[str, str]):
         name, var_type = variable
+        if name in self.variables.keys():
+            if self.variables[name] != var_type:
+                raise Exception("Variables Incompatible: \n" + \
+                                name + ": " + self.variables[name] + "\n" + \
+                                name + ": " + var_type)
         self.variables[name] = var_type
 
-    def add_variables(self, variables: List[Tuple[str, str]]):
+    def add_variables(self, variables: Dict[str, str]):
         if isinstance(variables, tuple):
             for variable in variables:
                 self.add_variable(variable)
@@ -86,10 +88,10 @@ class Contract(object):
             if var_a == var_b:
                 continue
 
-            if is_set_smaller_or_equal(self.variables, self.variables, a, assumption):
+            if is_implied_in(self.variables, a, assumption):
                 self.assumptions.remove(a)
 
-            elif is_set_smaller_or_equal(self.variables, self.variables, assumption, assumption):
+            elif is_implied_in(self.variables, assumption, a):
                 return
 
         """Adding assumption"""
@@ -119,38 +121,40 @@ class Contract(object):
 
     """Guarantees"""
 
-    def add_guarantee(self, guarantee: str):
+    def add_guarantee(self, guarantee: str, saturated: str = None):
         if not isinstance(guarantee, str):
             raise AttributeError
 
         if len(self.assumptions) == 0:
             raise Exception("Insert Assumptions First")
 
-        """Saturate the guarantee"""
-        g_sat = Implies(self.get_ltl_assumptions(), guarantee)
+        if saturated is None:
+            """Saturate the guarantee"""
+            new_g_sat = Implies(self.get_ltl_assumptions(), guarantee)
+        else:
+            new_g_sat = saturated
 
         """Check if guarantee is a refinement of existing guarantee and vice-versa"""
-        for g in self.guarantees_saturated:
-            if is_set_smaller_or_equal(self.variables, self.variables, g_sat, g):
-                self.guarantees.remove(g)
-            elif is_set_smaller_or_equal(self.variables, self.variables, g, g_sat):
+        for idx, g_sat in enumerate(self.guarantees_saturated):
+            if is_implied_in(self.variables, new_g_sat, g_sat):
+                self.guarantees.remove(self.guarantees[idx])
+                self.guarantees_saturated.remove(g_sat)
+            elif is_implied_in(self.variables, g_sat, new_g_sat):
                 return
 
         """Adding guarantee"""
         self.guarantees.append(guarantee)
-        self.guarantees_saturated.append(g_sat)
+        self.guarantees_saturated.append(new_g_sat)
 
         """Check Consistency"""
         if not check_satisfiability(self.variables, self.guarantees_saturated):
-            self.guarantees_saturated.remove(g_sat)
             self.guarantees.remove(guarantee)
+            self.guarantees_saturated.remove(new_g_sat)
             raise Exception("adding " + guarantee + " resulted in a inconsistent contract:\n" + str(self.guarantees))
 
-    def add_guarantees(self, guarantees: List[str] = None,
-                       saturated: List[str] = None):
-
+    def add_guarantees(self, guarantees: List[str], saturated: List[str] = None):
         for guarantee in guarantees:
-            self.add_guarantee(guarantee)
+            self.add_guarantee(guarantee, saturated=None)
 
     def get_list_guarantees_saturated(self):
 
@@ -169,31 +173,25 @@ class Contract(object):
 
     def has_smaller_guarantees_than(self, c: 'Contract'):
 
-        return is_set_smaller_or_equal(self.variables,
-                                       c.get_variables(),
-                                       self.guarantees,
-                                       c.get_list_guarantees())
+        return are_implied_in([self.variables, c.get_variables()],
+                              self.guarantees,
+                              c.get_list_guarantees())
 
     def has_bigger_assumptions_than(self, c: 'Contract'):
 
-        return is_set_smaller_or_equal(c.get_variables(),
-                                       self.variables,
-                                       c.get_list_assumptions(),
-                                       self.assumptions)
+        return are_implied_in([c.get_variables(), self.variables],
+                              c.get_list_assumptions(),
+                              self.assumptions)
 
-    def propagate_assumptions_to(self, c: 'Contract'):
-        c.merge_variables(self.variables)
-        c.add_assumptions(self.assumptions)
+    def propagate_assumptions_from(self, c: 'Contract'):
+        self.merge_variables(c.variables)
+        self.add_assumptions(c.assumptions)
 
-
-    def refined_by(self, c: 'Contract'):
-        c.propagate_assumptions_to(self)
-
-        if not(self.has_smaller_guarantees_than(c) and \
-            self.has_bigger_assumptions_than(c)):
+    def is_refined_by(self, c: 'Contract'):
+        if not (c.has_smaller_guarantees_than(self) and
+                c.has_bigger_assumptions_than(self)):
             raise Exception("Refinement not correct")
-
-
+        return True
 
     def is_full(self):
         """
@@ -229,8 +227,6 @@ class Contract(object):
         for guarantee in self.guarantees:
             astr += str(guarantee) + ', '
         return astr[:-2] + ' ]\n]'
-
-
 
 
 class BooleanContract(Contract):
