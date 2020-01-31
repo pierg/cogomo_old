@@ -14,30 +14,25 @@ class CGTGoal:
         contracts: a list of contract objects
         alphabet: a list of tuples containing the shared alphabet among all contracts
     """
-
     def __init__(self,
                  name: str = None,
                  context: Tuple[Dict[str, str], List[str]] = None,
                  description: str = None,
                  contracts: List[Contract] = None,
-                 sub_goals: List['CGTGoal'] = None,
-                 sub_operation: str = None,
-                 parent_goal: 'CGTGoal' = None,
-                 parent_operation: str = None):
+                 refined_by: List['CGTGoal'] = None,
+                 refined_with: str = None,
+                 connected_to: 'CGTGoal' = None,
+                 connected_with: str = None):
 
         if name is None:
             self.name = ""
-        elif isinstance(name, str):
-            self.name = name
         else:
-            raise AttributeError
+            self.set_name(name)
 
         if description is None:
             self.description = ""
-        elif isinstance(description, str):
-            self.description = description
         else:
-            raise AttributeError
+            self.set_description(description)
 
         if contracts is None:
             self.contracts = []
@@ -46,34 +41,17 @@ class CGTGoal:
         else:
             raise AttributeError
 
-        if sub_goals is None:
-            self.sub_goals = []
-        elif isinstance(sub_goals, list) and \
-                all(isinstance(x, CGTGoal) for x in sub_goals):
-            self.sub_goals = sub_goals
+        if refined_by is None and refined_with is None:
+            self.refined_by = []
+            self.refined_with = ""
         else:
-            raise AttributeError
+            self.refine_by(refined_by, refined_with)
 
-        if sub_operation is None:
-            self.sub_operation = ""
-        elif isinstance(sub_operation, str):
-            self.sub_operation = sub_operation
+        if connected_to is None and connected_with is None:
+            self.connected_to = None
+            self.conected_with = ""
         else:
-            raise AttributeError
-
-        if parent_goal is None:
-            self.parent_goal = None
-        elif isinstance(parent_goal, CGTGoal):
-            self.parent_goal = parent_goal
-        else:
-            raise AttributeError
-
-        if parent_operation is None:
-            self.parent_operation = ""
-        elif isinstance(parent_operation, str):
-            self.description = description
-        else:
-            raise AttributeError
+            self.connect_to(connected_to, connected_with)
 
         if context is None:
             self.context = ({}, ["TRUE"])
@@ -83,49 +61,67 @@ class CGTGoal:
         else:
             raise AttributeError
 
-    def update(self,
-               name: str = None,
-               description: str = None,
-               contracts: List[Contract] = None,
-               sub_goals: List['CGTGoal'] = None,
-               sub_operation: str = None
-               ):
+    # def update(self,
+    #            name: str = None,
+    #            description: str = None,
+    #            contracts: List[Contract] = None,
+    #            sub_goals: List['CGTGoal'] = None,
+    #            sub_operation: str = None
+    #            ):
+    #
+    #     if name is None:
+    #         self.name = ""
+    #     elif isinstance(name, str):
+    #         self.name = name
+    #     else:
+    #         raise AttributeError
+    #
+    #     if description is None:
+    #         self.description = ""
+    #     elif isinstance(description, str):
+    #         self.description = description
+    #     else:
+    #         raise AttributeError
+    #
+    #     if contracts is None:
+    #         self.contracts = []
+    #     elif isinstance(contracts, list):
+    #         self.contracts = contracts
+    #     else:
+    #         raise AttributeError
+    #
+    #     if sub_goals is None:
+    #         self.refined_by = []
+    #     elif isinstance(sub_goals, list) and \
+    #             all(isinstance(x, CGTGoal) for x in sub_goals):
+    #         self.refined_by = sub_goals
+    #     else:
+    #         raise AttributeError
+    #
+    #     if sub_operation is None:
+    #         self.refined_with = ""
+    #     elif isinstance(sub_operation, str):
+    #         self.refined_with = sub_operation
+    #     else:
+    #         raise AttributeError
 
-        if name is None:
-            self.name = ""
-        elif isinstance(name, str):
-            self.name = name
-        else:
+
+    def connect_to(self, parent_goal: 'CGTGoal', parent_operation: str):
+        """Connect to 'parent_goal' with the 'parent_operation'"""
+        if not (isinstance(parent_goal, CGTGoal) and isinstance(parent_operation, str)):
             raise AttributeError
 
-        if description is None:
-            self.description = ""
-        elif isinstance(description, str):
-            self.description = description
-        else:
+        self.connected_to = parent_goal
+        self.conected_with = parent_operation
+
+    def refine_by(self, sub_goals: list, sub_operation: str):
+        """Refine by 'sub_goals' with 'sub_operation'"""
+        if not (isinstance(sub_goals, list) and isinstance(sub_operation, str)):
             raise AttributeError
 
-        if contracts is None:
-            self.contracts = []
-        elif isinstance(contracts, list):
-            self.contracts = contracts
-        else:
-            raise AttributeError
+        self.refined_by = sub_goals
+        self.refined_with = sub_operation
 
-        if sub_goals is None:
-            self.sub_goals = []
-        elif isinstance(sub_goals, list) and \
-                all(isinstance(x, CGTGoal) for x in sub_goals):
-            self.sub_goals = sub_goals
-        else:
-            raise AttributeError
-
-        if sub_operation is None:
-            self.sub_operation = ""
-        elif isinstance(sub_operation, str):
-            self.sub_operation = sub_operation
-        else:
-            raise AttributeError
 
 
     def propagate_context(self, context: Tuple[Dict[str, str], str]):
@@ -138,25 +134,6 @@ class CGTGoal:
     def get_context(self):
         return self.context
 
-    def set_parent(self, parent_goal: 'CGTGoal', parent_operation: str):
-        if not isinstance(parent_goal, CGTGoal):
-            raise AttributeError
-
-        if not isinstance(parent_operation, str):
-            raise AttributeError
-
-        self.parent_goal = parent_goal
-        self.parent_operation = parent_operation
-
-    def set_subgoals(self, sub_goals: list, sub_operation: str):
-        if not isinstance(sub_goals, list):
-            raise AttributeError
-
-        if not isinstance(sub_operation, str):
-            raise AttributeError
-
-        self.sub_goals = sub_goals
-        self.sub_operation = sub_operation
 
     def set_name(self, name):
         if not isinstance(name, str):
@@ -178,13 +155,13 @@ class CGTGoal:
         return self.contracts
 
     def get_sub_operation(self):
-        return self.sub_operation
+        return self.refined_with
 
     def get_sub_goals(self):
-        return self.sub_goals
+        return self.refined_by
 
     def get_parent(self):
-        return self.parent_goal
+        return self.connected_to
 
     def __str__(self, level=0):
         """Override the print behavior"""
@@ -198,10 +175,10 @@ class CGTGoal:
             ret += "\t" * level + "G:\t\t" + \
                    ' & '.join(str(x) for x in contract.get_list_guarantees()).replace('\n', ' ') + "\n"
         ret += "\n"
-        if self.sub_goals is not None and len(self.sub_goals) > 0:
-            ret += "\t" * level + "\t" + self.sub_operation + "\n"
+        if self.refined_by is not None and len(self.refined_by) > 0:
+            ret += "\t" * level + "\t" + self.refined_with + "\n"
             level += 1
-            for child in self.sub_goals:
+            for child in self.refined_by:
                 try:
                     ret += child.__str__(level + 1)
                 except Exception:

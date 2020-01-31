@@ -47,18 +47,18 @@ def composition(list_of_goal: List[CGTGoal],
         )
         # Connecting children to the parent
         for goal in list_of_goal:
-            goal.set_parent(parent_goal, "CONJUNCTION")
+            goal.connect_to(parent_goal, "CONJUNCTION")
         return parent_goal
 
     composed_goal = CGTGoal(name=name,
                             description=description,
                             contracts=composed_contract_list,
-                            sub_goals=list_of_goal,
-                            sub_operation="COMPOSITION")
+                            refined_by=list_of_goal,
+                            refined_with="COMPOSITION")
 
     # Connecting children to the parent
     for goal in list_of_goal:
-        goal.set_parent(composed_goal, "COMPOSITION")
+        goal.connect_to(composed_goal, "COMPOSITION")
 
     return composed_goal
 
@@ -122,19 +122,19 @@ def conjunction(list_of_goals: List[CGTGoal],
         )
         # Connecting children to the parent
         for goal in list_of_goals:
-            goal.set_parent(parent_goal, "CONJUNCTION")
+            goal.connect_to(parent_goal, "CONJUNCTION")
         return parent_goal
 
     # Creating a new Goal parent
     conjoined_goal = CGTGoal(name=name,
                              description=description,
                              contracts=list_of_new_contracts,
-                             sub_goals=list_of_goals,
-                             sub_operation="CONJUNCTION")
+                             refined_by=list_of_goals,
+                             refined_with="CONJUNCTION")
 
     # Connecting children to the parent
     for goal in list_of_goals:
-        goal.set_parent(conjoined_goal, "CONJUNCTION")
+        goal.connect_to(conjoined_goal, "CONJUNCTION")
 
     return conjoined_goal
 
@@ -165,34 +165,43 @@ def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, n
     """Compose the components"""
     composition_contract = compose_contracts(list_of_components)
 
-    """Create a top level goal 'composition_goal'"""
-    composition_goal = CGTGoal(name=name,
-                               description=description,
-                               contracts=[composition_contract])
-
-    """Connect the components to the 'composition_goal'"""
-    goal_list = []
+    """Create a goal for each component"""
+    list_of_components_goals = []
     for component in list_of_components:
         goal_component = CGTGoal(name=component.get_id(),
                                  contracts=[component])
-        goal_component.set_parent(composition_goal, "COMPOSITION")
+        list_of_components_goals.append(goal_component)
 
-        goal_list.append(goal_component)
+    """Create a top level goal 'composition_goal' and link it to the 'list_of_components_goals'"""
+    composition_goal = CGTGoal(name=name,
+                               description=description,
+                               contracts=[composition_contract],
+                               refined_by=list_of_components_goals,
+                               refined_with="MAPPING")
 
-    composition_goal.set_subgoals(goal_list, "MAPPING")
+    # """Create a goal for each component"""
+    # list_of_components_goals = []
+    # for component in list_of_components:
+    #     goal_component = CGTGoal(name=component.get_id(),
+    #                              contracts=[component])
+    #     goal_component.set_parent(composition_goal, "COMPOSITION")
+    #
+    #     list_of_components_goals.append(goal_component)
+    #
+    # composition_goal.set_subgoals(list_of_components_goals, "MAPPING")
 
     """Propagate the assumptions to the specification and check the refinement"""
     specification.propagate_assumptions_from(composition_contract)
     specification.is_refined_by(composition_contract)
 
-    """Link 'composition_goal' to thhe 'specification_goal'"""
-    specification_goal.set_subgoals([composition_goal], "REFINEMENT")
+    """Link 'composition_goal' to the 'specification_goal'"""
+    specification_goal.refine_by([composition_goal], "REFINEMENT")
 
     """Connect the abstracted and refined goals"""
-    composition_goal.set_parent(specification_goal, "ABSTRACTION")
+    composition_goal.connect_to(specification_goal, "ABSTRACTION")
 
     """Consolidate the tree from 'specification_goal' to the top"""
-    consolidate(specification_goal)
+    # consolidate(specification_goal)
 
 
 def consolidate(cgt: CGTGoal):
