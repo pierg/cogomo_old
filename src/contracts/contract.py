@@ -110,10 +110,7 @@ class Contract(object):
             raise AttributeError
 
     def get_ltl_assumptions(self):
-        if len(self.assumptions) > 1:
-            return And(self.assumptions)
-        else:
-            return self.assumptions[0]
+        return And(self.assumptions)
 
     def get_list_assumptions(self):
 
@@ -166,6 +163,9 @@ class Contract(object):
             guarantees_saturated.append(Implies(self.get_ltl_assumptions(), g))
 
         return guarantees_saturated
+
+    def get_ltl_guarantees(self):
+        return And(self.guarantees_saturated)
 
     def get_list_guarantees(self):
 

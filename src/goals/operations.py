@@ -9,64 +9,39 @@ from src.contracts.operations import *
 
 
 def composition(list_of_goal: List[CGTGoal],
-                name: str = None,
-                description: str = "",
-                parent_goal: CGTGoal = None):
-    contracts = {}
+                name: str= None,
+                description: str = None) -> CGTGoal:
+    """Returns a new goal that is the result of the composition of 'list_of_goal'"""
+
+    contracts: Dict[CGTGoal, List[Contract]] = {}
 
     for goal in list_of_goal:
-        contracts[goal.get_name()] = goal.get_contracts()
+        contracts[goal.get_name()] = goal.get_list_contracts()
 
-    if name is None:
-        name = '_'.join("{!s}".format(key) for (key, val) in list(contracts.items()))
-
-    """List of Lists of Contract, 
-    each element of the list is a list with the contracts in conjunctions, 
-    and each element is in composition with the other elements"""
-
-    contracts_dictionary = {}
-    for goal in list_of_goal:
-        contracts_dictionary[goal.get_name()] = goal.get_contracts()
-
+    """Dot products mamong the contracts to perform the compositions of the conjunctions"""
     composition_contracts = (dict(list(zip(contracts, x))) for x in it.product(*iter(contracts.values())))
 
-    composed_contract_list = []
-    for contracts in composition_contracts:
-        contract_list = list(contracts.values())
-        composed_contract = compose_contracts(contract_list)
-        composed_contract_list.append(composed_contract)
+    """List of composed contracts. Each element of the list is in conjunction"""
+    composed_contracts: List[Contract] = []
 
+    for c in composition_contracts:
+        contracts: List[Contract] = list(c.values())
+        composed_contract = compose_contracts(contracts)
+        composed_contracts.append(composed_contract)
 
-    if parent_goal is not None:
-        parent_goal.update(
-            name=name,
-            description=description,
-            contracts=composed_contract_list,
-            sub_goals=list_of_goal,
-            sub_operation="COMPOSITION"
-        )
-        # Connecting children to the parent
-        for goal in list_of_goal:
-            goal.connect_to(parent_goal, "CONJUNCTION")
-        return parent_goal
-
+    """Crate a new goal that is linked to the other goals by composition"""
     composed_goal = CGTGoal(name=name,
                             description=description,
-                            contracts=composed_contract_list,
+                            contracts=composed_contracts,
                             refined_by=list_of_goal,
                             refined_with="COMPOSITION")
-
-    # Connecting children to the parent
-    for goal in list_of_goal:
-        goal.connect_to(composed_goal, "COMPOSITION")
 
     return composed_goal
 
 
 def conjunction(list_of_goals: List[CGTGoal],
                 name: str = None,
-                description: str = None,
-                parent_goal: CGTGoal = None) -> CGTGoal:
+                description: str = None) -> CGTGoal:
     """Conjunction Operations among the goals in list_of_goals.
        It returns a new goal"""
 
@@ -76,13 +51,13 @@ def conjunction(list_of_goals: List[CGTGoal],
         assumptions_set = []
         guarantees_set = []
 
-        for contract_1 in pair_of_goals[0].get_contracts():
+        for contract_1 in pair_of_goals[0].get_list_contracts():
 
             assumptions_set.extend(contract_1.get_list_assumptions())
 
             guarantees_set.extend(contract_1.get_list_guarantees())
 
-            for contract_2 in pair_of_goals[1].get_contracts():
+            for contract_2 in pair_of_goals[1].get_list_contracts():
 
                 variables = contract_1.get_variables().copy()
 
@@ -107,23 +82,10 @@ def conjunction(list_of_goals: List[CGTGoal],
     list_of_new_contracts = []
 
     for goal in list_of_goals:
-        contracts = goal.get_contracts()
+        contracts = goal.get_list_contracts()
         for contract in contracts:
             new_contract = copy.deepcopy(contract)
             list_of_new_contracts.append(new_contract)
-
-    if parent_goal is not None:
-        parent_goal.update(
-            name=name,
-            description=description,
-            contracts=list_of_new_contracts,
-            sub_goals=list_of_goals,
-            sub_operation="CONJUNCTION"
-        )
-        # Connecting children to the parent
-        for goal in list_of_goals:
-            goal.connect_to(parent_goal, "CONJUNCTION")
-        return parent_goal
 
     # Creating a new Goal parent
     conjoined_goal = CGTGoal(name=name,
@@ -131,10 +93,6 @@ def conjunction(list_of_goals: List[CGTGoal],
                              contracts=list_of_new_contracts,
                              refined_by=list_of_goals,
                              refined_with="CONJUNCTION")
-
-    # Connecting children to the parent
-    for goal in list_of_goals:
-        goal.connect_to(conjoined_goal, "CONJUNCTION")
 
     return conjoined_goal
 
@@ -145,14 +103,8 @@ def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, n
     of the composition of a selection of component in the library and that refined the specification
     after having propagated the assumptions"""
 
-    if name is None:
-        name = ""
-
-    if description is None:
-        description = ""
-
-    if len(specification_goal.get_contracts()) == 1:
-        specification = specification_goal.get_contracts()[0]
+    if len(specification_goal.get_list_contracts()) == 1:
+        specification = specification_goal.get_list_contracts()[0]
     else:
         raise Exception("The goal has multiple contracts in conjunction and cannot be mapped")
 
@@ -179,51 +131,31 @@ def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, n
                                refined_by=list_of_components_goals,
                                refined_with="MAPPING")
 
-    # """Create a goal for each component"""
-    # list_of_components_goals = []
-    # for component in list_of_components:
-    #     goal_component = CGTGoal(name=component.get_id(),
-    #                              contracts=[component])
-    #     goal_component.set_parent(composition_goal, "COMPOSITION")
-    #
-    #     list_of_components_goals.append(goal_component)
-    #
-    # composition_goal.set_subgoals(list_of_components_goals, "MAPPING")
-
-    """Propagate the assumptions to the specification and check the refinement"""
-    specification.propagate_assumptions_from(composition_contract)
-    specification.is_refined_by(composition_contract)
-
-    """Link 'composition_goal' to the 'specification_goal'"""
+    """Link 'composition_goal' to the 'specification_goal' 
+    This will also propagate the assumptions from composition_goal"""
     specification_goal.refine_by([composition_goal], "REFINEMENT")
 
-    """Connect the abstracted and refined goals"""
-    composition_goal.connect_to(specification_goal, "ABSTRACTION")
-
-    """Consolidate the tree from 'specification_goal' to the top"""
-    # consolidate(specification_goal)
+    """Propagates the assumptions to the top of the CGT from 'specification_goal'"""
+    consolidate(specification_goal)
 
 
 def consolidate(cgt: CGTGoal):
     """It recursivly re-perfom composition and conjunction operations up to the rood node"""
     if cgt.get_parent() is not None:
-        parent = cgt.get_parent()
-        if parent.get_sub_operation() == "CONJUNCTION":
-            conjunction(
-                parent.get_sub_goals(),
-                parent.get_name(),
-                parent.get_description(),
-                parent
+        current_goal = cgt.get_parent()
+        refined_by, refined_with = current_goal.get_refinement()
+        if refined_with == "CONJUNCTION":
+            goal = conjunction(
+                refined_by
             )
+            current_goal.update_contracts(goal.get_list_contracts())
 
-        elif parent.get_sub_operation() == "COMPOSITION":
-            composition(
-                parent.get_sub_goals(),
-                parent.get_name(),
-                parent.get_description(),
-                parent,
+        elif refined_with == "COMPOSITION":
+            goal = composition(
+                refined_by
             )
-        consolidate(parent)
+            current_goal.update_contracts(goal.get_list_contracts())
+        consolidate(current_goal)
     else:
         return
 

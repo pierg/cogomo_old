@@ -2,8 +2,8 @@ from typing import List, Tuple, Dict
 
 from contracts.contract import Contract
 
-
 # from src.goals.operations import compostion, conjunction
+from helper.logic import And, Or
 
 
 class CGTGoal:
@@ -14,15 +14,14 @@ class CGTGoal:
         contracts: a list of contract objects
         alphabet: a list of tuples containing the shared alphabet among all contracts
     """
+
     def __init__(self,
                  name: str = None,
                  context: Tuple[Dict[str, str], List[str]] = None,
                  description: str = None,
                  contracts: List[Contract] = None,
                  refined_by: List['CGTGoal'] = None,
-                 refined_with: str = None,
-                 connected_to: 'CGTGoal' = None,
-                 connected_with: str = None):
+                 refined_with: str = None):
 
         if name is None:
             self.name = ""
@@ -35,9 +34,9 @@ class CGTGoal:
             self.set_description(description)
 
         if contracts is None:
-            self.contracts = []
+            self.contracts: List[Contract] = []
         elif isinstance(contracts, list):
-            self.contracts = contracts
+            self.contracts: List[Contract] = contracts
         else:
             raise AttributeError
 
@@ -47,12 +46,6 @@ class CGTGoal:
         else:
             self.refine_by(refined_by, refined_with)
 
-        if connected_to is None and connected_with is None:
-            self.connected_to = None
-            self.conected_with = ""
-        else:
-            self.connect_to(connected_to, connected_with)
-
         if context is None:
             self.context = ({}, ["TRUE"])
         elif isinstance(context, tuple):
@@ -61,66 +54,62 @@ class CGTGoal:
         else:
             raise AttributeError
 
-    # def update(self,
-    #            name: str = None,
-    #            description: str = None,
-    #            contracts: List[Contract] = None,
-    #            sub_goals: List['CGTGoal'] = None,
-    #            sub_operation: str = None
-    #            ):
-    #
-    #     if name is None:
-    #         self.name = ""
-    #     elif isinstance(name, str):
-    #         self.name = name
-    #     else:
-    #         raise AttributeError
-    #
-    #     if description is None:
-    #         self.description = ""
-    #     elif isinstance(description, str):
-    #         self.description = description
-    #     else:
-    #         raise AttributeError
-    #
-    #     if contracts is None:
-    #         self.contracts = []
-    #     elif isinstance(contracts, list):
-    #         self.contracts = contracts
-    #     else:
-    #         raise AttributeError
-    #
-    #     if sub_goals is None:
-    #         self.refined_by = []
-    #     elif isinstance(sub_goals, list) and \
-    #             all(isinstance(x, CGTGoal) for x in sub_goals):
-    #         self.refined_by = sub_goals
-    #     else:
-    #         raise AttributeError
-    #
-    #     if sub_operation is None:
-    #         self.refined_with = ""
-    #     elif isinstance(sub_operation, str):
-    #         self.refined_with = sub_operation
-    #     else:
-    #         raise AttributeError
+        self.connected_to = None
+        self.conected_with = ""
 
-
-    def connect_to(self, parent_goal: 'CGTGoal', parent_operation: str):
-        """Connect to 'parent_goal' with the 'parent_operation'"""
-        if not (isinstance(parent_goal, CGTGoal) and isinstance(parent_operation, str)):
-            raise AttributeError
-
-        self.connected_to = parent_goal
-        self.conected_with = parent_operation
-
-    def refine_by(self, sub_goals: list, sub_operation: str):
-        """Refine by 'sub_goals' with 'sub_operation'"""
+    def set_refinement_by(self, sub_goals: List['CGTGoal'], sub_operation: str):
+        """Connects it to 'sub_goals according' to the 'sub_operation'"""
         if not (isinstance(sub_goals, list) and isinstance(sub_operation, str)):
             raise AttributeError
 
-        self.refined_by = sub_goals
-        self.refined_with = sub_operation
+        if sub_operation == "COMPOSITION" or \
+                sub_operation == "CONJUNCTION" or \
+                sub_operation == "REFINEMENT" or \
+                sub_operation == "MAPPING":
+            self.refined_by = sub_goals
+            self.refined_with = sub_operation
+            for goal in sub_goals:
+                goal.set_connection_to(self)
+
+        else:
+            raise AttributeError
+
+
+    def get_refinement(self):
+        return (self.refined_by, self.refined_with)
+
+    def get_parent(self):
+        return self.connected_to
+
+    def update_contracts(self, contracts: List[Contract]):
+        self.contracts = contracts
+
+
+
+    def set_connection_to(self, parent_goal: 'CGTGoal'):
+        """Connect to 'parent_goal' with the 'parent_operation'"""
+        if not isinstance(parent_goal, CGTGoal):
+            raise AttributeError
+        self.connected_to = parent_goal
+
+    def refine_by(self, sub_goals: List['CGTGoal'], sub_operation: str):
+        """Refine by 'sub_goals' with 'sub_operation' by first propagating the assumptions to all the CGT"""
+        if not (isinstance(sub_goals, list) and isinstance(sub_operation, str)):
+            raise AttributeError
+
+        if sub_operation == "REFINEMENT":
+            if len(sub_goals) != 1:
+                raise Exception("Refinement of one goal must be performed by another single goal")
+            for i, contract in enumerate(self.get_list_contracts()):
+                contract.propagate_assumptions_from(
+                    sub_goals[0].get_list_contracts()[i]
+                )
+                contract.is_refined_by(
+                    sub_goals[0].get_list_contracts()[i]
+                )
+
+        self.set_refinement_by(sub_goals, sub_operation)
+
 
 
 
@@ -133,7 +122,6 @@ class CGTGoal:
 
     def get_context(self):
         return self.context
-
 
     def set_name(self, name):
         if not isinstance(name, str):
@@ -151,17 +139,21 @@ class CGTGoal:
     def get_description(self):
         return self.description
 
-    def get_contracts(self):
+    def get_list_contracts(self) -> List[Contract]:
         return self.contracts
 
-    def get_sub_operation(self):
-        return self.refined_with
+    def get_ltl_assumptions(self):
+        a_list = []
+        for c in self.contracts:
+            a_list.append(c.get_ltl_assumptions())
+        return Or(a_list)
 
-    def get_sub_goals(self):
-        return self.refined_by
+    def get_ltl_guarantees(self):
+        g_list = []
+        for c in self.contracts:
+            g_list.append(c.get_ltl_guarantees())
+        return And(g_list)
 
-    def get_parent(self):
-        return self.connected_to
 
     def __str__(self, level=0):
         """Override the print behavior"""
