@@ -1,8 +1,10 @@
 MODULE main
 VAR
-	locA: boolean;
-	locB: boolean;
+	day: boolean;
+	g: boolean;
 	time: boolean;
-	night: boolean;
+	h: boolean;
+	c: boolean;
+	d: boolean;
 
-LTLSPEC ! (time = day)
+LTLSPEC ! ((g & time = day & c -> h) & (g & time = day & c -> d))

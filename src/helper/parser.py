@@ -69,7 +69,6 @@ def parse(specfile):
                 # store previously parsed contract
                 if GOAL_HEADER in file_header or ENDGOALS_HEADER in file_header:
                     if contract.is_full():
-                        # contract.saturate_guarantees()
                         goal_dictionary[cgt_goal.get_name()] = CGTGoal(cgt_goal.get_name(), contracts=[contract])
                     else:
                         raise Exception("The Goal has Incomplete Parameters")
@@ -105,12 +104,12 @@ def parse(specfile):
                         if GOAL_NAME_HEADER in goal_header:
                             cgt_goal.set_name(line.strip())
                             for key, value in constants.items():
-                                contract.add_variable((key, value))
+                                contract.add_variables(({str(key): str(value)}))
                         elif GOAL_DESCRIPTION_HEADER in goal_header:
                             cgt_goal.set_description(line.strip())
                         elif CONTRACT_VARIABLES_HEADER in goal_header:
                             var, init = line.split(ASSIGNMENT_CHAR, 1)
-                            contract.add_variable((var.strip(), init.strip()))
+                            contract.add_variables({var.strip(): init.strip()})
                         elif CONTRACT_ASSUMPTIONS_HEADER in goal_header:
                             list_of_variables = re.split(OPERATORS, line)
                             if len(list_of_variables) > 1:

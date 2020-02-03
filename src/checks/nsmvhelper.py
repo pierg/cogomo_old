@@ -6,6 +6,9 @@ from src.helper.tools import *
 
 
 def is_implied_in(variables: Dict[str, str], formula_a: str, formula_b: str):
+    if formula_b == "TRUE":
+        return True
+
     """Check that at least all the variables in the abstracted are contained in the refined"""
     var_refined = extract_variables_name([formula_a])
     var_abstracted = extract_variables_name([formula_b])
@@ -46,6 +49,7 @@ def are_implied_in(list_variables: List[Dict[str, str]], props_refined: List[str
         raise AttributeError
 
     """Check that at least all the variables in the abstracted are contained in the refined"""
+
     var_refined = extract_variables_name(props_refined)
     var_abstracted = extract_variables_name(props_abstracted)
 
@@ -56,6 +60,7 @@ def are_implied_in(list_variables: List[Dict[str, str]], props_refined: List[str
                 contained = True
                 continue
         if contained is False:
+            print("\tThe abstract contracts has propositions involving more variables")
             return False
 
     formula = Implies(And(props_refined), And(props_abstracted))

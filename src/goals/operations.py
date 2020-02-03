@@ -9,7 +9,7 @@ from src.contracts.operations import *
 
 
 def composition(list_of_goal: List[CGTGoal],
-                name: str= None,
+                name: str = None,
                 description: str = None) -> CGTGoal:
     """Returns a new goal that is the result of the composition of 'list_of_goal'"""
 
@@ -53,19 +53,19 @@ def conjunction(list_of_goals: List[CGTGoal],
 
         for contract_1 in pair_of_goals[0].get_list_contracts():
 
-            assumptions_set.extend(contract_1.get_list_assumptions())
+            assumptions_set.extend(contract_1.assumptions)
 
-            guarantees_set.extend(contract_1.get_list_guarantees())
+            guarantees_set.extend(contract_1.guarantees)
 
             for contract_2 in pair_of_goals[1].get_list_contracts():
 
-                variables = contract_1.get_variables().copy()
+                variables = contract_1.variables.copy()
 
-                variables.update(contract_2.get_variables())
+                variables.update(contract_2.variables)
 
-                assumptions_set.extend(contract_2.get_list_assumptions())
+                assumptions_set.extend(contract_2.assumptions)
 
-                guarantees_set.extend(contract_2.get_list_guarantees())
+                guarantees_set.extend(contract_2.guarantees)
 
                 """Checking Consistency only when the assumptions are satisfied together"""
                 sat = check_satisfiability(variables, list(set(assumptions_set)))

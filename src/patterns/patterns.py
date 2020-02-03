@@ -8,17 +8,16 @@ class Pattern(Contract):
 
     def __init__(self):
         super().__init__()
-
-        self.contextual_assumptions = []
+        self.domain_hypotesis = []
 
     def add_physical_assumptions(self):
-        pass
+        self.add_assumptions(self.domain_hypotesis)
 
     def add_context(self, type: str = None, context: List[Contract] = None):
         if type in self.type:
             for contract in context:
-                self.add_variables(contract.get_variables())
-                self.add_assumptions(contract.get_list_assumptions())
+                self.add_variables(contract.variables)
+                self.add_assumptions(contract.assumptions)
 
     def get_name(self):
         return self.name
@@ -30,17 +29,11 @@ class CoreMovement(Pattern):
     All the variables are locations where there robot can be at a certain time
     """
 
-    def add_physical_assumptions(self):
-        """
-        Add the assumptions that the robot cannot be at multiple locations at the same time
-        """
-
-        list_locations = []
-        for location, type in self.get_variables().items():
-            list_locations.append(location)
+    def __init__(self, list_of_locations=None):
+        super().__init__()
 
         # Eliminating duplicates
-        list_locations = list(dict.fromkeys(list_locations))
+        list_locations = list(dict.fromkeys(list_of_locations))
 
         ltl_formula = "G("
         for i, loc in enumerate(list_locations):
@@ -54,7 +47,8 @@ class CoreMovement(Pattern):
 
         ltl_formula += ")"
 
-        self.add_assumption(ltl_formula)
+        self.domain_hypotesis.append(ltl_formula)
+
 
 
 class Visit(CoreMovement):
@@ -63,16 +57,16 @@ class Visit(CoreMovement):
     """
 
     def __init__(self, list_of_locations=None):
+        super().__init__(list_of_locations)
         """
         :type list_of_locations: list of location, each location is a boolean
         indicating if the robot is at that location
         """
-        super().__init__()
         if list_of_locations is None:
             raise Exception("no list of location provided")
 
         for location in list_of_locations:
-            self.add_variable((location, 'boolean'))
+            self.add_variables({location: 'boolean'})
             self.add_guarantee("F(" + location + ")")
 
 
@@ -86,13 +80,13 @@ class SequencedVisit(CoreMovement):
         :type list_of_locations: list of location, each location is a boolean
         indicating if the robot is at that location
         """
-        super().__init__()
+        super().__init__(list_of_locations)
         if list_of_locations is None:
             raise Exception("no list of location provided")
 
         guarantee = "F("
         for n, location in enumerate(list_of_locations):
-            self.add_variable((location, 'boolean'))
+            self.add_variables({location: 'boolean'})
 
             guarantee += location
             if n == len(list_of_locations) - 1:
@@ -116,13 +110,13 @@ class OrderedVisit(CoreMovement):
         :type list_of_locations: list of location, each location is a boolean
         indicating if the robot is at that location
         """
-        super().__init__()
+        super().__init__(list_of_locations)
         if list_of_locations is None:
             raise Exception("no list of location provided")
 
         guarantee = "F("
         for n, location in enumerate(list_of_locations):
-            self.add_variable((location, 'boolean'))
+            self.add_variables({location: 'boolean'})
 
             guarantee += location
             if n == len(list_of_locations) - 1:
@@ -153,7 +147,7 @@ class GlobalAvoidance(Pattern):
             raise Exception("no list of location provided")
 
         for location in list_of_locations:
-            self.add_variable((location, 'boolean'))
+            self.add_variables({location: 'boolean'})
             self.add_guarantee("G(!" + location + ")")
 
 
@@ -173,7 +167,7 @@ class DelayedReaction(Pattern):
         if trigger is None or reaction is None:
             raise Exception("no trigger or reaction provided")
 
-        self.add_variable((trigger, 'boolean'))
-        self.add_variable((reaction, 'boolean'))
+        self.add_variables({trigger: 'boolean'})
+        self.add_variables({reaction: 'boolean'})
 
         self.add_guarantee("G(" + trigger + " -> F(" + reaction + "))")

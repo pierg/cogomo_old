@@ -4,7 +4,7 @@ from contracts.contract import Contract
 
 # from src.goals.operations import compostion, conjunction
 from helper.logic import And, Or
-
+from patterns.patterns import *
 
 class CGTGoal:
     """
@@ -41,8 +41,8 @@ class CGTGoal:
             raise AttributeError
 
         if refined_by is None and refined_with is None:
-            self.refined_by = []
-            self.refined_with = ""
+            self.refined_by = None
+            self.refined_with = None
         else:
             self.refine_by(refined_by, refined_with)
 
@@ -50,30 +50,35 @@ class CGTGoal:
             self.context = ({}, ["TRUE"])
         elif isinstance(context, tuple):
             self.context = context
-            self.propagate_context(context)
+            self._propagate_context(context)
         else:
             raise AttributeError
 
         self.connected_to = None
         self.conected_with = ""
 
-    def set_refinement_by(self, sub_goals: List['CGTGoal'], sub_operation: str):
-        """Connects it to 'sub_goals according' to the 'sub_operation'"""
-        if not (isinstance(sub_goals, list) and isinstance(sub_operation, str)):
-            raise AttributeError
-
-        if sub_operation == "COMPOSITION" or \
-                sub_operation == "CONJUNCTION" or \
-                sub_operation == "REFINEMENT" or \
-                sub_operation == "MAPPING":
-            self.refined_by = sub_goals
-            self.refined_with = sub_operation
-            for goal in sub_goals:
-                goal.set_connection_to(self)
-
+    def add_domain_properties(self):
+        """Add domain properties to each Pattern in each Goal of the CGT"""
+        for contract in self.contracts:
+            try:
+                contract.add_physical_assumptions()
+            except AttributeError:
+                pass
+        if self.refined_by is None:
+            return
         else:
-            raise AttributeError
+            for goal in self.refined_by:
+                goal.add_domain_properties()
 
+    def add_expectations(self, expectations: List[Contract]):
+        """Add expectetions when needed to each Contract in each Goal of the CGT"""
+        for contract in self.contracts:
+            contract.add_expectations(expectations)
+        if self.refined_by is None:
+            return
+        else:
+            for goal in self.refined_by:
+                goal.add_expectations(expectations)
 
     def get_refinement(self):
         return (self.refined_by, self.refined_with)
@@ -83,14 +88,6 @@ class CGTGoal:
 
     def update_contracts(self, contracts: List[Contract]):
         self.contracts = contracts
-
-
-
-    def set_connection_to(self, parent_goal: 'CGTGoal'):
-        """Connect to 'parent_goal' with the 'parent_operation'"""
-        if not isinstance(parent_goal, CGTGoal):
-            raise AttributeError
-        self.connected_to = parent_goal
 
     def refine_by(self, sub_goals: List['CGTGoal'], sub_operation: str):
         """Refine by 'sub_goals' with 'sub_operation' by first propagating the assumptions to all the CGT"""
@@ -107,13 +104,24 @@ class CGTGoal:
                 contract.is_refined_by(
                     sub_goals[0].get_list_contracts()[i]
                 )
+        elif sub_operation == "COMPOSITION" or \
+                sub_operation == "CONJUNCTION" or \
+                sub_operation == "REFINEMENT" or \
+                sub_operation == "MAPPING":
+            self.refined_by = sub_goals
+            self.refined_with = sub_operation
+            for goal in sub_goals:
+                goal._set_connection_to(self)
+        else:
+            raise AttributeError
 
-        self.set_refinement_by(sub_goals, sub_operation)
+    def _set_connection_to(self, parent_goal: 'CGTGoal'):
+        """Connect to 'parent_goal' with the 'parent_operation'"""
+        if not isinstance(parent_goal, CGTGoal):
+            raise AttributeError
+        self.connected_to = parent_goal
 
-
-
-
-    def propagate_context(self, context: Tuple[Dict[str, str], str]):
+    def _propagate_context(self, context: Tuple[Dict[str, str], List[str]]):
         """Set the context as assumptions of all the contracts in the node"""
         variables, context_assumptions = context
         for contract in self.contracts:
@@ -145,15 +153,14 @@ class CGTGoal:
     def get_ltl_assumptions(self):
         a_list = []
         for c in self.contracts:
-            a_list.append(c.get_ltl_assumptions())
+            a_list.append(And(c.assumptions))
         return Or(a_list)
 
     def get_ltl_guarantees(self):
         g_list = []
         for c in self.contracts:
-            g_list.append(c.get_ltl_guarantees())
+            g_list.append(And(c.guarantees))
         return And(g_list)
-
 
     def __str__(self, level=0):
         """Override the print behavior"""
@@ -163,9 +170,9 @@ class CGTGoal:
             if n > 0:
                 ret += "\t" * level + "\t/\\ \n"
             ret += "\t" * level + "A:\t\t" + \
-                   ' & '.join(str(x) for x in contract.get_list_assumptions()).replace('\n', ' ') + "\n"
+                   ' & '.join(str(x) for x in contract.assumptions).replace('\n', ' ') + "\n"
             ret += "\t" * level + "G:\t\t" + \
-                   ' & '.join(str(x) for x in contract.get_list_guarantees()).replace('\n', ' ') + "\n"
+                   ' & '.join(str(x) for x in contract.guarantees).replace('\n', ' ') + "\n"
         ret += "\n"
         if self.refined_by is not None and len(self.refined_by) > 0:
             ret += "\t" * level + "\t" + self.refined_with + "\n"

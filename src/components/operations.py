@@ -10,9 +10,9 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
     if not isinstance(specification, Contract):
         raise AttributeError
 
-    spec_variables = specification.get_variables()
-    spec_assumptions = specification.get_list_assumptions()
-    spec_guarantees = specification.get_list_guarantees()
+    spec_variables = specification.variables
+    spec_assumptions = specification.assumptions
+    spec_guarantees = specification.guarantees
 
     set_components_to_return = []
 
@@ -44,8 +44,8 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
             components_to_search.remove(component)
             component_already_searched.append(component)
 
-            component_variables = component.get_variables()
-            component_assumptions = component.get_list_assumptions()
+            component_variables = component.variables
+            component_assumptions = component.assumptions
 
             if "TRUE" in component_assumptions:
                 continue
@@ -142,14 +142,14 @@ def greedy_selection(candidate_compositions):
             contract_b = Contract()
 
             for component_a in candidate_a:
-                contract_a.add_variables(component_a.get_variables())
-                contract_a.add_assumptions(component_a.get_list_assumptions())
-                contract_a.add_guarantees(component_a.get_list_guarantees())
+                contract_a.add_variables(component_a.variables)
+                contract_a.add_assumptions(component_a.assumptions)
+                contract_a.add_guarantees(component_a.guarantees)
 
             for component_b in candidate_b:
-                contract_b.add_variables(component_b.get_variables())
-                contract_b.add_assumptions(component_b.get_list_assumptions())
-                contract_b.add_guarantees(component_b.get_list_guarantees())
+                contract_b.add_variables(component_b.variables)
+                contract_b.add_assumptions(component_b.assumptions)
+                contract_b.add_guarantees(component_b.guarantees)
 
             if contract_a.is_refined_by(contract_b):
                 candidates_points[tuple(candidate_a)] += 1

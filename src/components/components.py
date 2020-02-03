@@ -90,7 +90,7 @@ class ComponentsLibrary:
             """Check if any component refine the to_be_refined"""
             for component in self.get_components():
 
-                if are_implied_in([component.get_variables(), variables], component.get_list_guarantees(), [proposition]):
+                if are_implied_in([component.variables, variables], component.guarantees, [proposition]):
 
                     """Check Assumptions Consistency"""
                     if len(assumptions) > 0:
@@ -100,11 +100,11 @@ class ComponentsLibrary:
                         for assumption in assumptions:
                             props_to_check.add(assumption)
 
-                        for assumption in component.get_list_assumptions():
+                        for assumption in component.assumptions:
                             props_to_check.add(assumption)
 
                         all_variables = variables.copy()
-                        all_variables.update(component.get_variables())
+                        all_variables.update(component.variables)
 
                         satis = check_satisfiability(all_variables, list(props_to_check))
 

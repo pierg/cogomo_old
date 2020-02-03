@@ -4,7 +4,7 @@ from src.helper.logic import *
 
 smvfile = "nusmvfile.smv"
 
-def check_satisfiability(variables, propositions):
+def check_satisfiability(variables, propositions) -> bool:
     print("checking sat of: " + str(propositions))
 
     propositions_copy = propositions.copy()

@@ -1,34 +1,42 @@
+from typing import Tuple
+
 from src.contracts.contract import Contract
 from src.checks.nsmvhelper import *
 import itertools as it
 
 
-def compose_contracts(contracts):
-    """
-    :param contracts: list of goals name and contract
-    :return: True, contract which is the composition of the contracts in the goals or the contracts in the list
-             False, unsat core of smt, list of proposition to fix that cause a conflict when composing
-    """
+def compose_contracts(contracts: List[Contract]) -> Contract:
+    """Composition operation among list of contracts"""
+
+    contract_composition = Contract()
 
     if not isinstance(contracts, list):
         raise Exception("Wrong Parameters")
 
-    variables = {}
-    assumptions = []
-    guarantees = []
-    guarantees_saturated = []
+    """Variables of the resulting contract"""
+    variables: Dict[str, str] = {}
+
+    """Assumptions of the resulting contract"""
+    assumptions: List[str] = []
+
+    """Guarantees of the resulting contract"""
+    guarantees: List[str] = []
+
+    """Unsaturated guarantees"""
+    unsaturated_guarantees: List[str] = []
+
+    contract_composition = Contract()
 
     for contract in contracts:
-        vars = contract.get_variables()
-        for v, t in vars.items():
+        for v, t in contract.variables.items():
             if v in variables.keys():
                 if variables[v] != t:
                     raise Exception("Variables Incompatible: \n" + \
                                     v + ": " + variables[v] + "\n" + \
                                     v + ": " + t)
-        variables.update(contract.get_variables())
-        assumptions.extend(contract.get_list_assumptions())
-        guarantees.extend(contract.get_list_guarantees())
+        variables.update(contract.variables)
+        assumptions.extend(contract.assumptions)
+        guarantees.extend(contract.guarantees)
         guarantees_saturated.extend(contract.get_list_guarantees_saturated())
 
     """Remove 'TRUE' from assumptions if exists"""
@@ -107,9 +115,6 @@ def compose_contracts(contracts):
                         a_composition_simplified.remove(a_elem)
                 g_elem_list.append(g_elem)
 
-    if len(a_composition_simplified) == 0:
-        a_composition_simplified.append("TRUE")
-
     """Delete unused variables"""
     var_names = []
     var_names.extend(extract_variables_name(a_composition_simplified))
@@ -118,11 +123,12 @@ def compose_contracts(contracts):
 
     try:
         variables_filtered = {var: variables[var] for var in var_names}
-    except Exception:
-        print("WAIT")
+        composed_contract = Contract(variables=variables_filtered,
+                                     assumptions=a_composition_simplified,
+                                     guarantees=g_composition)
 
-    composed_contract = Contract(variables=variables_filtered,
-                                 assumptions=a_composition_simplified,
-                                 guarantees=g_composition)
+        return composed_contract
 
-    return composed_contract
+    except Exception as e:
+        print(str(e))
+        return None

@@ -1,5 +1,7 @@
+from typing import List
 
-def And(list_propoositions):
+
+def And(list_propoositions: List[str]) -> str:
     """Returns a string representing the logical AND of list_propoositions"""
     if len(list_propoositions) > 1:
         ret = ""

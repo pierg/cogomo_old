@@ -9,10 +9,10 @@ def incomposable_check(list_contracts):
     propositions = set([])
 
     for contract in list_contracts:
-        variables.update(contract.get_variables())
-        for elem in contract.get_list_assumptions():
+        variables.update(contract.variables)
+        for elem in contract.assumptions:
             propositions.add(elem)
-        for elem in contract.get_list_guarantees():
+        for elem in contract.guarantees:
             propositions.add(elem)
 
     return not check_satisfiability(variables, list(propositions))
