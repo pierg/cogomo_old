@@ -3,12 +3,10 @@ import itertools as it
 import operator
 
 
-def components_selection(component_library: ComponentsLibrary, specification: Contract):
-    if not isinstance(component_library, ComponentsLibrary):
-        raise AttributeError
-
-    if not isinstance(specification, Contract):
-        raise AttributeError
+def components_selection(component_library: ComponentsLibrary, specification: Contract) -> List[Component]:
+    """ 1)  Search in the 'component_library' compositions of components that can refine the 'specification'.
+        2)  It greedly selects one composition C.
+        3)  It recursevely search other compositions that can refine the assumptions of the C """
 
     spec_variables = specification.variables
     spec_assumptions = specification.assumptions
@@ -24,7 +22,8 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
         return []
 
     first_selected_components = greedy_selection(candidates_compositions)
-    print("Selected components " + str([component.get_id() for component in first_selected_components]) + " out of " +
+
+    print("Selected components " + str([component.id for component in first_selected_components]) + " out of " +
           str(len(candidates_compositions)) + " candidates")
 
     set_components_to_return.append(first_selected_components)
@@ -65,7 +64,7 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
             """Greedly select one composition"""
             new_selected_components = greedy_selection(candidates_compositions)
             print("Selected components " + str(
-                [component.get_id() for component in new_selected_components]) + " out of " +
+                [component.id for component in new_selected_components]) + " out of " +
                   str(len(candidates_compositions)) + " candidates")
 
             if new_selected_components not in set_components_to_return:
@@ -85,19 +84,16 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
     for n, l in enumerate(set_components_to_return):
         ret = "\t" * n
         for component in l:
-            ret += component.get_id() + " "
+            ret += component.id + " "
         print(ret)
 
     return flat_list_refining_components
 
 
-def greedy_selection(candidate_compositions):
-    """
-    Scan all the possible compositions and compute costs for each of them,
+def greedy_selection(candidate_compositions: List[List[Component]]) -> List[Component]:
+    """ Scan all the possible compositions and compute costs for each of them,
     If there are multiple compositions iwth the same cost, pick the more refined one
-    (bigger assumptions, smaller guarantees)
-    :param: List of List
-    """
+    (bigger assumptions, smaller guarantees) """
 
     """If only one candidate return that one"""
     if len(candidate_compositions) == 1:

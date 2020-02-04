@@ -13,7 +13,7 @@ GOAL_DATA_INDENT = 2
 
 COMMENT_CHAR = '#'
 ASSIGNMENT_CHAR = ':='
-OPERATORS = '==|\*|\/|-|<=|>=|<|>|\+|!=|\(|\)|\||->|&'
+OPERATORS = r'==|\*|\/|-|<=|>=|<|>|\+|!=|\(|\)|\||->|&'
 # OPERATORS = '<|>|!=| == | >= | <= | \|\| |&& | * '
 # OPERATORS = '<|>|!=|==|>=|<=|\|&&|*'
 
@@ -69,7 +69,7 @@ def parse(specfile):
                 # store previously parsed contract
                 if GOAL_HEADER in file_header or ENDGOALS_HEADER in file_header:
                     if contract.is_full():
-                        goal_dictionary[cgt_goal.get_name()] = CGTGoal(cgt_goal.get_name(), contracts=[contract])
+                        goal_dictionary[cgt_goal.name] = CGTGoal(cgt_goal.name, contracts=[contract])
                     else:
                         raise Exception("The Goal has Incomplete Parameters")
                 # parse file headers
@@ -102,11 +102,11 @@ def parse(specfile):
                         goal_header = line
                     elif ntabs == GOAL_DATA_INDENT:
                         if GOAL_NAME_HEADER in goal_header:
-                            cgt_goal.set_name(line.strip())
+                            cgt_goal.name = line.strip()
                             for key, value in constants.items():
                                 contract.add_variables(({str(key): str(value)}))
                         elif GOAL_DESCRIPTION_HEADER in goal_header:
-                            cgt_goal.set_description(line.strip())
+                            cgt_goal.description = line.strip()
                         elif CONTRACT_VARIABLES_HEADER in goal_header:
                             var, init = line.split(ASSIGNMENT_CHAR, 1)
                             contract.add_variables({var.strip(): init.strip()})

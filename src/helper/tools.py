@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-OPERATORS = '==|\*|\/|-|<=|>=|<|>|\+|!=|\(|\)|\||->|&|F|G|U|X|=|TRUE|FALSE'
+OPERATORS = r'==|\*|\/|-|<=|>=|<|>|\+|!=|\(|\)|\||->|&|F|G|U|X|=|TRUE|FALSE'
 
 
 def extract_variables_name(list_a: List[str]) -> List[str]:
@@ -10,7 +10,7 @@ def extract_variables_name(list_a: List[str]) -> List[str]:
     for prop in list_a:
         list_elements = re.split(OPERATORS, prop)
         for prop in list_elements:
-            prop = re.sub("[^a-zA-Z_]+", "", prop)
+            prop = re.sub(r"[^a-zA-Z_]+", "", prop)
             prop = prop.strip()
             if prop != "":
                 list_variable_names.append(prop)

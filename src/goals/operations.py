@@ -16,7 +16,7 @@ def composition(list_of_goal: List[CGTGoal],
     contracts: Dict[CGTGoal, List[Contract]] = {}
 
     for goal in list_of_goal:
-        contracts[goal.get_name()] = goal.get_list_contracts()
+        contracts[goal.name] = goal.contracts
 
     """Dot products mamong the contracts to perform the compositions of the conjunctions"""
     composition_contracts = (dict(list(zip(contracts, x))) for x in it.product(*iter(contracts.values())))
@@ -51,13 +51,13 @@ def conjunction(list_of_goals: List[CGTGoal],
         assumptions_set = []
         guarantees_set = []
 
-        for contract_1 in pair_of_goals[0].get_list_contracts():
+        for contract_1 in pair_of_goals[0].contracts:
 
             assumptions_set.extend(contract_1.assumptions)
 
             guarantees_set.extend(contract_1.guarantees)
 
-            for contract_2 in pair_of_goals[1].get_list_contracts():
+            for contract_2 in pair_of_goals[1].contracts:
 
                 variables = contract_1.variables.copy()
 
@@ -82,7 +82,7 @@ def conjunction(list_of_goals: List[CGTGoal],
     list_of_new_contracts = []
 
     for goal in list_of_goals:
-        contracts = goal.get_list_contracts()
+        contracts = goal.contracts
         for contract in contracts:
             new_contract = copy.deepcopy(contract)
             list_of_new_contracts.append(new_contract)
@@ -103,8 +103,8 @@ def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, n
     of the composition of a selection of component in the library and that refined the specification
     after having propagated the assumptions"""
 
-    if len(specification_goal.get_list_contracts()) == 1:
-        specification = specification_goal.get_list_contracts()[0]
+    if len(specification_goal.contracts) == 1:
+        specification = specification_goal.contracts[0]
     else:
         raise Exception("The goal has multiple contracts in conjunction and cannot be mapped")
 
@@ -141,20 +141,20 @@ def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, n
 
 def consolidate(cgt: CGTGoal):
     """It recursivly re-perfom composition and conjunction operations up to the rood node"""
-    if cgt.get_parent() is not None:
-        current_goal = cgt.get_parent()
-        refined_by, refined_with = current_goal.get_refinement()
+    if cgt.connected_to is not None:
+        current_goal = cgt.connected_to
+        refined_by, refined_with = current_goal.get_refinement_by()
         if refined_with == "CONJUNCTION":
             goal = conjunction(
                 refined_by
             )
-            current_goal.update_contracts(goal.get_list_contracts())
+            current_goal.contracts = goal.contracts
 
         elif refined_with == "COMPOSITION":
             goal = composition(
                 refined_by
             )
-            current_goal.update_contracts(goal.get_list_contracts())
+            current_goal.contracts = goal.contracts
         consolidate(current_goal)
     else:
         return
@@ -168,7 +168,7 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
 
     """Extract all the contexts"""
     for goal in list_of_goals:
-        var, ctx_1 = goal.get_context()
+        var, ctx_1 = goal.context
         if "TRUE" not in ctx_1:
             variables.update(var)
             contexts.add(And(ctx_1))
@@ -213,7 +213,7 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
     for ctx in contexts_mutually_exclusive:
         for goal in list_of_goals:
 
-            var, goal_ctx = goal.get_context()
+            var, goal_ctx = goal.context
             goal_ctx = And(goal_ctx)
 
             if is_implied_in(variables, ctx, goal_ctx):

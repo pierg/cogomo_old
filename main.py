@@ -104,22 +104,22 @@ if __name__ == "__main__":
     component_library.add_components(
         [
             Component(
-                id="robot_1",
+                component_id="robot_1",
                 variables={"robot_power": "0..15"},
                 guarantees=["robot_power = 7"],
             ),
             Component(
-                id="robot_2",
+                component_id="robot_2",
                 variables={"robot_power": "0..15"},
                 guarantees=["robot_power >= 8"],
             ),
             Component(
-                id="robot_3",
+                component_id="robot_3",
                 variables={"robot_power": "0..15"},
                 guarantees=["robot_power >= 9"],
             ),
             Component(
-                id="collaborate",
+                component_id="collaborate",
                 variables={"robot_power": "0..15",
                            "weight_power": "0..15"},
                 assumptions=["robot_power_port_1 >= 8", "robot_power_port_2 >= 8"],

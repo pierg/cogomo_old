@@ -1,16 +1,15 @@
 from typing import List, Dict
-
 from src.contracts.helpers import incomposable_check, duplicate_contract
 from src.contracts.contract import Contract
 from src.checks.nsmvhelper import *
-
 import itertools as it
 
 
 class Component(Contract):
+    """Component class extending Contract"""
 
     def __init__(self,
-                 id: str = None,
+                 component_id: str,
                  description: str = None,
                  variables: Dict[str, str] = None,
                  assumptions: List[str] = None,
@@ -18,67 +17,91 @@ class Component(Contract):
         super().__init__(assumptions=assumptions,
                          variables=variables,
                          guarantees=guarantees)
-        self.id = id
 
+        """Component ID"""
+        self.__id = component_id
+
+        """Component Description"""
         if description is None:
-            self.description = ""
-        elif isinstance(description, str):
-            self.description = description
+            self.__description = ""
         else:
-            raise AttributeError
+            self.__description = description
 
-    def get_id(self):
-        return self.id
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, value: str):
+        self.__id = value
+
+    @property
+    def description(self):
+        return self.__description
+
+    @description.setter
+    def description(self, value: str):
+        self.__description = value
 
     def __str__(self):
         """Override the print behavior"""
-        astr = 'componend id:\t' + self.id + '\n'
-        astr += 'assumptions:\t'
+        astr = '  component id:\t ' + self.id + '\n'
+        astr += '  assumptions:\t[ '
         for assumption in self.assumptions:
             astr += str(assumption) + ', '
-        astr = astr[:-2] + '\nguarantees:\t'
-        for guarantee in self.guarantees:
+        astr = astr[:-2] + ' ]\n  guarantees:\t[ '
+        for guarantee in self.unsaturated_guarantees:
             astr += str(guarantee) + ', '
-        return astr[:-2] + '\n'
+        return astr[:-2] + ' ]\n'
 
 
 class ComponentsLibrary:
+    """Component Library defined a list of components and the operations on them"""
 
     def __init__(self,
-                 name=None,
-                 list_of_components=None):
+                 name: str,
+                 components: List[Component] = None):
 
-        if name is None:
-            raise AttributeError
-        elif isinstance(name, str):
-            self.name = name
+        """Name of the Component Library"""
+        self.__name = name
+
+        """List of Components in the Library"""
+        if components is None:
+            self.__components = []
         else:
-            raise AttributeError
+            self.__components = components
 
-        if list_of_components is None:
-            self.list_of_components = []
-        elif isinstance(list_of_components, list):
-            self.list_of_components = list_of_components
-        else:
-            raise AttributeError
+    @property
+    def name(self):
+        return self.__name
 
-    def add_component(self, component):
-        if isinstance(component, Component):
-            self.list_of_components.append(component)
-        else:
-            raise AttributeError
+    @name.setter
+    def name(self, value):
+        self.__name = value
 
-    def add_components(self, components_list):
-        if isinstance(components_list, list):
-            for component in components_list:
-                self.add_component(component)
-        else:
-            raise AttributeError
+    @property
+    def components(self):
+        return self.__components
 
-    def get_components(self):
-        return self.list_of_components
+    @components.setter
+    def components(self, value: List[Component]):
+        self.__components = value
 
-    def _search_candidate_compositions(self, variables: Dict[str, str], assumptions: List[str], to_be_refined: List[str]):
+    def add_component(self, component: Component):
+
+        self.components.append(component)
+
+    def add_components(self, components: List[Component]):
+
+        for component in components:
+            self.add_component(component)
+
+    def _search_candidate_compositions(self,
+                                       variables: Dict[str, str],
+                                       assumptions: List[str],
+                                       to_be_refined: List[str]) -> List[List['Component']]:
+        """Extract all candidate compositions in the library whose guarantees, once combined,
+        refine 'to_be_refined' and are consistent 'assumptions'"""
 
         candidates_for_each_proposition = {}
 
@@ -88,9 +111,9 @@ class ComponentsLibrary:
         for proposition in to_be_refined:
 
             """Check if any component refine the to_be_refined"""
-            for component in self.get_components():
+            for component in self.components:
 
-                if are_implied_in([component.variables, variables], component.guarantees, [proposition]):
+                if are_implied_in([component.variables, variables], component.unsaturated_guarantees, [proposition]):
 
                     """Check Assumptions Consistency"""
                     if len(assumptions) > 0:
@@ -134,15 +157,12 @@ class ComponentsLibrary:
 
         return candidates_compositions
 
-    def extract_selection(self, variables: Dict[str, str], assumptions: List[str], to_be_refined: List[str]):
-        """
-        Extract all candidate compositions in the library that once combined refine 'to_be_refined'
-        and are consistent with assumptions
-        :param variables: 
-        :param assumptions: List of assumptions
-        :param to_be_refined: List of propositions
-        :return: List
-        """
+    def extract_selection(self,
+                          variables: Dict[str, str],
+                          assumptions: List[str],
+                          to_be_refined: List[str]) -> List[List['Component']]:
+        """Extract all candidate compositions in the library whose guarantees, once combined, refine 'to_be_refined'
+        and are consistent 'assumptions'. It also performs other tasks (filters and select the candidates)."""
 
         """Dividing the propositions to be refined, if they are general ports or not"""
         general_to_be_refined = []
@@ -190,4 +210,3 @@ class ComponentsLibrary:
             raise Exception("No candidate available")
 
         return all_candidates
-

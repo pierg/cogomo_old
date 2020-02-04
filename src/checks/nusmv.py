@@ -1,15 +1,18 @@
 import re
 import subprocess
+from typing import Dict
+
 from src.helper.logic import *
 
 smvfile = "nusmvfile.smv"
 
-def check_satisfiability(variables, propositions) -> bool:
+
+def check_satisfiability(variables: Dict[str, str], propositions: List[str]) -> bool:
     propositions_copy = propositions.copy()
 
     for index, prop in enumerate(propositions_copy):
         """Renaming propositions"""
-        propositions_copy[index] = re.sub("_port_\d+|_port", "", prop)
+        propositions_copy[index] = re.sub(r"_port_\d+|_port", "", prop)
 
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:
@@ -51,7 +54,7 @@ def check_satisfiability(variables, propositions) -> bool:
 def check_validity(variables, proposition):
     print("checking validity of:\t" + proposition)
     """Renaming propositions"""
-    proposition_copy = re.sub("_port_\d+|_port", "", proposition)
+    proposition_copy = re.sub(r"_port_\d+|_port", "", proposition)
 
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:
@@ -68,7 +71,7 @@ def check_validity(variables, proposition):
 
         ofile.write('LTLSPEC ' + proposition_copy)
 
-    output = subprocess.check_output(['NuSMV', smvfile], encoding='UTF-8').splitlines()
+    output = subprocess.check_output(['NuSMV', smvfile], encoding='UTF-8', stderr=subprocess.STDOUT).splitlines()
 
     output = [x for x in output if not (x[:3] == '***' or x[:7] == 'WARNING' or x == '')]
 
@@ -80,4 +83,3 @@ def check_validity(variables, proposition):
             elif 'is true' in line:
                 print("VALID:\t" + proposition)
                 return True
-
