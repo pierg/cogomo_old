@@ -39,8 +39,8 @@ def test_two_contracts_composition():
 
     assert is_implied_in(
         variables=goal_composed.get_list_contracts()[0].variables,
-        formula_a=goal_composed.get_ltl_assumptions(),
-        formula_b="a & c")
+        antecedent=goal_composed.get_ltl_assumptions(),
+        consequent="a & c")
 
 
 def test_three_contracts_composition():

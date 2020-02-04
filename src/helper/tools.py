@@ -1,8 +1,7 @@
 import re
 from typing import List
 
-OPERATORS = '==|\*|\/|-|<=|>=|<|>|\+|!=|\(|\)|\||->|&|F|G|U|X|='
-
+OPERATORS = '==|\*|\/|-|<=|>=|<|>|\+|!=|\(|\)|\||->|&|F|G|U|X|=|TRUE|FALSE'
 
 
 def extract_variables_name(list_a: List[str]) -> List[str]:
@@ -19,10 +18,9 @@ def extract_variables_name(list_a: List[str]) -> List[str]:
     return list_variable_names
 
 
+
 def save_to_file(text: str, file_path: str):
-
     with open(file_path + ".txt", 'w') as f:
-
         f.write(text)
 
     f.close()

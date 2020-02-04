@@ -8,11 +8,6 @@ import itertools as it
 def compose_contracts(contracts: List[Contract]) -> Contract:
     """Composition operation among list of contracts"""
 
-    contract_composition = Contract()
-
-    if not isinstance(contracts, list):
-        raise Exception("Wrong Parameters")
-
     """Variables of the resulting contract"""
     variables: Dict[str, str] = {}
 
@@ -22,73 +17,47 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
     """Guarantees of the resulting contract"""
     guarantees: List[str] = []
 
-    """Unsaturated guarantees"""
+    """Unsaturated guarantees of the resulting contract"""
     unsaturated_guarantees: List[str] = []
 
-    contract_composition = Contract()
-
+    """Populate the data structure while checking for compatibility and consistency"""
     for contract in contracts:
-        for v, t in contract.variables.items():
-            if v in variables.keys():
-                if variables[v] != t:
-                    raise Exception("Variables Incompatible: \n" + \
-                                    v + ": " + variables[v] + "\n" + \
-                                    v + ": " + t)
-        variables.update(contract.variables)
-        assumptions.extend(contract.assumptions)
-        guarantees.extend(contract.guarantees)
-        guarantees_saturated.extend(contract.get_list_guarantees_saturated())
+        try:
+            add_element_to_dict(variables, contract.variables)
+            add_propositions_to_list(variables, assumptions, contract.assumptions)
+            add_propositions_to_list(variables, guarantees, contract.guarantees)
+            add_propositions_to_list(variables, unsaturated_guarantees, contract.unsaturated_guarantees)
+        except NonConsistentException:
+            print("Composition is not doable")
+            raise NonConsistentException
 
     """Remove 'TRUE' from assumptions if exists"""
     if "TRUE" in assumptions:
         assumptions.remove("TRUE")
 
-    assumptions_guarantees = assumptions.copy()
-    assumptions_guarantees.extend(guarantees_saturated)
+    """Check for feasibility"""
+    if not check_satisfiability(variables, assumptions + guarantees):
+        raise Exception("Composition not feasible:\n" + str(assumptions + guarantees))
 
-    """Checking Feasibility, Compatibility and Consistency"""
-    satis = check_satisfiability(variables, list(set(assumptions_guarantees)))
-    if not satis:
-        print("The composition is unfeasible")
+    print("The composition is compatible, consistent and feasible. Composing now...")
 
-        satis = check_satisfiability(variables, list(set(assumptions)))
-        if not satis:
-            print(str(list(set(assumptions))))
-            print("The composition is unfeasible")
-
-        satis = check_satisfiability(variables, list(set(guarantees_saturated)))
-        if not satis:
-            print(str(list(set(guarantees_saturated))))
-            print("The composition is inconsistent")
-
-        raise Exception("Not composable")
-
-    print("The composition is compatible, consistent and satisfiable. Composing now...")
-
-    a_composition = list(set(assumptions))
-    g_composition = list(set(guarantees))
-    g_composition_saturated = list(set(guarantees_saturated))
-
-    a_composition_simplified = a_composition[:]
-
-    # List of guarantees used to simpolify assumptions, used later for abstraction
-    g_elem_list = []
-    # Compare each element in a_composition with each element in g_composition
+    assumptions_simplified = assumptions.copy()
 
     """Combinations of guarantees"""
     g_combinations = []
-    for i in range(len(g_composition)):
-        oc = it.combinations(g_composition, i + 1)
+    for i in range(len(unsaturated_guarantees)):
+        oc = it.combinations(unsaturated_guarantees, i + 1)
         for c in oc:
             g_combinations.append(list(c))
 
     """Combinations of assumptions"""
     a_combinations = []
-    for i in range(len(a_composition)):
-        oc = it.combinations(a_composition, i + 1)
+    for i in range(len(assumptions)):
+        oc = it.combinations(assumptions, i + 1)
         for c in oc:
             a_combinations.append(list(c))
 
+    """For each possible combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
     for a_elem in a_combinations:
         for g_elem in g_combinations:
 
@@ -96,39 +65,35 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
             if isinstance(a_elem, list):
                 flag = False
                 for a in a_elem:
-                    if a not in a_composition_simplified:
+                    if a not in assumptions_simplified:
                         flag = True
                 if flag:
-                    continue
-            else:
-                if a_elem not in a_composition_simplified:
                     continue
 
             if are_implied_in([variables], g_elem, a_elem):
                 print("Simplifying assumption " + str(a_elem))
                 if isinstance(a_elem, list):
                     for a in a_elem:
-                        if a in a_composition_simplified:
-                            a_composition_simplified.remove(a)
-                else:
-                    if a_elem in a_composition_simplified:
-                        a_composition_simplified.remove(a_elem)
-                g_elem_list.append(g_elem)
+                        if a in assumptions_simplified:
+                            assumptions_simplified.remove(a)
 
     """Delete unused variables"""
     var_names = []
-    var_names.extend(extract_variables_name(a_composition_simplified))
-    var_names.extend(extract_variables_name(g_composition))
+    var_names.extend(extract_variables_name(assumptions_simplified))
+    var_names.extend(extract_variables_name(guarantees))
     var_names = list(set(var_names))
 
     try:
         variables_filtered = {var: variables[var] for var in var_names}
         composed_contract = Contract(variables=variables_filtered,
-                                     assumptions=a_composition_simplified,
-                                     guarantees=g_composition)
-
+                                     assumptions=assumptions_simplified,
+                                     guarantees=unsaturated_guarantees,
+                                     saturated=guarantees,
+                                     validate=False,
+                                     simplify=False)
+        print("Composed contract:")
+        print(composed_contract)
         return composed_contract
 
     except Exception as e:
         print(str(e))
-        return None

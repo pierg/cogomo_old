@@ -144,12 +144,12 @@ def greedy_selection(candidate_compositions):
             for component_a in candidate_a:
                 contract_a.add_variables(component_a.variables)
                 contract_a.add_assumptions(component_a.assumptions)
-                contract_a.add_guarantees(component_a.guarantees)
+                contract_a.add_guarantees(component_a.unsaturated_guarantees, saturated=component_a.guarantees)
 
             for component_b in candidate_b:
                 contract_b.add_variables(component_b.variables)
                 contract_b.add_assumptions(component_b.assumptions)
-                contract_b.add_guarantees(component_b.guarantees)
+                contract_a.add_guarantees(component_a.unsaturated_guarantees, saturated=component_a.guarantees)
 
             if contract_a.is_refined_by(contract_b):
                 candidates_points[tuple(candidate_a)] += 1

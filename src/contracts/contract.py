@@ -1,4 +1,4 @@
-from copy import copy
+from itertools import permutations
 from typing import Dict, List, Tuple, Union
 from src.checks.nsmvhelper import *
 
@@ -11,33 +11,14 @@ class SaturatedContract(object):
                  assumptions: List[str] = None,
                  guarantees: List[str] = None):
 
-        """Initialize a contract object"""
-
         """Dictionary where: key=name of the variable, value=type of the variable"""
-        self._variables: Dict[str, str] = {}
+        self._variables = variables
 
         """List of assumptions in conjunction"""
-        self._assumptions: List[str] = []
+        self._assumptions = assumptions
 
         """List of guarantees in conjunction. All guarantees are saturated"""
-        self._guarantees: List[str] = []
-
-        if variables is None:
-            pass
-        else:
-            self._variables = variables
-
-        if assumptions is None:
-            self._assumptions = ["TRUE"]
-        else:
-            self._assumptions = assumptions
-
-        if guarantees is None:
-            pass
-        else:
-            self._guarantees = guarantees
-
-        self.validate()
+        self._guarantees = guarantees
 
     @property
     def variables(self):
@@ -45,7 +26,10 @@ class SaturatedContract(object):
 
     @variables.setter
     def variables(self, values: Dict[str, str]):
-        self._variables = values
+        if values is None:
+            self._variables: Dict[str, str] = {}
+        else:
+            self._variables = values
 
     @property
     def assumptions(self) -> List[str]:
@@ -53,47 +37,27 @@ class SaturatedContract(object):
 
     @assumptions.setter
     def assumptions(self, values: List[str]):
-        self._assumptions = values
+        if values is None:
+            self._assumptions = ["TRUE"]
+        elif isinstance(values, list) and len(values) == 0:
+            self._assumptions = ["TRUE"]
+        else:
+            self._assumptions = values
 
     @property
     def guarantees(self) -> List[str]:
         return self._guarantees
 
     @guarantees.setter
-    def guarantees(self, values: List[Tuple[str, str]]):
-        self._guarantees = values
-
-    def _is_compatible(self) -> bool:
-        """Check Compatibility"""
-        return check_satisfiability(self.variables, self.assumptions)
-
-    def _is_consistent(self) -> bool:
-        """Check Consistency"""
-        return check_satisfiability(self.variables, self.guarantees)
-
-    def is_feasible(self) -> bool:
-        """Check Consistency"""
-        return check_satisfiability(self.variables, self.guarantees)
-
-    def validate(self):
-        """Performs compatibility, consistency and feasibility checks on the contract"""
-        if not self._is_compatible():
-            raise Exception("The contract is incompatible")
-        if not self._is_consistent():
-            raise Exception("The contract is inconsistent")
-        if not self.is_feasible():
-            raise Exception("The contract is unfeasible")
+    def guarantees(self, values: List[str]):
+        if values is None:
+            self._guarantees = []
+        else:
+            self._guarantees = values
 
     def add_variables(self, variables: Dict[str, str]):
 
-        common_keys = self.variables.keys() & variables.keys()
-
-        for k in common_keys:
-            if self.variables[k] != variables[k]:
-                raise Exception("Variable " + k + " is already present but "
-                                                  "with type " + self.variables[k] + " instead of " + variables[k])
-
-        self.variables.update(variables)
+        add_element_to_dict(self.variables, variables)
 
     def add_assumptions(self, assumptions: List[str]):
 
@@ -118,47 +82,8 @@ class SaturatedContract(object):
             elif is_implied_in(self.variables, assumption, a):
                 return
 
-        """Adding assumption"""
-        self.assumptions.append(assumption)
-
-        """Check Compatibility"""
-        if not self._is_compatible():
-            conflict = self.assumptions.copy()
-            self.assumptions.remove(assumption)
-            raise Exception("adding " + assumption + " resulted in a incompatible contract:\n" + str(conflict))
-
-    def add_guarantees(self, guarantees: List[Union[Tuple[str, str], str]]):
-        """guarantees can either be a list of strings or a list of tuple (a,g)
-        In the first case the guarantee will be saturated with 'TRUE'"""
-
-        for guarantee in guarantees:
-            self.add_guarantee(guarantee)
-
-    def add_guarantee(self, guarantee: Union[Tuple[str, str], str]):
-
-        if isinstance(guarantee, tuple):
-            a, g = guarantee
-            saturated_guarantee = Implies(a, g)
-        else:
-            saturated_guarantee = Implies("TRUE", guarantee)
-
-        """Check if guarantee is a refinement of existing guarantee and vice-versa"""
-        for g in self.guarantees:
-
-            if is_implied_in(self.variables, g, saturated_guarantee):
-                self.guarantees.remove(g)
-
-            elif is_implied_in(self.variables, saturated_guarantee, g):
-                return
-
-        """Adding guarantee"""
-        self.guarantees.append(guarantee)
-
-        """Check Consistency"""
-        if not self._is_consistent():
-            conflict = self.guarantees.copy()
-            self.guarantees.remove(guarantee)
-            raise Exception("adding " + str(guarantee) + " resulted in a inconsistent contract:\n" + conflict)
+        """Adding assumption if is compatible with th other assumptions"""
+        add_proposition_to_list(self.variables, self.assumptions, assumption)
 
     def add_expectations(self, expectations: List['SaturatedContract']):
         """Expectations are conditional assumptions, they get added
@@ -215,41 +140,108 @@ class Contract(SaturatedContract):
     def __init__(self,
                  variables: Dict[str, str] = None,
                  assumptions: List[str] = None,
-                 guarantees: List[str] = None):
+                 guarantees: List[str] = None,
+                 saturated: List[str] = None,
+                 simplify: bool = True,
+                 validate: bool = True
+                 ):
 
-        saturated_guarantees = None
+        """Remove redundant assumptions and guarantees"""
+        if simplify:
+            """Check any guarantee is a refinement of another guarantee and vice-versa"""
+            g_pairs = permutations(guarantees, 2)
+
+            for g_1, g_2 in g_pairs:
+                if is_implied_in(variables, g_1, g_2):
+                    guarantees.remove(g_2)
+
+            """Check any assumption is an abstraction of another guarantee and vice-versa"""
+            a_pairs = permutations(assumptions, 2)
+
+            for a_1, a_2 in a_pairs:
+                if is_implied_in(variables, a_1, a_2):
+                    assumptions.remove(a_1)
+
+        """Checks compatibility, consistency and feasibility"""
+        if validate:
+            """Performs compatibility, consistency and feasibility checks on the contract"""
+            if not check_satisfiability(variables, assumptions):
+                raise Exception("The contract is incompatible")
+            if not check_satisfiability(variables, guarantees):
+                raise Exception("The contract is inconsistent")
+            if not check_satisfiability(variables, guarantees + assumptions):
+                raise Exception("The contract is unfeasible")
+
+        self._unsaturated_guarantees: List[str] = guarantees
 
         if guarantees is not None:
-            saturated_guarantees = []
-            for g in guarantees:
-                saturated_guarantees.append(Implies(And(assumptions), g))
+            if saturated is None:
+                saturated_guarantees = []
+                for g in guarantees:
+                    saturated = Implies(And(assumptions), g)
+                    saturated_guarantees.append(saturated)
+            else:
+                saturated_guarantees = saturated
+        else:
+            saturated_guarantees = None
 
         super().__init__(variables=variables,
                          assumptions=assumptions,
                          guarantees=saturated_guarantees)
 
-        self._unsaturated_guarantees = guarantees
-
-    def __str__(self):
-        """Override the print behavior"""
-        astr = '  variables: [ '
-        for var in self.variables:
-            astr += '(' + var + '), '
-        astr = astr[:-2] + ' ]\n  assumptions: [ '
-        for assumption in self.assumptions:
-            astr += str(assumption) + ', '
-        astr = astr[:-2] + ' ]\n  guarantees: [ '
-        for guarantee in self.unsaturated_guarantees:
-            astr += str(guarantee) + ', '
-        return astr[:-2] + ' ]\n]'
-
     @property
     def unsaturated_guarantees(self):
-        return self.unsaturated_guarantees
+        return self._unsaturated_guarantees
 
     @unsaturated_guarantees.setter
     def unsaturated_guarantees(self, values: List[str]):
-        self.unsaturated_guarantees = values
+        if values is None:
+            self._unsaturated_guarantees: List[str] = []
+        else:
+            self._unsaturated_guarantees = values
+
+    def add_guarantees(self, guarantees: List[str], saturated: List[str] = None):
+        """Add guarantees in 'guarantees'
+        If the saturated version is not available, saturate with 'TRUE'"""
+
+        for i, guarantee in enumerate(guarantees):
+            if saturated is not None:
+                self.add_guarantee(guarantee, saturated[i])
+
+    def add_guarantee(self, guarantee: str, saturated: str = None):
+
+        if saturated is None:
+            saturated_guarantee = Implies("TRUE", guarantee)
+        else:
+            saturated_guarantee = saturated
+
+        """Check if guarantee is a refinement of existing guarantee and vice-versa"""
+        for i, g in enumerate(self.guarantees):
+            if is_implied_in(self.variables, saturated_guarantee, g):
+                print("simplifying\t" + self.guarantees[i])
+                print("simplifying\t" + self.unsaturated_guarantees[i])
+                del self.guarantees[i]
+                del self.unsaturated_guarantees[i]
+
+        """Adding guarantee if is consistent with th other guarantees"""
+        add_proposition_to_list(self.variables, self.unsaturated_guarantees, guarantee)
+        add_proposition_to_list(self.variables, self.guarantees, saturated_guarantee)
+
+    def __str__(self):
+        """Override the print behavior"""
+        astr = '  variables:\t[ '
+        for var in self.variables:
+            astr += var + ', '
+        astr = astr[:-2] + ' ]\n  assumptions:\t[ '
+        for assumption in self.assumptions:
+            astr += str(assumption) + ', '
+        astr = astr[:-2] + ' ]\n  guarantees:\t[ '
+        for guarantee in self.guarantees:
+            astr += str(guarantee) + ', '
+        astr = astr[:-2] + ' ]\n  unsaturated:\t[ '
+        for guarantee in self.unsaturated_guarantees:
+            astr += str(guarantee) + ', '
+        return astr[:-2] + ' ]\n'
 
 
 class BooleanContract(Contract):

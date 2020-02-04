@@ -1,37 +1,68 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from src.checks.nusmv import *
 from src.helper.logic import *
 from src.helper.tools import *
 
 
-def is_implied_in(variables: Dict[str, str], formula_a: str, formula_b: str):
-    if formula_b == "TRUE":
+class NonConsistentException(Exception):
+    pass
+
+
+def is_implied_in(variables: Dict[str, str], antecedent: str, consequent: str):
+    if consequent == "TRUE":
         return True
 
-    """Check that at least all the variables in the abstracted are contained in the refined"""
-    var_refined = extract_variables_name([formula_a])
-    var_abstracted = extract_variables_name([formula_b])
+    """Check that at least one variables in the consequent is contained in the antecedent"""
+    var_antecedent = extract_variables_name([antecedent])
+    var_consequent = extract_variables_name([consequent])
 
-    for va in var_abstracted:
-        contained = False
-        for vr in var_refined:
-            if va == vr:
-                contained = True
-                continue
-        if contained is False:
-            return False
+    if any(elem in var_antecedent for elem in var_consequent) is False:
+        return False
 
-    return check_validity(variables, Implies(formula_a, formula_b))
+    return check_validity(variables, Implies(antecedent, consequent))
 
 
 def is_satisfied_in(variables: Dict[str, str], formula_a: str, formula_b: str):
     return check_satisfiability(variables, [formula_a, formula_b])
 
 
-def are_implied_in(list_variables: List[Dict[str, str]], props_refined: List[str], props_abstracted: List[str]):
-    """Checks if the conjunction of props_refined is contained in the conjunction of props_abstracted,
-    i.e. props_abstracted is a bigger set than props_refined"""
+def add_propositions_to_list(variables: Dict[str, str], where: List[str], what: List[str]):
+    """Add the propositions 'what' to the list 'where' if is consistent with the other propositions in 'where'"""
+
+    for p in what:
+        add_proposition_to_list(variables, where, p)
+
+
+def add_proposition_to_list(variables: Dict[str, str], where: List[str], what: str):
+    """Add the proposition 'what' to the list 'where' if is consistent with the other propositions in 'where'"""
+
+    where.append(what)
+
+    if not check_satisfiability(variables, where):
+        conflict = where.copy()
+        where.remove(what)
+        print("adding " + what + " resulted in a incompatible contract:\n" + str(conflict))
+        raise NonConsistentException
+
+
+def add_element_to_dict(where: Dict[str, str], what: Dict[str, str]):
+    """Add the (key,value) pair in 'what' to 'where' if is consistent with the other elements in 'where'"""
+
+    common_keys = where.keys() & what.keys()
+
+    for k in common_keys:
+        if what[k] != what[k]:
+            print("Key " + k + " is already present but "
+                               "with value " + where[k] + " instead of " + what[k])
+            raise NonConsistentException
+
+    where.update(what)
+
+
+def are_implied_in(list_variables: List[Dict[str, str]], antecedent: List[str], consequent: List[str]):
+    """Checks if the conjunction of antecedent is contained in the conjunction of consequent,
+    i.e. consequent is a bigger set than antecedent"""
 
     """Merge Dictionaries"""
     variables = {}
@@ -39,35 +70,26 @@ def are_implied_in(list_variables: List[Dict[str, str]], props_refined: List[str
         variables.update(v)
 
     """Check Attributes"""
-    if isinstance(props_abstracted, list):
-        if 'TRUE' in props_abstracted:
+    if isinstance(consequent, list):
+        if 'TRUE' in consequent:
             return True
     else:
         raise AttributeError
 
-    if not isinstance(props_refined, list):
+    if not isinstance(antecedent, list):
         raise AttributeError
 
-    """Check that at least all the variables in the abstracted are contained in the refined"""
+    """Check that all the variables in the consequent are contained in the antecedent"""
+    var_antecedent = extract_variables_name(antecedent)
+    var_consequent = extract_variables_name(consequent)
 
-    var_refined = extract_variables_name(props_refined)
-    var_abstracted = extract_variables_name(props_abstracted)
+    if all(elem in var_antecedent for elem in var_consequent) is False:
+        return False
 
-    for va in var_abstracted:
-        contained = False
-        for vr in var_refined:
-            if va == vr:
-                contained = True
-                continue
-        if contained is False:
-            print("\tThe abstract contracts has propositions involving more variables")
-            return False
-
-    formula = Implies(And(props_refined), And(props_abstracted))
-    print("checking validity of " + formula)
+    formula = Implies(And(antecedent), And(consequent))
     result = check_validity(variables, formula)
 
-    if result:
-        print("\t\t\trefined:\t" + str(And(props_refined)) + "\n\t\t\tabstract:\t" + str(And(props_abstracted)))
+    # if result:
+    #     print("\t\t\trefined:\t" + str(And(antecedent)) + "\n\t\t\tabstract:\t" + str(And(consequent)))
 
     return result
