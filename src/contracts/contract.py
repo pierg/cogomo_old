@@ -26,7 +26,7 @@ class SaturatedContract(object):
             self.__assumptions = assumptions
 
         """List of guarantees in conjunction. All guarantees are saturated"""
-        if assumptions is None:
+        if guarantees is None:
             self.__guarantees = []
         else:
             self.__guarantees = guarantees

@@ -10,8 +10,10 @@ def And(list_propoositions: List[str]) -> str:
             if i < len(list_propoositions) - 1:
                 ret += " & "
         return ret
-    else:
+    elif len(list_propoositions) == 1:
         return list_propoositions[0]
+    else:
+        return ""
 
 
 def Or(list_propoositions):
@@ -24,8 +26,10 @@ def Or(list_propoositions):
                 ret += " | "
         ret += ")"
         return ret
-    else:
+    elif len(list_propoositions) == 1:
         return list_propoositions[0]
+    else:
+        return ""
 
 
 def Implies(prop_1, prop_2):

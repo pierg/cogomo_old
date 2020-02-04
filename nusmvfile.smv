@@ -1,10 +1,4 @@
 MODULE main
 VAR
-	day: boolean;
-	g: boolean;
-	time: boolean;
-	h: boolean;
-	c: boolean;
-	d: boolean;
 
-LTLSPEC ! ((g & time = day & c -> h) & (g & time = day & c -> d))
+LTLSPEC ! ()
