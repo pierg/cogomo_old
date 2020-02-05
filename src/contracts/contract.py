@@ -32,7 +32,7 @@ class SaturatedContract(object):
             self.__guarantees = guarantees
 
         """Checks compatibility, consistency and feasibility"""
-        if validate:
+        if validate and self.is_full():
             """Performs compatibility, consistency and feasibility checks on the contract"""
             if not check_satisfiability(self.__variables, self.__assumptions):
                 raise Exception("The contract is incompatible")

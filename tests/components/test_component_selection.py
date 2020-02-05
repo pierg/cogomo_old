@@ -36,19 +36,19 @@ def test_component_selection():
 
     specification = Contract(variables={"y": "0..100"}, guarantees=["y > 10"])
 
-    list_of_components = components_selection(component_library, specification)
+    components, hierarchy = components_selection(component_library, specification)
 
-    composition = compose_contracts(list_of_components)
+    composition = compose_contracts(components)
 
     ids = []
-    for c in list_of_components:
+    for c in components:
         ids.append(c.id)
     print(ids)
 
     assert all(cid in ids for cid in ['c3', 'c9', 'c10', 'c1'])
 
-    assert composition.guarantees == ["(a & p -> b)",
-                                      "(a & p -> x > 5)",
-                                      "(o -> a)",
-                                      "(b & x > 3 -> y > 40)",
-                                      "(l -> p)"]
+    assert all(g in composition.guarantees for g in ["(a & p -> b)",
+                                                     "(a & p -> x > 5)",
+                                                     "(o -> a)",
+                                                     "(b & x > 3 -> y > 40)",
+                                                     "(l -> p)"])

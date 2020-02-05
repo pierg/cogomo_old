@@ -1,4 +1,10 @@
 MODULE main
 VAR
+	r: boolean;
+	y: 0..100;
+	x: 0..100;
+	b: boolean;
+	t: boolean;
+	e: boolean;
 
-LTLSPEC ! ()
+LTLSPEC ((b & x > 3 & t & r & e -> y > 40) -> (TRUE -> y > 10))

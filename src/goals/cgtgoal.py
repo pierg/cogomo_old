@@ -136,11 +136,12 @@ class CGTGoal:
     def get_refinement_by(self):
         return self.refined_by, self.refined_with
 
+
     def refine_by(self, refined_by: List['CGTGoal'], refined_with: str):
         """Refine by 'refined_by' with 'refined_with'"""
 
         if refined_with == "REFINEMENT":
-            """If type 'REFINEMENT', propagating the assumptions to all the CGT"""
+            """If type 'REFINEMENT', propagating the assumptions from the refined goal"""
             if len(refined_by) != 1:
                 raise Exception("At the moment the refinement of one goal must be performed by another single goal")
             for i, contract in enumerate(self.contracts):
@@ -150,16 +151,29 @@ class CGTGoal:
                 contract.is_refined_by(
                     refined_by[0].contracts[i]
                 )
+            self.__refined_by = refined_by
+            self.__refined_with = refined_with
+            for goal in refined_by:
+                goal.connected_to = self
         elif refined_with == "COMPOSITION" or \
                 refined_with == "CONJUNCTION" or \
                 refined_with == "REFINEMENT" or \
-                refined_with == "MAPPING":
+                refined_with == "MAPPING" or \
+                refined_with == "PROVIDED_BY":
             self.__refined_by = refined_by
             self.__refined_with = refined_with
             for goal in refined_by:
                 goal.connected_to = self
         else:
             raise AttributeError
+
+
+    def provided_by(self, goal):
+        """Indicates that the assumptions of 'self' are provided by the guarantees of 'goal'.
+        Connects the two goal by a 'PROVIDED BY' link"""
+        self.refine_by([goal], "PROVIDED_BY")
+
+
 
     def _propagate_context(self, context: Tuple[Dict[str, str], List[str]]):
         """Set the context as assumptions of all the contracts in the node"""
@@ -190,7 +204,7 @@ class CGTGoal:
             ret += "\t" * level + "A:\t\t" + \
                    ' & '.join(str(x) for x in contract.assumptions).replace('\n', ' ') + "\n"
             ret += "\t" * level + "G:\t\t" + \
-                   ' & '.join(str(x) for x in contract.guarantees).replace('\n', ' ') + "\n"
+                   ' & '.join(str(x) for x in contract.unsaturated_guarantees).replace('\n', ' ') + "\n"
         ret += "\n"
         if self.refined_by is not None and len(self.refined_by) > 0:
             ret += "\t" * level + "\t" + self.refined_with + "\n"
@@ -201,3 +215,4 @@ class CGTGoal:
                 except Exception:
                     print("WAIT")
         return ret
+

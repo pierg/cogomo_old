@@ -58,24 +58,34 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
             a_combinations.append(list(c))
 
     """For each possible combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
-    for a_elem in a_combinations:
-        for g_elem in g_combinations:
-
-            """Avoid comparing things that have already been removed"""
-            if isinstance(a_elem, list):
-                flag = False
-                for a in a_elem:
-                    if a not in assumptions_simplified:
-                        flag = True
-                if flag:
-                    continue
-
-            if are_implied_in([variables], g_elem, a_elem):
+    for a_elem in assumptions:
+        for g_elem in unsaturated_guarantees:
+            if is_implied_in(variables, g_elem, a_elem):
                 print("Simplifying assumption " + str(a_elem))
                 if isinstance(a_elem, list):
                     for a in a_elem:
                         if a in assumptions_simplified:
                             assumptions_simplified.remove(a)
+
+    # """For each possible combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
+    # for a_elem in a_combinations:
+    #     for g_elem in g_combinations:
+    #
+    #         """Avoid comparing things that have already been removed"""
+    #         if isinstance(a_elem, list):
+    #             flag = False
+    #             for a in a_elem:
+    #                 if a not in assumptions_simplified:
+    #                     flag = True
+    #             if flag:
+    #                 continue
+    #
+    #         if are_implied_in([variables], g_elem, a_elem):
+    #             print("Simplifying assumption " + str(a_elem))
+    #             if isinstance(a_elem, list):
+    #                 for a in a_elem:
+    #                     if a in assumptions_simplified:
+    #                         assumptions_simplified.remove(a)
 
     """Delete unused variables"""
     var_names = []

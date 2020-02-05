@@ -13,9 +13,6 @@ GOAL_DATA_INDENT = 2
 
 COMMENT_CHAR = '#'
 ASSIGNMENT_CHAR = ':='
-OPERATORS = r'==|\*|\/|-|<=|>=|<|>|\+|!=|\(|\)|\||->|&'
-# OPERATORS = '<|>|!=| == | >= | <= | \|\| |&& | * '
-# OPERATORS = '<|>|!=|==|>=|<=|\|&&|*'
 
 
 CONSTANTS_HEADER = 'CONSTANTS'
@@ -27,14 +24,6 @@ GOAL_DESCRIPTION_HEADER = 'DESCRIPTION'
 CONTRACT_VARIABLES_HEADER = 'VARIABLES'
 CONTRACT_ASSUMPTIONS_HEADER = 'ASSUMPTIONS'
 CONTRACT_GUARANTEES_HEADER = 'GUARANTEES'
-
-CGT_HEADER = 'CGT'
-CGT_CONJUNCTION_HEADER = 'CONJUNCTION'
-CGT_COMPOSITION_HEADER = 'COMPOSITION'
-CGT_NAME_HEADER = 'NAME'
-CGT_TREE_HEADER = 'TREE'
-CGT_END_TREE = 'ENDTREE'
-CGT_END_OPERATION = 'ENDTREE|CONJUNCTION|COMPOSITION'
 
 
 def parse(specfile):
@@ -111,17 +100,9 @@ def parse(specfile):
                             var, init = line.split(ASSIGNMENT_CHAR, 1)
                             contract.add_variables({var.strip(): init.strip()})
                         elif CONTRACT_ASSUMPTIONS_HEADER in goal_header:
-                            list_of_variables = re.split(OPERATORS, line)
-                            if len(list_of_variables) > 1:
-                                contract.add_assumption("(" + line.strip() + ")")
-                            else:
-                                contract.add_assumption(line.strip())
+                            contract.add_assumption(line.strip())
                         elif CONTRACT_GUARANTEES_HEADER in goal_header:
-                            list_of_variables = re.split(OPERATORS, line)
-                            if len(list_of_variables) > 1:
-                                contract.add_guarantee("(" + line.strip() + ")")
-                            else:
-                                contract.add_guarantee(line.strip())
+                            contract.add_guarantee(line.strip())
                         else:
                             raise Exception("Unexpected Goal Header")
 

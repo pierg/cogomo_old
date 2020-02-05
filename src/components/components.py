@@ -210,3 +210,23 @@ class ComponentsLibrary:
             raise Exception("No candidate available")
 
         return all_candidates
+
+
+class BooleanComponent(Component):
+
+    def __init__(self,
+                 component_id: str,
+                 assumptions: List[str],
+                 guarantees: List[str]):
+
+        variables: Dict[str, str] = {}
+
+        for a in assumptions:
+            variables.update({a: "boolean"})
+        for g in guarantees:
+            variables.update({g: "boolean"})
+
+        super().__init__(component_id=component_id,
+                         variables=variables,
+                         assumptions=assumptions,
+                         guarantees=guarantees)

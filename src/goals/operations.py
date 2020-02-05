@@ -97,9 +97,11 @@ def conjunction(list_of_goals: List[CGTGoal],
     return conjoined_goal
 
 
-def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, name: str = None,
+def mapping(component_library: ComponentsLibrary,
+            specification_goal: CGTGoal,
+            name: str = None,
             description: str = None):
-    """Given a component library and a specification returns the a goal that is the result
+    """Given a component library and a specification connect to 'specification_goal' other goals that are the result
     of the composition of a selection of component in the library and that refined the specification
     after having propagated the assumptions"""
 
@@ -109,26 +111,49 @@ def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, n
         raise Exception("The goal has multiple contracts in conjunction and cannot be mapped")
 
     """Get a list of components from the specification, greedy algorithm"""
-    list_of_components = components_selection(component_library, specification)
+    components, hierarchy = components_selection(component_library, specification)
 
-    if len(list_of_components) == 0:
+    if len(components) == 0:
         raise Exception("No mapping possible. There is no component available in the library")
 
     """Compose the components"""
-    composition_contract = compose_contracts(list_of_components)
+    composition_contract = compose_contracts(components)
 
-    """Create a goal for each component"""
-    list_of_components_goals = []
-    for component in list_of_components:
-        goal_component = CGTGoal(name=component.get_id(),
-                                 contracts=[component])
-        list_of_components_goals.append(goal_component)
+    """Each key in the dictionary represents a level in the hierarchy of components
+    and points to a list of components that once composed provide the assumptions 
+    for the components at the previous level"""
+    hierarchical_list_of_goals: Dict[int, list] = {}
+
+    """Create a hierarchy of goals for each component"""
+    for level, list_of_components in enumerate(hierarchy):
+        for component in list_of_components:
+
+            goal_component = CGTGoal(name=component.id,
+                                     contracts=[component])
+
+            if level in hierarchical_list_of_goals:
+                hierarchical_list_of_goals[level].append(goal_component)
+            else:
+                hierarchical_list_of_goals[level] = [goal_component]
+
+    hierarchical_goals: Dict[int, CGTGoal] = {}
+
+    """Compose goals if more than 1 at each level"""
+    for level, goals in hierarchical_list_of_goals.items():
+        if len(goals) > 1:
+            hierarchical_goals[level] = composition(goals)
+        else:
+            hierarchical_goals[level] = goals[0]
+
+    for i, (level, goal) in enumerate(hierarchical_goals.items()):
+        if i < len(hierarchical_goals) - 1:
+            hierarchical_goals[level].provided_by(hierarchical_goals[level + 1])
 
     """Create a top level goal 'composition_goal' and link it to the 'list_of_components_goals'"""
     composition_goal = CGTGoal(name=name,
                                description=description,
                                contracts=[composition_contract],
-                               refined_by=list_of_components_goals,
+                               refined_by=[hierarchical_goals[0]],
                                refined_with="MAPPING")
 
     """Link 'composition_goal' to the 'specification_goal' 
@@ -137,6 +162,7 @@ def mapping(component_library: ComponentsLibrary, specification_goal: CGTGoal, n
 
     """Propagates the assumptions to the top of the CGT from 'specification_goal'"""
     consolidate(specification_goal)
+
 
 
 def consolidate(cgt: CGTGoal):

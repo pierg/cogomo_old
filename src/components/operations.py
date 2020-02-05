@@ -1,16 +1,22 @@
 from src.components.components import *
 import itertools as it
 import operator
+from typing import Tuple, List
 
 
-def components_selection(component_library: ComponentsLibrary, specification: Contract) -> List[Component]:
+def components_selection(component_library: ComponentsLibrary, specification: Contract) \
+        -> Tuple[List[Component], List[List[Component]]]:
     """ 1)  Search in the 'component_library' compositions of components that can refine the 'specification'.
         2)  It greedly selects one composition C.
-        3)  It recursevely search other compositions that can refine the assumptions of the C """
+        3)  It recursevely search other compositions that can refine the assumptions of the C
+        :return Flat List of Components
+        :return List of List of components where each set of component of the inner list have their assumptions refined
+        by the list of component in the adjacent position in the outer list.
+        This is done to keep information about the hierarchy """
 
     spec_variables = specification.variables
     spec_assumptions = specification.assumptions
-    spec_guarantees = specification.guarantees
+    spec_guarantees = specification.unsaturated_guarantees
 
     set_components_to_return = []
 
@@ -87,7 +93,7 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
             ret += component.id + " "
         print(ret)
 
-    return flat_list_refining_components
+    return flat_list_refining_components, set_components_to_return
 
 
 def greedy_selection(candidate_compositions: List[List[Component]]) -> List[Component]:
