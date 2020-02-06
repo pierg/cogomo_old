@@ -2,6 +2,7 @@ import copy
 import itertools
 from typing import Dict, List, Tuple
 
+from goals.helpers import find_goal_with_name
 from src.components.components import ComponentsLibrary
 from src.components.operations import components_selection
 from src.goals.cgtgoal import CGTGoal
@@ -14,6 +15,12 @@ def composition(list_of_goal: List[CGTGoal],
     """Returns a new goal that is the result of the composition of 'list_of_goal'"""
 
     contracts: Dict[CGTGoal, List[Contract]] = {}
+
+    if name is None:
+        name = ""
+        for goal in list_of_goal:
+            name += goal.name + "||"
+        name = name[:-2]
 
     for goal in list_of_goal:
         contracts[goal.name] = goal.contracts
@@ -117,43 +124,54 @@ def mapping(component_library: ComponentsLibrary,
         raise Exception("No mapping possible. There is no component available in the library")
 
     """Compose the components"""
+    composition_name = ""
     composition_contract = compose_contracts(components)
+    for component in components:
+        composition_name += component.id + "||"
+    composition_name = composition_name[:-2]
 
-    """Each key in the dictionary represents a level in the hierarchy of components
-    and points to a list of components that once composed provide the assumptions 
-    for the components at the previous level"""
-    hierarchical_list_of_goals: Dict[int, list] = {}
+    """Transforms the components in the dictionary in Goals"""
+    hierarchy_goals: Dict[CGTGoal, List[CGTGoal]] = {}
 
-    """Create a hierarchy of goals for each component"""
-    for level, list_of_components in enumerate(hierarchy):
-        for component in list_of_components:
+    for i, (component, providers) in enumerate(hierarchy.items()):
+        goal = find_goal_with_name(component.id, hierarchy_goals)
 
-            goal_component = CGTGoal(name=component.id,
-                                     contracts=[component])
+        if goal is None:
+            goal = CGTGoal(name=component.id,
+                           contracts=[component])
+        provider_list = []
 
-            if level in hierarchical_list_of_goals:
-                hierarchical_list_of_goals[level].append(goal_component)
-            else:
-                hierarchical_list_of_goals[level] = [goal_component]
+        for provider in providers:
 
-    hierarchical_goals: Dict[int, CGTGoal] = {}
+            goal_2 = find_goal_with_name(provider.id, hierarchy_goals)
 
-    """Compose goals if more than 1 at each level"""
-    for level, goals in hierarchical_list_of_goals.items():
-        if len(goals) > 1:
-            hierarchical_goals[level] = composition(goals)
+            if goal_2 is None:
+                provider_list.append(CGTGoal(name=provider.id,
+                                             contracts=[provider]))
+
+        hierarchy_goals[goal] = provider_list
+
+    """Keep track of the head of the mapped goals"""
+    providing_goals_top = None
+
+    for i, (goal, providers) in enumerate(hierarchy_goals.items()):
+        if len(providers) > 1:
+            composition_providers = composition(providers)
+            goal.provided_by(composition_providers)
+        elif len(providers) == 1:
+            goal.provided_by(providers[0])
         else:
-            hierarchical_goals[level] = goals[0]
+            pass
+        if i == 0:
+            providing_goals_top = goal
 
-    for i, (level, goal) in enumerate(hierarchical_goals.items()):
-        if i < len(hierarchical_goals) - 1:
-            hierarchical_goals[level].provided_by(hierarchical_goals[level + 1])
+    print(providing_goals_top)
 
     """Create a top level goal 'composition_goal' and link it to the 'list_of_components_goals'"""
-    composition_goal = CGTGoal(name=name,
+    composition_goal = CGTGoal(name=composition_name,
                                description=description,
                                contracts=[composition_contract],
-                               refined_by=[hierarchical_goals[0]],
+                               refined_by=[providing_goals_top],
                                refined_with="MAPPING")
 
     """Link 'composition_goal' to the 'specification_goal' 
@@ -162,7 +180,6 @@ def mapping(component_library: ComponentsLibrary,
 
     """Propagates the assumptions to the top of the CGT from 'specification_goal'"""
     consolidate(specification_goal)
-
 
 
 def consolidate(cgt: CGTGoal):

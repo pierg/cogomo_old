@@ -5,14 +5,12 @@ from typing import Tuple, List
 
 
 def components_selection(component_library: ComponentsLibrary, specification: Contract) \
-        -> Tuple[List[Component], List[List[Component]]]:
+        -> Tuple[List[Component], Dict[Component, List[Component]]]:
     """ 1)  Search in the 'component_library' compositions of components that can refine the 'specification'.
         2)  It greedly selects one composition C.
         3)  It recursevely search other compositions that can refine the assumptions of the C
         :return Flat List of Components
-        :return List of List of components where each set of component of the inner list have their assumptions refined
-        by the list of component in the adjacent position in the outer list.
-        This is done to keep information about the hierarchy """
+        :return Dict with compoent -> components that provide its assumptions"""
 
     spec_variables = specification.variables
     spec_assumptions = specification.assumptions
@@ -37,12 +35,15 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
     components_to_search = first_selected_components.copy()
     component_already_searched = []
 
+    component_provided_by = {}
+
     while len(components_to_search) != 0:
 
         print("Looking for components that refine the assumptions")
         components_to_search_copy = components_to_search.copy()
 
         for component in components_to_search_copy:
+            component_provided_by[component] = []
 
             """Remove component from list of components to search 
             and keep track that it has been searched (avoid loops)"""
@@ -81,6 +82,8 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
                 if comp not in component_already_searched:
                     components_to_search.append(comp)
 
+            component_provided_by[component].extend(new_selected_components)
+
     """Flattening list of selections and eliminating duplicates"""
     flat_list_refining_components = list(set([item for sublist in set_components_to_return for item in sublist]))
 
@@ -93,7 +96,7 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
             ret += component.id + " "
         print(ret)
 
-    return flat_list_refining_components, set_components_to_return
+    return flat_list_refining_components, component_provided_by
 
 
 def greedy_selection(candidate_compositions: List[List[Component]]) -> List[Component]:

@@ -115,9 +115,9 @@ class ComponentsLibrary:
 
                 if are_implied_in([component.variables, variables], component.unsaturated_guarantees, [proposition]):
 
-                    """Check Assumptions Consistency"""
-                    if len(assumptions) > 0:
+                    if len(assumptions) > 0 and assumptions[0] is not "TRUE":
 
+                        """Check if contracts have compatible assumptions with the one provided"""
                         props_to_check = set()
 
                         for assumption in assumptions:
@@ -129,16 +129,13 @@ class ComponentsLibrary:
                         all_variables = variables.copy()
                         all_variables.update(component.variables)
 
-                        satis = check_satisfiability(all_variables, list(props_to_check))
-
-                        """If the contract has compatible assumptions, add it to the list of contracts 
-                        that can refine to_be_refined"""
-                        if satis:
-                            if proposition in candidates_for_each_proposition:
-                                candidates_for_each_proposition[proposition].append(component)
-                            else:
-                                candidates_for_each_proposition[proposition] = [component]
+                        compatible = check_satisfiability(all_variables, list(props_to_check))
                     else:
+                        compatible = True
+
+                    """If the contract has compatible assumptions, add it to the list of contracts 
+                    that can refine to_be_refined"""
+                    if compatible:
                         if proposition in candidates_for_each_proposition:
                             candidates_for_each_proposition[proposition].append(component)
                         else:

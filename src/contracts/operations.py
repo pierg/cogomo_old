@@ -41,6 +41,10 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
 
     print("The composition is compatible, consistent and feasible. Composing now...")
 
+    """Removing Duplicates"""
+    guarantees = list(set(guarantees))
+    assumptions = list(set(assumptions))
+
     assumptions_simplified = assumptions.copy()
 
     """Combinations of guarantees"""
@@ -62,10 +66,11 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
         for g_elem in unsaturated_guarantees:
             if is_implied_in(variables, g_elem, a_elem):
                 print("Simplifying assumption " + str(a_elem))
-                if isinstance(a_elem, list):
-                    for a in a_elem:
-                        if a in assumptions_simplified:
-                            assumptions_simplified.remove(a)
+                assumptions_simplified.remove(a_elem)
+                # if isinstance(a_elem, list):
+                #     for a in a_elem:
+                #         if a in assumptions_simplified:
+                #             assumptions_simplified.remove(a)
 
     # """For each possible combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
     # for a_elem in a_combinations:
