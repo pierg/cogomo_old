@@ -1,10 +1,9 @@
+from copy import deepcopy
 from typing import List, Tuple, Dict
 
 from contracts.contract import Contract
 
-# from src.goals.operations import compostion, conjunction
 from helper.logic import And, Or
-from patterns.patterns import *
 
 
 class CGTGoal:
@@ -34,24 +33,23 @@ class CGTGoal:
             self.__contracts: List[Contract] = contracts
 
         if refined_by is None and refined_with is None:
-            self.__refined_by: List['CGTGoal'] = []
+            self.__refined_by = None
             self.__refined_with = None
         elif refined_by is not None and refined_with is not None:
             self.__refined_by: List['CGTGoal'] = refined_by
             self.__refined_with: str = refined_with
+            for goal in refined_by:
+                goal.connected_to = self
         else:
             raise AttributeError
 
-        if context is None:
-            self.__context: Tuple[Dict[str, str], List[str]] = ({}, ["TRUE"])
-        elif isinstance(context, tuple):
+        if context is not None:
             self.__context: Tuple[Dict[str, str], List[str]] = context
             self._propagate_context(context)
         else:
-            raise AttributeError
+            self.__context = None
 
         self.__connected_to = None
-        self.__connected_with = ""
 
     @property
     def name(self):
@@ -82,8 +80,11 @@ class CGTGoal:
         return self.__refined_by
 
     @refined_by.setter
-    def refined_by(self, value):
-        self.__refined_by = value
+    def refined_by(self, goals: List['CGTGoal']):
+        self.__refined_by = goals
+        if goals is not None:
+            for goal in goals:
+                goal.connected_to = self
 
     @property
     def refined_with(self):
@@ -100,7 +101,8 @@ class CGTGoal:
     @context.setter
     def context(self, value):
         self.__context = value
-        self._propagate_context(value)
+        if value is not None:
+            self._propagate_context(value)
 
     @property
     def connected_to(self):
@@ -110,70 +112,116 @@ class CGTGoal:
     def connected_to(self, value):
         self.__connected_to = value
 
-    def add_domain_properties(self):
-        """Add domain properties to each Pattern in each Goal of the CGT"""
-        for contract in self.__contracts:
-            try:
-                contract.add_physical_assumptions()
-            except AttributeError:
-                pass
-        if self.__refined_by is None:
-            return
-        else:
-            for goal in self.__refined_by:
-                goal.add_domain_properties()
-
-    def add_expectations(self, expectations: List[Contract]):
-        """Add expectetions when needed to each Contract in each Goal of the CGT"""
-        for contract in self.__contracts:
-            contract.add_expectations(expectations)
-        if self.__refined_by is None:
-            return
-        else:
-            for goal in self.__refined_by:
-                goal.add_expectations(expectations)
-
     def get_refinement_by(self):
         return self.refined_by, self.refined_with
 
+    def get_goal(self, name: str):
+        """Search the CGT and get the first goal with name == str"""
+        if self.name == name:
+            return self
+        elif self.refined_by is not None:
+            res = None
+            for child in self.refined_by:
+                res = child.get_goal(name)
+            return res
 
-    def refine_by(self, refined_by: List['CGTGoal'], refined_with: str):
+    def refine_by(self, refined_by: List['CGTGoal'], consolidate=True):
         """Refine by 'refined_by' with 'refined_with'"""
-
-        if refined_with == "REFINEMENT":
-            """If type 'REFINEMENT', propagating the assumptions from the refined goal"""
-            if len(refined_by) != 1:
-                raise Exception("At the moment the refinement of one goal must be performed by another single goal")
-            for i, contract in enumerate(self.contracts):
-                contract.propagate_assumptions_from(
-                    refined_by[0].contracts[i]
-                )
-                contract.is_refined_by(
-                    refined_by[0].contracts[i]
-                )
-            self.__refined_by = refined_by
-            self.__refined_with = refined_with
-            for goal in refined_by:
-                goal.connected_to = self
-        elif refined_with == "COMPOSITION" or \
-                refined_with == "CONJUNCTION" or \
-                refined_with == "REFINEMENT" or \
-                refined_with == "MAPPING" or \
-                refined_with == "PROVIDED_BY":
-            self.__refined_by = refined_by
-            self.__refined_with = refined_with
-            for goal in refined_by:
-                goal.connected_to = self
-        else:
-            raise AttributeError
-
+        """If type 'REFINEMENT', propagating the assumptions from the refined goal"""
+        if len(refined_by) != 1:
+            raise Exception("At the moment the refinement of one goal must be performed by another single goal")
+        for i, contract in enumerate(self.contracts):
+            contract.propagate_assumptions_from(
+                refined_by[0].contracts[i]
+            )
+            contract.is_refined_by(
+                refined_by[0].contracts[i]
+            )
+        self.__refined_by = refined_by
+        self.__refined_with = "REFINEMENT"
+        if consolidate:
+            self.consolidate_bottom_up()
 
     def provided_by(self, goal):
         """Indicates that the assumptions of 'self' are provided by the guarantees of 'goal'.
         Connects the two goal by a 'PROVIDED BY' link"""
-        self.refine_by([goal], "PROVIDED_BY")
+        self.__refined_by = [goal]
+        self.__refined_with = "PROVIDED_BY"
+        goal.connected_to = self
 
+    def add_domain_properties(self):
+        """Adding Domain Properties to 'cgt' (i.e. descriptive statements about the problem world (such as physical laws)
+        These properties are intrinsic to the Contract/Pattern and get added as assumptions"""
+        for contract in self.contracts:
+            try:
+                contract.add_domain_properties()
+            except AttributeError:
+                pass
+        if self.refined_by is None:
+            self.consolidate_bottom_up()
+        else:
+            for goal in self.refined_by:
+                goal.add_domain_properties()
 
+    def add_expectations(self, expectations: List[Contract]):
+        """Domain Hypothesis or Expectations (i.e. prescriptive assumptions on the environment)
+        Expectations are conditional assumptions, they get added to each contract of the CGT
+        only if the Contract guarantees concern the 'expectations' guarantees and are consistent with them"""
+        from src.checks.nsmvhelper import are_satisfied_in
+        from src.helper.tools import have_shared_keys
+        for contract in self.contracts:
+            for expectation in expectations:
+                if have_shared_keys(contract.variables, expectation.variables):
+                    if are_satisfied_in([contract.variables, expectation.variables],
+                                        [contract.unsaturated_guarantees, expectation.unsaturated_guarantees]):
+                        contract.add_variables(expectation.variables)
+                        contract.add_assumptions(expectation.assumptions)
+
+        if self.refined_by is None:
+            self.consolidate_bottom_up()
+        else:
+            for goal in self.refined_by:
+                goal.add_expectations(expectations)
+
+    def update_with(self, goal: 'CGTGoal', consolidate=True):
+        """Update the current node of the CGT with 'goal' keeping the connection to the current parent goal
+        and consolidating the tree up to the root node"""
+
+        if self.connected_to is not None:
+            parent = self.connected_to
+            for n, child in enumerate(parent.refined_by):
+                if child == self:
+                    parent.refined_by[n] = goal
+
+            if consolidate:
+                self.consolidate_bottom_up()
+        else:
+            """Update Parameters"""
+            self.name = goal.name
+            self.description = goal.description
+            self.contracts = goal.contracts
+            self.refined_by = goal.refined_by
+            self.refined_with = goal.refined_with
+            self.context = goal.context
+
+    def consolidate_bottom_up(self):
+        """It recursivly re-perfom composition and conjunction and refinement operations up to the rood node"""
+        from src.goals.operations import conjunction, composition
+        if self.connected_to is not None:
+            node = self.connected_to
+            refined_by, refined_with = node.get_refinement_by()
+            if refined_with == "CONJUNCTION":
+                node.update_with(conjunction(refined_by), consolidate=False)
+            elif refined_with == "COMPOSITION":
+                node.update_with(composition(refined_by), consolidate=False)
+            elif refined_with == "REFINEMENT":
+                node.refine_by(refined_by, consolidate=False)
+            else:
+                raise Exception(refined_with + " consolidation not supported")
+
+            node.consolidate_bottom_up()
+        else:
+            return
 
     def _propagate_context(self, context: Tuple[Dict[str, str], List[str]]):
         """Set the context as assumptions of all the contracts in the node"""
@@ -206,13 +254,12 @@ class CGTGoal:
             ret += "\t" * level + "G:\t\t" + \
                    ' & '.join(str(x) for x in contract.unsaturated_guarantees).replace('\n', ' ') + "\n"
         ret += "\n"
-        if self.refined_by is not None and len(self.refined_by) > 0:
+        if self.refined_by is not None:
             ret += "\t" * level + "\t" + self.refined_with + "\n"
             level += 1
             for child in self.refined_by:
                 try:
                     ret += child.__str__(level + 1)
-                except Exception:
+                except Exception as e:
                     print("WAIT")
         return ret
-

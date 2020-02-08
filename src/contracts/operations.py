@@ -61,16 +61,28 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
         for c in oc:
             a_combinations.append(list(c))
 
+    a_removed = []
     """For each possible combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
     for a_elem in assumptions:
         for g_elem in unsaturated_guarantees:
             if is_implied_in(variables, g_elem, a_elem):
                 print("Simplifying assumption " + str(a_elem))
                 assumptions_simplified.remove(a_elem)
-                # if isinstance(a_elem, list):
-                #     for a in a_elem:
-                #         if a in assumptions_simplified:
-                #             assumptions_simplified.remove(a)
+                a_removed.append(a_elem)
+
+    """Delete unused variables"""
+    var_names_removed = []
+    var_names_removed.extend(extract_variables_name(a_removed))
+
+    var_names_to_delete = []
+    for v in var_names_removed:
+        if v not in assumptions_simplified and \
+                v not in guarantees:
+            var_names_to_delete.append(v)
+
+    # for key in list(variables):
+    #     if key in var_names_to_delete:
+    #         del variables[key]
 
     # """For each possible combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
     # for a_elem in a_combinations:
@@ -92,23 +104,12 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
     #                     if a in assumptions_simplified:
     #                         assumptions_simplified.remove(a)
 
-    """Delete unused variables"""
-    var_names = []
-    var_names.extend(extract_variables_name(assumptions_simplified))
-    var_names.extend(extract_variables_name(guarantees))
-    var_names = list(set(var_names))
-
-    try:
-        variables_filtered = {var: variables[var] for var in var_names}
-        composed_contract = Contract(variables=variables_filtered,
-                                     assumptions=assumptions_simplified,
-                                     guarantees=unsaturated_guarantees,
-                                     saturated=guarantees,
-                                     validate=False,
-                                     simplify=False)
-        print("Composed contract:")
-        print(composed_contract)
-        return composed_contract
-
-    except Exception as e:
-        print(str(e))
+    composed_contract = Contract(variables=variables,
+                                 assumptions=assumptions_simplified,
+                                 guarantees=unsaturated_guarantees,
+                                 saturated=guarantees,
+                                 validate=False,
+                                 simplify=False)
+    print("Composed contract:")
+    print(composed_contract)
+    return composed_contract

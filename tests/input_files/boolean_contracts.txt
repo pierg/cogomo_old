@@ -1,0 +1,54 @@
+GOAL:
+	NAME:
+		goal_1
+	DESCRIPTION:
+
+	VARIABLES:
+		a   := boolean
+		b   := boolean
+	ASSUMPTIONS:
+		a
+	GUARANTEES:
+	    b
+
+GOAL:
+	NAME:
+		goal_2
+	DESCRIPTION:
+
+	VARIABLES:
+		c   := boolean
+		d   := boolean
+	ASSUMPTIONS:
+		c
+	GUARANTEES:
+	    d
+
+GOAL:
+	NAME:
+		goal_3
+	DESCRIPTION:
+
+	VARIABLES:
+		e   := boolean
+		f   := boolean
+	ASSUMPTIONS:
+		e
+	GUARANTEES:
+	    f
+
+GOAL:
+	NAME:
+		goal_4
+	DESCRIPTION:
+
+	VARIABLES:
+		g   := boolean
+		h   := boolean
+	ASSUMPTIONS:
+		g
+	GUARANTEES:
+	    h
+
+
+ENDGOALS

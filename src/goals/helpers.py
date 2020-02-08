@@ -20,6 +20,7 @@ def find_goal_with_name(name: str, goals: Union[Dict[CGTGoal, List[CGTGoal]], Li
 
 
 def prioritize_goal(first_priority_goal, second_priority_goal):
+    pass
     """
     Makes the assumption of one goal dependent on the satisfiability of the assumptions of the second goal
     """

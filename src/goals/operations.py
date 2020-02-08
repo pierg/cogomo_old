@@ -9,20 +9,26 @@ from src.goals.cgtgoal import CGTGoal
 from src.contracts.operations import *
 
 
-def composition(list_of_goal: List[CGTGoal],
+def composition(goals: List[CGTGoal],
                 name: str = None,
                 description: str = None) -> CGTGoal:
-    """Returns a new goal that is the result of the composition of 'list_of_goal'"""
+    """Returns a new goal that is the result of the composition of 'goals'
+    The new goal returned points to a copy of 'goals'"""
+
+    for n, goal in enumerate(goals):
+        if goal.connected_to is not None:
+            print(goal.name + " is already part of another CGT. Making a copy of it...")
+            goals[n] = copy.deepcopy(goal)
 
     contracts: Dict[CGTGoal, List[Contract]] = {}
 
     if name is None:
         name = ""
-        for goal in list_of_goal:
+        for goal in goals:
             name += goal.name + "||"
         name = name[:-2]
 
-    for goal in list_of_goal:
+    for goal in goals:
         contracts[goal.name] = goal.contracts
 
     """Dot products mamong the contracts to perform the compositions of the conjunctions"""
@@ -40,20 +46,31 @@ def composition(list_of_goal: List[CGTGoal],
     composed_goal = CGTGoal(name=name,
                             description=description,
                             contracts=composed_contracts,
-                            refined_by=list_of_goal,
+                            refined_by=goals,
                             refined_with="COMPOSITION")
 
     return composed_goal
 
 
-def conjunction(list_of_goals: List[CGTGoal],
+def conjunction(goals: List[CGTGoal],
                 name: str = None,
                 description: str = None) -> CGTGoal:
-    """Conjunction Operations among the goals in list_of_goals.
+    """Conjunction Operations among the goals in 'goals'.
        It returns a new goal"""
 
+    for n, goal in enumerate(goals):
+        if goal.connected_to is not None:
+            print(goal.name + " is already part of another CGT. Making a copy of it...")
+            goals[n] = copy.deepcopy(goal)
+
+    if name is None:
+        name = ""
+        for goal in goals:
+            name += goal.name + "^^"
+        name = name[:-2]
+
     """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
-    for pair_of_goals in it.combinations(list_of_goals, r=2):
+    for pair_of_goals in it.combinations(goals, r=2):
 
         assumptions_set = []
         guarantees_set = []
@@ -80,7 +97,11 @@ def conjunction(list_of_goals: List[CGTGoal],
                     """Checking Consistency only when the assumptions are satisfied together"""
                     sat = check_satisfiability(variables, list(set(guarantees_set)))
                     if not sat:
-                        print("The assumptions in the conjunction of contracts are not mutually exclusive")
+                        print("The assumptions in the conjunction of contracts "
+                              "are not mutually exclusive and are inconsistent:\n" +
+                              str(pair_of_goals[0]) + "\nCONJOINED WITH\n" + str(pair_of_goals[1])
+                              + "\n\n" + str(list(set(guarantees_set))))
+
                         raise Exception("Conjunction Failed")
 
     print("The conjunction satisfiable.")
@@ -88,7 +109,7 @@ def conjunction(list_of_goals: List[CGTGoal],
     # Creating new list of contracts
     list_of_new_contracts = []
 
-    for goal in list_of_goals:
+    for goal in goals:
         contracts = goal.contracts
         for contract in contracts:
             new_contract = copy.deepcopy(contract)
@@ -98,7 +119,7 @@ def conjunction(list_of_goals: List[CGTGoal],
     conjoined_goal = CGTGoal(name=name,
                              description=description,
                              contracts=list_of_new_contracts,
-                             refined_by=list_of_goals,
+                             refined_by=goals,
                              refined_with="CONJUNCTION")
 
     return conjoined_goal
@@ -124,32 +145,39 @@ def mapping(component_library: ComponentsLibrary,
         raise Exception("No mapping possible. There is no component available in the library")
 
     """Compose the components"""
-    composition_name = ""
     composition_contract = compose_contracts(components)
-    for component in components:
-        composition_name += component.id + "||"
-    composition_name = composition_name[:-2]
+
+    if name is None:
+        mapping_name = ""
+        for component in components:
+            mapping_name += component.id + "||"
+        mapping_name = mapping_name[:-2]
+    else:
+        mapping_name = name
 
     """Transforms the components in the dictionary in Goals"""
     hierarchy_goals: Dict[CGTGoal, List[CGTGoal]] = {}
 
-    for i, (component, providers) in enumerate(hierarchy.items()):
-        goal = find_goal_with_name(component.id, hierarchy_goals)
+    for i, (comp, comp_provided_by) in enumerate(hierarchy.items()):
+        """Look if there is already a goal"""
+        goal = find_goal_with_name(comp.id, hierarchy_goals)
 
         if goal is None:
-            goal = CGTGoal(name=component.id,
-                           contracts=[component])
-        provider_list = []
+            """Or create a new entry"""
+            goal = CGTGoal(name=comp.id, contracts=[comp])
 
-        for provider in providers:
+        for c_p in comp_provided_by:
 
-            goal_2 = find_goal_with_name(provider.id, hierarchy_goals)
+            g_p = find_goal_with_name(c_p.id, hierarchy_goals)
 
-            if goal_2 is None:
-                provider_list.append(CGTGoal(name=provider.id,
-                                             contracts=[provider]))
+            if g_p is None:
 
-        hierarchy_goals[goal] = provider_list
+                g_p = CGTGoal(name=c_p.id, contracts=[c_p])
+
+            if goal not in hierarchy_goals:
+                hierarchy_goals[goal] = [g_p]
+            else:
+                hierarchy_goals[goal].append(g_p)
 
     """Keep track of the head of the mapped goals"""
     providing_goals_top = None
@@ -168,7 +196,7 @@ def mapping(component_library: ComponentsLibrary,
     print(providing_goals_top)
 
     """Create a top level goal 'composition_goal' and link it to the 'list_of_components_goals'"""
-    composition_goal = CGTGoal(name=composition_name,
+    composition_goal = CGTGoal(name=mapping_name,
                                description=description,
                                contracts=[composition_contract],
                                refined_by=[providing_goals_top],
@@ -176,31 +204,7 @@ def mapping(component_library: ComponentsLibrary,
 
     """Link 'composition_goal' to the 'specification_goal' 
     This will also propagate the assumptions from composition_goal"""
-    specification_goal.refine_by([composition_goal], "REFINEMENT")
-
-    """Propagates the assumptions to the top of the CGT from 'specification_goal'"""
-    consolidate(specification_goal)
-
-
-def consolidate(cgt: CGTGoal):
-    """It recursivly re-perfom composition and conjunction operations up to the rood node"""
-    if cgt.connected_to is not None:
-        current_goal = cgt.connected_to
-        refined_by, refined_with = current_goal.get_refinement_by()
-        if refined_with == "CONJUNCTION":
-            goal = conjunction(
-                refined_by
-            )
-            current_goal.contracts = goal.contracts
-
-        elif refined_with == "COMPOSITION":
-            goal = composition(
-                refined_by
-            )
-            current_goal.contracts = goal.contracts
-        consolidate(current_goal)
-    else:
-        return
+    specification_goal.refine_by([composition_goal])
 
 
 def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
@@ -211,10 +215,11 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
 
     """Extract all the contexts"""
     for goal in list_of_goals:
-        var, ctx_1 = goal.context
-        if "TRUE" not in ctx_1:
-            variables.update(var)
-            contexts.add(And(ctx_1))
+        if goal.context is not None:
+            var, ctx_1 = goal.context
+            if "TRUE" not in ctx_1:
+                variables.update(var)
+                contexts.add(And(ctx_1))
 
     contexts = list(contexts)
 
@@ -255,16 +260,22 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
     """Identifies the goals enabled for each mutually exclusive context"""
     for ctx in contexts_mutually_exclusive:
         for goal in list_of_goals:
-
-            var, goal_ctx = goal.context
-            goal_ctx = And(goal_ctx)
-
-            if is_implied_in(variables, ctx, goal_ctx):
+            if goal.context is None:
                 if ctx in context_goals:
                     if goal not in context_goals[ctx]:
                         context_goals[ctx].append(goal)
                 else:
                     context_goals[ctx] = [goal]
+            else:
+                var, goal_ctx = goal.context
+                goal_ctx = And(goal_ctx)
+
+                if is_implied_in(variables, ctx, goal_ctx):
+                    if ctx in context_goals:
+                        if goal not in context_goals[ctx]:
+                            context_goals[ctx].append(goal)
+                    else:
+                        context_goals[ctx] = [goal]
 
     """Compose the goal in each mutually exclusive context"""
     composed_goals = []
@@ -276,3 +287,27 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
     cgt = conjunction(composed_goals, name="all_contexts")
 
     return cgt
+
+
+def add_expectations(cgt: CGTGoal, expectations: List[Contract]):
+    """Domain Hypothesis or Expectations (i.e. prescriptive assumptions on the environment)
+    Expectations are conditional assumptions, they get added to each contract of the CGT
+    only if the Contract guarantees concern the 'expectations' guarantees and are consistent with them"""
+
+    add_expectations_recursive(cgt, expectations)
+
+
+def add_expectations_recursive(cgt: CGTGoal, expectations: List[Contract]):
+    """For each contract in the CGT, add the expectation as assumption if opportune"""
+    for contract in cgt.contracts:
+        for expectation in expectations:
+            if have_shared_keys(contract.variables, expectation.variables):
+                if are_satisfied_in([contract.variables, expectation.variables],
+                                    [contract.unsaturated_guarantees, expectation.unsaturated_guarantees]):
+                    contract.add_variables(expectation.variables)
+                    contract.add_assumptions(expectation.assumptions)
+    if cgt.refined_by is None:
+        consolidate_bottom_up(cgt)
+    else:
+        for goal in cgt.refined_by:
+            add_expectations(goal, expectations)

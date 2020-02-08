@@ -1,10 +1,6 @@
 MODULE main
 VAR
-	r: boolean;
-	y: 0..100;
-	x: 0..100;
-	b: boolean;
-	t: boolean;
-	e: boolean;
+	heavy_item_pickup: boolean;
+	weight_power: 0..15;
 
-LTLSPEC ((b & x > 3 & t & r & e -> y > 40) -> (TRUE -> y > 10))
+LTLSPEC ! (G(weight_power > 12) & (G(weight_power > 12) -> G(heavy_item_pickup)))

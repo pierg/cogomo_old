@@ -98,17 +98,6 @@ class SaturatedContract(object):
         """Adding assumption if is compatible with th other assumptions"""
         add_proposition_to_list(self.variables, self.assumptions, assumption)
 
-    def add_expectations(self, expectations: List['SaturatedContract']):
-        """Expectations are conditional assumptions, they get added
-        only if the Contract guarantees are a refinement of the 'expectations' guarantees"""
-
-        for expectation in expectations:
-
-            if are_implied_in([expectation.variables, self.variables],
-                              self.guarantees,
-                              expectation.guarantees):
-                self.add_variables(expectation.variables)
-                self.add_assumptions(expectation.assumptions)
 
     def _has_smaller_guarantees_than(self, c: 'SaturatedContract') -> bool:
 
@@ -177,7 +166,10 @@ class Contract(SaturatedContract):
                     if is_implied_in(variables, a_1, a_2):
                         assumptions.remove(a_1)
 
-        self.__unsaturated_guarantees: List[str] = guarantees
+        if guarantees is not None:
+            self.__unsaturated_guarantees: List[str] = guarantees
+        else:
+            self.__unsaturated_guarantees: List[str] = []
 
         if guarantees is not None:
             if saturated is None:
@@ -247,6 +239,9 @@ class Contract(SaturatedContract):
         for guarantee in self.unsaturated_guarantees:
             astr += str(guarantee) + ', '
         return astr[:-2] + ' ]\n'
+
+    def add_domain_properties(self):
+        pass
 
 
 class BooleanContract(Contract):

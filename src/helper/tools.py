@@ -1,10 +1,18 @@
 import re
-from typing import List, Union
+from typing import List, Union, Dict
 
-OPERATORS = r'(^==|\*|\/|-|<=|>=|<|>|\+|!=|\(|\)|\||->|&|\s)'
+OPERATORS = r'(^==|\*|\/|-|<=|>=|<|>|\+|!=|!|=|\(|\)|\||->|&|\s)'
 TEMPORALOPS = r'^F|^G|^X|^U'
 VARIABLE = r'^[A-Za-z]\w*'
 INTEGER = r'^[+-]\d*|^\d*$'
+
+
+def have_shared_keys(d_1:Dict[str, str], d_2: Dict[str, str]):
+    for k_1 in d_1.keys():
+        for k_2 in d_2.keys():
+            if k_1 == k_2:
+                return True
+    return False
 
 
 def extract_variables_name(formula: Union[List[str], str]) -> List[str]:

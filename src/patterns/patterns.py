@@ -8,33 +8,30 @@ class Pattern(Contract):
 
     def __init__(self):
         super().__init__()
-        self.domain_hypotesis = []
+        self.domain_properties: List[str] = []
 
-    def add_physical_assumptions(self):
-        self.add_assumptions(self.domain_hypotesis)
-
-    def add_context(self, type: str = None, context: List[Contract] = None):
-        if type in self.type:
-            for contract in context:
-                self.add_variables(contract.variables)
-                self.add_assumptions(contract.assumptions)
-
-    def get_name(self):
-        return self.name
+    def add_domain_properties(self):
+        self.add_assumptions(self.domain_properties)
 
 
 class CoreMovement(Pattern):
-    """
-    Core Movements Patterns
-    All the variables are locations where there robot can be at a certain time
-    """
+    """Core Movements Patterns
+    All the variables are locations where there robot can be at a certain time"""
 
-    def __init__(self, list_of_locations=None):
+    def __init__(self, locations: List[str] = None):
         super().__init__()
 
-        # Eliminating duplicates
-        list_locations = list(dict.fromkeys(list_of_locations))
+        if locations is None:
+            raise Exception("No location provided")
 
+        """Adding variables for each location"""
+        for loc in locations:
+            self.add_variables({loc: "boolean"})
+
+        # Eliminating duplicates
+        list_locations = list(dict.fromkeys(locations))
+
+        """Domain Property: A robot cannot be in the same location at the same time"""
         ltl_formula = "G("
         for i, loc in enumerate(list_locations):
             ltl_formula += "(" + loc
@@ -47,50 +44,34 @@ class CoreMovement(Pattern):
 
         ltl_formula += ")"
 
-        self.domain_hypotesis.append(ltl_formula)
-
+        self.domain_properties.append(ltl_formula)
 
 
 class Visit(CoreMovement):
-    """
-    Visit a set of locations in an unspecified order.
-    """
+    """Visit a set of locations in an unspecified order"""
 
-    def __init__(self, list_of_locations=None):
-        super().__init__(list_of_locations)
-        """
-        :type list_of_locations: list of location, each location is a boolean
-        indicating if the robot is at that location
-        """
-        if list_of_locations is None:
-            raise Exception("no list of location provided")
+    def __init__(self, locations: List[str] = None):
+        super().__init__(locations)
 
-        for location in list_of_locations:
-            self.add_variables({location: 'boolean'})
+        """Adding the pattern as guarantee"""
+        for location in locations:
             self.add_guarantee("F(" + location + ")")
 
 
 class SequencedVisit(CoreMovement):
-    """
-    Visit a set of locations in sequence, one after the other.
-    """
+    """Visit a set of locations in sequence, one after the other"""
 
-    def __init__(self, list_of_locations=None):
-        """
-        :type list_of_locations: list of location, each location is a boolean
-        indicating if the robot is at that location
-        """
-        super().__init__(list_of_locations)
-        if list_of_locations is None:
-            raise Exception("no list of location provided")
+    def __init__(self, locations: List[str] = None):
 
+        super().__init__(locations)
+
+        """Adding the pattern as guarantee"""
         guarantee = "F("
-        for n, location in enumerate(list_of_locations):
-            self.add_variables({location: 'boolean'})
+        for n, location in enumerate(locations):
 
             guarantee += location
-            if n == len(list_of_locations) - 1:
-                for _ in range(len(list_of_locations)):
+            if n == len(locations) - 1:
+                for _ in range(len(locations)):
                     guarantee += ")"
             else:
                 guarantee += " & F("
@@ -99,73 +80,54 @@ class SequencedVisit(CoreMovement):
 
 
 class OrderedVisit(CoreMovement):
-    """
-    Sequence visit does not forbid to visit a successor location before its predecessor, but only that after the
+    """Sequence visit does not forbid to visit a successor location before its predecessor, but only that after the
     predecessor is visited the successor is also visited. Ordered visit forbids a successor to be visited
-    before its predecessor.
-    """
+    before its predecessor."""
 
-    def __init__(self, list_of_locations=None):
-        """
-        :type list_of_locations: list of location, each location is a boolean
-        indicating if the robot is at that location
-        """
-        super().__init__(list_of_locations)
-        if list_of_locations is None:
-            raise Exception("no list of location provided")
+    def __init__(self, locations: List[str] = None):
 
+        super().__init__(locations)
+
+        """Adding the pattern as guarantee"""
         guarantee = "F("
-        for n, location in enumerate(list_of_locations):
-            self.add_variables({location: 'boolean'})
+        for n, location in enumerate(locations):
 
             guarantee += location
-            if n == len(list_of_locations) - 1:
-                for _ in range(len(list_of_locations)):
+            if n == len(locations) - 1:
+                for _ in range(len(locations)):
                     guarantee += ")"
             else:
                 guarantee += " & F("
 
         self.add_guarantee(guarantee)
 
-        for n, location in enumerate(list_of_locations):
-            if n < len(list_of_locations) - 1:
-                self.add_guarantee("!" + list_of_locations[n + 1] + " U " + list_of_locations[n])
+        for n, location in enumerate(locations):
+            if n < len(locations) - 1:
+                self.add_guarantee("!" + locations[n + 1] + " U " + locations[n])
 
 
 class GlobalAvoidance(Pattern):
-    """
-    Visit a set of locations in an unspecified order.
-    """
+    """Always avoid"""
 
-    def __init__(self, list_of_locations=None):
-        """
-        :type list_of_locations: list of location, each location is a boolean
-        indicating if the robot is at that location
-        """
+    def __init__(self, proposition: str = None):
         super().__init__()
-        if list_of_locations is None:
-            raise Exception("no list of location provided")
 
-        for location in list_of_locations:
-            self.add_variables({location: 'boolean'})
-            self.add_guarantee("G(!" + location + ")")
+        if proposition is None:
+            raise Exception("No proposition provided")
+
+        self.add_variables({proposition: 'boolean'})
+
+        self.add_guarantee("G(!" + proposition + ")")
 
 
 class DelayedReaction(Pattern):
-    """
-    Delayed Reaction Pattern
-    """
+    """Delayed Reaction Pattern"""
 
     def __init__(self, trigger=None, reaction=None):
-        """
 
-        :param name:
-        :param trigger: variable representing the atomic proposition for the trigger event
-        :param reaction: variable representing the atomic proposition for the reaction
-        """
         super().__init__()
         if trigger is None or reaction is None:
-            raise Exception("no trigger or reaction provided")
+            raise Exception("No trigger or reaction provided")
 
         self.add_variables({trigger: 'boolean'})
         self.add_variables({reaction: 'boolean'})

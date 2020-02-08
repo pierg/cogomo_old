@@ -8,11 +8,11 @@ smvfile = "nusmvfile.smv"
 
 
 def check_satisfiability(variables: Dict[str, str], propositions: List[str]) -> bool:
-    propositions_copy = propositions.copy()
+    propositions = propositions.copy()
 
-    for index, prop in enumerate(propositions_copy):
-        """Renaming propositions"""
-        propositions_copy[index] = re.sub(r"_port_\d+|_port", "", prop)
+    # for index, prop in enumerate(propositions):
+    #     """Renaming propositions"""
+    #     propositions[index] = re.sub(r"_port_\d+|_port", "", prop)
 
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:
@@ -29,7 +29,7 @@ def check_satisfiability(variables: Dict[str, str], propositions: List[str]) -> 
 
         ofile.write('LTLSPEC ')
 
-        ofile.write(Not(And(propositions_copy)))
+        ofile.write(Not(And(propositions)))
 
         ofile.write('\n')
 
@@ -45,16 +45,16 @@ def check_satisfiability(variables: Dict[str, str], propositions: List[str]) -> 
 
         if line[:16] == '-- specification':
             if 'is false' in line:
-                print("SAT:\t" + And(propositions_copy))
+                print("SAT:\t" + And(propositions))
                 return True
             elif 'is true' in line:
                 return False
 
 
 def check_validity(variables, proposition):
-    print("checking validity of:\t" + proposition)
-    """Renaming propositions"""
-    proposition_copy = re.sub(r"_port_\d+|_port", "", proposition)
+    # print("checking validity of:\t" + proposition)
+    # """Renaming propositions"""
+    # proposition_copy = re.sub(r"_port_\d+|_port", "", proposition)
 
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:
@@ -69,7 +69,7 @@ def check_validity(variables, proposition):
 
         ofile.write('\n')
 
-        ofile.write('LTLSPEC ' + proposition_copy)
+        ofile.write('LTLSPEC ' + proposition)
 
     output = subprocess.check_output(['NuSMV', smvfile], encoding='UTF-8', stderr=subprocess.STDOUT).splitlines()
 

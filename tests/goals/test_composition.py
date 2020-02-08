@@ -1,6 +1,36 @@
 from src.helper.parser import *
 from src.goals.operations import *
 
+
+def test_composition_pointers():
+    goal_list = [
+        CGTGoal(
+            name="goal_1",
+            contracts=[BooleanContract(["a"], ["b"])]
+        ),
+        CGTGoal(
+            name="goal_2",
+            contracts=[BooleanContract(["c"], ["d"])]
+        )
+    ]
+
+    cgt = composition(
+        goal_list,
+        name="goal_composed",
+        description="description of goal_composed")
+
+    new_goal = CGTGoal(
+            name="goal_2",
+            contracts=[BooleanContract(["e"], ["f"])]
+        )
+
+    print(cgt)
+    print(goal_list[0])
+    goal_list[0] = composition([goal_list[0], new_goal])
+    print(goal_list[0])
+    print(cgt)
+
+
 def test_two_contracts_composition():
     goal_list = [
         CGTGoal(

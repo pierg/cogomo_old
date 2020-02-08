@@ -23,7 +23,7 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
     except Exception as e:
         print("No further refinement possible")
         print(e)
-        return []
+        return None, None
 
     first_selected_components = greedy_selection(candidates_compositions)
 

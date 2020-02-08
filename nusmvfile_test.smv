@@ -1,0 +1,9 @@
+MODULE main
+VAR
+	a: boolean;
+	b: boolean;
+	c: boolean;
+
+LTLSPEC G(a) -> (G(b) -> G(a))
+
+

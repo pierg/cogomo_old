@@ -60,6 +60,23 @@ def add_element_to_dict(where: Dict[str, str], what: Dict[str, str]):
     where.update(what)
 
 
+def are_satisfied_in(list_variables: List[Dict[str, str]], propositions: List[List[str]]):
+    """satisfiability check"""
+
+    """Merge Dictionaries"""
+    variables = {}
+    for v in list_variables:
+        variables.update(v)
+
+    propositions_list = []
+    for list_propositions in propositions:
+        propositions_list.extend(list_propositions)
+
+    result = check_satisfiability(variables, propositions_list)
+
+    return result
+
+
 def are_implied_in(list_variables: List[Dict[str, str]], antecedent: List[str], consequent: List[str]):
     """Checks if the conjunction of antecedent is contained in the conjunction of consequent,
     i.e. consequent is a bigger set than antecedent"""
@@ -83,13 +100,10 @@ def are_implied_in(list_variables: List[Dict[str, str]], antecedent: List[str], 
     var_antecedent = extract_variables_name(antecedent)
     var_consequent = extract_variables_name(consequent)
 
-    if all(elem in var_antecedent for elem in var_consequent) is False:
+    if any(elem in var_antecedent for elem in var_consequent) is False:
         return False
 
     formula = Implies(And(antecedent), And(consequent))
     result = check_validity(variables, formula)
-
-    # if result:
-    #     print("\t\t\trefined:\t" + str(And(antecedent)) + "\n\t\t\tabstract:\t" + str(And(consequent)))
 
     return result
