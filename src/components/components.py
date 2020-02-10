@@ -5,13 +5,17 @@ from src.checks.nsmvhelper import *
 import itertools as it
 
 
+class NoComponentsAvailable(Exception):
+    pass
+
+
 class Component(Contract):
     """Component class extending Contract"""
 
     def __init__(self,
                  component_id: str,
                  description: str = None,
-                 variables: Dict[str, str] = None,
+                 variables: List[Type] = None,
                  assumptions: List[str] = None,
                  guarantees: List[str] = None):
         super().__init__(assumptions=assumptions,
@@ -96,12 +100,31 @@ class ComponentsLibrary:
         for component in components:
             self.add_component(component)
 
-    def _search_candidate_compositions(self,
-                                       variables: Dict[str, str],
-                                       assumptions: List[str],
-                                       to_be_refined: List[str]) -> List[List['Component']]:
+
+    def extract_selection(self,
+                          variables: List[Type],
+                          assumptions: List[str],
+                          to_be_refined: List[str]) -> List[List['Component']]:
+        """Extract all candidate compositions in the library whose guarantees, once combined, refine 'to_be_refined'
+        and are consistent 'assumptions'. It also performs other tasks (filters and select the candidates)."""
+
         """Extract all candidate compositions in the library whose guarantees, once combined,
-        refine 'to_be_refined' and are consistent 'assumptions'"""
+                refine 'to_be_refined' and are consistent 'assumptions'"""
+
+        """How many different variables are needed for each port"""
+        ports_n: Dict[str, int] = {}
+
+        for v in variables:
+            if hasattr(v, "port_type"):
+                if v.port_type not in ports_n:
+                    ports_n[v.port_type] = 1
+                else:
+                    ports_n[v.port_type] += 1
+            else:
+                if v.name not in ports_n:
+                    ports_n[v.name] = 1
+                else:
+                    ports_n[v.name] += 1
 
         candidates_for_each_proposition = {}
 
@@ -113,7 +136,10 @@ class ComponentsLibrary:
             """Check if any component refine the to_be_refined"""
             for component in self.components:
 
-                if are_implied_in([component.variables, variables], component.unsaturated_guarantees, [proposition]):
+                if are_implied_in([component.variables, variables],
+                                  component.unsaturated_guarantees,
+                                  [proposition],
+                                  check_type=True):
 
                     if len(assumptions) > 0 and assumptions[0] is not "TRUE":
 
@@ -127,7 +153,7 @@ class ComponentsLibrary:
                             props_to_check.add(assumption)
 
                         all_variables = variables.copy()
-                        all_variables.update(component.variables)
+                        all_variables.extend(component.variables)
 
                         compatible = check_satisfiability(all_variables, list(props_to_check))
                     else:
@@ -137,7 +163,8 @@ class ComponentsLibrary:
                     that can refine to_be_refined"""
                     if compatible:
                         if proposition in candidates_for_each_proposition:
-                            candidates_for_each_proposition[proposition].append(component)
+                            if component not in candidates_for_each_proposition[proposition]:
+                                candidates_for_each_proposition[proposition].append(component)
                         else:
                             candidates_for_each_proposition[proposition] = [component]
 
@@ -149,64 +176,73 @@ class ComponentsLibrary:
         candidates_compositions = [[value for (key, value) in zip(candidates_for_each_proposition, values)]
                                    for values in it.product(*candidates_for_each_proposition.values())]
 
-        """Filter incomposable candidates"""
+        """Eliminate duplicate components (a component might refine multiple propositions)"""
+        for i, c in enumerate(candidates_compositions):
+            c = list(set(c))
+            candidates_compositions[i] = c
+
+        """Eliminate candidates that cannot be composed"""
         candidates_compositions[:] = it.filterfalse(incomposable_check, candidates_compositions)
 
-        return candidates_compositions
+        """List of candidates to remove"""
+        candidates_compositions_filtered = []
 
-    def extract_selection(self,
-                          variables: Dict[str, str],
-                          assumptions: List[str],
-                          to_be_refined: List[str]) -> List[List['Component']]:
-        """Extract all candidate compositions in the library whose guarantees, once combined, refine 'to_be_refined'
-        and are consistent 'assumptions'. It also performs other tasks (filters and select the candidates)."""
+        """Filter candidates that cannot provide for all the ports"""
+        for candidate in list(candidates_compositions):
 
-        """Dividing the propositions to be refined, if they are general ports or not"""
-        general_to_be_refined = []
-        specific_to_be_refined = []
+            comps_id = set()
+            for comp in candidate:
+                comps_id.add(comp.id)
 
-        for prop in to_be_refined:
-            if "port" in prop:
-                general_to_be_refined.append(prop)
-            else:
-                specific_to_be_refined.append(prop)
+            already_there = False
 
-        specific_candidates_compositions = self._search_candidate_compositions(variables, assumptions,
-                                                                               specific_to_be_refined)
+            for candidate_filtered in candidates_compositions_filtered:
 
-        general_candidates_compositions = self._search_candidate_compositions(variables, assumptions,
-                                                                              general_to_be_refined)
+                comps_id_filtered = set()
 
-        """Remove the candidates that having the same component refining more general ports"""
-        general_candidates_compositions[:] = it.filterfalse(duplicate_contract, general_candidates_compositions)
+                for comp in candidate_filtered:
+                    comps_id_filtered.add(comp.id)
 
-        all_candidates = []
+                if all(c in comps_id for c in comps_id_filtered):
+                    already_there = True
 
-        if len(specific_candidates_compositions) > 0:
-            all_candidates = specific_candidates_compositions
-            for candidate_specific in specific_candidates_compositions:
-                for candidate_general in general_candidates_compositions:
-                    candidate_specific.append(candidate_general)
+            if already_there:
+                continue
 
-        elif len(general_candidates_compositions) > 0:
-            all_candidates = general_candidates_compositions
+            ports_n_candidate: Dict[str, int] = {}
 
-        """Eliminate duplicate components (a component might refine multiple propositions)"""
-        for i, c in enumerate(all_candidates):
-            c = list(set(c))
-            all_candidates[i] = c
+            for component in candidate:
+                for v in component.variables:
+                    if hasattr(v, "port_type"):
+                        if v.port_type not in ports_n_candidate:
+                            ports_n_candidate[v.port_type] = 1
+                        else:
+                            ports_n_candidate[v.port_type] += 1
+                    else:
+                        if v.name not in ports_n_candidate:
+                            ports_n_candidate[v.name] = 1
+                        else:
+                            ports_n_candidate[v.name] += 1
 
-        print(str(len(all_candidates)) + " candidate compositions found:")
-        for i, candidate in enumerate(all_candidates):
+            all_covered = True
+            for port, n in ports_n_candidate.items():
+                if port in ports_n and ports_n_candidate[port] < ports_n[port]:
+                    all_covered = False
+            if all_covered:
+                candidates_compositions_filtered.append(candidate)
+
+        print(str(len(candidates_compositions_filtered)) + " candidate compositions found:")
+        for i, candidate in enumerate(candidates_compositions_filtered):
             print("\tcandidate_" + str(i) + ":")
             for component in candidate:
                 print(str(component))
             print("\n")
 
-        if len(all_candidates) == 0:
-            raise Exception("No candidate available")
+        if len(candidates_compositions_filtered) == 0:
+            raise NoComponentsAvailable
 
-        return all_candidates
+        else:
+            return candidates_compositions_filtered
 
 
 class BooleanComponent(Component):
@@ -216,12 +252,12 @@ class BooleanComponent(Component):
                  assumptions: List[str],
                  guarantees: List[str]):
 
-        variables: Dict[str, str] = {}
+        variables: List[Type] = []
 
         for a in assumptions:
-            variables.update({a: "boolean"})
+            variables.append(Boolean(a))
         for g in guarantees:
-            variables.update({g: "boolean"})
+            variables.append(Boolean(g))
 
         super().__init__(component_id=component_id,
                          variables=variables,

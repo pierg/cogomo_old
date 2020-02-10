@@ -1,5 +1,5 @@
 from typing import Dict, List, Tuple
-
+from src.contracts.types import *
 from src.checks.nusmv import *
 from src.helper.logic import *
 from src.helper.tools import *
@@ -9,82 +9,15 @@ class NonConsistentException(Exception):
     pass
 
 
-def is_implied_in(variables: Dict[str, str], antecedent: str, consequent: str):
-    if consequent == "TRUE":
-        return True
-
-    """Check that at least one variables in the consequent is contained in the antecedent"""
-    var_antecedent = extract_variables_name([antecedent])
-    var_consequent = extract_variables_name([consequent])
-
-    if any(elem in var_antecedent for elem in var_consequent) is False:
-        return False
-
-    return check_validity(variables, Implies(antecedent, consequent))
-
-
-def is_satisfied_in(variables: Dict[str, str], formula_a: str, formula_b: str):
-    return check_satisfiability(variables, [formula_a, formula_b])
-
-
-def add_propositions_to_list(variables: Dict[str, str], where: List[str], what: List[str]):
-    """Add the propositions 'what' to the list 'where' if is consistent with the other propositions in 'where'"""
-
-    for p in what:
-        add_proposition_to_list(variables, where, p)
-
-
-def add_proposition_to_list(variables: Dict[str, str], where: List[str], what: str):
-    """Add the proposition 'what' to the list 'where' if is consistent with the other propositions in 'where'"""
-
-    where.append(what)
-
-    if not check_satisfiability(variables, where):
-        conflict = where.copy()
-        where.remove(what)
-        print("adding " + what + " resulted in a incompatible contract:\n" + str(conflict))
-        raise NonConsistentException
-
-
-def add_element_to_dict(where: Dict[str, str], what: Dict[str, str]):
-    """Add the (key,value) pair in 'what' to 'where' if is consistent with the other elements in 'where'"""
-
-    common_keys = where.keys() & what.keys()
-
-    for k in common_keys:
-        if what[k] != what[k]:
-            print("Key " + k + " is already present but "
-                               "with value " + where[k] + " instead of " + what[k])
-            raise NonConsistentException
-
-    where.update(what)
-
-
-def are_satisfied_in(list_variables: List[Dict[str, str]], propositions: List[List[str]]):
-    """satisfiability check"""
-
-    """Merge Dictionaries"""
-    variables = {}
-    for v in list_variables:
-        variables.update(v)
-
-    propositions_list = []
-    for list_propositions in propositions:
-        propositions_list.extend(list_propositions)
-
-    result = check_satisfiability(variables, propositions_list)
-
-    return result
-
-
-def are_implied_in(list_variables: List[Dict[str, str]], antecedent: List[str], consequent: List[str]):
+def are_implied_in(list_variables: List[List[Type]], antecedent: List[str], consequent: List[str],
+                   check_type: bool = False):
     """Checks if the conjunction of antecedent is contained in the conjunction of consequent,
     i.e. consequent is a bigger set than antecedent"""
 
-    """Merge Dictionaries"""
-    variables = {}
-    for v in list_variables:
-        variables.update(v)
+    """Merge Lists"""
+    variables = []
+    for list_vars in list_variables:
+        add_variables_to_list(variables, list_vars)
 
     """Check Attributes"""
     if isinstance(consequent, list):
@@ -96,14 +29,85 @@ def are_implied_in(list_variables: List[Dict[str, str]], antecedent: List[str], 
     if not isinstance(antecedent, list):
         raise AttributeError
 
-    """Check that all the variables in the consequent are contained in the antecedent"""
-    var_antecedent = extract_variables_name(antecedent)
-    var_consequent = extract_variables_name(consequent)
+    return is_implied_in(variables, And(antecedent), And(consequent), check_type)
 
-    if any(elem in var_antecedent for elem in var_consequent) is False:
+
+def is_implied_in(variables: List[Type], antecedent: str, consequent: str, check_type: bool = False):
+    if consequent == "TRUE":
+        return True
+
+    """Check that at least one type of variables in the consequent is contained in the antecedent"""
+
+    types_antecedent = extract_variables_types(variables, antecedent)
+    types_consequent = extract_variables_types(variables, consequent)
+
+    if any(elem in types_antecedent for elem in types_consequent) is False:
         return False
 
-    formula = Implies(And(antecedent), And(consequent))
-    result = check_validity(variables, formula)
+    return check_validity(variables, Implies(antecedent, consequent), check_type)
+
+
+def is_satisfied_in(variables: List[Type], formula_a: str, formula_b: str):
+    return check_satisfiability(variables, [formula_a, formula_b])
+
+
+def add_propositions_to_list(variables: List[Type], where: List[str], what: List[str]):
+    """Add the propositions 'what' to the list 'where' if is consistent with the other propositions in 'where'"""
+
+    for p in what:
+        add_proposition_to_list(variables, where, p)
+
+
+def add_proposition_to_list(variables: List[Type], where: List[str], what: str):
+    """Add the proposition 'what' to the list 'where' if is consistent with the other propositions in 'where'"""
+
+    if what == 'TRUE':
+        return
+
+    where.append(what)
+
+    if not check_satisfiability(variables, where):
+        conflict = where.copy()
+        where.remove(what)
+        print("adding " + what + " resulted in a incompatible contract:\n" + str(conflict))
+        raise NonConsistentException
+
+
+def add_variable_to_list(where: List[Type], what: Type):
+    """Add 'what' to 'where' if is consistent with the other elements in 'where'"""
+
+    for elem in where:
+        if elem.name == what.name:
+            type_a = type(what).__name__
+            type_b = type(elem).__name__
+            if type_a != type_b:
+                print("Variable " + str(what) + " is already present but "
+                                                "is of tyoe " + type_a + " instead of " + type_b)
+                raise NonConsistentException
+            else:
+                return
+    where.append(what)
+
+
+def add_variables_to_list(where: List[Type], what: List[Type]):
+    """Add all the elements in 'what' to 'where' if is consistent with the other elements in 'where'"""
+
+    for v in what:
+        add_variable_to_list(where, v)
+
+
+def are_satisfied_in(list_variables: List[List[Type]], propositions: List[List[str]]):
+    """satisfiability check"""
+
+    """Merge Lists"""
+    variables = []
+    for list_vars in list_variables:
+        add_variables_to_list(variables, list_vars)
+
+    propositions_list = []
+    for list_propositions in propositions:
+        propositions_list.extend(list_propositions)
+
+    result = check_satisfiability(variables, propositions_list)
 
     return result

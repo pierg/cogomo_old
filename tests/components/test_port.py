@@ -6,30 +6,40 @@ def test_port():
     components = [
         Component(
             component_id="robot_1",
-            variables={"a": "0..15"},
+            variables=[BoundedInt("a")],
             guarantees=["a > 3"],
         ),
         Component(
             component_id="robot_2",
-            variables={"a": "0..15"},
-            guarantees=["a >= 8"],
+            variables=[BoundedIntPort(port_type="a", name="a_name")],
+            guarantees=["a_name >= 8"],
         ),
         Component(
             component_id="robot_3",
-            variables={"a": "0..15"},
+            variables=[BoundedInt("a")],
             guarantees=["a >= 9"],
         ),
         Component(
+            component_id="robot_4",
+            variables=[BoundedIntPort(port_type="a", name="a_name1"), BoundedIntPort(port_type="a", name="a_name2")],
+            guarantees=["a_name1 >= 8", "a_name2 >= 8"],
+        ),
+        Component(
             component_id="c1",
-            variables={"a_port_1": "0..15", "a_port_2": "0..15",
-                       "b": "boolean"},
-            assumptions=["a_port_1 > 5", "a_port_2 > 5"],
+            variables=[BoundedIntPort(port_type="a", name="a1"),
+                       BoundedIntPort(port_type="a", name="a2"),
+                       Boolean("b")],
+            assumptions=["a1 > 5", "a2 > 5"],
             guarantees=["b"]
         )]
 
+
     library = ComponentsLibrary(name="test", components=components)
 
-    specification = Contract(variables={"b": "boolean"}, guarantees=["b"])
+    specification = Contract(
+        variables=[Boolean("b")],
+        guarantees=["b"]
+    )
 
     components, hierarchy = components_selection(library, specification)
 

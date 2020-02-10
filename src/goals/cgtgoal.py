@@ -1,7 +1,7 @@
 from copy import deepcopy
 from typing import List, Tuple, Dict
 
-from contracts.contract import Contract
+from contracts.contract import Contract, Type
 
 from helper.logic import And, Or
 
@@ -15,7 +15,7 @@ class CGTGoal:
                  contracts: List[Contract] = None,
                  refined_by: List['CGTGoal'] = None,
                  refined_with: str = None,
-                 context: Tuple[Dict[str, str], List[str]] = None):
+                 context: Tuple[List[Type], List[str]] = None):
 
         if name is None:
             self.__name: str = ""
@@ -44,7 +44,7 @@ class CGTGoal:
             raise AttributeError
 
         if context is not None:
-            self.__context: Tuple[Dict[str, str], List[str]] = context
+            self.__context: Tuple[List[Type], List[str]] = context
             self._propagate_context(context)
         else:
             self.__context = None
@@ -124,6 +124,22 @@ class CGTGoal:
             for child in self.refined_by:
                 res = child.get_goal(name)
             return res
+        else:
+            return None
+
+    def get_all_goal(self, name):
+        """Return all goals are name or a copy of"""
+        curr_name = self.name.replace('_copy', '')
+        if curr_name == name:
+            return [self]
+        elif self.refined_by is not None:
+            res = []
+            for child in self.refined_by:
+                res.extend(child.get_all_goal(name))
+            return res
+        else:
+            return []
+
 
     def refine_by(self, refined_by: List['CGTGoal'], consolidate=True):
         """Refine by 'refined_by' with 'refined_with'"""
@@ -168,10 +184,10 @@ class CGTGoal:
         Expectations are conditional assumptions, they get added to each contract of the CGT
         only if the Contract guarantees concern the 'expectations' guarantees and are consistent with them"""
         from src.checks.nsmvhelper import are_satisfied_in
-        from src.helper.tools import have_shared_keys
+        from src.contracts.types import have_shared_variables
         for contract in self.contracts:
             for expectation in expectations:
-                if have_shared_keys(contract.variables, expectation.variables):
+                if have_shared_variables(contract.variables, expectation.variables):
                     if are_satisfied_in([contract.variables, expectation.variables],
                                         [contract.unsaturated_guarantees, expectation.unsaturated_guarantees]):
                         contract.add_variables(expectation.variables)
@@ -211,9 +227,11 @@ class CGTGoal:
             node = self.connected_to
             refined_by, refined_with = node.get_refinement_by()
             if refined_with == "CONJUNCTION":
-                node.update_with(conjunction(refined_by), consolidate=False)
+                conjunction(refined_by, connect_to=node)
+                # node.update_with(conjunction(refined_by), connect_to=node, consolidate=False)
             elif refined_with == "COMPOSITION":
-                node.update_with(composition(refined_by), consolidate=False)
+                composition(refined_by, connect_to=node)
+                # node.update_with(composition(refined_by, connect_to=node), consolidate=False)
             elif refined_with == "REFINEMENT":
                 node.refine_by(refined_by, consolidate=False)
             else:
@@ -223,7 +241,7 @@ class CGTGoal:
         else:
             return
 
-    def _propagate_context(self, context: Tuple[Dict[str, str], List[str]]):
+    def _propagate_context(self, context: Tuple[List[Type], List[str]]):
         """Set the context as assumptions of all the contracts in the node"""
         variables, context_assumptions = context
         for contract in self.contracts:
@@ -263,3 +281,4 @@ class CGTGoal:
                 except Exception as e:
                     print("WAIT")
         return ret
+

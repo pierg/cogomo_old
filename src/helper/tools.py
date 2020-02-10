@@ -1,10 +1,20 @@
 import re
 from typing import List, Union, Dict
 
+from contracts.types import Type
+
 OPERATORS = r'(^==|\*|\/|-|<=|>=|<|>|\+|!=|!|=|\(|\)|\||->|&|\s)'
 TEMPORALOPS = r'^F|^G|^X|^U'
 VARIABLE = r'^[A-Za-z]\w*'
 INTEGER = r'^[+-]\d*|^\d*$'
+
+
+def have_shared_keys(d_1:Dict[str, str], d_2: Dict[str, str]):
+    for k_1 in d_1.keys():
+        for k_2 in d_2.keys():
+            if k_1 == k_2:
+                return True
+    return False
 
 
 def have_shared_keys(d_1:Dict[str, str], d_2: Dict[str, str]):
@@ -25,6 +35,21 @@ def extract_variables_name(formula: Union[List[str], str]) -> List[str]:
         return _extract_variables_from_string(formula)
     else:
         raise AttributeError
+
+
+def extract_variables_types(variables: List[Type], formula: str) -> List[str]:
+    """Extract the types of variables from 'variables' in a formula"""
+    var_names = extract_variables_name(formula)
+    var_types = []
+    for t in variables:
+        for v in var_names:
+            if t.name == v:
+                try:
+                    port_type = t.port_type
+                except Exception as e:
+                    port_type = t.name
+                var_types.append(port_type)
+    return var_types
 
 
 def _extract_variables_from_string(formula: str) -> List[str]:

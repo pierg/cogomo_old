@@ -25,8 +25,7 @@ class CoreMovement(Pattern):
             raise Exception("No location provided")
 
         """Adding variables for each location"""
-        for loc in locations:
-            self.add_variables({loc: "boolean"})
+        self.add_variables([Boolean(loc) for loc in locations])
 
         # Eliminating duplicates
         list_locations = list(dict.fromkeys(locations))
@@ -115,7 +114,7 @@ class GlobalAvoidance(Pattern):
         if proposition is None:
             raise Exception("No proposition provided")
 
-        self.add_variables({proposition: 'boolean'})
+        self.add_variables([Boolean(proposition)])
 
         self.add_guarantee("G(!" + proposition + ")")
 
@@ -124,12 +123,11 @@ class DelayedReaction(Pattern):
     """Delayed Reaction Pattern"""
 
     def __init__(self, trigger=None, reaction=None):
-
         super().__init__()
         if trigger is None or reaction is None:
             raise Exception("No trigger or reaction provided")
 
-        self.add_variables({trigger: 'boolean'})
-        self.add_variables({reaction: 'boolean'})
+        self.add_variables([Boolean(trigger)])
+        self.add_variables([Boolean(reaction)])
 
         self.add_guarantee("G(" + trigger + " -> F(" + reaction + "))")

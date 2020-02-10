@@ -21,9 +21,7 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
     try:
         candidates_compositions = component_library.extract_selection(spec_variables, spec_assumptions, spec_guarantees)
     except Exception as e:
-        print("No further refinement possible")
-        print(e)
-        return None, None
+        raise e
 
     first_selected_components = greedy_selection(candidates_compositions)
 
@@ -43,7 +41,6 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
         components_to_search_copy = components_to_search.copy()
 
         for component in components_to_search_copy:
-            component_provided_by[component] = []
 
             """Remove component from list of components to search 
             and keep track that it has been searched (avoid loops)"""
@@ -57,15 +54,16 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
                 continue
 
             variables = component_variables.copy()
-            variables.update(spec_variables)
+            for v in spec_variables:
+                if v not in variables:
+                    variables.append(v)
 
             """Extract all candidate compositions that can provide the assumptions, if they exists"""
             try:
                 candidates_compositions = component_library.extract_selection(variables, spec_assumptions,
                                                                               component_assumptions)
-            except Exception as e:
-                print(e)
-                print("No selection found")
+            except NoComponentsAvailable as e:
+                print("No further found")
                 continue
 
             """Greedly select one composition"""
@@ -82,7 +80,11 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
                 if comp not in component_already_searched:
                     components_to_search.append(comp)
 
-            component_provided_by[component].extend(new_selected_components)
+            if len(new_selected_components) > 0:
+                if component in component_provided_by:
+                    component_provided_by[component].extend(new_selected_components)
+                else:
+                    component_provided_by[component] = new_selected_components
 
     """Flattening list of selections and eliminating duplicates"""
     flat_list_refining_components = list(set([item for sublist in set_components_to_return for item in sublist]))
@@ -154,7 +156,7 @@ def greedy_selection(candidate_compositions: List[List[Component]]) -> List[Comp
             for component_b in candidate_b:
                 contract_b.add_variables(component_b.variables)
                 contract_b.add_assumptions(component_b.assumptions)
-                contract_a.add_guarantees(component_a.unsaturated_guarantees, saturated=component_a.guarantees)
+                component_b.add_guarantees(component_b.unsaturated_guarantees, saturated=component_b.guarantees)
 
             if contract_a.is_refined_by(contract_b):
                 candidates_points[tuple(candidate_a)] += 1

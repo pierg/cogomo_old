@@ -15,19 +15,19 @@ if __name__ == "__main__":
 
     list_of_goals = [
         CGTGoal(
-            context=({"time": "boolean", "day": "boolean"},
+            context=([Boolean("time"), Boolean("day")],
                      ["time = day"]),
             name="a-b-c",
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=({"time": "boolean", "day": "boolean"},
+            context=([Boolean("time"), Boolean("day")],
                      ["time = !day"]),
             name="a-b",
             contracts=[OrderedVisit(["locA", "locB"])]
         ),
         CGTGoal(
-            context=({"time": "boolean", "day": "boolean"},
+            context=([Boolean("time"), Boolean("day")],
                      ["time = !day"]),
             name="never-c",
             contracts=[GlobalAvoidance("locC")]
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     """Adding Domain Hypothesis or Expectations (i.e. prescriptive assumptions on the environment
     E.g. The item weight 10kg so in order to pick it up the weight_power must be at least 10"""
     expectations = [
-        Contract(variables={"weight_power": "1..100", "heavy_item_pickup": "boolean"},
+        Contract(variables=[BoundedNat("weight_power"), Boolean("heavy_item_pickup")],
                  assumptions=["G(weight_power > 10)"],
                  guarantees=["G(heavy_item_pickup)"])
     ]
@@ -68,39 +68,40 @@ if __name__ == "__main__":
         [
             Component(
                 component_id="robot_1",
-                variables={"robot_power": "0..15"},
+                variables=[BoundedNat("robot_power")],
                 guarantees=["robot_power = 7"],
             ),
             Component(
                 component_id="robot_2",
-                variables={"robot_power": "0..15"},
+                variables=[BoundedNat("robot_power")],
                 guarantees=["robot_power >= 8"],
             ),
             Component(
                 component_id="robot_3",
-                variables={"robot_power": "0..15"},
+                variables=[BoundedNat("robot_power")],
                 guarantees=["robot_power >= 9"],
             ),
             Component(
                 component_id="collaborate",
-                variables={"robot_power": "0..15",
-                           "weight_power": "0..15"},
-                assumptions=["robot_power_port_1 >= 8", "robot_power_port_2 >= 8"],
+                variables=[BoundedNatPort(port_type="robot_power", name="power1"),
+                           BoundedNatPort(port_type="robot_power", name="power2"),
+                           BoundedNat("weight_power")],
+                assumptions=["power1 >= 8", "power2 >= 8"],
                 guarantees=["G(weight_power > 12)"]
             ),
             Component(
                 component_id="pick_up_item",
-                variables={"heavy_item_pickup": "boolean",
-                           "weight_power": "0..15"},
+                variables=[Boolean("heavy_item_pickup"), BoundedNat("weight_power")],
                 assumptions=["G(weight_power > 12)"],
                 guarantees=["G(heavy_item_pickup)"]
             )
         ])
 
-    print(cgt)
+    save_to_file(str(cgt), file_path + "/cgt_before_mapping")
 
     """Looking in the library for components that can relax the Expectation"""
-    goal_to_map = cgt.get_goal("a->pickup")
-    mapping(component_library, goal_to_map)
+    goals_to_map = cgt.get_all_goal("a->pickup")
+    for goal in goals_to_map:
+        mapping(component_library, goal)
 
-    print(cgt)
+    save_to_file(str(cgt), file_path + "/cgt_after_mapping")

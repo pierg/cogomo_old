@@ -5,11 +5,11 @@ def incomposable_check(list_contracts):
     if not isinstance(list_contracts, list):
         raise Exception("Wrong Parameter")
 
-    variables = {}
+    variables = []
     propositions = set([])
 
     for contract in list_contracts:
-        variables.update(contract.variables)
+        variables.extend(contract.variables)
         for elem in contract.assumptions:
             propositions.add(elem)
         for elem in contract.guarantees:

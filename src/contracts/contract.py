@@ -1,19 +1,20 @@
 from itertools import permutations
 from src.checks.nsmvhelper import *
+from src.contracts.types import *
 
 
 class SaturatedContract(object):
     """Contract class stores data attributes of a contract"""
 
     def __init__(self,
-                 variables: Dict[str, str] = None,
+                 variables: List[Type] = None,
                  assumptions: List[str] = None,
                  guarantees: List[str] = None,
                  validate: bool = True):
 
         """Dictionary where: key=name of the variable, value=type of the variable"""
         if variables is None:
-            self.__variables = {}
+            self.__variables = []
         else:
             self.__variables = variables
 
@@ -46,7 +47,7 @@ class SaturatedContract(object):
         return self.__variables
 
     @variables.setter
-    def variables(self, values: Dict[str, str]):
+    def variables(self, values: List[Type]):
         self.__variables = values
 
     @property
@@ -68,9 +69,9 @@ class SaturatedContract(object):
     def guarantees(self, values: List[str]):
         self.__guarantees = values
 
-    def add_variables(self, variables: Dict[str, str]):
+    def add_variables(self, variables: List[Type]):
 
-        add_element_to_dict(self.variables, variables)
+        add_variables_to_list(self.variables, variables)
 
     def add_assumptions(self, assumptions: List[str]):
 
@@ -85,10 +86,6 @@ class SaturatedContract(object):
         """Check if assumption is a abstraction of existing assumptions and vice-versa"""
         for a in self.assumptions:
 
-            """Ignore if its a port"""
-            if "port" in a:
-                continue
-
             if is_implied_in(self.variables, a, assumption):
                 self.assumptions.remove(a)
 
@@ -98,6 +95,28 @@ class SaturatedContract(object):
         """Adding assumption if is compatible with th other assumptions"""
         add_proposition_to_list(self.variables, self.assumptions, assumption)
 
+        if len(self.assumptions) == 0:
+            self.assumptions = ["TRUE"]
+
+    # def _is_abstraction_of(self, new_a: Type) -> Tuple(bool, str):
+    #     """Check if 'new_a' is an abstraction of any assumptions and in case it is it returns
+    #     the assumption that refines new_a"""
+    #
+    #     if hasattr(new_a, "port_type"):
+    #         """If its a port then compare with the other assumptions that have the same port_type"""
+    #         for a in self.assumptions:
+    #             if hasattr(a, "port_type") and a.port_type == new_a.port_type and a.name == new_a.name:
+    #                 is_refined = is_implied_in(self.variables, a, new_a)
+    #                 if is_refined is True:
+    #                     return True, a
+    #     else:
+    #         for a in self.assumptions:
+    #             if a.name == new_a.name:
+    #                 is_refined = is_implied_in(self.variables, a, new_a)
+    #                 if is_refined is True:
+    #                     return True, a
+    #
+    #     return False, None
 
     def _has_smaller_guarantees_than(self, c: 'SaturatedContract') -> bool:
 
@@ -112,6 +131,11 @@ class SaturatedContract(object):
                               self.assumptions)
 
     def propagate_assumptions_from(self, c: 'SaturatedContract'):
+        """propagates assumptions while simplifying other assumptions"""
+        # for to_simplify in simplifying:
+        #     for a in self.assumptions:
+        #         if is_implied_in(self.variables, a, to_simplify):
+        #             self.assumptions.remove(a)
         self.add_variables(c.variables)
         self.add_assumptions(c.assumptions)
 
@@ -140,7 +164,7 @@ class SaturatedContract(object):
 
 class Contract(SaturatedContract):
     def __init__(self,
-                 variables: Dict[str, str] = None,
+                 variables: List[Type] = None,
                  assumptions: List[str] = None,
                  guarantees: List[str] = None,
                  saturated: List[str] = None,
@@ -159,10 +183,13 @@ class Contract(SaturatedContract):
                         guarantees.remove(g_2)
 
             if assumptions is not None:
-                """Check any assumption is an abstraction of another guarantee and vice-versa"""
+                """Check any assumption is an abstraction of another assumption and vice-versa"""
                 a_pairs = permutations(assumptions, 2)
 
                 for a_1, a_2 in a_pairs:
+                    """Ignore if its a port"""
+                    if hasattr(a_1, "port_type") or hasattr(a_2, "port_type"):
+                        continue
                     if is_implied_in(variables, a_1, a_2):
                         assumptions.remove(a_1)
 
@@ -224,11 +251,24 @@ class Contract(SaturatedContract):
         add_proposition_to_list(self.variables, self.unsaturated_guarantees, guarantee)
         add_proposition_to_list(self.variables, self.guarantees, saturated_guarantee)
 
+
+    # def _is_refinement_of(self, new_g: Type) -> Tuple(bool, str):
+    #     """Check if 'new_g' is a refinement of any guarantees and in case it is it returns
+    #     the guarantee that abstracts new_g"""
+    #
+    #     for g in self.assumptions:
+    #         if g.name == new_a.name:
+    #             is_refined = is_implied_in(self.variables, a, new_a)
+    #             if is_refined is True:
+    #                 return True, a
+    #
+    #     return False, None
+
     def __str__(self):
         """Override the print behavior"""
         astr = '  variables:\t[ '
         for var in self.variables:
-            astr += var + ', '
+            astr += str(var) + ', '
         astr = astr[:-2] + ' ]\n  assumptions:\t[ '
         for assumption in self.assumptions:
             astr += str(assumption) + ', '
@@ -250,12 +290,12 @@ class BooleanContract(Contract):
                  assumptions: List[str],
                  guarantees: List[str]):
 
-        variables: Dict[str, str] = {}
+        variables: List[Type] = []
 
         for a in assumptions:
-            variables.update({a: "boolean"})
+            variables.append(Boolean(a))
         for g in guarantees:
-            variables.update({g: "boolean"})
+            variables.append(Boolean(g))
 
         super().__init__(variables=variables,
                          assumptions=assumptions,
