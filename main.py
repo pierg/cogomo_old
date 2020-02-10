@@ -41,13 +41,13 @@ if __name__ == "__main__":
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     cgt = create_contextual_cgt(list_of_goals)
 
-    save_to_file(str(cgt), file_path + "/cgt_1b")
+    save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 
     """Adding Domain Properties (i.e. descriptive statements about the problem world (such as physical laws)
     E.g. a robot cannot be in two locations at the same time. These properties are intrinsic for each pattern"""
     cgt.add_domain_properties()
 
-    save_to_file(str(cgt), file_path + "/cgt_2b")
+    save_to_file(str(cgt), file_path + "/cgt_2_domain")
 
     """Adding Domain Hypothesis or Expectations (i.e. prescriptive assumptions on the environment
     E.g. The item weight 10kg so in order to pick it up the weight_power must be at least 10"""
@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     cgt.add_expectations(expectations)
 
-    save_to_file(str(cgt), file_path + "/cgt_3b")
+    save_to_file(str(cgt), file_path + "/cgt_3_expectations")
 
     """Instantiating a Library of Components"""
     component_library = ComponentsLibrary(name="robots")
@@ -97,11 +97,10 @@ if __name__ == "__main__":
             )
         ])
 
-    save_to_file(str(cgt), file_path + "/cgt_before_mapping")
-
     """Looking in the library for components that can relax the Expectation"""
     goals_to_map = cgt.get_all_goal("a->pickup")
+
     for goal in goals_to_map:
         mapping(component_library, goal)
 
-    save_to_file(str(cgt), file_path + "/cgt_after_mapping")
+    save_to_file(str(cgt), file_path + "/cgt_4_mapping")
