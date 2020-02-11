@@ -2,6 +2,7 @@ from copy import deepcopy
 from typing import List, Tuple, Dict
 
 from contracts.contract import Contract, Type
+from goals.context import Context
 
 from helper.logic import And, Or
 
@@ -15,7 +16,7 @@ class CGTGoal:
                  contracts: List[Contract] = None,
                  refined_by: List['CGTGoal'] = None,
                  refined_with: str = None,
-                 context: Tuple[List[Type], List[str]] = None):
+                 context: Context = None):
 
         if name is None:
             self.__name: str = ""
@@ -241,9 +242,9 @@ class CGTGoal:
         else:
             return
 
-    def _propagate_context(self, context: Tuple[List[Type], List[str]]):
+    def _propagate_context(self, context: Context):
         """Set the context as assumptions of all the contracts in the node"""
-        variables, context_assumptions = context
+        variables, context_assumptions = context.get_context()
         for contract in self.contracts:
             contract.add_variables(variables)
             contract.add_assumptions(context_assumptions)

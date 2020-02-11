@@ -7,22 +7,9 @@ OPERATORS = r'(^==|\*|\/|-|<=|>=|<|>|\+|!=|!|=|\(|\)|\||->|&|\s)'
 TEMPORALOPS = r'^F|^G|^X|^U'
 VARIABLE = r'^[A-Za-z]\w*'
 INTEGER = r'^[+-]\d*|^\d*$'
+COMPARISONOPS = r'(^=|>|<|>=|<=|\s)'
 
 
-def have_shared_keys(d_1:Dict[str, str], d_2: Dict[str, str]):
-    for k_1 in d_1.keys():
-        for k_2 in d_2.keys():
-            if k_1 == k_2:
-                return True
-    return False
-
-
-def have_shared_keys(d_1:Dict[str, str], d_2: Dict[str, str]):
-    for k_1 in d_1.keys():
-        for k_2 in d_2.keys():
-            if k_1 == k_2:
-                return True
-    return False
 
 
 def extract_variables_name(formula: Union[List[str], str]) -> List[str]:
@@ -35,6 +22,16 @@ def extract_variables_name(formula: Union[List[str], str]) -> List[str]:
         return _extract_variables_from_string(formula)
     else:
         raise AttributeError
+
+def extract_terms(formula: str) -> List[str]:
+    list_of_variables = re.split(COMPARISONOPS, formula)
+    list_stripped = []
+    for elem in list_of_variables:
+        stripped = elem.strip()
+        stripped = re.sub(COMPARISONOPS, '', stripped)
+        if stripped is not '':
+            list_stripped.append(stripped)
+    return list_stripped
 
 
 def extract_variables_types(variables: List[Type], formula: str) -> List[str]:

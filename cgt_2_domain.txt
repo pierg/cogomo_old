@@ -1,18 +1,18 @@
 'a-b-c||a->pickup_copy^^a-b||never-c||a->pickup'
-A:		G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)) & time = day
+A:		time > 5 & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
 G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
 	/\ 
-A:		G((locA & !locB) | (locB & !locA)) & time = !day
+A:		G((locA & !locB) | (locB & !locA)) & time < 5
 G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup))
 
 	CONJUNCTION
 		'a-b-c||a->pickup_copy'
-		A:		G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)) & time = day
+		A:		time > 5 & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
 		G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
 
 			COMPOSITION
 				'a-b-c'
-				A:		time = day & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
+				A:		time > 5 & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
 				G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB
 
 				'a->pickup_copy'
@@ -20,16 +20,16 @@ G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup)
 				G:		G(locB -> F(heavy_item_pickup))
 
 		'a-b||never-c||a->pickup'
-		A:		G((locA & !locB) | (locB & !locA)) & time = !day
+		A:		G((locA & !locB) | (locB & !locA)) & time < 5
 		G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup))
 
 			COMPOSITION
 				'a-b'
-				A:		time = !day & G((locA & !locB) | (locB & !locA))
+				A:		time < 5 & G((locA & !locB) | (locB & !locA))
 				G:		F(locA & F(locB)) & !locB U locA
 
 				'never-c'
-				A:		time = !day
+				A:		time < 5
 				G:		G(!locC)
 
 				'a->pickup'

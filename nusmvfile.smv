@@ -1,10 +1,13 @@
 MODULE main
 VAR
-	heavy_item_pickup: boolean;
 	robot_power: 0..100;
-	power2: 0..100;
-	locB: boolean;
-	weight_power: 0..100;
 	power1: 0..100;
+	time: -100..100;
+	locB: boolean;
+	locC: boolean;
+	power2: 0..100;
+	locA: boolean;
+	weight_power: 0..100;
+	heavy_item_pickup: boolean;
 
-LTLSPEC ! (TRUE & G(weight_power > 10))
+LTLSPEC ! (G((locA & !locB) | (locB & !locA)) & time < 5 & time > 5 & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)))

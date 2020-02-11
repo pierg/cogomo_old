@@ -1,0 +1,53 @@
+COMPONENT:
+	ID:
+		robot_1
+    VARIABLES:
+        BoundedNat("robot_power")
+    GUARANTEES:
+        robot_power = 7
+
+
+COMPONENT:
+	ID:
+		robot_2
+    VARIABLES:
+        BoundedNat("robot_power")
+    GUARANTEES:
+        robot_power >= 8
+
+
+COMPONENT:
+	ID:
+		robot_3
+    VARIABLES:
+        BoundedNat("robot_power")
+    GUARANTEES:
+        robot_power >= 9
+
+
+COMPONENT:
+	ID:
+		collaborate
+    VARIABLES:
+        BoundedNatPort(port_type="robot_power", name="power1")
+        BoundedNatPort(port_type="robot_power", name="power2")
+        BoundedNat("weight_power")
+    ASSUMPTIONS:
+        power1 >= 8
+        power2 >= 8
+    GUARANTEES:
+        G(weight_power > 12)
+
+
+COMPONENT:
+	ID:
+		pick_up_item
+    VARIABLES:
+        Boolean("heavy_item_pickup")
+        BoundedNat("weight_power")
+    ASSUMPTIONS:
+        G(weight_power > 12)
+    GUARANTEES:
+        G(heavy_item_pickup)
+
+ENDCOMPONENTS

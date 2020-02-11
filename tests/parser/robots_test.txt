@@ -1,0 +1,41 @@
+GOAL:
+	NAME:
+		a-b-c
+	DESCRIPTION:
+        Visit location A->B->C in order
+    CONTEXT:
+        time > 5
+    PATTERN:
+        OrderedVisit(["locA", "locB", "locC"])
+
+
+GOAL:
+	NAME:
+		a-b
+	DESCRIPTION:
+        Visit location A->B in order
+    CONTEXT:
+        time < 5
+    PATTERN:
+        OrderedVisit(["locA", "locB"])
+
+GOAL:
+	NAME:
+		never-c
+	DESCRIPTION:
+        Always avoid location C
+    CONTEXT:
+        time < 5
+    PATTERN:
+        GlobalAvoidance("locC")
+
+
+GOAL:
+	NAME:
+		a->pickup
+	DESCRIPTION:
+        Always pickup an heavy item when in location A
+    PATTERN:
+        DelayedReaction("locB", "heavy_item_pickup")
+
+ENDGOALS

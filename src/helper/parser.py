@@ -1,5 +1,10 @@
 from src.goals.cgtgoal import *
 from src.contracts.contract import *
+from src.components.components import *
+
+from src.patterns.patterns import *
+from src.goals.context import *
+from src.contracts.types import *
 
 # contract file attributes
 TAB_WIDTH = 2
@@ -11,19 +16,28 @@ GOAL_HEADER_INDENT = 0
 GOAL_SUBHEADER_INDENT = 1
 GOAL_DATA_INDENT = 2
 
+COMPONENT_HEADER_INDENT = 0
+COMPONENT_SUBHEADER_INDENT = 1
+COMPONENT_DATA_INDENT = 2
+
 COMMENT_CHAR = '#'
 ASSIGNMENT_CHAR = ':='
-
 
 CONSTANTS_HEADER = 'CONSTANTS'
 
 GOAL_HEADER = 'GOAL'
 ENDGOALS_HEADER = 'ENDGOALS'
+COMPONENT_HEADER = 'COMPONENT'
+ENDCOMPONENT_HEADER = 'ENDCOMPONENTS'
+COMPONENT_ID_HEADER = 'ID'
 GOAL_NAME_HEADER = 'NAME'
-GOAL_DESCRIPTION_HEADER = 'DESCRIPTION'
-CONTRACT_VARIABLES_HEADER = 'VARIABLES'
-CONTRACT_ASSUMPTIONS_HEADER = 'ASSUMPTIONS'
-CONTRACT_GUARANTEES_HEADER = 'GUARANTEES'
+DESCRIPTION_HEADER = 'DESCRIPTION'
+CONTEXT_HEADER = 'CONTEXT'
+PATTERN_HEADER = 'PATTERN'
+PARAMETERS_HEADER = 'PARAMETERS'
+VARIABLES_HEADER = 'VARIABLES'
+ASSUMPTIONS_HEADER = 'ASSUMPTIONS'
+GUARANTEES_HEADER = 'GUARANTEES'
 
 
 def parse(specfile):
@@ -37,9 +51,13 @@ def parse(specfile):
     """
 
     cgt_goal = CGTGoal()
-    contract = Contract()  # contract and check holders
+    contract = Contract()
+    component = None
+    context = None
+    description = None
 
     goal_dictionary = {}
+    components_dictionary = {}
 
     constants = {}
     file_header = ''
@@ -58,21 +76,26 @@ def parse(specfile):
                 # store previously parsed contract
                 if GOAL_HEADER in file_header or ENDGOALS_HEADER in file_header:
                     if contract.is_full():
-                        goal_dictionary[cgt_goal.name] = CGTGoal(cgt_goal.name, contracts=[contract])
+                        goal_dictionary[cgt_goal.name] = CGTGoal(name=cgt_goal.name,
+                                                                 description= description,
+                                                                 context= context,
+                                                                 contracts=[contract])
                     else:
                         raise Exception("The Goal has Incomplete Parameters")
-                # parse file headers
+                if COMPONENT_HEADER in file_header or ENDCOMPONENT_HEADER in file_header:
+                    if component is not None and component.is_full():
+                        components_dictionary[component.id] = component
+                    else:
+                        raise Exception("The Component has Incomplete Parameters")
+
                 if CONSTANTS_HEADER in line:
                     file_header = line
                 elif GOAL_HEADER in line:
-                    if file_header:
-                        cgt_goal = CGTGoal()
-                        contract = Contract()
                     file_header = line
-                elif CGT_HEADER in line:
+                elif COMPONENT_HEADER in line:
                     file_header = line
                 else:
-                    raise Exception("Unexpected File Header")
+                    raise Exception("Unexpected File Header: " + line)
 
             else:
 
@@ -84,7 +107,28 @@ def parse(specfile):
                         else:
                             constants[var.strip()] = int(init.strip())
 
+                elif COMPONENT_HEADER in file_header:
+                    if ntabs == COMPONENT_HEADER_INDENT:
+                        component_header = line
+                    elif ntabs == COMPONENT_SUBHEADER_INDENT:
+                        component_header = line
+                    elif ntabs == COMPONENT_DATA_INDENT:
+                        if COMPONENT_ID_HEADER in component_header:
+                            component = Component(component_id=line.strip())
+                        elif DESCRIPTION_HEADER in component_header:
+                            component.description = line.strip()
+                        elif VARIABLES_HEADER in component_header:
+                            component.add_variables([eval(line.strip())])
+                        elif ASSUMPTIONS_HEADER in component_header:
+                            component.add_assumption(line.strip())
+                        elif GUARANTEES_HEADER in component_header:
+                            component.add_guarantee(line.strip())
+                        else:
+                            raise Exception("Unexpected Component Header: " + component_header)
+
+
                 elif GOAL_HEADER in file_header:
+                    goal_pattern = None
                     if ntabs == GOAL_HEADER_INDENT:
                         goal_header = line
                     elif ntabs == GOAL_SUBHEADER_INDENT:
@@ -94,22 +138,30 @@ def parse(specfile):
                             cgt_goal.name = line.strip()
                             for key, value in constants.items():
                                 contract.add_variables(({str(key): str(value)}))
-                        elif GOAL_DESCRIPTION_HEADER in goal_header:
-                            cgt_goal.description = line.strip()
-                        elif CONTRACT_VARIABLES_HEADER in goal_header:
+                        elif DESCRIPTION_HEADER in goal_header:
+                            description = line.strip()
+                        elif CONTEXT_HEADER in goal_header:
+                            context = Context(line.strip())
+                        elif PATTERN_HEADER in goal_header:
+                            pattern = line.strip()
+                            contract = eval(pattern)
+                        elif VARIABLES_HEADER in goal_header:
                             var, init = line.split(ASSIGNMENT_CHAR, 1)
                             contract.add_variables({var.strip(): init.strip()})
-                        elif CONTRACT_ASSUMPTIONS_HEADER in goal_header:
+                        elif ASSUMPTIONS_HEADER in goal_header:
                             contract.add_assumption(line.strip())
-                        elif CONTRACT_GUARANTEES_HEADER in goal_header:
+                        elif GUARANTEES_HEADER in goal_header:
                             contract.add_guarantee(line.strip())
                         else:
-                            raise Exception("Unexpected Goal Header")
+                            raise Exception("Unexpected Goal Header: " + goal_header)
 
     print("Loaded Goals:\n\n____________________________________________________________________\n\n")
     for key, value in goal_dictionary.items():
         print(str(value) + "____________________________________________________________________\n\n")
-    return goal_dictionary
+    if len(components_dictionary) > 0:
+        return components_dictionary
+    if len(goal_dictionary) > 0:
+        return goal_dictionary
 
 
 def _is_string_number(string):

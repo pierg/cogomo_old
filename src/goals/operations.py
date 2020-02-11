@@ -231,7 +231,7 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
     """Extract all the contexts"""
     for goal in list_of_goals:
         if goal.context is not None:
-            var, ctx_1 = goal.context
+            var, ctx_1 = goal.context.get_context()
             if "TRUE" not in ctx_1:
                 variables.extend(var)
                 contexts.add(And(ctx_1))
@@ -282,7 +282,7 @@ def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
                 else:
                     context_goals[ctx] = [goal]
             else:
-                var, goal_ctx = goal.context
+                var, goal_ctx = goal.context.get_context()
                 goal_ctx = And(goal_ctx)
 
                 if is_implied_in(variables, ctx, goal_ctx):

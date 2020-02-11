@@ -16,10 +16,10 @@ if __name__ == "__main__":
         In addition to the patterns to use the designer specifies also in which context the goal can be active"""
 
     """Import the goals from file"""
-    list_of_goals = parse("./input_files/robots_patterns_simple.txt")
+    goals = list(parse("./input_files/robots_patterns_simple.txt").values())
 
     """Or define them here"""
-    list_of_goals = [
+    goals = [
         CGTGoal(
             context=(Context("time > 5")),
             name="a-b-c",
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     ]
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_cgt(goals)
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 
@@ -67,38 +67,44 @@ if __name__ == "__main__":
     """Instantiating a Library of Components"""
     component_library = ComponentsLibrary(name="robots")
 
-    component_library.add_components(
-        [
-            Component(
-                component_id="robot_1",
-                variables=[BoundedNat("robot_power")],
-                guarantees=["robot_power = 7"],
-            ),
-            Component(
-                component_id="robot_2",
-                variables=[BoundedNat("robot_power")],
-                guarantees=["robot_power >= 8"],
-            ),
-            Component(
-                component_id="robot_3",
-                variables=[BoundedNat("robot_power")],
-                guarantees=["robot_power >= 9"],
-            ),
-            Component(
-                component_id="collaborate",
-                variables=[BoundedNatPort(port_type="robot_power", name="power1"),
-                           BoundedNatPort(port_type="robot_power", name="power2"),
-                           BoundedNat("weight_power")],
-                assumptions=["power1 >= 8", "power2 >= 8"],
-                guarantees=["G(weight_power > 12)"]
-            ),
-            Component(
-                component_id="pick_up_item",
-                variables=[Boolean("heavy_item_pickup"), BoundedNat("weight_power")],
-                assumptions=["G(weight_power > 12)"],
-                guarantees=["G(heavy_item_pickup)"]
-            )
-        ])
+    """Import the components from file"""
+    components = list(parse("./input_files/robots_components_simple.txt").values())
+
+    """Or define them here"""
+    components = [
+        Component(
+            component_id="robot_1",
+            variables=[BoundedNat("robot_power")],
+            guarantees=["robot_power = 7"],
+        ),
+        Component(
+            component_id="robot_2",
+            variables=[BoundedNat("robot_power")],
+            guarantees=["robot_power >= 8"],
+        ),
+        Component(
+            component_id="robot_3",
+            variables=[BoundedNat("robot_power")],
+            guarantees=["robot_power >= 9"],
+        ),
+        Component(
+            component_id="collaborate",
+            variables=[BoundedNatPort(port_type="robot_power", name="power1"),
+                       BoundedNatPort(port_type="robot_power", name="power2"),
+                       BoundedNat("weight_power")],
+            assumptions=["power1 >= 8", "power2 >= 8"],
+            guarantees=["G(weight_power > 12)"]
+        ),
+        Component(
+            component_id="pick_up_item",
+            variables=[Boolean("heavy_item_pickup"), BoundedNat("weight_power")],
+            assumptions=["G(weight_power > 12)"],
+            guarantees=["G(heavy_item_pickup)"]
+        )
+    ]
+
+    """Add the components to the library"""
+    component_library.add_components(components)
 
     """Looking in the library for components that can relax the Expectation"""
     goals_to_map = cgt.get_all_goal("a->pickup")
