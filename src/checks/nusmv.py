@@ -1,13 +1,14 @@
-# from subprocess import DEVNULL, STDOUT, check_call, check_output
-from src.contracts.types import *
 import subprocess
+from src.contracts.types import *
 from src.helper.logic import *
 
 smvfile = "nusmvfile.smv"
 
 
-def check_satisfiability(variables: List[Type], propositions: List[str]) -> bool:
-    if len(propositions) == 1 and propositions[0] == "TRUE":
+def check_satisfiability(variables: List[Type],
+                         propositions: List[LTL]) -> bool:
+
+    if len(propositions) == 1 and propositions[0].formula == "TRUE":
         return True
     if len(propositions) == 0:
         return True
@@ -29,7 +30,7 @@ def check_satisfiability(variables: List[Type], propositions: List[str]) -> bool
 
         ofile.write('\n')
         ofile.write('LTLSPEC ')
-        ofile.write(Not(And(propositions)))
+        ofile.write(str(Not(And(propositions))))
 
         ofile.write('\n')
 
@@ -39,7 +40,7 @@ def check_satisfiability(variables: List[Type], propositions: List[str]) -> bool
         for line in output:
             if line[:16] == '-- specification':
                 if 'is false' in line:
-                    print("SAT:\t" + And(propositions))
+                    print("SAT:\t" + str(And(propositions)))
                     return True
                 elif 'is true' in line:
                     return False
@@ -48,7 +49,12 @@ def check_satisfiability(variables: List[Type], propositions: List[str]) -> bool
         raise e
 
 
-def check_validity(variables: List[Type], proposition: str, check_type: bool = False) -> bool:
+def check_validity(variables: List[Type],
+                   proposition: LTL,
+                   check_type: bool = False) -> bool:
+
+    proposition = proposition.formula
+
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:
 

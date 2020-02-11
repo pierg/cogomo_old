@@ -21,17 +21,17 @@ if __name__ == "__main__":
     """Or define them here"""
     list_of_goals = [
         CGTGoal(
-            context=(Context("time > 5")),
+            context=(Context(LTL("day"))),
             name="a-b-c",
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=(Context("time < 5")),
+            context=(Context(LTL("night"))),
             name="a-b",
             contracts=[OrderedVisit(["locA", "locB"])]
         ),
         CGTGoal(
-            context=(Context("time < 5")),
+            context=(Context(LTL("night"))),
             name="never-c",
             contracts=[GlobalAvoidance("locC")]
         ),
@@ -56,8 +56,8 @@ if __name__ == "__main__":
     E.g. The item weight 10kg so in order to pick it up the weight_power must be at least 10"""
     expectations = [
         Contract(variables=[BoundedNat("weight_power"), Boolean("heavy_item_pickup")],
-                 assumptions=["G(weight_power > 10)"],
-                 guarantees=["G(heavy_item_pickup)"])
+                 assumptions=[Assumption("G(weight_power > 10)", kind="expectation")],
+                 guarantees=[Guarantee("G(heavy_item_pickup)")])
     ]
 
     cgt.add_expectations(expectations)

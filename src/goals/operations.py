@@ -1,7 +1,8 @@
 import copy
 import itertools
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Set
 
+from goals.context import Context
 from goals.helpers import find_goal_with_name
 from src.components.components import ComponentsLibrary
 from src.components.operations import components_selection
@@ -222,83 +223,126 @@ def mapping(component_library: ComponentsLibrary,
     specification_goal.refine_by([composition_goal])
 
 
-def create_contextual_cgt(list_of_goals: List[CGTGoal]) -> CGTGoal:
+def create_contextual_cgt(goals: List[CGTGoal]) -> CGTGoal:
     """Returns a CGT from a list of goals based on the contexts of each goal"""
 
-    variables = []
-    contexts = set()
+    variables: List[Type] = []
+    contexts: Set[LTL] = set()
 
-    """Extract all the contexts"""
-    for goal in list_of_goals:
+    """Extract all unique contexts"""
+    for goal in goals:
         if goal.context is not None:
-            var, ctx_1 = goal.context.get_context()
-            if "TRUE" not in ctx_1:
-                variables.extend(var)
-                contexts.add(And(ctx_1))
-
-    contexts = list(contexts)
+            c_vars, ctx = goal.context.get_context()
+            variables.extend(c_vars)
+            if ctx not in contexts:
+                contexts.add(ctx)
 
     if len(contexts) == 1:
-        cgt = composition(list_of_goals, name=contexts[0] + "goals")
+        cgt = composition(goals)
         return cgt
-
-    ctx_combinations = itertools.combinations(contexts, 2)
 
     contexts_mutually_exclusive = set()
 
-    """List of contexts to remove because a refinement has been created"""
-    contexts_to_remove = set()
+    for i, ctx_a in enumerate(contexts):
+        mutex = True
+        for j, ctx_b in enumerate(contexts):
+            if i != j:
+                if is_implied_in(variables, ctx_a, ctx_b) or \
+                       is_implied_in(variables, ctx_b, ctx_a):
+                    mutex = False
+        if mutex:
+            satis = False
+            for j, ctx_b in enumerate(contexts):
+                if i != j:
+                    if check_satisfiability(variables, [ctx_a, ctx_b]):
+                        satis = True
+            if not satis:
+                contexts_mutually_exclusive.add(ctx_a)
 
-    """Identifies all the mutually exclusive contexts"""
-    for ctx_a, ctx_b in ctx_combinations:
-        if is_implied_in(variables, ctx_a, ctx_b):
-            new_ctx = And([ctx_b, Not(ctx_a)])
-            contexts_to_remove.add(ctx_b)
-            contexts_mutually_exclusive.add(new_ctx)
-            continue
-        if is_implied_in(variables, ctx_b, ctx_a):
-            new_ctx = And([ctx_a, Not(ctx_b)])
-            contexts_to_remove.add(ctx_a)
-            contexts_mutually_exclusive.add(new_ctx)
-            continue
-        contexts_mutually_exclusive.add(ctx_a)
-        contexts_mutually_exclusive.add(ctx_b)
+    non_mutex_ctx = contexts - contexts_mutually_exclusive
 
-    for c in contexts_to_remove:
-        if c in contexts_mutually_exclusive:
-            contexts_mutually_exclusive.remove(c)
+    intermediate_ctx = []
+    negated_ctx = []
+
+    for i, ctx_a in enumerate(non_mutex_ctx):
+        """List of contextes where ctx_a is implied"""
+        implied_in = []
+        for j, ctx_b in enumerate(non_mutex_ctx):
+            if i != j and ctx_a not in contexts_mutually_exclusive and ctx_b not in contexts_mutually_exclusive:
+                if is_implied_in(variables, ctx_a, ctx_b):
+                    implied_in.append(ctx_b)
+        if len(implied_in) > 0:
+            if len(implied_in) > 1:
+                ctx_i = get_smallest_set(variables, implied_in)
+            else:
+                ctx_i = implied_in[0]
+            intermediate_ctx.append(ctx_i)
+            negated_ctx.append(ctx_a)
+            new_ctx = And([ctx_i, Not(ctx_a)])
+            contexts_mutually_exclusive.add(new_ctx)
+
+    for ctx in negated_ctx:
+        if ctx not in intermediate_ctx:
+            contexts_mutually_exclusive.add(ctx)
 
     contexts_mutually_exclusive = list(contexts_mutually_exclusive)
+    print(contexts_mutually_exclusive)
 
-    context_goals: Dict[str, List] = {}
+    context_goals: Dict[LTL, List] = {}
 
     """Identifies the goals enabled for each mutually exclusive context"""
     for ctx in contexts_mutually_exclusive:
-        for goal in list_of_goals:
+        for goal in goals:
             if goal.context is None:
+                """Add goal to the context"""
                 if ctx in context_goals:
                     if goal not in context_goals[ctx]:
                         context_goals[ctx].append(goal)
                 else:
                     context_goals[ctx] = [goal]
             else:
+                """Verify that the goal context is an abstraction of the mutex context"""
                 var, goal_ctx = goal.context.get_context()
-                goal_ctx = And(goal_ctx)
-
                 if is_implied_in(variables, ctx, goal_ctx):
+                    """Add goal to the context"""
                     if ctx in context_goals:
                         if goal not in context_goals[ctx]:
                             context_goals[ctx].append(goal)
                     else:
                         context_goals[ctx] = [goal]
 
+    """Check if two mutex contexts have the same goals and merge them"""
+    ctx_merged = set()
+    context_goals_merged = {}
+    for ctx_a, goals_a in context_goals.items():
+        ctx_similar = set()
+        for ctx_b, goals_b in context_goals.items():
+            if ctx_a != ctx_b and \
+                    ctx_a not in ctx_merged and \
+                    ctx_b not in ctx_merged:
+                if set(goals_a) == set(goals_b):
+                    ctx_similar.add(ctx_a)
+                    ctx_similar.add(ctx_b)
+                    ctx_merged.add(ctx_a)
+                    ctx_merged.add(ctx_b)
+        """Merge the contexts"""
+        if len(ctx_similar) > 0:
+            new_ctx = Or(list(ctx_similar))
+            context_goals_merged[new_ctx] = context_goals[list(ctx_similar)[0]]
+
+    """Add the contexts that have not been merged"""
+    for ctx_a, goals_a in context_goals.items():
+        if ctx_a not in ctx_merged:
+            context_goals_merged[ctx_a] = goals_a
+
     """Compose the goal in each mutually exclusive context"""
     composed_goals = []
     for ctx, goals in context_goals.items():
-        ctx_goals = composition(goals, name=ctx + "goals")
+        ctx_goals = composition(goals)
+        ctx_goals.context = Context(ctx)
         composed_goals.append(ctx_goals)
 
     """Conjoin the goals across all the mutually exclusive contexts"""
-    cgt = conjunction(composed_goals, name="all_contexts")
+    cgt = conjunction(composed_goals)
 
     return cgt

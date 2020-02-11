@@ -2,6 +2,7 @@ from copy import deepcopy
 from typing import List, Tuple, Dict
 
 from contracts.contract import Contract, Type
+from contracts.formulas import Assumption
 from goals.context import Context
 
 from helper.logic import And, Or
@@ -45,7 +46,7 @@ class CGTGoal:
             raise AttributeError
 
         if context is not None:
-            self.__context: Tuple[List[Type], List[str]] = context
+            self.__context: Context = context
             self._propagate_context(context)
         else:
             self.__context = None
@@ -190,7 +191,7 @@ class CGTGoal:
             for expectation in expectations:
                 if have_shared_variables(contract.variables, expectation.variables):
                     if are_satisfied_in([contract.variables, expectation.variables],
-                                        [contract.unsaturated_guarantees, expectation.unsaturated_guarantees]):
+                                        [contract.guarantees, expectation.guarantees]):
                         contract.add_variables(expectation.variables)
                         contract.add_assumptions(expectation.assumptions)
 
@@ -245,9 +246,10 @@ class CGTGoal:
     def _propagate_context(self, context: Context):
         """Set the context as assumptions of all the contracts in the node"""
         variables, context_assumptions = context.get_context()
+        context_assumptions = Assumption(str(context_assumptions), kind="context")
         for contract in self.contracts:
             contract.add_variables(variables)
-            contract.add_assumptions(context_assumptions)
+            contract.add_assumption(context_assumptions)
 
     def get_ltl_assumptions(self):
         a_list = []
@@ -264,6 +266,8 @@ class CGTGoal:
     def __str__(self, level=0):
         """Override the print behavior"""
         ret = "\t" * level + repr(self.name) + "\n"
+        if self.context is not None:
+            ret = "\t" * level + "CTX:\t" + str(self.context) + "\n"
         # ret += "\t" * level + repr(self.description) + "\n"
         for n, contract in enumerate(self.contracts):
             if n > 0:
@@ -271,7 +275,7 @@ class CGTGoal:
             ret += "\t" * level + "A:\t\t" + \
                    ' & '.join(str(x) for x in contract.assumptions).replace('\n', ' ') + "\n"
             ret += "\t" * level + "G:\t\t" + \
-                   ' & '.join(str(x) for x in contract.unsaturated_guarantees).replace('\n', ' ') + "\n"
+                   ' & '.join(str(x) for x in contract.guarantees).replace('\n', ' ') + "\n"
         ret += "\n"
         if self.refined_by is not None:
             ret += "\t" * level + "\t" + self.refined_with + "\n"
