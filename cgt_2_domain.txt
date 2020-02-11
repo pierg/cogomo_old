@@ -1,5 +1,5 @@
 'a-b-c||a->pickup_copy^^a-b||never-c||a->pickup'
-A:		time = day & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
+A:		G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)) & time = day
 G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
 	/\ 
 A:		G((locA & !locB) | (locB & !locA)) & time = !day
@@ -7,7 +7,7 @@ G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup)
 
 	CONJUNCTION
 		'a-b-c||a->pickup_copy'
-		A:		time = day & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
+		A:		G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)) & time = day
 		G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
 
 			COMPOSITION

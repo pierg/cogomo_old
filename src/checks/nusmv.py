@@ -1,15 +1,12 @@
-import re
-import subprocess
-from typing import Dict
+# from subprocess import DEVNULL, STDOUT, check_call, check_output
 from src.contracts.types import *
-
+import subprocess
 from src.helper.logic import *
 
 smvfile = "nusmvfile.smv"
 
 
 def check_satisfiability(variables: List[Type], propositions: List[str]) -> bool:
-
     if len(propositions) == 1 and propositions[0] == "TRUE":
         return True
     if len(propositions) == 0:
@@ -37,28 +34,21 @@ def check_satisfiability(variables: List[Type], propositions: List[str]) -> bool
         ofile.write('\n')
 
     try:
-        output = subprocess.check_output(['NuSMV', smvfile], encoding='UTF-8').splitlines()
-    except Exception as e:
-        print("NuSMV Exception")
-        print(str(e))
-
-    try:
+        output = subprocess.check_output(['nuXmv', smvfile], encoding='UTF-8', stderr=subprocess.DEVNULL).splitlines()
         output = [x for x in output if not (x[:3] == '***' or x[:7] == 'WARNING' or x == '')]
-    except Exception:
-        pass
+        for line in output:
+            if line[:16] == '-- specification':
+                if 'is false' in line:
+                    print("SAT:\t" + And(propositions))
+                    return True
+                elif 'is true' in line:
+                    return False
 
-    for line in output:
-
-        if line[:16] == '-- specification':
-            if 'is false' in line:
-                print("SAT:\t" + And(propositions))
-                return True
-            elif 'is true' in line:
-                return False
+    except Exception as e:
+        raise e
 
 
 def check_validity(variables: List[Type], proposition: str, check_type: bool = False) -> bool:
-
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:
 
@@ -82,15 +72,16 @@ def check_validity(variables: List[Type], proposition: str, check_type: bool = F
         ofile.write('\n')
         ofile.write('LTLSPEC ' + proposition)
 
-    output = subprocess.check_output(['NuSMV', smvfile], encoding='UTF-8', stderr=subprocess.STDOUT).splitlines()
+    try:
+        output = subprocess.check_output(['nuXmv', smvfile], encoding='UTF-8', stderr=subprocess.DEVNULL).splitlines()
+        output = [x for x in output if not (x[:3] == '***' or x[:7] == 'WARNING' or x == '')]
+        for line in output:
+            if line[:16] == '-- specification':
+                if 'is false' in line:
+                    return False
+                elif 'is true' in line:
+                    print("VALID:\t" + proposition)
+                    return True
 
-    output = [x for x in output if not (x[:3] == '***' or x[:7] == 'WARNING' or x == '')]
-
-    for line in output:
-
-        if line[:16] == '-- specification':
-            if 'is false' in line:
-                return False
-            elif 'is true' in line:
-                print("VALID:\t" + proposition)
-                return True
+    except Exception as e:
+        raise e
