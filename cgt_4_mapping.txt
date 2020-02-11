@@ -68,7 +68,7 @@ G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup)
 					REFINEMENT
 						'collaborate||robot_2||pick_up_item||robot_3'
 						A:		TRUE
-						G:		G(weight_power > 12) & robot_power >= 8 & G(heavy_item_pickup) & robot_power >= 9
+						G:		  & robot_power >= 8 & G(heavy_item_pickup) & robot_power >= 9
 
 							MAPPING
 								'pick_up_item'
