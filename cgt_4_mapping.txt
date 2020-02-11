@@ -2,7 +2,7 @@
 A:		time > 5 & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
 G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
 	/\ 
-A:		G((locA & !locB) | (locB & !locA)) & time < 5
+A:		time < 5 & G((locA & !locB) | (locB & !locA))
 G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup))
 
 	CONJUNCTION
@@ -20,9 +20,9 @@ G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup)
 				G:		G(locB -> F(heavy_item_pickup))
 
 					REFINEMENT
-						'collaborate||robot_2||pick_up_item||robot_3'
+						'pick_up_item||robot_3||robot_2||collaborate'
 						A:		TRUE
-						G:		G(weight_power > 12) & robot_power >= 8 & G(heavy_item_pickup) & robot_power >= 9
+						G:		G(heavy_item_pickup) & robot_power >= 9 & robot_power >= 8 & G(weight_power > 12)
 
 							MAPPING
 								'pick_up_item'
@@ -49,7 +49,7 @@ G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup)
 														G:		robot_power >= 9
 
 		'a-b||never-c||a->pickup'
-		A:		G((locA & !locB) | (locB & !locA)) & time < 5
+		A:		time < 5 & G((locA & !locB) | (locB & !locA))
 		G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup))
 
 			COMPOSITION
@@ -66,9 +66,9 @@ G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup)
 				G:		G(locB -> F(heavy_item_pickup))
 
 					REFINEMENT
-						'collaborate||robot_2||pick_up_item||robot_3'
+						'pick_up_item||robot_3||robot_2||collaborate'
 						A:		TRUE
-						G:		  & robot_power >= 8 & G(heavy_item_pickup) & robot_power >= 9
+						G:		G(heavy_item_pickup) & robot_power >= 9 & robot_power >= 8 & G(weight_power > 12)
 
 							MAPPING
 								'pick_up_item'
