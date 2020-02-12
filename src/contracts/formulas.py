@@ -1,10 +1,15 @@
 
-
 class LTL:
 
     def __init__(self, formula: str):
         super().__init__()
         self.__formula: str = formula
+
+        """Wrap the formula in parenthesis if contains an OR"""
+        if "|" in self.__formula and\
+                not self.__formula.startswith("(") and \
+                not self.__formula.endswith(")"):
+            self.__formula = f"({formula})"
 
     @property
     def formula(self) -> str:

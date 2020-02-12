@@ -9,18 +9,24 @@ from src.checks.nsmvhelper import *
 class Context:
 
     def __init__(self,
-                 expression: LTL = None):
+                 expression: LTL = None,
+                 variables: List[Type] = None):
 
         var_names = extract_terms(expression)
 
-        self.__variables: List[Type] = []
+        if variables is None:
 
-        try:
-            int(var_names[1])
-            self.__variables.append(BoundedInt(var_names[0]))
-        except:
-            for var_name in var_names:
-                self.__variables.append(Boolean(var_name))
+            self.__variables: List[Type] = []
+
+            try:
+                int(var_names[1])
+                self.__variables.append(BoundedInt(var_names[0]))
+            except:
+                for var_name in var_names:
+                    self.__variables.append(Boolean(var_name))
+
+        else:
+            self.__variables: List[Type] = variables
 
         self.__formula: LTL = expression
 
@@ -42,6 +48,11 @@ class Context:
 
     def get_context(self) -> Tuple[List[Type], LTL]:
         return self.__variables, self.__formula
+
+    def is_included_in(self, other: 'Context') -> bool:
+        return are_implied_in([self.variables, other.variables],
+                              [self.formula],
+                              [other.formula])
 
     def is_not_included_in_and_viceversa(self, other: 'Context') -> bool:
         one = not are_implied_in([self.variables, other.variables],
@@ -65,8 +76,12 @@ class Context:
     def __eq__(self, other):
         return str(self.formula) == str(other.formula)
 
+    def __hash__(self):
+        return hash(self.__formula)
 
-def get_smallest_cotext(contexts: List[Context]):
+
+
+def get_smallest_context(contexts: List[Context]):
     smallest = contexts[0]
 
     for context in contexts:

@@ -5,6 +5,15 @@ from src.helper.logic import *
 smvfile = "nusmvfile.smv"
 
 
+
+def test_sat():
+    sat = check_satisfiability(
+        variables=[Boolean("z"), Boolean("x"), Boolean("y")],
+        propositions=[LTL("x & !y & y & x|z & z & !z")]
+    )
+    print(sat)
+
+
 def check_satisfiability(variables: List[Type],
                          propositions: List[LTL]) -> bool:
 

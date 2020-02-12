@@ -1,6 +1,9 @@
 MODULE main
 VAR
 	day: boolean;
-	night: boolean;
+	locB: boolean;
+	weight_power: 0..100;
+	locC: boolean;
+	heavy_item_pickup: boolean;
 
-LTLSPEC (night & !day -> !day)
+LTLSPEC ! (!day & G(weight_power > 10) & G(!locC) & G(locB -> F(heavy_item_pickup)))
