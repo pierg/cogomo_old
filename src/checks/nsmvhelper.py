@@ -18,6 +18,19 @@ def get_smallest_set(variables: List[Type], formulas: List[LTL]):
     return smallest
 
 
+def are_satisfiable(list_variables: List[List[Type]], propositions: List[LTL]):
+    """Merge Lists"""
+    variables = []
+    for list_vars in list_variables:
+        add_variables_to_list(variables, list_vars)
+
+    """Check Attributes"""
+    if not isinstance(propositions, list):
+        raise AttributeError
+
+    return check_satisfiability(variables, propositions)
+
+
 def are_implied_in(list_variables: List[List[Type]],
                    antecedent: List[LTL],
                    consequent: List[LTL],

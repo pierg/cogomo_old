@@ -26,12 +26,12 @@ if __name__ == "__main__":
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=(Context(LTL("night"))),
+            context=(Context(LTL("night & !day"))),
             name="a-b",
             contracts=[OrderedVisit(["locA", "locB"])]
         ),
         CGTGoal(
-            context=(Context(LTL("night"))),
+            context=(Context(LTL("!day"))),
             name="never-c",
             contracts=[GlobalAvoidance("locC")]
         ),

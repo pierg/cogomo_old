@@ -226,20 +226,59 @@ def mapping(component_library: ComponentsLibrary,
 def create_contextual_cgt(goals: List[CGTGoal]) -> CGTGoal:
     """Returns a CGT from a list of goals based on the contexts of each goal"""
 
-    variables: List[Type] = []
-    contexts: Set[LTL] = set()
-
     """Extract all unique contexts"""
+    contexts: List[Context] = []
+
     for goal in goals:
         if goal.context is not None:
-            c_vars, ctx = goal.context.get_context()
-            variables.extend(c_vars)
-            if ctx not in contexts:
-                contexts.add(ctx)
+            already_there = False
+            g_c = goal.context
+            for c in contexts:
+                if c == g_c:
+                    already_there = True
+            if not already_there:
+                contexts.append(g_c)
 
+    """If it's only one context return the CGT"""
     if len(contexts) == 1:
         cgt = composition(goals)
+        cgt.context = list(contexts)[0]
         return cgt
+
+    """Extract all context that are already mutually 
+     with all existing other e.g. : (x < 5, x > 5)"""
+    mutctx: List[Context] = []
+
+    """Extract all context that are already compatible 
+    with all the opthers e.g. :( a > 4, b < 2)"""
+    genctx: List[Context] = []
+
+    """Extract all context that are not mutually 
+         with all existing other e.g. : (a, !b & a)"""
+    shactx: List[Context] = []
+
+    for ca in contexts:
+
+        is_ca_mutctx = True
+        is_ca_genctx = True
+
+        for cb in contexts:
+            if ca is not cb:
+                if ca.is_not_included_in_and_viceversa(cb):
+                    if ca.is_satisfiable_with(cb):
+                        is_ca_mutctx = False
+                    else:
+                        is_ca_genctx = False
+                else:
+                    is_ca_mutctx = False
+                    is_ca_genctx = False
+                    shactx.append(ca)
+
+        if is_ca_mutctx:
+            mutctx.append(ca)
+
+        if is_ca_genctx:
+            genctx.append(ca)
 
     contexts_mutually_exclusive = set()
 
@@ -248,7 +287,7 @@ def create_contextual_cgt(goals: List[CGTGoal]) -> CGTGoal:
         for j, ctx_b in enumerate(contexts):
             if i != j:
                 if is_implied_in(variables, ctx_a, ctx_b) or \
-                       is_implied_in(variables, ctx_b, ctx_a):
+                        is_implied_in(variables, ctx_b, ctx_a):
                     mutex = False
         if mutex:
             satis = False
