@@ -1,24 +1,11 @@
 'all_contexts'
-A:		time > 5
-G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
-	/\ 
 A:		time < 5
 G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup))
+	/\ 
+A:		time > 5
+G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
 
 	CONJUNCTION
-		'time > 5goals'
-		A:		time > 5
-		G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
-
-			COMPOSITION
-				'a-b-c'
-				A:		time > 5
-				G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB
-
-				'a->pickup'
-				A:		TRUE
-				G:		G(locB -> F(heavy_item_pickup))
-
 		'time < 5goals'
 		A:		time < 5
 		G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup))
@@ -31,6 +18,19 @@ G:		F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup)
 				'never-c'
 				A:		time < 5
 				G:		G(!locC)
+
+				'a->pickup'
+				A:		TRUE
+				G:		G(locB -> F(heavy_item_pickup))
+
+		'time > 5goals'
+		A:		time > 5
+		G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
+
+			COMPOSITION
+				'a-b-c'
+				A:		time > 5
+				G:		F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB
 
 				'a->pickup'
 				A:		TRUE
