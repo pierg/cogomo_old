@@ -16,7 +16,7 @@ if __name__ == "__main__":
         In addition to the patterns to use the designer specifies also in which context the goal can be active"""
 
     """Import the goals from file"""
-    list_of_goals = parse("./input_files/robots_patterns_simple.txt")
+    # list_of_goals = parse("./input_files/robots_patterns_simple.txt")
 
     """Or define them here"""
     list_of_goals = [
@@ -26,7 +26,7 @@ if __name__ == "__main__":
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=(Context(LTL("night & !day"))),
+            context=(Context(LTL("!day"))),
             name="a-b",
             contracts=[OrderedVisit(["locA", "locB"])]
         ),
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     ]
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_combinatorial_cgt(list_of_goals)
+    cgt = create_contextual_simple_cgt(list_of_goals)
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 
@@ -106,7 +106,5 @@ if __name__ == "__main__":
 
     for goal in goals_to_map:
         mapping(component_library, goal)
-
-    print(cgt)
 
     save_to_file(str(cgt), file_path + "/cgt_4_mapping")

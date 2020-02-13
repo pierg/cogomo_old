@@ -20,9 +20,9 @@ def test_composition_pointers():
         description="description of goal_composed")
 
     new_goal = CGTGoal(
-            name="goal_2",
-            contracts=[BooleanContract(["e"], ["f"])]
-        )
+        name="goal_2",
+        contracts=[BooleanContract(["e"], ["f"])]
+    )
 
     print(cgt)
     print(goal_list[0])
@@ -57,7 +57,6 @@ def test_two_contracts_composition():
 
 
 def test_three_contracts_composition():
-
     goal_list = [
         CGTGoal(
             name="goal_1",
@@ -84,7 +83,6 @@ def test_three_contracts_composition():
 
 
 def test_three_contracts_composition():
-
     goal_list = [
         CGTGoal(
             name="goal_1",
@@ -108,5 +106,3 @@ def test_three_contracts_composition():
     print(goal_composed)
 
     assert goal_composed.get_ltl_assumptions() == "a & c & e"
-
-

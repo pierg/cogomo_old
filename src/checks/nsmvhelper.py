@@ -1,3 +1,4 @@
+from contracts.formulas import Assumption
 from src.checks.nusmv import *
 from src.helper.logic import *
 from src.helper.tools import *
@@ -90,20 +91,34 @@ def are_satisfied_in(list_variables: List[List[Type]],
 
 def add_propositions_to_list(variables: List[Type],
                              where: List[LTL],
-                             what: List[LTL]):
+                             what: List[LTL], simplify=True):
     """Add the propositions 'what' to the list 'where' if is consistent with the other propositions in 'where'"""
 
     for p in what:
-        add_proposition_to_list(variables, where, p)
+        add_proposition_to_list(variables, where, p, simplify)
 
 
 def add_proposition_to_list(variables: List[Type],
                             where: List[LTL],
-                            what: LTL):
-    """Add the proposition 'what' to the list 'where' if is consistent with the other propositions in 'where'"""
+                            what: LTL, simplify=True):
+    """Add the proposition 'what' to the list 'where' if is consistent with the other propositions in 'where'
+    also simplifies if a proposition is already included in the list"""
 
-    if what.formula == 'TRUE':
+    if what == 'TRUE':
         return
+
+    if what in where:
+        return
+
+    """Check if assumption is a abstraction of existing assumptions and vice-versa"""
+    if simplify:
+        for p in where:
+
+            if is_implied_in(variables, p, what):
+                where.remove(p)
+
+            elif is_implied_in(variables, what, p):
+                return
 
     where.append(what)
 

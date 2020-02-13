@@ -6,6 +6,7 @@ from contracts.formulas import Assumption
 from goals.context import Context
 
 from helper.logic import And, Or
+from helper.tools import extract_variables_from_LTL
 
 
 class CGTGoal:
@@ -18,6 +19,8 @@ class CGTGoal:
                  refined_by: List['CGTGoal'] = None,
                  refined_with: str = None,
                  context: Context = None):
+
+        self.__connected_to = None
 
         if name is None:
             self.__name: str = ""
@@ -46,12 +49,8 @@ class CGTGoal:
             raise AttributeError
 
         if context is not None:
-            self.__context: Context = context
-            self._propagate_context(context)
-        else:
-            self.__context = None
+            self.add_context(context)
 
-        self.__connected_to = None
 
     @property
     def name(self):
@@ -98,13 +97,27 @@ class CGTGoal:
 
     @property
     def context(self):
-        return self.__context
+        contexts = []
+        variables = []
+        for contract in self.contracts:
+            context = []
+            variables.extend(contract.variables)
+            for a in contract.assumptions:
+                if a.kind == "context":
+                    context.append(a)
+            if len(context) > 0:
+                context = And(context)
+                contexts.append(context)
+        if len(contexts) > 0:
+            contexts = Or(contexts)
+            variables = extract_variables_from_LTL(variables, contexts)
+            return Context(variables=variables, expression=contexts)
+        else:
+            return None
 
     @context.setter
     def context(self, value):
-        self.__context = value
-        if value is not None:
-            self._propagate_context(value)
+        self.add_context(value)
 
     @property
     def connected_to(self):
@@ -166,6 +179,21 @@ class CGTGoal:
         self.__refined_with = "PROVIDED_BY"
         goal.connected_to = self
 
+    def add_context(self, context: Context):
+        """Set the context as assumptions of all the contracts in the node"""
+        if context is not None:
+            variables, context_assumptions = context.get_context()
+            context_assumptions = Assumption(str(context_assumptions), kind="context")
+            for contract in self.contracts:
+                contract.add_variables(variables)
+                contract.add_assumption(context_assumptions)
+
+            if self.refined_by is None:
+                self.consolidate_bottom_up()
+            else:
+                for goal in self.refined_by:
+                    goal.add_context(context)
+
     def add_domain_properties(self):
         """Adding Domain Properties to 'cgt' (i.e. descriptive statements about the problem world (such as physical laws)
         These properties are intrinsic to the Contract/Pattern and get added as assumptions"""
@@ -219,7 +247,6 @@ class CGTGoal:
             self.contracts = goal.contracts
             self.refined_by = goal.refined_by
             self.refined_with = goal.refined_with
-            self.context = goal.context
 
     def consolidate_bottom_up(self):
         """It recursivly re-perfom composition and conjunction and refinement operations up to the rood node"""
@@ -229,10 +256,8 @@ class CGTGoal:
             refined_by, refined_with = node.get_refinement_by()
             if refined_with == "CONJUNCTION":
                 conjunction(refined_by, connect_to=node)
-                # node.update_with(conjunction(refined_by), connect_to=node, consolidate=False)
             elif refined_with == "COMPOSITION":
                 composition(refined_by, connect_to=node)
-                # node.update_with(composition(refined_by, connect_to=node), consolidate=False)
             elif refined_with == "REFINEMENT":
                 node.refine_by(refined_by, consolidate=False)
             else:
@@ -241,14 +266,6 @@ class CGTGoal:
             node.consolidate_bottom_up()
         else:
             return
-
-    def _propagate_context(self, context: Context):
-        """Set the context as assumptions of all the contracts in the node"""
-        variables, context_assumptions = context.get_context()
-        context_assumptions = Assumption(str(context_assumptions), kind="context")
-        for contract in self.contracts:
-            contract.add_variables(variables)
-            contract.add_assumption(context_assumptions)
 
     def get_ltl_assumptions(self):
         a_list = []
@@ -264,24 +281,31 @@ class CGTGoal:
 
     def __str__(self, level=0):
         """Override the print behavior"""
-        ret = "\t" * level + repr(self.name) + "\n"
-        if self.context is not None:
-            ret = "\t" * level + "CTX:\t" + str(self.context) + "\n"
-        # ret += "\t" * level + repr(self.description) + "\n"
+        ret = "\t" * level + "NAME:\t" + repr(self.name) + "\n"
         for n, contract in enumerate(self.contracts):
             if n > 0:
                 ret += "\t" * level + "\t/\\ \n"
-            ret += "\t" * level + "A:\t\t" + \
-                   ' & '.join(str(x) for x in contract.assumptions if x.kind is "assumed").replace('\n', ' ') + "\n"
-            ret += "\t" * level + "G:\t\t" + \
+            # ret += "\t" * level + " CTX:\t" + \
+            #        ' & '.join(str(x) for x in contract.assumptions
+            #                   if x.kind == "context").replace('\n', ' ') + "\n"
+            # ret += "\t" * level + " EXP:\t" + \
+            #        ' & '.join(str(x) for x in contract.assumptions
+            #                   if x.kind == "expectation").replace('\n', ' ') + "\n"
+            # ret += "\t" * level + " DOM:\t" + \
+            #        ' & '.join(str(x) for x in contract.assumptions
+            #                   if x.kind == "domain").replace('\n', ' ') + "\n"
+            ret += "\t" * level + "  A:\t\t" + \
+                   ' & '.join(str(x) for x in contract.assumptions).replace('\n', ' ') + "\n"
+            ret += "\t" * level + "  G:\t\t" + \
                    ' & '.join(str(x) for x in contract.guarantees).replace('\n', ' ') + "\n"
         ret += "\n"
         if self.refined_by is not None:
+            print(len(self.refined_by))
             ret += "\t" * level + "\t" + self.refined_with + "\n"
             level += 1
             for child in self.refined_by:
                 try:
                     ret += child.__str__(level + 1)
-                except Exception as e:
+                except Exception:
                     print("WAIT")
         return ret

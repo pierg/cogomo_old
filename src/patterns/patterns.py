@@ -11,7 +11,8 @@ class Pattern(Contract):
         self.domain_properties: List[Assumption] = []
 
     def add_domain_properties(self):
-        self.add_assumptions(self.domain_properties)
+        if len(self.domain_properties) > 0:
+            self.add_assumptions(self.domain_properties)
 
 
 class CoreMovement(Pattern):

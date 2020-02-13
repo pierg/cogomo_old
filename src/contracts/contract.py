@@ -103,17 +103,8 @@ class Contract:
     def add_assumption(self, assumption: Assumption):
 
         for a in list(self.assumptions):
-            if a.formula == "TRUE":
+            if a == "TRUE":
                 self.assumptions.remove(a)
-
-        """Check if assumption is a abstraction of existing assumptions and vice-versa"""
-        for a in self.assumptions:
-
-            if is_implied_in(self.variables, a, assumption):
-                self.assumptions.remove(a)
-
-            elif is_implied_in(self.variables, assumption, a):
-                return
 
         """Adding assumption if is compatible with th other assumptions"""
         add_proposition_to_list(self.variables, self.assumptions, assumption)
@@ -128,12 +119,6 @@ class Contract:
             self.add_guarantee(guarantee)
 
     def add_guarantee(self, guarantee: Guarantee):
-
-        """Check if guarantee is a refinement of existing guarantee and vice-versa"""
-        for i, g in enumerate(self.guarantees):
-            if is_implied_in(self.variables, guarantee, g):
-                print("simplifying\t" + str(self.guarantees[i]))
-                del self.guarantees[i]
 
         """Adding guarantee if is consistent with th other guarantees"""
         add_proposition_to_list(self.variables, self.guarantees, guarantee)
@@ -192,9 +177,6 @@ class Contract:
         for guarantee in self.guarantees:
             astr += str(guarantee.saturated) + ', '
         return astr[:-2] + ' ]\n'
-
-    def add_domain_properties(self):
-        pass
 
 
 class BooleanContract(Contract):

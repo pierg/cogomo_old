@@ -23,8 +23,8 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
     for contract in contracts:
         try:
             add_variables_to_list(variables, contract.variables)
-            add_propositions_to_list(variables, assumptions, contract.assumptions)
-            add_propositions_to_list(variables, guarantees, contract.guarantees)
+            add_propositions_to_list(variables, assumptions, contract.assumptions, simplify=False)
+            add_propositions_to_list(variables, guarantees, contract.guarantees, simplify=False)
         except NonConsistentException:
             print("Composition is not doable")
             raise NonConsistentException

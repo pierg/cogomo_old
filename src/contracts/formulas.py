@@ -1,3 +1,5 @@
+from typing import Union
+
 
 class LTL:
 
@@ -17,6 +19,17 @@ class LTL:
 
     def __str__(self):
         return self.__formula
+
+    def __eq__(self, other: Union[str, 'LTL']):
+        if isinstance(other, str):
+            return self.formula == other
+        elif isinstance(other, LTL):
+            return self.formula == other.formula
+        else:
+            raise AttributeError
+
+    def __hash__(self):
+        return hash(self.__formula)
 
 
 class Guarantee(LTL):
@@ -45,20 +58,4 @@ class Assumption(LTL):
     @property
     def kind(self) -> str:
         return self.__kind
-
-
-if __name__ == '__main__':
-    a1 = Assumption("a_1")
-
-    g1 = Guarantee("g1")
-
-    g2 = Guarantee("g1", saturated="XXX -> g1")
-
-
-    print(a1)
-    print(a1.kind)
-    print(g1)
-    print(g1.saturated)
-    print(g2)
-    print(g2.saturated)
 

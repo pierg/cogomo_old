@@ -102,16 +102,12 @@ class ComponentsLibrary:
         for component in components:
             self.add_component(component)
 
-
     def extract_selection(self,
                           variables: List[Type],
                           assumptions: List[Assumption],
                           to_be_refined: List[LTL]) -> List[List['Component']]:
         """Extract all candidate compositions in the library whose guarantees, once combined, refine 'to_be_refined'
         and are consistent 'assumptions'. It also performs other tasks (filters and select the candidates)."""
-
-        """Extract all candidate compositions in the library whose guarantees, once combined,
-                refine 'to_be_refined' and are consistent 'assumptions'"""
 
         """How many different variables are needed for each port"""
         ports_n: Dict[str, int] = {}

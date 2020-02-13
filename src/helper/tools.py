@@ -9,6 +9,18 @@ VARIABLE = r'^[A-Za-z]\w*'
 INTEGER = r'^[+-]\d*|^\d*$'
 
 
+def extract_variables_from_LTL(variables: List[Type],
+                               expression: LTL) -> List[Type]:
+    """Extract the varialbes from 'variables' in a formula"""
+    var_names = extract_variables_name(expression)
+    variables_set = []
+    for t in variables:
+        for v in var_names:
+            if t.name == v:
+                variables_set.append(t)
+    return variables_set
+
+
 def extract_variables_types(variables: List[Type],
                             expression: LTL) -> List[str]:
     """Extract the types of variables from 'variables' in a formula"""
