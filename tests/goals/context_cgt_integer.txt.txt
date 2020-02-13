@@ -1,3 +1,430 @@
+SAT:	b
+SAT:	b & a
+SAT:	a & y > 5
+SAT:	a1
+SAT:	b1
+SAT:	b1 & a1
+SAT:	a1 & x > 1
+SAT:	a
+SAT:	b
+SAT:	b & a
+SAT:	a & x > 6
+SAT:	c
+SAT:	d
+SAT:	d & c
+SAT:	c & x < 5
+SAT:	k
+SAT:	p
+SAT:	p & k
+SAT:	k & x < 3
+SAT:	kd
+SAT:	pf
+SAT:	pf & kd
+SAT:	kd & x < 10
+VALID:	(x < 5 -> x < 10)
+VALID:	(x < 5 -> x < 10)
+VALID:	(x < 3 -> x < 10)
+VALID:	(x < 3 -> x < 10)
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(x < 3 -> !(x > 6))
+VALID:	(x < 3 -> !(x > 6))
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x > 6 -> x > 1)
+VALID:	(x < 3 -> x < 5)
+VALID:	(x < 3 -> x < 5)
+
+
+____________________ALL_COMBINATIONS_____________________
+y > 5
+x > 1
+x > 6
+x < 5
+x < 3
+y > 5			x > 1
+y > 5			x > 6
+y > 5			x < 5
+y > 5			x < 3
+x > 1			x > 6
+x > 1			x < 5
+x > 1			x < 3
+x > 6			x < 5
+x > 6			x < 3
+x < 5			x < 3
+y > 5			x > 1			x > 6
+y > 5			x > 1			x < 5
+y > 5			x > 1			x < 3
+y > 5			x > 6			x < 5
+y > 5			x > 6			x < 3
+y > 5			x < 5			x < 3
+x > 1			x > 6			x < 5
+x > 1			x > 6			x < 3
+x > 1			x < 5			x < 3
+x > 6			x < 5			x < 3
+y > 5			x > 1			x > 6			x < 5
+y > 5			x > 1			x > 6			x < 3
+y > 5			x > 1			x < 5			x < 3
+y > 5			x > 6			x < 5			x < 3
+x > 1			x > 6			x < 5			x < 3
+y > 5			x > 1			x > 6			x < 5			x < 3
+
+
+____________________ALL_COMBINATIONS_WITH_NEG_____________________
+y > 5			!(x > 1)			!(x > 6)
+x > 1			!(y > 5)			!(x < 5)			!(x < 3)
+x > 6			!(y > 5)			!(x > 1)			!(x < 5)			!(x < 3)
+x < 5			!(y > 5)			!(x > 1)			!(x > 6)
+x < 3			!(y > 5)			!(x > 1)			!(x > 6)
+y > 5			x > 1			!(x < 5)			!(x < 3)
+y > 5			x > 6			!(x > 1)			!(x < 5)			!(x < 3)
+y > 5			x < 5			!(x > 1)			!(x > 6)
+y > 5			x < 3			!(x > 1)			!(x > 6)
+x > 1			x > 6			!(y > 5)			!(x < 5)			!(x < 3)
+x > 1			x < 5			!(y > 5)
+x > 1			x < 3			!(y > 5)			!(x < 5)
+x > 6			x < 5			!(y > 5)			!(x > 1)
+x > 6			x < 3			!(y > 5)			!(x > 1)			!(x < 5)
+x < 5			x < 3			!(y > 5)			!(x > 1)			!(x > 6)
+y > 5			x > 1			x > 6			!(x < 5)			!(x < 3)
+y > 5			x > 1			x < 5
+y > 5			x > 1			x < 3			!(x < 5)
+y > 5			x > 6			x < 5			!(x > 1)
+y > 5			x > 6			x < 3			!(x > 1)			!(x < 5)
+y > 5			x < 5			x < 3			!(x > 1)			!(x > 6)
+x > 1			x > 6			x < 5			!(y > 5)
+x > 1			x > 6			x < 3			!(y > 5)			!(x < 5)
+x > 1			x < 5			x < 3			!(y > 5)
+x > 6			x < 5			x < 3			!(y > 5)			!(x > 1)
+y > 5			x > 1			x > 6			x < 5
+y > 5			x > 1			x > 6			x < 3			!(x < 5)
+y > 5			x > 1			x < 5			x < 3
+y > 5			x > 6			x < 5			x < 3			!(x > 1)
+x > 1			x > 6			x < 5			x < 3			!(y > 5)
+y > 5			x > 1			x > 6			x < 5			x < 3
+SAT:	y > 5
+SAT:	x > 1
+SAT:	x > 6
+SAT:	x < 5
+SAT:	x < 3
+SAT:	y > 5 & x > 1
+SAT:	y > 5 & x > 6
+SAT:	y > 5 & x < 5
+SAT:	y > 5 & x < 3
+SAT:	x > 1 & x > 6
+VALID:	(x > 6 -> x > 1)
+SAT:	x > 1 & x < 5
+SAT:	x > 1 & x < 3
+SAT:	x < 5 & x < 3
+VALID:	(x < 3 -> x < 5)
+SAT:	y > 5 & x > 1 & x > 6
+VALID:	(x > 6 -> x > 1)
+SAT:	y > 5 & x > 1 & x < 5
+SAT:	y > 5 & x > 1 & x < 3
+SAT:	y > 5 & x < 5 & x < 3
+VALID:	(x < 3 -> x < 5)
+SAT:	x > 1 & x < 5 & x < 3
+VALID:	(x < 3 -> x < 5)
+SAT:	y > 5 & x > 1 & x < 5 & x < 3
+VALID:	(x < 3 -> x < 5)
+
+
+___________CONSISTENT_AND_SIMPLIFIED_____________________
+
+y > 5
+x > 1
+x > 6
+x < 5
+x < 3
+y > 5			x > 1
+y > 5			x > 6
+y > 5			x < 5
+y > 5			x < 3
+x > 1
+x > 1			x < 5
+x > 1			x < 3
+x < 5
+y > 5			x > 1
+y > 5			x > 1			x < 5
+y > 5			x > 1			x < 3
+y > 5			x < 5
+x > 1			x < 5
+y > 5			x > 1			x < 5
+SAT:	y > 5 & !(x > 1) & !(x > 6)
+VALID:	(!(x > 1) -> !(x > 6))
+SAT:	x > 1 & !(y > 5) & !(x < 5) & !(x < 3)
+VALID:	(!(x < 5) -> x > 1)
+VALID:	(!(x < 3) -> x > 1)
+SAT:	x < 5 & !(y > 5) & !(x > 1) & !(x > 6)
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(!(x > 1) -> !(x > 6))
+SAT:	x < 3 & !(y > 5) & !(x > 1) & !(x > 6)
+VALID:	(x < 3 -> !(x > 6))
+VALID:	(!(x > 1) -> !(x > 6))
+SAT:	y > 5 & x > 1 & !(x < 5) & !(x < 3)
+VALID:	(!(x < 5) -> x > 1)
+VALID:	(!(x < 3) -> x > 1)
+SAT:	y > 5 & x < 5 & !(x > 1) & !(x > 6)
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(!(x > 1) -> !(x > 6))
+SAT:	y > 5 & x < 3 & !(x > 1) & !(x > 6)
+VALID:	(x < 3 -> !(x > 6))
+VALID:	(!(x > 1) -> !(x > 6))
+SAT:	x > 1 & x > 6 & !(y > 5) & !(x < 5) & !(x < 3)
+VALID:	(x > 6 -> x > 1)
+VALID:	(!(x < 5) -> x > 1)
+VALID:	(!(x < 3) -> x > 1)
+SAT:	x > 1 & x < 5 & !(y > 5)
+SAT:	x < 5 & x < 3 & !(y > 5) & !(x > 1) & !(x > 6)
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(x < 3 -> !(x > 6))
+VALID:	(!(x > 1) -> !(x > 6))
+SAT:	y > 5 & x > 1 & x > 6 & !(x < 5) & !(x < 3)
+VALID:	(x > 6 -> x > 1)
+VALID:	(!(x < 5) -> x > 1)
+VALID:	(!(x < 3) -> x > 1)
+SAT:	y > 5 & x > 1 & x < 5
+SAT:	y > 5 & x < 5 & x < 3 & !(x > 1) & !(x > 6)
+VALID:	(x < 5 -> !(x > 6))
+VALID:	(x < 3 -> !(x > 6))
+VALID:	(!(x > 1) -> !(x > 6))
+SAT:	x > 1 & x < 5 & x < 3 & !(y > 5)
+VALID:	(x < 3 -> x < 5)
+SAT:	y > 5 & x > 1 & x < 5 & x < 3
+VALID:	(x < 3 -> x < 5)
+
+
+___________CONSISTENT_AND_SIMPLIFIED_WITH_NEG_____________________
+
+y > 5			!(x > 6)
+x > 1			!(y > 5)
+!(y > 5)			!(x > 6)
+!(y > 5)			!(x > 6)
+y > 5			x > 1
+y > 5			!(x > 6)
+y > 5			!(x > 6)
+x > 1			!(y > 5)
+x > 1			x < 5			!(y > 5)
+!(y > 5)			!(x > 6)
+y > 5			x > 1
+y > 5			x > 1			x < 5
+y > 5			!(x > 6)
+x > 1			x < 5			!(y > 5)
+y > 5			x > 1			x < 5
+VALID:	(!(y > 5) & !(x > 6) -> !(y > 5) & !(x > 6))
+VALID:	(!(y > 5) & !(x > 6) -> !(y > 5) & !(x > 6))
+VALID:	(y > 5 & !(x > 6) -> y > 5 & !(x > 6))
+VALID:	(y > 5 & !(x > 6) -> y > 5 & !(x > 6))
+VALID:	(y > 5 & !(x > 6) -> y > 5 & !(x > 6))
+VALID:	(y > 5 & !(x > 6) -> y > 5 & !(x > 6))
+VALID:	(x > 1 & !(y > 5) -> x > 1 & !(y > 5))
+VALID:	(x > 1 & !(y > 5) -> x > 1 & !(y > 5))
+VALID:	(!(y > 5) & !(x > 6) -> !(y > 5) & !(x > 6))
+VALID:	(!(y > 5) & !(x > 6) -> !(y > 5) & !(x > 6))
+VALID:	(x > 1 & x < 5 & !(y > 5) -> !(y > 5) & !(x > 6))
+VALID:	(x > 1 & x < 5 & !(y > 5) -> !(y > 5) & !(x > 6))
+VALID:	(y > 5 & x > 1 -> y > 5 & x > 1)
+VALID:	(y > 5 & x > 1 -> y > 5 & x > 1)
+VALID:	(y > 5 & !(x > 6) -> y > 5 & !(x > 6))
+VALID:	(y > 5 & !(x > 6) -> y > 5 & !(x > 6))
+VALID:	(y > 5 & x > 1 & x < 5 -> y > 5 & !(x > 6))
+VALID:	(y > 5 & x > 1 & x < 5 -> y > 5 & !(x > 6))
+VALID:	(x > 1 & x < 5 & !(y > 5) -> x > 1 & x < 5 & !(y > 5))
+VALID:	(x > 1 & x < 5 & !(y > 5) -> x > 1 & x < 5 & !(y > 5))
+VALID:	(y > 5 & x > 1 & x < 5 -> y > 5 & x > 1 & x < 5)
+VALID:	(y > 5 & x > 1 & x < 5 -> y > 5 & x > 1 & x < 5)
+
+
+___________MERGED______________________________
+
+y > 5 & !(x > 6)
+x > 1 & !(y > 5)
+!(y > 5) & !(x > 6)
+y > 5 & x > 1
+x > 1 & x < 5 & !(y > 5)
+y > 5 & x > 1 & x < 5
+SAT:	y > 5 & x > 1 & y > 5 & !(x > 6)
+y > 5 & !(x > 6)  SAT WITH   y > 5 & x > 1
+SAT:	y > 5 & x > 1 & x < 5 & y > 5 & !(x > 6)
+y > 5 & !(x > 6)  SAT WITH   y > 5 & x > 1 & x < 5
+SAT:	!(y > 5) & !(x > 6) & x > 1 & !(y > 5)
+x > 1 & !(y > 5)  SAT WITH   !(y > 5) & !(x > 6)
+SAT:	x > 1 & x < 5 & !(y > 5) & x > 1 & !(y > 5)
+x > 1 & !(y > 5)  SAT WITH   x > 1 & x < 5 & !(y > 5)
+SAT:	x > 1 & !(y > 5) & !(y > 5) & !(x > 6)
+!(y > 5) & !(x > 6)  SAT WITH   x > 1 & !(y > 5)
+SAT:	x > 1 & x < 5 & !(y > 5) & !(y > 5) & !(x > 6)
+!(y > 5) & !(x > 6)  SAT WITH   x > 1 & x < 5 & !(y > 5)
+SAT:	y > 5 & !(x > 6) & y > 5 & x > 1
+y > 5 & x > 1  SAT WITH   y > 5 & !(x > 6)
+SAT:	y > 5 & x > 1 & x < 5 & y > 5 & x > 1
+y > 5 & x > 1  SAT WITH   y > 5 & x > 1 & x < 5
+SAT:	x > 1 & !(y > 5) & x > 1 & x < 5 & !(y > 5)
+x > 1 & x < 5 & !(y > 5)  SAT WITH   x > 1 & !(y > 5)
+VALID:	(x > 1 & x < 5 & !(y > 5) -> x > 1 & !(y > 5))
+x > 1 & x < 5 & !(y > 5)  INCLUDED IN   x > 1 & !(y > 5)
+SAT:	y > 5 & !(x > 6) & y > 5 & x > 1 & x < 5
+y > 5 & x > 1 & x < 5  SAT WITH   y > 5 & !(x > 6)
+VALID:	(y > 5 & x > 1 & x < 5 -> y > 5 & !(x > 6))
+y > 5 & x > 1 & x < 5  INCLUDED IN   y > 5 & !(x > 6)
+
+
+___________MERGED_SIMPLIFIED_________________________
+
+y > 5 & !(x > 6)
+x > 1 & !(y > 5)
+!(y > 5) & !(x > 6)
+y > 5 & x > 1
+VALID:	(y > 5 & !(x > 6) -> y > 5)
+VALID:	(y > 5 & !(x > 6) -> x < 10)
+VALID:	(x > 1 & !(y > 5) -> x > 1)
+VALID:	(!(y > 5) & !(x > 6) -> x < 10)
+VALID:	(y > 5 & x > 1 -> y > 5)
+VALID:	(y > 5 & x > 1 -> x > 1)
+SAT:	a
+SAT:	a & y > 5
+SAT:	b
+SAT:	a & y > 5 & kd
+SAT:	a & y > 5 & kd & x < 10
+SAT:	b & pf
+SAT:	a & y > 5 & kd & x < 10 & b & pf
+The composition is compatible, consistent and feasible. Composing now...
+Composed contract:
+  variables:	[ a: boolean, b: boolean, y: -100..100, kd: boolean, pf: boolean, x: -100..100 ]
+  assumptions:	[ a, y > 5, x < 10, kd ]
+  guarantees :	[ pf, b ]
+  saturated  :	[ (kd -> pf), (a -> b) ]
+
+VALID:	(y > 5 & x < 10 -> y > 5)
+SAT:	a1
+SAT:	a1 & x > 1
+SAT:	b1
+SAT:	a1 & x > 1 & b1
+The composition is compatible, consistent and feasible. Composing now...
+Composed contract:
+  variables:	[ a1: boolean, b1: boolean, x: -100..100 ]
+  assumptions:	[ a1, x > 1 ]
+  guarantees :	[ b1 ]
+  saturated  :	[ (a1 -> b1) ]
+
+VALID:	(x > 1 -> x > 1)
+SAT:	a1 & x > 1
+SAT:	kd
+SAT:	kd & x < 10
+SAT:	pf
+SAT:	kd & x < 10 & pf
+The composition is compatible, consistent and feasible. Composing now...
+Composed contract:
+  variables:	[ kd: boolean, pf: boolean, x: -100..100 ]
+  assumptions:	[ x < 10, kd ]
+  guarantees :	[ pf ]
+  saturated  :	[ (kd -> pf) ]
+
+VALID:	(x < 10 -> x < 10)
+SAT:	kd & x < 10
+SAT:	a
+SAT:	a & y > 5
+SAT:	b
+SAT:	a & y > 5 & a1
+SAT:	a & y > 5 & a1 & x > 1
+SAT:	b & b1
+SAT:	a & y > 5 & a1 & x > 1 & b & b1
+The composition is compatible, consistent and feasible. Composing now...
+Composed contract:
+  variables:	[ a: boolean, b: boolean, y: -100..100, a1: boolean, b1: boolean, x: -100..100 ]
+  assumptions:	[ a, y > 5, a1, x > 1 ]
+  guarantees :	[ b, b1 ]
+  saturated  :	[ (a -> b), (a1 -> b1) ]
+
+VALID:	(y > 5 & x > 1 -> y > 5)
+SAT:	a & x < 10 & kd & a1 & x > 1 & y > 5
+SAT:	b & pf & b1
+SAT:	x < 10 & a & x < 10 & kd & y > 5
+SAT:	b & pf
+SAT:	a & x < 10 & kd & a1 & y > 5 & x > 1
+SAT:	b & pf & b1
+SAT:	kd & x > 1 & a1 & x < 10
+SAT:	pf & b1
+SAT:	a & x > 1 & a1 & y > 5 & x > 1
+SAT:	b & b1
+SAT:	y > 5 & a & kd & a1 & x < 10 & x > 1
+SAT:	b & pf & b1
+The conjunction satisfiable.
+VALID:	(y > 5 -> (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1))
+SAT:	a & x < 10 & kd & (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1)
+VALID:	(x > 1 -> (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1))
+SAT:	a1 & (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1)
+VALID:	(x < 10 -> (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1))
+SAT:	kd & (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1)
+VALID:	(y > 5 -> (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1))
+VALID:	(x > 1 -> (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1))
+SAT:	a & a1 & (y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1)
+PASSED
+
+
 CTX:	(y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1)
 A:		a & kd
 G:		pf & b
