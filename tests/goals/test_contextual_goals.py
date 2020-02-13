@@ -3,16 +3,21 @@ from src.contracts.contract import *
 from src.goals.operations import *
 
 def test_context_booleans():
-    list_of_goals2 = [
+    list_of_goals_2 = [
         CGTGoal(
             context=(Context(LTL("x"))),
             name="contract_1",
-            contracts=[BooleanContract(["a"], ["b"])]
+            contracts=[BooleanContract(["ax"], ["bx"])]
         ),
         CGTGoal(
-            context=(Context(LTL("!x"))),
+            context=(Context(LTL("y"))),
+            name="contract_2",
+            contracts=[BooleanContract(["ay"], ["by"])]
+        ),
+        CGTGoal(
+            context=(Context(LTL("z"))),
             name="contract_3",
-            contracts=[BooleanContract(["ad"], ["bd"])]
+            contracts=[BooleanContract(["az"], ["gz"])]
         )
     ]
 
@@ -49,7 +54,7 @@ def test_context_booleans():
         )
     ]
 
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_combinatorial_cgt(list_of_goals)
 
     save_to_file(str(cgt), "context_cgt.txt")
 
@@ -88,7 +93,7 @@ def test_context_integer_simple():
         )
     ]
 
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_combinatorial_cgt(list_of_goals)
 
     save_to_file(str(cgt), "context_cgt_integer.txt")
 
@@ -126,7 +131,7 @@ def test_context_integer():
         )
     ]
 
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_combinatorial_cgt(list_of_goals)
 
     save_to_file(str(cgt), "context_cgt_integer")
 

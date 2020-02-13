@@ -142,7 +142,6 @@ class CGTGoal:
         else:
             return []
 
-
     def refine_by(self, refined_by: List['CGTGoal'], consolidate=True):
         """Refine by 'refined_by' with 'refined_with'"""
         """If type 'REFINEMENT', propagating the assumptions from the refined goal"""
@@ -273,7 +272,7 @@ class CGTGoal:
             if n > 0:
                 ret += "\t" * level + "\t/\\ \n"
             ret += "\t" * level + "A:\t\t" + \
-                   ' & '.join(str(x) for x in contract.assumptions).replace('\n', ' ') + "\n"
+                   ' & '.join(str(x) for x in contract.assumptions if x.kind is "assumed").replace('\n', ' ') + "\n"
             ret += "\t" * level + "G:\t\t" + \
                    ' & '.join(str(x) for x in contract.guarantees).replace('\n', ' ') + "\n"
         ret += "\n"
@@ -286,4 +285,3 @@ class CGTGoal:
                 except Exception as e:
                     print("WAIT")
         return ret
-

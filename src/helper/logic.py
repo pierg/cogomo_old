@@ -40,4 +40,4 @@ def Implies(prop_1: LTL, prop_2: LTL) -> LTL:
 
 def Not(prop: LTL) -> LTL:
     """Returns an LTL formula representing the logical NOT of prop"""
-    return LTL(formula='! (' + prop.formula + ')')
+    return LTL(formula='!(' + prop.formula + ')')

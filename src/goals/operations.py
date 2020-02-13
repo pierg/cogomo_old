@@ -17,7 +17,12 @@ def composition(goals: List[CGTGoal],
     """Returns a new goal that is the result of the composition of 'goals'
     The new goal returned points to a copy of 'goals'"""
 
+    goals_ctx = []
+
     for n, goal in enumerate(goals):
+        if goal.context is not None:
+            goals_ctx.append(goal.context)
+
         if goal.connected_to is not None and connect_to is not None:
             if connect_to != goal.connected_to:
                 print(goal.name + " is already part of another CGT. Making a copy of it...")
@@ -25,6 +30,18 @@ def composition(goals: List[CGTGoal],
                 goals[n].name = goals[n].name + "_copy"
 
     contracts: Dict[CGTGoal, List[Contract]] = {}
+
+    if len(goals_ctx) > 0:
+        composition_ctx_vars = []
+        composition_ctx_formula = []
+        for ctx in goals_ctx:
+            add_variables_to_list(composition_ctx_vars, ctx.variables)
+            composition_ctx_formula.append(ctx.formula)
+
+        composition_ctx = Context(variables=composition_ctx_vars,
+                                  expression=And(composition_ctx_formula))
+    else:
+        composition_ctx = None
 
     if name is None:
         name = ""
@@ -50,6 +67,7 @@ def composition(goals: List[CGTGoal],
     composed_goal = CGTGoal(name=name,
                             description=description,
                             contracts=composed_contracts,
+                            context=composition_ctx,
                             refined_by=goals,
                             refined_with="COMPOSITION")
 
@@ -68,12 +86,27 @@ def conjunction(goals: List[CGTGoal],
     """Conjunction Operations among the goals in 'goals'.
        It returns a new goal"""
 
+    goals_ctx = []
     for n, goal in enumerate(goals):
+        if goal.context is not None:
+            goals_ctx.append(goal.context)
         if goal.connected_to is not None and connect_to is not None:
             if connect_to != goal.connected_to:
                 print(goal.name + " is already part of another CGT. Making a copy of it...")
                 goals[n] = copy.deepcopy(goal)
                 goals[n].name = goals[n].name + "_copy"
+
+    if len(goals_ctx) > 0:
+        cojunction_ctx_vars = []
+        cojunction_ctx_formula = []
+        for ctx in goals_ctx:
+            add_variables_to_list(cojunction_ctx_vars, ctx.variables)
+            cojunction_ctx_formula.append(ctx.formula)
+
+        cojunction_ctx = Context(variables=cojunction_ctx_vars,
+                                 expression=Or(cojunction_ctx_formula))
+    else:
+        cojunction_ctx = None
 
     if name is None:
         name = ""
@@ -130,6 +163,7 @@ def conjunction(goals: List[CGTGoal],
     conjoined_goal = CGTGoal(name=name,
                              description=description,
                              contracts=list_of_new_contracts,
+                             context=cojunction_ctx,
                              refined_by=goals,
                              refined_with="CONJUNCTION")
 
@@ -223,7 +257,41 @@ def mapping(component_library: ComponentsLibrary,
     specification_goal.refine_by([composition_goal])
 
 
-def create_contextual_cgt(goals: List[CGTGoal]) -> CGTGoal:
+def filter_and_simplify_contexts(contexts: List[List[Context]]) -> List[List[Context]]:
+    new_list: List[List[Context]] = []
+
+    for c_list in contexts:
+        """Extract formulas and check satisfiability"""
+        c_vars = []
+        c_expr = []
+        for c in c_list:
+            add_variables_to_list(c_vars, c.variables)
+            c_expr.append(c.formula)
+
+        if not check_satisfiability(c_vars, c_expr):
+            continue
+
+        """Simplify"""
+        new_comb = c_list.copy()
+
+        """Simplify new_comb"""
+        for a in list(new_comb):
+            for b in list(new_comb):
+                if a is not b:
+                    if a.is_included_in(b):
+                        new_comb.remove(a)
+                        break
+
+        new_list.append(new_comb)
+
+    return new_list
+
+
+
+def create_contextual_operational_cgt(goals: List[CGTGoal]) -> CGTGoal:
+    pass
+
+def create_contextual_combinatorial_cgt(goals: List[CGTGoal]) -> CGTGoal:
     """Returns a CGT from a list of goals based on the contexts of each goal"""
 
     """Extract all unique contexts"""
@@ -245,51 +313,59 @@ def create_contextual_cgt(goals: List[CGTGoal]) -> CGTGoal:
         cgt.context = list(contexts)[0]
         return cgt
 
-    """Extract all context that are already mutually 
-     with all existing other e.g. : (x < 5, x > 5)"""
-    mutctx: List[Context] = []
-
-    """Extract all context that are already compatible 
-    with all the opthers e.g. :( a > 4, b < 2)"""
-    genctx: List[Context] = []
-
-    """Extract all context that are not mutually 
-         with all existing other e.g. : (a, !b & a)"""
-    shactx: List[Context] = []
-
+    """Extract the combinations of all contextes"""
     combs_all_contexts: List[List[Context]] = []
-    combs_simpl_sat_contexts: List[List[Context]] = []
 
-    for i in range(1, len(contexts)):
+    """Extract the combinations of all contextes with negations"""
+    combs_all_contexts_neg: List[List[Context]] = []
+
+    """Populating 'combs_all_contexts' and 'combs_all_contexts_neg'"""
+    for i in range(0, len(contexts)):
         combs = itertools.combinations(contexts, i + 1)
+
         for comb in combs:
-            comb_contexts = list(comb)
-            combs_all_contexts.append(comb_contexts.copy())
-            satisfiable = True
-            for ca in list(comb_contexts):
-                included = False
-                for cb in list(comb_contexts):
-                    if ca is not cb:
-                        if not ca.is_satisfiable_with(cb):
-                            satisfiable = False
-                        if ca.is_included_in(cb):
-                            included = True
-                if included:
-                    comb_contexts.remove(ca)
-            if satisfiable:
-                combs_simpl_sat_contexts.append(comb_contexts)
+
+            comb_contexts = list(comb).copy()
+
+            comb_contexts_neg = list(comb).copy()
+
+            for ctx in contexts:
+                if ctx not in comb_contexts_neg:
+                    ctx_vars = ctx.variables
+                    ctx_exp = Not(ctx.formula)
+                    comb_contexts_neg.append(Context(variables=ctx_vars,
+                                                     expression=ctx_exp))
+
+            combs_all_contexts.append(comb_contexts)
+
+            combs_all_contexts_neg.append(comb_contexts_neg)
 
     print("\n\n____________________ALL_COMBINATIONS_____________________")
     for c_list in combs_all_contexts:
         print(*c_list, sep='\t\t\t')
+
+    print("\n\n____________________ALL_COMBINATIONS_WITH_NEG_____________________")
+    for c_list in combs_all_contexts_neg:
+        print(*c_list, sep='\t\t\t')
+
+    """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify them"""
+    combs_simpl_sat_contexts: List[List[Context]] = filter_and_simplify_contexts(combs_all_contexts)
+
     print("\n\n___________CONSISTENT_AND_SIMPLIFIED_____________________\n")
     for c_list in combs_simpl_sat_contexts:
         print(*c_list, sep='\t\t\t')
 
-    """Merge the contexts"""
+    """Filter from combs_contexts_neg the comb that are satisfiable and if they are then simplify them"""
+    combs_simpl_sat_contexts_neg: List[List[Context]] = filter_and_simplify_contexts(combs_all_contexts_neg)
+
+    print("\n\n___________CONSISTENT_AND_SIMPLIFIED_WITH_NEG_____________________\n")
+    for c_list in combs_simpl_sat_contexts_neg:
+        print(*c_list, sep='\t\t\t')
+
+    """Merge the consistent contextes with conjunction"""
     contexts_merged: List[Context] = []
 
-    for group in combs_simpl_sat_contexts:
+    for group in combs_simpl_sat_contexts_neg:
         variables: List[Type] = []
         formulas: List[LTL] = []
         for ctx in group:
@@ -309,23 +385,30 @@ def create_contextual_cgt(goals: List[CGTGoal]) -> CGTGoal:
     for c in contexts_merged:
         print(c)
 
-    # """Order contextes from the smallest to the largest in term of set"""
-    # contexts_merged_copy = contexts_merged.copy()
-    # ordered_contexts = []
-    #
-    # while len(contexts_merged_copy) > 0:
-    #     smallest_ctx = get_smallest_context(contexts_merged_copy)
-    #     ordered_contexts.append(smallest_ctx)
-    #     contexts_merged_copy.remove(smallest_ctx)
-    #
-    # print("\n\n___________ORDERED______________________________\n")
-    # for c in ordered_contexts:
-    #     print(c)
+    mutex = True
+    for ca in list(contexts_merged):
+        for cb in list(contexts_merged):
+            if ca is not cb:
+                if ca.is_satisfiable_with(cb):
+                    print(str(ca) + "  SAT WITH   " + str(cb))
+                    mutex = False
+                if ca.is_included_in(cb):
+                    print(str(ca) + "  INCLUDED IN   " + str(cb))
+                    contexts_merged.remove(ca)
+                    break
+
+    if mutex:
+        print("All contexts are mutually exclusive")
+
+    print("\n\n___________MERGED_SIMPLIFIED_________________________\n")
+    for c in contexts_merged:
+        print(c)
 
     """Map each goal to each context"""
     context_goals: Dict[Context, List] = {}
     for ctx in contexts_merged:
         for goal in goals:
+            """If the goal has no context"""
             if goal.context is None:
                 """Add goal to the context"""
                 if ctx in context_goals:
@@ -354,144 +437,13 @@ def create_contextual_cgt(goals: List[CGTGoal]) -> CGTGoal:
                         print("Simplifying " + str(ctxa))
                         del context_goals[ctxa]
 
-    """Compose the goal in each mutually exclusive context"""
+    """Compose all the set of goals in identified context"""
     composed_goals = []
     for ctx, goals in context_goals.items():
         ctx_goals = composition(goals)
-        ctx_goals.context = ctx
         composed_goals.append(ctx_goals)
 
     """Conjoin the goals across all the mutually exclusive contexts"""
     cgt = conjunction(composed_goals)
 
     return cgt
-
-    #
-    # goals_to_map = goals.copy()
-    # context_goals: Dict[Context, List] = {}
-    #
-    # while len(goals_to_map) > 0:
-    #     goal_to_map = goals_to_map[0]
-    #     if goal_to_map.context is None:
-    #
-    #     for ctx in ordered_contexts:
-    #         for goal in list(goals_to_map):
-    #             if goal.context is None:
-    #                 """Add goal to the context"""
-    #                 if ctx in context_goals:
-    #                     if goal not in context_goals[ctx]:
-    #                         context_goals[ctx].append(goal)
-    #                 else:
-    #                     context_goals[ctx] = [goal]
-    #             else:
-    #                 """Verify that the goal context is an abstraction of the mutex context"""
-    #                 goal_ctx = goal.context
-    #                 if goal_ctx.is_included_in(ctx):
-    #                     """Add goal to the context"""
-    #                     if ctx in context_goals:
-    #                         if goal not in context_goals[ctx]:
-    #                             context_goals[ctx].append(goal)
-    #                     else:
-    #                         context_goals[ctx] = [goal]
-
-    # """Exctracts the greater bounds of all the contextes"""
-    # contexts_bounds = contexts_merged.copy()
-    # contexts_included = []
-    #
-    # for ca in list(contexts_bounds):
-    #     included = False
-    #     for cb in list(contexts_bounds):
-    #         if ca is not cb:
-    #             # print("??\t" + str(ca) + "\t->\t" + str(cb))
-    #             if ca.is_included_in(cb):
-    #                 included = True
-    #     if included:
-    #         contexts_bounds.remove(ca)
-    #         contexts_included.append(ca)
-    #
-    # print("\n\n___________CONTEXT_BOUNDS_____________________\n")
-    # print("\n\nBiggest Contexts\n")
-    # for c in contexts_bounds:
-    #     print(c)
-    # print("\n\nThat includes\n")
-    # for c in contexts_included:
-    #     print(c)
-
-    # for comb_contexts in combs:
-    #     for ca in comb_contexts:
-
-    # for comb_contexts in combs:
-    #     for ca in comb_contexts:
-    #
-    #         is_ca_mutctx = True
-    #         is_ca_genctx = True
-    #         is_ca_shared = False
-    #
-    #         for cb in comb_contexts:
-    #             if ca is not cb:
-    #                 if ca.is_not_included_in_and_viceversa(cb):
-    #                     if ca.is_satisfiable_with(cb):
-    #                         is_ca_mutctx = False
-    #                     else:
-    #                         is_ca_genctx = False
-    #                 else:
-    #                     is_ca_mutctx = False
-    #                     is_ca_genctx = False
-    #                     is_ca_shared = True
-    #
-    #         if is_ca_shared:
-    #             shactx.append(ca)
-    #
-    #         if is_ca_mutctx:
-    #             mutctx.append(ca)
-    #
-    #         if is_ca_genctx:
-    #             genctx.append(ca)
-    #
-    # contexts_mutually_exclusive = set()
-    #
-    # for i, ctx_a in enumerate(contexts):
-    #     mutex = True
-    #     for j, ctx_b in enumerate(contexts):
-    #         if i != j:
-    #             if is_implied_in(variables, ctx_a, ctx_b) or \
-    #                     is_implied_in(variables, ctx_b, ctx_a):
-    #                 mutex = False
-    #     if mutex:
-    #         satis = False
-    #         for j, ctx_b in enumerate(contexts):
-    #             if i != j:
-    #                 if check_satisfiability(variables, [ctx_a, ctx_b]):
-    #                     satis = True
-    #         if not satis:
-    #             contexts_mutually_exclusive.add(ctx_a)
-    #
-    # non_mutex_ctx = contexts - contexts_mutually_exclusive
-    #
-    # intermediate_ctx = []
-    # negated_ctx = []
-    #
-    # for i, ctx_a in enumerate(non_mutex_ctx):
-    #     """List of contextes where ctx_a is implied"""
-    #     implied_in = []
-    #     for j, ctx_b in enumerate(non_mutex_ctx):
-    #         if i != j and ctx_a not in contexts_mutually_exclusive and ctx_b not in contexts_mutually_exclusive:
-    #             if is_implied_in(variables, ctx_a, ctx_b):
-    #                 implied_in.append(ctx_b)
-    #     if len(implied_in) > 0:
-    #         if len(implied_in) > 1:
-    #             ctx_i = get_smallest_set(variables, implied_in)
-    #         else:
-    #             ctx_i = implied_in[0]
-    #         intermediate_ctx.append(ctx_i)
-    #         negated_ctx.append(ctx_a)
-    #         new_ctx = And([ctx_i, Not(ctx_a)])
-    #         contexts_mutually_exclusive.add(new_ctx)
-    #
-    # for ctx in negated_ctx:
-    #     if ctx not in intermediate_ctx:
-    #         contexts_mutually_exclusive.add(ctx)
-    #
-    # contexts_mutually_exclusive = list(contexts_mutually_exclusive)
-    # print(contexts_mutually_exclusive)
-    #

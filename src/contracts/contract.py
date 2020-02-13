@@ -193,6 +193,9 @@ class Contract:
             astr += str(guarantee.saturated) + ', '
         return astr[:-2] + ' ]\n'
 
+    def add_domain_properties(self):
+        pass
+
 
 class BooleanContract(Contract):
 

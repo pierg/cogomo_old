@@ -42,7 +42,7 @@ if __name__ == "__main__":
     ]
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_combinatorial_cgt(list_of_goals)
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 
@@ -72,31 +72,32 @@ if __name__ == "__main__":
             Component(
                 component_id="robot_1",
                 variables=[BoundedNat("robot_power")],
-                guarantees=["robot_power = 7"],
+                guarantees=[Guarantee("robot_power = 7")],
             ),
             Component(
                 component_id="robot_2",
                 variables=[BoundedNat("robot_power")],
-                guarantees=["robot_power >= 8"],
+                guarantees=[Guarantee("robot_power >= 8")],
             ),
             Component(
                 component_id="robot_3",
                 variables=[BoundedNat("robot_power")],
-                guarantees=["robot_power >= 9"],
+                guarantees=[Guarantee("robot_power >= 9")],
             ),
             Component(
                 component_id="collaborate",
                 variables=[BoundedNatPort(port_type="robot_power", name="power1"),
                            BoundedNatPort(port_type="robot_power", name="power2"),
                            BoundedNat("weight_power")],
-                assumptions=["power1 >= 8", "power2 >= 8"],
-                guarantees=["G(weight_power > 12)"]
+                assumptions=[Assumption("power1 >= 8"),
+                             Assumption("power2 >= 8")],
+                guarantees=[Guarantee("G(weight_power > 12)")]
             ),
             Component(
                 component_id="pick_up_item",
                 variables=[Boolean("heavy_item_pickup"), BoundedNat("weight_power")],
-                assumptions=["G(weight_power > 12)"],
-                guarantees=["G(heavy_item_pickup)"]
+                assumptions=[Assumption("G(weight_power > 12)")],
+                guarantees=[Guarantee("G(heavy_item_pickup)")]
             )
         ])
 
@@ -105,5 +106,7 @@ if __name__ == "__main__":
 
     for goal in goals_to_map:
         mapping(component_library, goal)
+
+    print(cgt)
 
     save_to_file(str(cgt), file_path + "/cgt_4_mapping")

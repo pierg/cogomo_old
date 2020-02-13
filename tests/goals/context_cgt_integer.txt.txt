@@ -1,0 +1,58 @@
+CTX:	(y > 5 & x < 10 | x > 1 | x < 10 | y > 5 & x > 1)
+A:		a & kd
+G:		pf & b
+	/\ 
+A:		a1
+G:		b1
+	/\ 
+A:		kd
+G:		pf
+	/\ 
+A:		a & a1
+G:		b & b1
+
+	CONJUNCTION
+		CTX:	y > 5 & x < 10
+		A:		a & kd
+		G:		pf & b
+
+			COMPOSITION
+				CTX:	y > 5
+				A:		a
+				G:		b
+
+				CTX:	x < 10
+				A:		kd
+				G:		pf
+
+		CTX:	x > 1
+		A:		a1
+		G:		b1
+
+			COMPOSITION
+				CTX:	x > 1
+				A:		a1
+				G:		b1
+
+		CTX:	x < 10
+		A:		kd
+		G:		pf
+
+			COMPOSITION
+				CTX:	x < 10
+				A:		kd
+				G:		pf
+
+		CTX:	y > 5 & x > 1
+		A:		a & a1
+		G:		b & b1
+
+			COMPOSITION
+				CTX:	y > 5
+				A:		a
+				G:		b
+
+				CTX:	x > 1
+				A:		a1
+				G:		b1
+

@@ -74,7 +74,13 @@ class Context:
         return str(self.__formula)
 
     def __eq__(self, other):
-        return str(self.formula) == str(other.formula)
+        if set(self.variables) != set(other.variables):
+            return False
+
+        implied_a = is_implied_in(self.variables, self.formula, other.formula)
+        implied_b = is_implied_in(self.variables, self.formula, other.formula)
+
+        return implied_a and implied_b
 
     def __hash__(self):
         return hash(self.__formula)
