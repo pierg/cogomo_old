@@ -26,18 +26,6 @@ def composition(goals: List[CGTGoal],
 
     contracts: Dict[CGTGoal, List[Contract]] = {}
 
-    # if len(goals_ctx) > 0:
-    #     composition_ctx_vars = []
-    #     composition_ctx_formula = []
-    #     for ctx in goals_ctx:
-    #         add_variables_to_list(composition_ctx_vars, ctx.variables)
-    #         add_proposition_to_list(composition_ctx_vars, composition_ctx_formula, ctx.formula)
-    #
-    #     composition_ctx = Context(variables=composition_ctx_vars,
-    #                               expression=And(composition_ctx_formula))
-    # else:
-    #     composition_ctx = None
-
     if name is None:
         names = []
         for goal in goals:
@@ -84,27 +72,12 @@ def conjunction(goals: List[CGTGoal],
     """Conjunction Operations among the goals in 'goals'.
        It returns a new goal"""
 
-    # goals_ctx = []
     for n, goal in enumerate(goals):
-        # if goal.context is not None:
-        #     goals_ctx.append(goal.context)
         if goal.connected_to is not None and connect_to is not None:
             if connect_to != goal.connected_to:
                 print(goal.name + " is already part of another CGT. Making a copy of it...")
                 goals[n] = copy.deepcopy(goal)
                 goals[n].name = goals[n].name
-
-    # if len(goals_ctx) > 0:
-    #     cojunction_ctx_vars = []
-    #     cojunction_ctx_formula = []
-    #     for ctx in goals_ctx:
-    #         add_variables_to_list(cojunction_ctx_vars, ctx.variables)
-    #         cojunction_ctx_formula.append(ctx.formula)
-    #
-    #     cojunction_ctx = Context(variables=cojunction_ctx_vars,
-    #                              expression=Or(cojunction_ctx_formula))
-    # else:
-    #     cojunction_ctx = None
 
     if name is None:
         names = []

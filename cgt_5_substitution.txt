@@ -2,19 +2,19 @@ NAME:	'a-b-c||collaborate||pick_up_item||robot_2||robot_3^^a-b||collaborate||pic
  CTX:	day
  DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
   A:	TRUE
-  G:	G(heavy_item_pickup) & robot_power >= 9 & !locC U locB & F(locA & F(locB & F(locC))) & G(weight_power > 12) & robot_power >= 8 & !locB U locA
+  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & robot_power >= 8
 	/\ 
  CTX:	!day
  DOM:	G((locA & !locB) | (locB & !locA))
   A:	TRUE
-  G:	G(heavy_item_pickup) & G(!locC) & robot_power >= 9 & G(weight_power > 12) & robot_power >= 8 & !locB U locA & F(locA & F(locB))
+  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & G(!locC) & F(locA & F(locB)) & !locB U locA & robot_power >= 8
 
 	CONJUNCTION
 		NAME:	'a-b-c||collaborate||pick_up_item||robot_2||robot_3'
 		 CTX:	day
 		 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
 		  A:	TRUE
-		  G:	G(heavy_item_pickup) & robot_power >= 9 & !locC U locB & F(locA & F(locB & F(locC))) & G(weight_power > 12) & robot_power >= 8 & !locB U locA
+		  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & robot_power >= 8
 
 			COMPOSITION
 				NAME:	'a-b-c'
@@ -25,7 +25,7 @@ NAME:	'a-b-c||collaborate||pick_up_item||robot_2||robot_3^^a-b||collaborate||pic
 
 				NAME:	'collaborate||pick_up_item||robot_2||robot_3'
 				  A:	TRUE
-				  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & robot_power >= 8
+				  G:	robot_power >= 8 & G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup)
 
 					COMPOSITION/MAPPING
 						NAME:	'pick_up_item'
@@ -55,7 +55,7 @@ NAME:	'a-b-c||collaborate||pick_up_item||robot_2||robot_3^^a-b||collaborate||pic
 		 CTX:	!day
 		 DOM:	G((locA & !locB) | (locB & !locA))
 		  A:	TRUE
-		  G:	G(heavy_item_pickup) & G(!locC) & robot_power >= 9 & G(weight_power > 12) & robot_power >= 8 & !locB U locA & F(locA & F(locB))
+		  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & G(!locC) & F(locA & F(locB)) & !locB U locA & robot_power >= 8
 
 			COMPOSITION
 				NAME:	'a-b'
@@ -71,7 +71,7 @@ NAME:	'a-b-c||collaborate||pick_up_item||robot_2||robot_3^^a-b||collaborate||pic
 
 				NAME:	'collaborate||pick_up_item||robot_2||robot_3'
 				  A:	TRUE
-				  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & robot_power >= 8
+				  G:	robot_power >= 8 & G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup)
 
 					COMPOSITION/MAPPING
 						NAME:	'pick_up_item'

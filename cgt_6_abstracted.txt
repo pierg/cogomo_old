@@ -2,19 +2,19 @@ NAME:	'a-b-c||pick_up_item_abstracted^^a-b||never-c||pick_up_item_abstracted'
  CTX:	day
  DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
   A:	TRUE
-  G:	G(locB -> F(heavy_item_pickup)) & !locC U locB & F(locA & F(locB & F(locC))) & !locB U locA
+  G:	F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
 	/\ 
  CTX:	!day
  DOM:	G((locA & !locB) | (locB & !locA))
   A:	TRUE
-  G:	G(locB -> F(heavy_item_pickup)) & G(!locC) & !locB U locA & F(locA & F(locB))
+  G:	F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup))
 
 	CONJUNCTION
 		NAME:	'a-b-c||pick_up_item_abstracted'
 		 CTX:	day
 		 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
 		  A:	TRUE
-		  G:	G(locB -> F(heavy_item_pickup)) & !locC U locB & F(locA & F(locB & F(locC))) & !locB U locA
+		  G:	F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB & G(locB -> F(heavy_item_pickup))
 
 			COMPOSITION
 				NAME:	'a-b-c'
@@ -30,7 +30,7 @@ NAME:	'a-b-c||pick_up_item_abstracted^^a-b||never-c||pick_up_item_abstracted'
 					REFINEMENT
 						NAME:	'collaborate||pick_up_item||robot_2||robot_3'
 						  A:	TRUE
-						  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & robot_power >= 8
+						  G:	robot_power >= 8 & G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup)
 
 							COMPOSITION/MAPPING
 								NAME:	'pick_up_item'
@@ -60,7 +60,7 @@ NAME:	'a-b-c||pick_up_item_abstracted^^a-b||never-c||pick_up_item_abstracted'
 		 CTX:	!day
 		 DOM:	G((locA & !locB) | (locB & !locA))
 		  A:	TRUE
-		  G:	G(locB -> F(heavy_item_pickup)) & G(!locC) & !locB U locA & F(locA & F(locB))
+		  G:	F(locA & F(locB)) & !locB U locA & G(!locC) & G(locB -> F(heavy_item_pickup))
 
 			COMPOSITION
 				NAME:	'a-b'
@@ -81,7 +81,7 @@ NAME:	'a-b-c||pick_up_item_abstracted^^a-b||never-c||pick_up_item_abstracted'
 					REFINEMENT
 						NAME:	'collaborate||pick_up_item||robot_2||robot_3'
 						  A:	TRUE
-						  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & robot_power >= 8
+						  G:	robot_power >= 8 & G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup)
 
 							COMPOSITION/MAPPING
 								NAME:	'pick_up_item'
