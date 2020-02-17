@@ -1,21 +1,18 @@
-NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
+NAME:	'a-b-c||pick_up_item_abstracted^^a-b||never-c||pick_up_item_abstracted'
  CTX:	day
  DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
- EXP:	G(weight_power > 10)
   A:	TRUE
   G:	G(locB -> F(heavy_item_pickup)) & !locB U locA & F(locA & F(locB & F(locC))) & !locC U locB
 	/\ 
  CTX:	!day
  DOM:	G((locA & !locB) | (locB & !locA))
- EXP:	G(weight_power > 10)
   A:	TRUE
   G:	G(!locC) & !locB U locA & G(locB -> F(heavy_item_pickup)) & F(locA & F(locB))
 
 	CONJUNCTION
-		NAME:	'a->pickup||a-b-c'
+		NAME:	'a-b-c||pick_up_item_abstracted'
 		 CTX:	day
 		 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
-		 EXP:	G(weight_power > 10)
 		  A:	TRUE
 		  G:	G(locB -> F(heavy_item_pickup)) & !locB U locA & F(locA & F(locB & F(locC))) & !locC U locB
 
@@ -26,8 +23,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 				  A:	TRUE
 				  G:	F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB
 
-				NAME:	'a->pickup'
-				 EXP:	G(weight_power > 10)
+				NAME:	'pick_up_item_abstracted'
 				  A:	TRUE
 				  G:	G(locB -> F(heavy_item_pickup))
 
@@ -60,10 +56,9 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 														  A:	TRUE
 														  G:	robot_power >= 9
 
-		NAME:	'a->pickup||a-b||never-c'
+		NAME:	'a-b||never-c||pick_up_item_abstracted'
 		 CTX:	!day
 		 DOM:	G((locA & !locB) | (locB & !locA))
-		 EXP:	G(weight_power > 10)
 		  A:	TRUE
 		  G:	G(!locC) & !locB U locA & G(locB -> F(heavy_item_pickup)) & F(locA & F(locB))
 
@@ -79,8 +74,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 				  A:	TRUE
 				  G:	G(!locC)
 
-				NAME:	'a->pickup'
-				 EXP:	G(weight_power > 10)
+				NAME:	'pick_up_item_abstracted'
 				  A:	TRUE
 				  G:	G(locB -> F(heavy_item_pickup))
 

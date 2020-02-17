@@ -1,42 +1,43 @@
 from typing import List
+from contracts.formulas import LTL
 
 
-def And(list_propoositions: List[str]) -> str:
-    """Returns a string representing the logical AND of list_propoositions"""
-    if len(list_propoositions) > 1:
+def And(propositions: List[LTL]) -> LTL:
+    """Returns an LTL formula representing the logical AND of list_propoositions"""
+    if len(propositions) > 1:
         ret = ""
-        for i, elem in enumerate(list_propoositions):
-            ret += elem
-            if i < len(list_propoositions) - 1:
+        for i, elem in enumerate(propositions):
+            ret += elem.formula
+            if i < len(propositions) - 1:
                 ret += " & "
-        return ret
-    elif len(list_propoositions) == 1:
-        return list_propoositions[0]
+        return LTL(formula=ret)
+    elif len(propositions) == 1:
+        return propositions[0]
     else:
-        return ""
+        raise Exception("List of propositions is empty")
 
 
-def Or(list_propoositions):
-    """Returns a string representing the logical OR of list_propoositions"""
-    if len(list_propoositions) > 1:
+def Or(propositions: List[LTL]) -> LTL:
+    """Returns an LTL formula representing the logical OR of list_propoositions"""
+    if len(propositions) > 1:
         ret = "("
-        for i, elem in enumerate(list_propoositions):
-            ret += elem
-            if i < len(list_propoositions) - 1:
+        for i, elem in enumerate(propositions):
+            ret += elem.formula
+            if i < len(propositions) - 1:
                 ret += " | "
         ret += ")"
-        return ret
-    elif len(list_propoositions) == 1:
-        return list_propoositions[0]
+        return LTL(formula=ret)
+    elif len(propositions) == 1:
+        return propositions[0]
     else:
-        return ""
+        raise Exception("List of propositions is empty")
 
 
-def Implies(prop_1, prop_2):
-    """Returns a string representing the logical IMPLIES of prop_1 and prop_2"""
-    return '(' + prop_1 + ' -> ' + prop_2 + ')'
+def Implies(prop_1: LTL, prop_2: LTL) -> LTL:
+    """Returns an LTL formula representing the logical IMPLIES of prop_1 and prop_2"""
+    return LTL(formula='(' + prop_1.formula + ' -> ' + prop_2.formula + ')')
 
 
-def Not(prop):
-    """Returns a string representing the logical NOT of prop"""
-    return '! (' + prop + ')'
+def Not(prop: LTL) -> LTL:
+    """Returns an LTL formula representing the logical NOT of prop"""
+    return LTL(formula='!(' + prop.formula + ')')

@@ -1,4 +1,6 @@
 from typing import List, Dict
+
+from contracts.formulas import Assumption, Guarantee
 from src.contracts.helpers import incomposable_check, duplicate_contract
 from src.contracts.contract import Contract
 from src.checks.nsmvhelper import *
@@ -16,8 +18,8 @@ class Component(Contract):
                  component_id: str,
                  description: str = None,
                  variables: List[Type] = None,
-                 assumptions: List[str] = None,
-                 guarantees: List[str] = None):
+                 assumptions: List[Assumption] = None,
+                 guarantees: List[Guarantee] = None):
         super().__init__(assumptions=assumptions,
                          variables=variables,
                          guarantees=guarantees)
@@ -54,7 +56,7 @@ class Component(Contract):
         for assumption in self.assumptions:
             astr += str(assumption) + ', '
         astr = astr[:-2] + ' ]\n  guarantees:\t[ '
-        for guarantee in self.unsaturated_guarantees:
+        for guarantee in self.guarantees:
             astr += str(guarantee) + ', '
         return astr[:-2] + ' ]\n'
 
@@ -100,16 +102,12 @@ class ComponentsLibrary:
         for component in components:
             self.add_component(component)
 
-
     def extract_selection(self,
                           variables: List[Type],
-                          assumptions: List[str],
-                          to_be_refined: List[str]) -> List[List['Component']]:
+                          assumptions: List[Assumption],
+                          to_be_refined: List[LTL]) -> List[List['Component']]:
         """Extract all candidate compositions in the library whose guarantees, once combined, refine 'to_be_refined'
         and are consistent 'assumptions'. It also performs other tasks (filters and select the candidates)."""
-
-        """Extract all candidate compositions in the library whose guarantees, once combined,
-                refine 'to_be_refined' and are consistent 'assumptions'"""
 
         """How many different variables are needed for each port"""
         ports_n: Dict[str, int] = {}
@@ -137,7 +135,7 @@ class ComponentsLibrary:
             for component in self.components:
 
                 if are_implied_in([component.variables, variables],
-                                  component.unsaturated_guarantees,
+                                  component.guarantees,
                                   [proposition],
                                   check_type=True):
 

@@ -1,60 +1,61 @@
 import re
-from typing import List, Union, Dict
-
+from typing import List
+from contracts.formulas import LTL
 from contracts.types import Type
 
 OPERATORS = r'(^==|\*|\/|-|<=|>=|<|>|\+|!=|!|=|\(|\)|\||->|&|\s)'
 TEMPORALOPS = r'^F|^G|^X|^U'
 VARIABLE = r'^[A-Za-z]\w*'
 INTEGER = r'^[+-]\d*|^\d*$'
-COMPARISONOPS = r'(^=|>|<|>=|<=|\s)'
 
 
+def extract_variables_from_LTL(variables: List[Type],
+                               expression: LTL) -> List[Type]:
+    """Extract the varialbes from 'variables' in a formula"""
+    var_names = extract_variables_name(expression)
+    variables_set = []
+    for t in variables:
+        for v in var_names:
+            if t.name == v:
+                variables_set.append(t)
+    return variables_set
 
 
-def extract_variables_name(formula: Union[List[str], str]) -> List[str]:
-    if isinstance(formula, list):
-        list_variables = []
-        for elem in formula:
-            list_variables.extend(_extract_variables_from_string(elem))
-        return list_variables
-    elif isinstance(formula, str):
-        return _extract_variables_from_string(formula)
-    else:
-        raise AttributeError
-
-def extract_terms(formula: str) -> List[str]:
-    list_of_variables = re.split(COMPARISONOPS, formula)
-    list_stripped = []
-    for elem in list_of_variables:
-        stripped = elem.strip()
-        stripped = re.sub(COMPARISONOPS, '', stripped)
-        if stripped is not '':
-            list_stripped.append(stripped)
-    return list_stripped
-
-
-def extract_variables_types(variables: List[Type], formula: str) -> List[str]:
+def extract_variables_types(variables: List[Type],
+                            expression: LTL) -> List[str]:
     """Extract the types of variables from 'variables' in a formula"""
-    var_names = extract_variables_name(formula)
+    var_names = extract_variables_name(expression)
     var_types = []
     for t in variables:
         for v in var_names:
             if t.name == v:
                 try:
                     port_type = t.port_type
-                except Exception as e:
+                except:
                     port_type = t.name
                 var_types.append(port_type)
     return var_types
 
 
-def _extract_variables_from_string(formula: str) -> List[str]:
-    list_variable_names = []
+def extract_variables_name(expression: LTL) -> List[str]:
+    integer_pattern = re.compile(INTEGER)
+    list_terms = extract_terms(expression)
+
+    """Excluding the numbers"""
+    for term in list(list_terms):
+        if integer_pattern.match(term):
+            list_terms.remove(term)
+
+    return list_terms
+
+
+def extract_terms(expression: LTL) -> List[str]:
+    list_terms = []
     variable_pattern = re.compile(VARIABLE)
     integer_pattern = re.compile(INTEGER)
     temporal_ops = re.compile(TEMPORALOPS)
-    tokens = re.split(OPERATORS, formula)
+
+    tokens = re.split(OPERATORS, expression.formula)
     tokens = list(filter(None, tokens))
     tokens_stripped = []
     for elem in tokens:
@@ -66,11 +67,12 @@ def _extract_variables_from_string(formula: str) -> List[str]:
         if not (temporal_ops.match(token)
                 or token == "FALSE"
                 or token == "TRUE"):
-            if variable_pattern.match(token):
-                list_variable_names.append(token)
-            elif not integer_pattern.match(token):
+            if variable_pattern.match(token) or \
+                    integer_pattern.match(token):
+                list_terms.append(token)
+            else:
                 raise Exception("The syntax of the formula invalid: " + token)
-    return list_variable_names
+    return list_terms
 
 
 def save_to_file(text: str, file_path: str):

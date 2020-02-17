@@ -34,14 +34,14 @@ def test_two_contracts_composition():
 
     contract_composed = compose_contracts(two_boolean_contracts)
 
-    assert And(contract_composed.assumptions) == "a & c"
+    assert And(contract_composed.assumptions).formula == "a & c"
 
 
 def test_three_contracts_composition():
 
     contract_composed = compose_contracts(three_boolean_contracts)
 
-    assert And(contract_composed.assumptions) == "a & c & e"
+    assert And(contract_composed.assumptions).formula == "a & c & e"
 
 
 
@@ -49,14 +49,14 @@ def test_two_contracts_composition_assumption_simplification():
 
     contract_composed = compose_contracts(two_boolean_contracts_with_simplification)
 
-    assert And(contract_composed.assumptions) == "a"
+    assert And(contract_composed.assumptions).formula == "a"
 
 
 def test_three_contracts_composition_assumption_simplification():
 
     contract_composed = compose_contracts(three_boolean_contracts_with_simplification)
 
-    assert And(contract_composed.assumptions) == "a & c"
+    assert And(contract_composed.assumptions).formula == "a & c"
 
 
 

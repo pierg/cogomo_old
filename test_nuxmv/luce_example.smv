@@ -1,0 +1,18 @@
+MODULE main
+
+VAR
+	luce_on: boolean;
+	l1: boolean;
+	heavy_item_pickup: boolean;
+	locB: boolean;
+	robot_power: 1..20;
+	weight_power: 1..20;
+
+LTLSPEC !(luce_on | ! ((luce_on -> F(l1)) & !luce_on))
+LTLSPEC !((luce_on -> F(l1)) & !luce_on)
+LTLSPEC !((luce_on | ! ((luce_on -> F(l1)) & !luce_on)) -> ((luce_on -> F(l1)) & !luce_on))
+
+LTLSPEC G(heavy_item_pickup) -> G(locB -> F(heavy_item_pickup))
+
+LTLSPEC (G(weight_power > 12)) -> G(locB -> F(heavy_item_pickup))
+LTLSPEC (robot_power >= 9 & G(heavy_item_pickup) & G(weight_power > 12)) -> G(locB -> F(heavy_item_pickup))

@@ -141,7 +141,7 @@ def parse(specfile):
                         elif DESCRIPTION_HEADER in goal_header:
                             description = line.strip()
                         elif CONTEXT_HEADER in goal_header:
-                            context = Context(line.strip())
+                            context = Context(LTL(line.strip()))
                         elif PATTERN_HEADER in goal_header:
                             pattern = line.strip()
                             contract = eval(pattern)
@@ -149,9 +149,9 @@ def parse(specfile):
                             var, init = line.split(ASSIGNMENT_CHAR, 1)
                             contract.add_variables({var.strip(): init.strip()})
                         elif ASSUMPTIONS_HEADER in goal_header:
-                            contract.add_assumption(line.strip())
+                            contract.add_assumption(Assumption(line.strip()))
                         elif GUARANTEES_HEADER in goal_header:
-                            contract.add_guarantee(line.strip())
+                            contract.add_guarantee(Guarantee(line.strip()))
                         else:
                             raise Exception("Unexpected Goal Header: " + goal_header)
 

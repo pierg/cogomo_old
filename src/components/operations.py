@@ -14,7 +14,7 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
 
     spec_variables = specification.variables
     spec_assumptions = specification.assumptions
-    spec_guarantees = specification.unsaturated_guarantees
+    spec_guarantees = specification.guarantees
 
     set_components_to_return = []
 
@@ -151,12 +151,12 @@ def greedy_selection(candidate_compositions: List[List[Component]]) -> List[Comp
             for component_a in candidate_a:
                 contract_a.add_variables(component_a.variables)
                 contract_a.add_assumptions(component_a.assumptions)
-                contract_a.add_guarantees(component_a.unsaturated_guarantees, saturated=component_a.guarantees)
+                contract_a.add_guarantees(component_a.guarantees)
 
             for component_b in candidate_b:
                 contract_b.add_variables(component_b.variables)
                 contract_b.add_assumptions(component_b.assumptions)
-                component_b.add_guarantees(component_b.unsaturated_guarantees, saturated=component_b.guarantees)
+                component_b.add_guarantees(component_b.guarantees)
 
             if contract_a.is_refined_by(contract_b):
                 candidates_points[tuple(candidate_a)] += 1

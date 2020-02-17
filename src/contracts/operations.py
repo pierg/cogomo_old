@@ -1,4 +1,6 @@
 from typing import Tuple
+
+from contracts.formulas import Guarantee, Assumption
 from src.contracts.types import *
 from src.contracts.contract import Contract
 from src.checks.nsmvhelper import *
@@ -12,21 +14,17 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
     variables: List[Type] = []
 
     """Assumptions of the resulting contract"""
-    assumptions: List[str] = []
+    assumptions: List[Assumption] = []
 
     """Guarantees of the resulting contract"""
-    guarantees: List[str] = []
-
-    """Unsaturated guarantees of the resulting contract"""
-    unsaturated_guarantees: List[str] = []
+    guarantees: List[Guarantee] = []
 
     """Populate the data structure while checking for compatibility and consistency"""
     for contract in contracts:
         try:
             add_variables_to_list(variables, contract.variables)
-            add_propositions_to_list(variables, assumptions, contract.assumptions)
-            add_propositions_to_list(variables, guarantees, contract.guarantees)
-            add_propositions_to_list(variables, unsaturated_guarantees, contract.unsaturated_guarantees)
+            add_propositions_to_list(variables, assumptions, contract.assumptions, simplify=False)
+            add_propositions_to_list(variables, guarantees, contract.guarantees, simplify=False)
         except NonConsistentException:
             print("Composition is not doable")
             raise NonConsistentException
@@ -43,30 +41,17 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
 
     """Removing 'TRUE' from assumptions"""
     for a in list(assumptions):
-        if a == 'TRUE':
+        if a.formula == 'TRUE':
             assumptions.remove(a)
 
     assumptions_simplified = assumptions.copy()
 
-    """Combinations of guarantees"""
-    g_combinations = []
-    for i in range(len(unsaturated_guarantees)):
-        oc = it.combinations(unsaturated_guarantees, i + 1)
-        for c in oc:
-            g_combinations.append(list(c))
-
-    """Combinations of assumptions"""
-    a_combinations = []
-    for i in range(len(assumptions)):
-        oc = it.combinations(assumptions, i + 1)
-        for c in oc:
-            a_combinations.append(list(c))
-
     a_simplified = []
     g_ports_used = []
+
     """For each possible combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
     for a_elem in assumptions:
-        for g_elem in unsaturated_guarantees:
+        for g_elem in guarantees:
             if g_elem not in g_ports_used and a_elem not in a_simplified:
                 if is_implied_in(variables, g_elem, a_elem, check_type=True):
                     print("Simplifying assumption " + str(a_elem))
@@ -75,6 +60,20 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
                     a_simplified.append(a_elem)
 
 
+
+    # """Combinations of guarantees"""
+    # g_combinations = []
+    # for i in range(len(guarantees)):
+    #     oc = it.combinations(guarantees, i + 1)
+    #     for c in oc:
+    #         g_combinations.append(list(c))
+    #
+    # """Combinations of assumptions"""
+    # a_combinations = []
+    # for i in range(len(assumptions)):
+    #     oc = it.combinations(assumptions, i + 1)
+    #     for c in oc:
+    #         a_combinations.append(list(c))
     # """Delete unused variables"""
     # var_names_removed = []
     # var_names_removed.extend(extract_variables_name(a_removed))
@@ -111,10 +110,10 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
 
     composed_contract = Contract(variables=variables,
                                  assumptions=assumptions_simplified,
-                                 guarantees=unsaturated_guarantees,
-                                 saturated=guarantees,
+                                 guarantees=guarantees,
                                  validate=False,
                                  simplify=False)
+
     print("Composed contract:")
     print(composed_contract)
     return composed_contract

@@ -8,10 +8,11 @@ class Pattern(Contract):
 
     def __init__(self):
         super().__init__()
-        self.domain_properties: List[str] = []
+        self.domain_properties: List[Assumption] = []
 
     def add_domain_properties(self):
-        self.add_assumptions(self.domain_properties)
+        if len(self.domain_properties) > 0:
+            self.add_assumptions(self.domain_properties)
 
 
 class CoreMovement(Pattern):
@@ -43,7 +44,7 @@ class CoreMovement(Pattern):
 
         ltl_formula += ")"
 
-        self.domain_properties.append(ltl_formula)
+        self.domain_properties.append(Assumption(ltl_formula, kind="domain"))
 
 
 class Visit(CoreMovement):
@@ -54,7 +55,7 @@ class Visit(CoreMovement):
 
         """Adding the pattern as guarantee"""
         for location in locations:
-            self.add_guarantee("F(" + location + ")")
+            self.add_guarantee(Guarantee("F(" + location + ")"))
 
 
 class SequencedVisit(CoreMovement):
@@ -75,7 +76,7 @@ class SequencedVisit(CoreMovement):
             else:
                 guarantee += " & F("
 
-        self.add_guarantee(guarantee)
+        self.add_guarantee(Guarantee(guarantee))
 
 
 class OrderedVisit(CoreMovement):
@@ -98,11 +99,11 @@ class OrderedVisit(CoreMovement):
             else:
                 guarantee += " & F("
 
-        self.add_guarantee(guarantee)
+        self.add_guarantee(Guarantee(guarantee))
 
         for n, location in enumerate(locations):
             if n < len(locations) - 1:
-                self.add_guarantee("!" + locations[n + 1] + " U " + locations[n])
+                self.add_guarantee(Guarantee("!" + locations[n + 1] + " U " + locations[n]))
 
 
 class GlobalAvoidance(Pattern):
@@ -116,7 +117,7 @@ class GlobalAvoidance(Pattern):
 
         self.add_variables([Boolean(proposition)])
 
-        self.add_guarantee("G(!" + proposition + ")")
+        self.add_guarantee(Guarantee("G(!" + proposition + ")"))
 
 
 class DelayedReaction(Pattern):
@@ -130,4 +131,4 @@ class DelayedReaction(Pattern):
         self.add_variables([Boolean(trigger)])
         self.add_variables([Boolean(reaction)])
 
-        self.add_guarantee("G(" + trigger + " -> F(" + reaction + "))")
+        self.add_guarantee(Guarantee("G(" + trigger + " -> F(" + reaction + "))"))

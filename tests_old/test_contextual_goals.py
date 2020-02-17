@@ -86,6 +86,6 @@ list_of_goals_2 = [
 ]
 
 
-cgt = create_contextual_cgt(list_of_goals_2)
+cgt = create_contextual_combinatorial_cgt(list_of_goals_2)
 
 print(cgt)

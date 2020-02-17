@@ -16,6 +16,9 @@ class Type(object):
     def __eq__(self, other):
         return self.name == other.name and self.nuxmvtype == other.nuxmvtype
 
+    def __hash__(self):
+        return hash(self.name + self.nuxmvtype)
+
 
 class Boolean(Type):
 

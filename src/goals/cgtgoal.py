@@ -2,9 +2,11 @@ from copy import deepcopy
 from typing import List, Tuple, Dict
 
 from contracts.contract import Contract, Type
+from contracts.formulas import Assumption, Guarantee
 from goals.context import Context
 
 from helper.logic import And, Or
+from helper.tools import extract_variables_from_LTL
 
 
 class CGTGoal:
@@ -17,6 +19,8 @@ class CGTGoal:
                  refined_by: List['CGTGoal'] = None,
                  refined_with: str = None,
                  context: Context = None):
+
+        self.__connected_to = None
 
         if name is None:
             self.__name: str = ""
@@ -45,12 +49,7 @@ class CGTGoal:
             raise AttributeError
 
         if context is not None:
-            self.__context: Tuple[List[Type], List[str]] = context
-            self._propagate_context(context)
-        else:
-            self.__context = None
-
-        self.__connected_to = None
+            self.add_context(context)
 
     @property
     def name(self):
@@ -97,13 +96,27 @@ class CGTGoal:
 
     @property
     def context(self):
-        return self.__context
+        contexts = []
+        variables = []
+        for contract in self.contracts:
+            context = []
+            variables.extend(contract.variables)
+            for a in contract.assumptions:
+                if a.kind == "context":
+                    context.append(a)
+            if len(context) > 0:
+                context = And(context)
+                contexts.append(context)
+        if len(contexts) > 0:
+            contexts = Or(contexts)
+            variables = extract_variables_from_LTL(variables, contexts)
+            return Context(variables=variables, expression=contexts)
+        else:
+            return None
 
     @context.setter
     def context(self, value):
-        self.__context = value
-        if value is not None:
-            self._propagate_context(value)
+        self.add_context(value)
 
     @property
     def connected_to(self):
@@ -116,31 +129,30 @@ class CGTGoal:
     def get_refinement_by(self):
         return self.refined_by, self.refined_with
 
-    def get_goal(self, name: str):
-        """Search the CGT and get the first goal with name == str"""
-        if self.name == name:
-            return self
-        elif self.refined_by is not None:
-            res = None
+    def get_all_goals(self, name, copies=False):
+        """Depth-first search. Returns all goals are name"""
+        result = []
+        if self.refined_by is not None:
             for child in self.refined_by:
-                res = child.get_goal(name)
-            return res
-        else:
-            return None
+                if copies:
+                    child_name = child.name.replace('_copy', '')
+                else:
+                    child_name = child.name
+                if child_name == name:
+                    result.append(child)
+                else:
+                    result.extend(child.get_all_goals(name, copies))
+        return result
 
-    def get_all_goal(self, name):
-        """Return all goals are name or a copy of"""
-        curr_name = self.name.replace('_copy', '')
-        if curr_name == name:
-            return [self]
-        elif self.refined_by is not None:
-            res = []
-            for child in self.refined_by:
-                res.extend(child.get_all_goal(name))
-            return res
+    def get_goal(self, name) -> 'CGTGoal':
+        """Return the goal of name 'name'"""
+        res = self.get_all_goals(name)
+        if len(res) == 0:
+            raise Exception("No Goal with that name")
+        elif len(res) == 1:
+            return res[0]
         else:
-            return []
-
+            raise Exception("Multiple goals with the same name")
 
     def refine_by(self, refined_by: List['CGTGoal'], consolidate=True):
         """Refine by 'refined_by' with 'refined_with'"""
@@ -166,6 +178,21 @@ class CGTGoal:
         self.__refined_with = "PROVIDED_BY"
         goal.connected_to = self
 
+    def add_context(self, context: Context):
+        """Set the context as assumptions of all the contracts in the node"""
+        if context is not None:
+            variables, context_assumptions = context.get_context()
+            context_assumptions = Assumption(str(context_assumptions), kind="context")
+            for contract in self.contracts:
+                contract.add_variables(variables)
+                contract.add_assumption(context_assumptions)
+
+            if self.refined_by is None:
+                self.consolidate_bottom_up()
+            else:
+                for goal in self.refined_by:
+                    goal.add_context(context)
+
     def add_domain_properties(self):
         """Adding Domain Properties to 'cgt' (i.e. descriptive statements about the problem world (such as physical laws)
         These properties are intrinsic to the Contract/Pattern and get added as assumptions"""
@@ -190,7 +217,7 @@ class CGTGoal:
             for expectation in expectations:
                 if have_shared_variables(contract.variables, expectation.variables):
                     if are_satisfied_in([contract.variables, expectation.variables],
-                                        [contract.unsaturated_guarantees, expectation.unsaturated_guarantees]):
+                                        [contract.guarantees, expectation.guarantees]):
                         contract.add_variables(expectation.variables)
                         contract.add_assumptions(expectation.assumptions)
 
@@ -219,7 +246,52 @@ class CGTGoal:
             self.contracts = goal.contracts
             self.refined_by = goal.refined_by
             self.refined_with = goal.refined_with
-            self.context = goal.context
+
+    def substitute_with(self, goal_name: str, goal_name_update: str):
+
+        goals_to_substitute = self.get_all_goals(goal_name)
+        goals_substitute = self.get_all_goals(goal_name_update)
+
+        substituted = False
+
+        for goal_to_substitute in goals_to_substitute:
+            for goal_substitute in goals_substitute:
+                if goal_to_substitute.refined_by == [goal_substitute] and \
+                        goal_to_substitute.refined_with == "REFINEMENT":
+                    goal_to_substitute.update_with(goal_substitute)
+                    substituted = True
+
+        if substituted:
+            print("Substitution successful: " + goal_name + "with" + goal_name_update)
+        else:
+            print("No substitution has been performed")
+
+    def abstract_guarantees_of(self, goal_name: str, guarantees: List[Guarantee], variables: List[Type], abstract_name: str = None):
+
+        goals = self.get_all_goals(goal_name)
+        if abstract_name is None:
+            abstract_name = goal_name + "_abstracted"
+
+        for goal in goals:
+            if len(goal.contracts) > 1:
+                raise Exception("At the moment you can only abstract goals that have only one conjunction")
+
+            """Create a new abstract goal with 'guarantees' """
+            refined_goal = CGTGoal()
+            refined_goal.name = goal.name
+            refined_goal.description = goal.description
+            refined_goal.contracts = deepcopy(goal.contracts)
+            refined_goal.refined_by = goal.refined_by
+            refined_goal.refined_with = goal.refined_with
+
+            """Goal become the abstract goal which is then refined with it self"""
+            goal.name = abstract_name
+            goal.contracts[0].add_variables(variables)
+            goal.contracts[0].guarantees = guarantees
+
+            goal.refine_by([refined_goal])
+
+        print("Abstraction of " + goal_name + " completed")
 
     def consolidate_bottom_up(self):
         """It recursivly re-perfom composition and conjunction and refinement operations up to the rood node"""
@@ -229,10 +301,8 @@ class CGTGoal:
             refined_by, refined_with = node.get_refinement_by()
             if refined_with == "CONJUNCTION":
                 conjunction(refined_by, connect_to=node)
-                # node.update_with(conjunction(refined_by), connect_to=node, consolidate=False)
             elif refined_with == "COMPOSITION":
                 composition(refined_by, connect_to=node)
-                # node.update_with(composition(refined_by, connect_to=node), consolidate=False)
             elif refined_with == "REFINEMENT":
                 node.refine_by(refined_by, consolidate=False)
             else:
@@ -241,13 +311,6 @@ class CGTGoal:
             node.consolidate_bottom_up()
         else:
             return
-
-    def _propagate_context(self, context: Context):
-        """Set the context as assumptions of all the contracts in the node"""
-        variables, context_assumptions = context.get_context()
-        for contract in self.contracts:
-            contract.add_variables(variables)
-            contract.add_assumptions(context_assumptions)
 
     def get_ltl_assumptions(self):
         a_list = []
@@ -263,23 +326,41 @@ class CGTGoal:
 
     def __str__(self, level=0):
         """Override the print behavior"""
-        ret = "\t" * level + repr(self.name) + "\n"
-        # ret += "\t" * level + repr(self.description) + "\n"
+        ret = "\t" * level + "NAME:\t" + repr(self.name) + "\n"
         for n, contract in enumerate(self.contracts):
             if n > 0:
                 ret += "\t" * level + "\t/\\ \n"
-            ret += "\t" * level + "A:\t\t" + \
-                   ' & '.join(str(x) for x in contract.assumptions).replace('\n', ' ') + "\n"
-            ret += "\t" * level + "G:\t\t" + \
-                   ' & '.join(str(x) for x in contract.unsaturated_guarantees).replace('\n', ' ') + "\n"
+            a_context = [str(x) for x in contract.assumptions if x.kind == "context"]
+            a_domain = [str(x) for x in contract.assumptions if x.kind == "domain"]
+            a_expectation = [str(x) for x in contract.assumptions if x.kind == "expectation"]
+            a_assumed = [str(x) for x in contract.assumptions if x.kind == "assumed"]
+            if len(a_assumed) == 0:
+                a_assumed = ["TRUE"]
+
+            if len(a_context) > 0:
+                ret += "\t" * level + " CTX:\t" + \
+                       ' & '.join(x for x in a_context).replace('\n', ' ') + "\n"
+
+            if len(a_domain) > 0:
+                ret += "\t" * level + " DOM:\t" + \
+                       ' & '.join(x for x in a_domain).replace('\n', ' ') + "\n"
+
+            if len(a_expectation) > 0:
+                ret += "\t" * level + " EXP:\t" + \
+                       ' & '.join(x for x in a_expectation).replace('\n', ' ') + "\n"
+
+            ret += "\t" * level + "  A:\t" + \
+                   ' & '.join(str(x) for x in a_assumed).replace('\n', ' ') + "\n"
+            ret += "\t" * level + "  G:\t" + \
+                   ' & '.join(str(x) for x in contract.guarantees).replace('\n', ' ') + "\n"
         ret += "\n"
         if self.refined_by is not None:
+            print(len(self.refined_by))
             ret += "\t" * level + "\t" + self.refined_with + "\n"
             level += 1
             for child in self.refined_by:
                 try:
                     ret += child.__str__(level + 1)
-                except Exception as e:
-                    print("WAIT")
+                except Exception:
+                    print("ERROR IN PRINT")
         return ret
-
