@@ -1,13 +1,13 @@
 MODULE main
 VAR
-	weight_power: 0..100;
-	power1: 0..100;
-	power2: 0..100;
-	locA: boolean;
-	locC: boolean;
-	heavy_item_pickup: boolean;
 	robot_power: 0..100;
+	weight_power: 0..100;
+	heavy_item_pickup: boolean;
+	power2: 0..100;
+	locC: boolean;
+	locA: boolean;
 	day: boolean;
 	locB: boolean;
+	power1: 0..100;
 
-LTLSPEC !(day & G((locA & !locB) | (locB & !locA)) & !day & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)))
+LTLSPEC !(!day & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)) & day & G((locA & !locB) | (locB & !locA)))
