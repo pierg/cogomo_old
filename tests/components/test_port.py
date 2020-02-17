@@ -11,7 +11,7 @@ def test_port():
         ),
         Component(
             component_id="robot_2",
-            variables=[BoundedIntPort(port_type="a", name="a_name")],
+            variables=[BoundedInt(port_type="a", name="a_name")],
             guarantees=["a_name >= 8"],
         ),
         Component(
@@ -21,13 +21,13 @@ def test_port():
         ),
         Component(
             component_id="robot_4",
-            variables=[BoundedIntPort(port_type="a", name="a_name1"), BoundedIntPort(port_type="a", name="a_name2")],
+            variables=[BoundedInt(port_type="a", name="a_name1"), BoundedInt(port_type="a", name="a_name2")],
             guarantees=["a_name1 >= 8", "a_name2 >= 8"],
         ),
         Component(
             component_id="c1",
-            variables=[BoundedIntPort(port_type="a", name="a1"),
-                       BoundedIntPort(port_type="a", name="a2"),
+            variables=[BoundedInt(port_type="a", name="a1"),
+                       BoundedInt(port_type="a", name="a2"),
                        Boolean("b")],
             assumptions=["a1 > 5", "a2 > 5"],
             guarantees=["b"]

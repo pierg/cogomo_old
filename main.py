@@ -96,8 +96,8 @@ if __name__ == "__main__":
             ),
             Component(
                 component_id="collaborate",
-                variables=[BoundedNatPort(port_type="robot_power", name="power1"),
-                           BoundedNatPort(port_type="robot_power", name="power2"),
+                variables=[BoundedNat(port_type="robot_power", name="power1"),
+                           BoundedNat(port_type="robot_power", name="power2"),
                            BoundedNat("weight_power")],
                 assumptions=[Assumption("power1 >= 8"),
                              Assumption("power2 >= 8")],

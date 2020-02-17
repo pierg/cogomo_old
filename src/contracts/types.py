@@ -2,74 +2,56 @@ from typing import List
 
 
 class Type(object):
+    """Base Type Class, a Type is a variable with a name, basic_type for nuxmv (e.g. boolean),
+    and variable_type: used for example when a component requires multiple variables of the same type
+    but having different names. If the port_type is not specified then it's the same as the name of the variable"""
 
-    def __init__(self, name: str, var_type: str):
+    def __init__(self, name: str, basic_type: str, port_type: str = None):
+
+        """Name of the variable"""
         self.name = name
-        self.nuxmvtype = var_type
+
+        """Basic type, for nuxmv """
+        self.basic_type = basic_type
+
+        """Type of the variable, if it is not specified then it's the same as the name"""
+        self.port_type = port_type if port_type is not None else name
 
     def __str__(self):
-        return self.name + ": " + self.nuxmvtype
+        return self.name + ": " + self.basic_type
 
     def nuxmv_variable(self):
-        return self.name + ": " + self.nuxmvtype + ";\n"
+        return self.name + ": " + self.basic_type + ";\n"
 
     def __eq__(self, other):
-        return self.name == other.name and self.nuxmvtype == other.nuxmvtype
+        return self.name == other.name and self.basic_type == other.basic_type and self.port_type == other.port_type
 
     def __hash__(self):
-        return hash(self.name + self.nuxmvtype)
+        return hash(self.name + self.basic_type)
 
 
 class Boolean(Type):
 
-    def __init__(self, name: str):
-        super().__init__(name, "boolean")
+    def __init__(self, name: str, port_type: str = None):
+        super().__init__(name, "boolean", port_type=port_type)
 
 
 class Integer(Type):
 
-    def __init__(self, name: str, min: int, max: int):
-        super().__init__(name, str(min) + ".." + str(max))
+    def __init__(self, name: str, min: int, max: int, port_type: str = None):
+        super().__init__(name, str(min) + ".." + str(max), port_type=port_type)
 
 
 class BoundedInt(Integer):
 
-    def __init__(self, name: str):
-        super().__init__(name, min=-100, max=100)
+    def __init__(self, name: str, port_type: str = None):
+        super().__init__(name, min=-100, max=100, port_type=port_type)
 
 
 class BoundedNat(Integer):
 
-    def __init__(self, name: str):
-        super().__init__(name, min=0, max=100)
-
-
-class GeneralPort(Type):
-
-    def __init__(self, port_type: str, name: str, var_type: str):
-        self.port_type = port_type
-        super().__init__(name, var_type)
-
-    def nuxmv_variable_type(self):
-        return self.port_type + ": " + self.nuxmvtype + ";\n"
-
-
-class IntegerPort(GeneralPort):
-
-    def __init__(self, port_type: str, name: str, min: int, max: int):
-        super().__init__(port_type, name, str(min) + ".." + str(max))
-
-
-class BoundedIntPort(IntegerPort):
-
-    def __init__(self, port_type: str, name: str):
-        super().__init__(port_type, name, min=-100, max=100)
-
-
-class BoundedNatPort(IntegerPort):
-
-    def __init__(self, port_type: str, name: str):
-        super().__init__(port_type, name, min=0, max=100)
+    def __init__(self, name: str, port_type: str = None):
+        super().__init__(name, min=0, max=100, port_type=port_type)
 
 
 def have_shared_variables(list_a: List[Type], list_b: List[Type]):

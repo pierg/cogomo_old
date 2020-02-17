@@ -32,7 +32,7 @@ def check_satisfiability(variables: List[Type],
         vars_to_add = []
 
         for v in variables:
-            vars_to_add.append((v.name, v.nuxmvtype))
+            vars_to_add.append((v.name, v.basic_type))
 
         for v, t in list(set(vars_to_add)):
             ofile.write('\t' + v + ": " + t + ";\n")
@@ -75,11 +75,11 @@ def check_validity(variables: List[Type],
         vars_to_add = []
         """Change name of the ports with their type"""
         for v in variables:
-            if check_type and hasattr(v, "port_type"):
-                vars_to_add.append((v.port_type, v.nuxmvtype))
+            if check_type:
+                vars_to_add.append((v.port_type, v.basic_type))
                 proposition = proposition.replace(v.name, v.port_type)
             else:
-                vars_to_add.append((v.name, v.nuxmvtype))
+                vars_to_add.append((v.name, v.basic_type))
 
         for v, t in list(set(vars_to_add)):
             ofile.write('\t' + v + ": " + t + ";\n")
