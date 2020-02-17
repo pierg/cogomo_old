@@ -355,7 +355,6 @@ class CGTGoal:
                    ' & '.join(str(x) for x in contract.guarantees).replace('\n', ' ') + "\n"
         ret += "\n"
         if self.refined_by is not None:
-            print(len(self.refined_by))
             ret += "\t" * level + "\t" + self.refined_with + "\n"
             level += 1
             for child in self.refined_by:
