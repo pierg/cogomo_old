@@ -211,16 +211,10 @@ class ComponentsLibrary:
 
             for component in candidate:
                 for v in component.variables:
-                    if hasattr(v, "port_type"):
-                        if v.port_type not in ports_n_candidate:
-                            ports_n_candidate[v.port_type] = 1
-                        else:
-                            ports_n_candidate[v.port_type] += 1
+                    if v.port_type not in ports_n_candidate:
+                        ports_n_candidate[v.port_type] = 1
                     else:
-                        if v.name not in ports_n_candidate:
-                            ports_n_candidate[v.name] = 1
-                        else:
-                            ports_n_candidate[v.name] += 1
+                        ports_n_candidate[v.port_type] += 1
 
             all_covered = True
             for port, n in ports_n_candidate.items():

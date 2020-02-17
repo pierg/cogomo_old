@@ -3,13 +3,13 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
  DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
  EXP:	G(weight_power > 10)
   A:	TRUE
-  G:	G(locB -> F(heavy_item_pickup)) & !locB U locA & F(locA & F(locB & F(locC))) & !locC U locB
+  G:	G(locB -> F(heavy_item_pickup)) & !locC U locB & F(locA & F(locB & F(locC))) & !locB U locA
 	/\ 
  CTX:	!day
  DOM:	G((locA & !locB) | (locB & !locA))
  EXP:	G(weight_power > 10)
   A:	TRUE
-  G:	G(!locC) & !locB U locA & G(locB -> F(heavy_item_pickup)) & F(locA & F(locB))
+  G:	G(locB -> F(heavy_item_pickup)) & G(!locC) & !locB U locA & F(locA & F(locB))
 
 	CONJUNCTION
 		NAME:	'a->pickup||a-b-c'
@@ -17,7 +17,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 		 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
 		 EXP:	G(weight_power > 10)
 		  A:	TRUE
-		  G:	G(locB -> F(heavy_item_pickup)) & !locB U locA & F(locA & F(locB & F(locC))) & !locC U locB
+		  G:	G(locB -> F(heavy_item_pickup)) & !locC U locB & F(locA & F(locB & F(locC))) & !locB U locA
 
 			COMPOSITION
 				NAME:	'a-b-c'
@@ -34,7 +34,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 					REFINEMENT
 						NAME:	'collaborate||pick_up_item||robot_2||robot_3'
 						  A:	TRUE
-						  G:	robot_power >= 8 & G(heavy_item_pickup) & G(weight_power > 12) & robot_power >= 9
+						  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & robot_power >= 8
 
 							COMPOSITION/MAPPING
 								NAME:	'pick_up_item'
@@ -49,7 +49,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 											PROVIDED_BY
 												NAME:	'robot_2||robot_3'
 												  A:	TRUE
-												  G:	robot_power >= 8 & robot_power >= 9
+												  G:	robot_power >= 9 & robot_power >= 8
 
 													COMPOSITION
 														NAME:	'robot_2'
@@ -65,7 +65,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 		 DOM:	G((locA & !locB) | (locB & !locA))
 		 EXP:	G(weight_power > 10)
 		  A:	TRUE
-		  G:	G(!locC) & !locB U locA & G(locB -> F(heavy_item_pickup)) & F(locA & F(locB))
+		  G:	G(locB -> F(heavy_item_pickup)) & G(!locC) & !locB U locA & F(locA & F(locB))
 
 			COMPOSITION
 				NAME:	'a-b'
@@ -87,7 +87,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 					REFINEMENT
 						NAME:	'collaborate||pick_up_item||robot_2||robot_3'
 						  A:	TRUE
-						  G:	robot_power >= 8 & G(heavy_item_pickup) & G(weight_power > 12) & robot_power >= 9
+						  G:	G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & robot_power >= 8
 
 							COMPOSITION/MAPPING
 								NAME:	'pick_up_item'
@@ -102,7 +102,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 											PROVIDED_BY
 												NAME:	'robot_2||robot_3'
 												  A:	TRUE
-												  G:	robot_power >= 8 & robot_power >= 9
+												  G:	robot_power >= 9 & robot_power >= 8
 
 													COMPOSITION
 														NAME:	'robot_2'

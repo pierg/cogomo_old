@@ -3,13 +3,13 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
  DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
  EXP:	G(weight_power > 10)
   A:	TRUE
-  G:	G(locB -> F(heavy_item_pickup)) & !locB U locA & F(locA & F(locB & F(locC))) & !locC U locB
+  G:	G(locB -> F(heavy_item_pickup)) & !locC U locB & F(locA & F(locB & F(locC))) & !locB U locA
 	/\ 
  CTX:	!day
  DOM:	G((locA & !locB) | (locB & !locA))
  EXP:	G(weight_power > 10)
   A:	TRUE
-  G:	G(!locC) & !locB U locA & G(locB -> F(heavy_item_pickup)) & F(locA & F(locB))
+  G:	G(locB -> F(heavy_item_pickup)) & G(!locC) & !locB U locA & F(locA & F(locB))
 
 	CONJUNCTION
 		NAME:	'a->pickup||a-b-c'
@@ -17,7 +17,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 		 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
 		 EXP:	G(weight_power > 10)
 		  A:	TRUE
-		  G:	G(locB -> F(heavy_item_pickup)) & !locB U locA & F(locA & F(locB & F(locC))) & !locC U locB
+		  G:	G(locB -> F(heavy_item_pickup)) & !locC U locB & F(locA & F(locB & F(locC))) & !locB U locA
 
 			COMPOSITION
 				NAME:	'a-b-c'
@@ -36,7 +36,7 @@ NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 		 DOM:	G((locA & !locB) | (locB & !locA))
 		 EXP:	G(weight_power > 10)
 		  A:	TRUE
-		  G:	G(!locC) & !locB U locA & G(locB -> F(heavy_item_pickup)) & F(locA & F(locB))
+		  G:	G(locB -> F(heavy_item_pickup)) & G(!locC) & !locB U locA & F(locA & F(locB))
 
 			COMPOSITION
 				NAME:	'a-b'

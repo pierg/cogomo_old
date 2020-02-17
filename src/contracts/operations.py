@@ -60,7 +60,6 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
                     a_simplified.append(a_elem)
 
 
-
     # """Combinations of guarantees"""
     # g_combinations = []
     # for i in range(len(guarantees)):
