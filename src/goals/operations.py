@@ -17,13 +17,12 @@ def composition(goals: List[CGTGoal],
     """Returns a new goal that is the result of the composition of 'goals'
     The new goal returned points to a copy of 'goals'"""
 
-
     for n, goal in enumerate(goals):
         if goal.connected_to is not None and connect_to is not None:
             if connect_to != goal.connected_to:
                 print(goal.name + " is already part of another CGT. Making a copy of it...")
                 goals[n] = copy.deepcopy(goal)
-                goals[n].name = goals[n].name + "_copy"
+                goals[n].name = goals[n].name
 
     contracts: Dict[CGTGoal, List[Contract]] = {}
 
@@ -40,10 +39,14 @@ def composition(goals: List[CGTGoal],
     #     composition_ctx = None
 
     if name is None:
-        name = ""
+        names = []
         for goal in goals:
-            name += goal.name + "||"
-        name = name[:-2]
+            names.append(goal.name)
+        names.sort()
+        comp_name = ""
+        for name in names:
+            comp_name += name + "||"
+        name = comp_name[:-2]
 
     for goal in goals:
         contracts[goal.name] = goal.contracts
@@ -89,7 +92,7 @@ def conjunction(goals: List[CGTGoal],
             if connect_to != goal.connected_to:
                 print(goal.name + " is already part of another CGT. Making a copy of it...")
                 goals[n] = copy.deepcopy(goal)
-                goals[n].name = goals[n].name + "_copy"
+                goals[n].name = goals[n].name
 
     # if len(goals_ctx) > 0:
     #     cojunction_ctx_vars = []
@@ -104,10 +107,14 @@ def conjunction(goals: List[CGTGoal],
     #     cojunction_ctx = None
 
     if name is None:
-        name = ""
+        names = []
         for goal in goals:
-            name += goal.name + "^^"
-        name = name[:-2]
+            names.append(goal.name)
+        names.sort()
+        conj_name = ""
+        for name in names:
+            conj_name += name + "^^"
+        name = conj_name[:-2]
 
     """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
     for pair_of_goals in it.combinations(goals, r=2):
@@ -192,12 +199,14 @@ def mapping(component_library: ComponentsLibrary,
     composition_contract = compose_contracts(components)
 
     if name is None:
-        mapping_name = ""
+        names = []
         for component in components:
-            mapping_name += component.id + "||"
+            names.append(component.id)
+        names.sort()
+        mapping_name = ""
+        for name in names:
+            mapping_name += name + "||"
         mapping_name = mapping_name[:-2]
-    else:
-        mapping_name = name
 
     if len(hierarchy.values()) > 0:
         """Transforms the components in the dictionary in Goals"""
@@ -244,7 +253,7 @@ def mapping(component_library: ComponentsLibrary,
                                description=description,
                                contracts=[composition_contract],
                                refined_by=providing_goals_top,
-                               refined_with="MAPPING")
+                               refined_with="COMPOSITION/MAPPING")
 
     """Link 'composition_goal' to the 'specification_goal' 
     This will also propagate the assumptions from composition_goal"""

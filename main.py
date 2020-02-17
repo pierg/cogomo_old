@@ -11,14 +11,17 @@ file_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
 if __name__ == "__main__":
-    """The designer specifies a mission using the patterns and building a tree (CGT)
-        The input can also be from a txt file or json
-        In addition to the patterns to use the designer specifies also in which context the goal can be active"""
+    """The designer specifies a mission using the predefined catalogue of patterns 
+       In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
     """Import the goals from file"""
     # list_of_goals = parse("./input_files/robots_patterns_simple.txt")
 
     """Or define them here"""
+    """Order Visit pattern of 3 locations in the context 'day'"""
+    """Order Visit pattern of 2 locations in the context '!day'"""
+    """Global Avoidance pattern of 1 location in the context '!day'"""
+    """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
     list_of_goals = [
         CGTGoal(
             context=(Context(LTL("day"))),
@@ -47,13 +50,14 @@ if __name__ == "__main__":
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 
     """Adding Domain Properties (i.e. descriptive statements about the problem world (such as physical laws)
-    E.g. a robot cannot be in two locations at the same time. These properties are intrinsic for each pattern"""
+    E.g. a robot cannot be in two locations at the same time. These properties are intrinsic in each pattern"""
     cgt.add_domain_properties()
 
     save_to_file(str(cgt), file_path + "/cgt_2_domain")
 
     """Adding Domain Hypothesis or Expectations (i.e. prescriptive assumptions on the environment
-    E.g. The item weight 10kg so in order to pick it up the weight_power must be at least 10"""
+    E.g. In the environment of deployment of the mission the item weight 10kg so in order to pick it up 
+    there is a new assumption where the 'weight_power' must be at least 10"""
     expectations = [
         Contract(variables=[BoundedNat("weight_power"), Boolean("heavy_item_pickup")],
                  assumptions=[Assumption("G(weight_power > 10)", kind="expectation")],
@@ -64,9 +68,15 @@ if __name__ == "__main__":
 
     save_to_file(str(cgt), file_path + "/cgt_3_expectations")
 
+    """Import library of components from file"""
+
     """Instantiating a Library of Components"""
     component_library = ComponentsLibrary(name="robots")
 
+    """Import library of components from file"""
+    # list_of_components = parse("./input_files/robots_components_simple.txt")
+
+    """Or define them here"""
     component_library.add_components(
         [
             Component(
@@ -101,10 +111,30 @@ if __name__ == "__main__":
             )
         ])
 
-    """Looking in the library for components that can relax the Expectation"""
-    goals_to_map = cgt.get_all_goal("a->pickup")
+    """Looking in the library for components for goals that can refine all the goals to pickup an object 'a->pickup'"""
+    goals_to_map = cgt.get_all_goals("a->pickup")
 
     for goal in goals_to_map:
         mapping(component_library, goal)
 
     save_to_file(str(cgt), file_path + "/cgt_4_mapping")
+
+    """Refinements formalize a notion of substitutability. We can substitute goals with most refined one.
+    For example, from 'cgt_4_mapping' we can substitute 'a->pickup' with 'collaborate||robot_2||pick_up_item||robot_3'"""
+
+    cgt.substitute_with("a->pickup", "collaborate||pick_up_item||robot_2||robot_3")
+
+    """Notice how all the tree is consistent with the substitution 
+    that had relaxed the expectation 'G(weight_power > 10)' from all the CGT"""
+    save_to_file(str(cgt), file_path + "/cgt_5_substitution")
+
+    """The designer can specify to 'abstract' a goal to have fewer guarantees, however CoGoMo will keep the guarantees
+    that are needed to 'relax' assumptions in other goals of the trees"""
+
+    variables = [Boolean("locB"), Boolean("heavy_item_pickup")]
+    guarantees = [Guarantee("G(locB -> F(heavy_item_pickup))")]
+    cgt.abstract_guarantees_of("collaborate||pick_up_item||robot_2||robot_3",
+                               guarantees, variables, "pick_up_item_abstracted")
+    save_to_file(str(cgt), file_path + "/cgt_6_abstracted")
+
+

@@ -1,0 +1,16 @@
+MODULE main
+
+VAR
+	a: boolean;
+	b: boolean;
+	c: boolean;
+	d: boolean;
+
+LTLSPEC G(c) -> G(d -> F(c))
+-- TRUE
+
+LTLSPEC G(d -> F(c)) -> G(c)
+-- FALSE
+
+LTLSPEC G(d -> F(c)) & G(d) -> G(c)
+-- TRUE
