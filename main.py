@@ -68,8 +68,6 @@ if __name__ == "__main__":
 
     save_to_file(str(cgt), file_path + "/cgt_3_expectations")
 
-    """Import library of components from file"""
-
     """Instantiating a Library of Components"""
     component_library = ComponentsLibrary(name="robots")
 
@@ -137,5 +135,3 @@ if __name__ == "__main__":
     cgt.abstract_guarantees_of("collaborate||pick_up_item||robot_2||robot_3",
                                guarantees, variables, "pick_up_item_abstracted")
     save_to_file(str(cgt), file_path + "/cgt_6_abstracted")
-
-
