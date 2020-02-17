@@ -109,7 +109,8 @@ if __name__ == "__main__":
                 assumptions=[Assumption("G(weight_power > 12)")],
                 guarantees=[Guarantee("G(heavy_item_pickup)")]
             )
-        ])
+        ]
+    )
 
     """Looking in the library for components for goals that can refine all the goals to pickup an object 'a->pickup'"""
     goals_to_map = cgt.get_all_goals("a->pickup")
