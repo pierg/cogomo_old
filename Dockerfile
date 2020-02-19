@@ -26,7 +26,7 @@ RUN \
     pip3 install z3-solver
 
 
-WORKDIR /home/cogomo_Z3
+WORKDIR /home/cogomo
 
 ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo/src"
 
