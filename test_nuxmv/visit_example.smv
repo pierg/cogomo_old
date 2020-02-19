@@ -1,6 +1,7 @@
 MODULE main
 
 VAR
+    locInit: boolean;
 	locA: boolean;
 	locB: boolean;
 	locC: boolean;
@@ -8,14 +9,21 @@ VAR
 	gotoB: boolean;
 	gotoC: boolean;
 
+
 LTLSPEC !(
 (
+G((gotoA <-> X F locA) & (gotoB <-> X F locB) & (gotoC <-> X F locC)) &
+G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB) | (!locA & !locB & !locC)) &
+G((gotoA & !gotoB & !gotoC) | (gotoB & !gotoA & !gotoC) | (gotoC & !gotoA & !gotoB) | (!gotoA & !gotoB & !gotoC) )
+) &
+(
+(
 G((gotoA -> X F locA) & (gotoB -> X F locB) & (gotoC -> X F locC)) &
+G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)) &
 G((gotoA & !gotoB & !gotoC) | (gotoB & !gotoA & !gotoC) | (gotoC & !gotoA & !gotoB))
 ) ->
 (
-G (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) &
-G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)) &
-G((gotoA & !gotoB & !gotoC) | (gotoB & !gotoA & !gotoC) | (gotoC & !gotoA & !gotoB))
+G (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+)
 )
 )
