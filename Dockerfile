@@ -53,3 +53,13 @@ RUN make
 RUN cp ./bin/strix /usr/local/bin
 
 WORKDIR /home
+
+RUN git clone -b ltldev --single-branch https://github.com/pierg/cogomo.git
+
+RUN python3 -m pip install --user --upgrade pip==9.0.3
+
+WORKDIR /home/cogomo
+
+ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo/src"
+
+ENTRYPOINT ["./entrypoint.sh"]
