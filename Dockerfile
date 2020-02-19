@@ -1,34 +1,55 @@
-FROM ubuntu:18.04
+FROM ubuntu:19.04
 
 # Install keyboard-configuration separately to avoid travis hanging waiting for keyboard selection
 RUN \
     apt -y update && \
-    apt install -y keyboard-configuration && \
+    apt install -y keyboard-configuration
 
+# Install general things
+RUN \
+    apt install -y \
+        git \
+        unzip \
+        nano
+
+# Install strix dependencies
+RUN \
+    apt install -y \
+        cmake \
+        make\
+        libboost-dev \
+        libboost-program-options-dev \
+        libboost-filesystem-dev \
+        libboost-iostreams-dev \
+        zlib1g-dev \
+        openjdk-12-jdk
+
+# Install CoGoMo dependencies
+RUN \
     apt install -y \
         python3-pip \
-        python3-dev \
-        git && \
+        python3-dev
 
+
+RUN \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 
+
 WORKDIR /home
 
-# Cloning the repositories
-RUN git clone -b ltldev --single-branch https://github.com/pierg/cogomo.git
+# Cloning Strix
+RUN git clone https://gitlab.lrz.de/i7/strix.git
 
-RUN python3 -m pip install --user --upgrade pip==9.0.3
+WORKDIR /home/strix
 
 RUN \
-    pip3 install z3 && \
-    pip3 install z3-solver
+    git submodule init && \
+    git submodule update
 
+RUN make
 
-WORKDIR /home/cogomo
+RUN cp ./bin/strix /usr/local/bin
 
-ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo/src"
-
-ENTRYPOINT ["./entrypoint.sh"]
-CMD [""]
+WORKDIR /home
