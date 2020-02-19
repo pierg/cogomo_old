@@ -17,7 +17,7 @@ RUN \
 WORKDIR /home
 
 # Cloning the repositories
-RUN git clone https://github.com/pierg/cogomo_Z3.git
+RUN git clone -b ltldev --single-branch https://github.com/pierg/cogomo.git
 
 RUN python3 -m pip install --user --upgrade pip==9.0.3
 
@@ -28,7 +28,7 @@ RUN \
 
 WORKDIR /home/cogomo_Z3
 
-ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo/src:/home/cogomo/evaluation"
+ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo/src"
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD [""]
