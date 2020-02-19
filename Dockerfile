@@ -36,22 +36,6 @@ RUN \
     rm -rf /var/lib/apt/lists/*
 
 
-
-WORKDIR /home
-
-# Cloning Strix
-RUN git clone https://gitlab.lrz.de/i7/strix.git
-
-WORKDIR /home/strix
-
-RUN \
-    git submodule init && \
-    git submodule update
-
-RUN make
-
-RUN cp ./bin/strix /usr/local/bin
-
 WORKDIR /home
 
 RUN git clone -b ltldev --single-branch https://github.com/pierg/cogomo.git
