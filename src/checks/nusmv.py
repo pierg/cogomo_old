@@ -49,7 +49,7 @@ def check_satisfiability(variables: List[Type],
         for line in output:
             if line[:16] == '-- specification':
                 if 'is false' in line:
-                    print("SAT:\t" + str(And(propositions)))
+                    print("\t\t\tSAT:\t" + str(And(propositions)))
                     return True
                 elif 'is true' in line:
                     return False
@@ -95,7 +95,7 @@ def check_validity(variables: List[Type],
                 if 'is false' in line:
                     return False
                 elif 'is true' in line:
-                    print("VALID:\t" + proposition)
+                    print("\t\t\tVALID:\t" + proposition)
                     return True
 
     except Exception as e:

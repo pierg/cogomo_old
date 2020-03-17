@@ -239,6 +239,8 @@ def create_contextual_simple_cgt(goals: List[CGTGoal]) -> CGTGoal:
     """Extract all unique contexts"""
     contexts: List[Context] = extract_unique_contexts_from_goals(goals)
 
+    print("\n\n\n\n" + str(len(goals)) + " GOALS\nCONTEXTS:" + str([str(c) for c in contexts]))
+
     """If it's only one context return the CGT"""
     if len(contexts) == 1:
         cgt = composition(goals)
@@ -248,34 +250,80 @@ def create_contextual_simple_cgt(goals: List[CGTGoal]) -> CGTGoal:
     """Extract the combinations of all contextes and the combination with the negations of all the other contexts"""
     combs_all_contexts, combs_all_contexts_neg = extract_all_combinations_and_negations_from_contexts(contexts)
 
-    print("\n\n____________________ALL_COMBINATIONS______________________________")
+    print("\n__ALL_COMBINATIONS___________________________________________________________")
     for c_list in combs_all_contexts:
         print(*c_list, sep='\t\t\t')
+    print("\n\n")
 
-    print("\n\n____________________ALL_COMBINATIONS_WITH_NEG_____________________")
+    print("__ALL_COMBINATIONS_WITH_NEG__________________________________________________")
     for c_list in combs_all_contexts_neg:
         print(*c_list, sep='\t\t\t')
+    print("\n\n")
 
     """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify them"""
     combs_all_contexts = filter_and_simplify_contexts(combs_all_contexts)
-    combs_all_contexts_neg = filter_and_simplify_contexts(combs_all_contexts)
+    combs_all_contexts_neg = filter_and_simplify_contexts(combs_all_contexts_neg)
 
-    print("\n\n____________________ALL_COMBINATIONS_CONSISTENT______________________________")
+    print("__ALL_COMBINATIONS_CONSISTENT________________________________________________")
     for c_list in combs_all_contexts:
         print(*c_list, sep='\t\t\t')
+    print("\n\n")
 
-    print("\n\n____________________ALL_COMBINATIONS_WITH_NEG_CONSISTENT_____________________")
+    print("__ALL_COMBINATIONS_WITH_NEG_CONSISTENT_______________________________________")
     for c_list in combs_all_contexts_neg:
         print(*c_list, sep='\t\t\t')
+    print("\n\n")
 
+    contexts_list = None
+
+    print("processing and merging contexts...")
     merged, merged_simplified = merge_contexes(combs_all_contexts)
 
-    print("\n\n________________MERGED______________________________\n")
+    print("__MERGED_____________________________________________________________________")
     print(*merged, sep='\n')
-    print("\n\n________________MERGED_SIMPLIFIED______________________________\n")
+
+    contexts_list = merged
+
+    context_goals = map_goals_to_contexts(contexts_list, goals)
+    print("\n\t+++ " + str(len(goals)) + " Goals Mapped in " + str(len(contexts_list)) + " contexts +++")
+    for ctx, ctx_goals in context_goals.items():
+        print(str(ctx.formula) + "\t-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+
+    print("__MERGED_AND_ABSTRACTED______________________________________________________")
     print(*merged_simplified, sep='\n')
 
-    context_goals = map_goals_to_contexts(merged_simplified, goals)
+    contexts_list = merged_simplified
+
+    context_goals = map_goals_to_contexts(contexts_list, goals, refined=True)
+    print("\n\t+++ " + str(len(goals)) + " Goals Mapped in " + str(len(contexts_list)) + " contexts +++")
+    for ctx, ctx_goals in context_goals.items():
+        print(str(ctx.formula) + "\t-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+    print("\n\n")
+
+    print("processing and merging saturated contexts...")
+    merged_neg, merged_simplified_neg = merge_contexes(combs_all_contexts_neg)
+
+    print("___MERGED_NEG________________________________________________________________")
+    print(*merged_neg, sep='\n')
+
+    contexts_list = merged_neg
+
+    context_goals = map_goals_to_contexts(contexts_list, goals)
+    print("\n\t+++ " + str(len(goals)) + " Goals Mapped in " + str(len(contexts_list)) + " contexts +++")
+    for ctx, ctx_goals in context_goals.items():
+        print(str(ctx.formula) + "\t-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+
+    print("__MERGED_AND_ABSTRACTED_NEG__________________________________________________")
+    print(*merged_simplified_neg, sep='\n')
+
+    contexts_list = merged_simplified_neg
+
+    context_goals = map_goals_to_contexts(contexts_list, goals)
+    print("\n\t+++ " + str(len(goals)) + " Goals Mapped in " + str(len(contexts_list)) + " contexts +++")
+    for ctx, ctx_goals in context_goals.items():
+        print(str(ctx.formula) + "\t-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+
+    print("\n\n\n\n\n\nComposing and Conjoining based on the Context...")
 
     """Compose all the set of goals in identified context"""
     composed_goals = []

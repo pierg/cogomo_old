@@ -2,137 +2,159 @@ from goals.context import Context
 from src.contracts.contract import *
 from src.goals.operations import *
 
-def test_context_booleans():
-    list_of_goals_2 = [
+def test_context_booleans_1():
+    list_of_goals = [
         CGTGoal(
             context=(Context(LTL("x"))),
-            name="contract_1",
+            name="g1",
             contracts=[BooleanContract(["ax"], ["bx"])]
         ),
         CGTGoal(
             context=(Context(LTL("y"))),
-            name="contract_2",
+            name="g2",
             contracts=[BooleanContract(["ay"], ["by"])]
         ),
         CGTGoal(
             context=(Context(LTL("z"))),
-            name="contract_3",
+            name="g3",
             contracts=[BooleanContract(["az"], ["gz"])]
         )
     ]
+    cgt = create_contextual_simple_cgt(list_of_goals)
+    save_to_file(str(cgt), "test_context_booleans_1")
 
+def test_context_booleans_2():
+    list_of_goals = [
+        CGTGoal(
+            context=(Context(LTL("!x"))),
+            name="g1",
+            contracts=[BooleanContract(["ax"], ["bx"])]
+        ),
+        CGTGoal(
+            context=(Context(LTL("x"))),
+            name="g2",
+            contracts=[BooleanContract(["ay"], ["by"])]
+        ),
+        CGTGoal(
+            context=(Context(LTL("y"))),
+            name="g3",
+            contracts=[BooleanContract(["az"], ["gz"])]
+        )
+    ]
+    cgt = create_contextual_simple_cgt(list_of_goals)
+    save_to_file(str(cgt), "test_context_booleans_2")
+
+def test_context_booleans_3():
     list_of_goals = [
         CGTGoal(
             context=(Context(LTL("x"))),
-            name="contract_1",
+            name="g1",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
             context=(Context(LTL("!y"))),
-            name="contract_3",
+            name="g2",
             contracts=[BooleanContract(["ad"], ["bd"])]
         ),
         CGTGoal(
             context=(Context(LTL("y"))),
-            name="contract_2",
+            name="g3",
             contracts=[BooleanContract(["c"], ["d"])]
         ),
         CGTGoal(
             context=(Context(LTL("x|z"))),
-            name="contract_6",
+            name="g4",
             contracts=[BooleanContract(["k"], ["p"])]
         ),
         CGTGoal(
             context=(Context(LTL("z"))),
-            name="contract_7",
+            name="g5",
             contracts=[BooleanContract(["k2"], ["p2"])]
         ),
         CGTGoal(
             context=(Context(LTL("!z"))),
-            name="contract_8",
+            name="g6",
             contracts=[BooleanContract(["k3"], ["p4"])]
         )
     ]
+    cgt = create_contextual_simple_cgt(list_of_goals)
+    save_to_file(str(cgt), "test_context_booleans_3")
 
-    cgt = create_contextual_combinatorial_cgt(list_of_goals)
-
-    save_to_file(str(cgt), "context_cgt.txt")
 
 
 def test_context_integer_simple():
     list_of_goals = [
         CGTGoal(
             context=(Context(LTL("y > 5"))),
-            name="contract_1",
+            name="g1",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
             context=(Context(LTL("x > 1"))),
-            name="contract_11",
+            name="g2",
             contracts=[BooleanContract(["a1"], ["b1"])]
         ),
         CGTGoal(
             context=(Context(LTL("x > 6"))),
-            name="contract_1",
+            name="g3",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
             context=(Context(LTL("x < 5"))),
-            name="contract_2",
+            name="g4",
             contracts=[BooleanContract(["c"], ["d"])]
         ),
         CGTGoal(
             context=(Context(LTL("x < 3"))),
-            name="contract_6",
+            name="g5",
             contracts=[BooleanContract(["k"], ["p"])]
         ),
         CGTGoal(
             context=(Context(LTL("x < 10"))),
-            name="contract_55",
+            name="g6",
             contracts=[BooleanContract(["kd"], ["pf"])]
         )
     ]
 
-    cgt = create_contextual_combinatorial_cgt(list_of_goals)
+    cgt = create_contextual_simple_cgt(list_of_goals)
+    save_to_file(str(cgt), "test_context_integer_simple")
 
-    save_to_file(str(cgt), "context_cgt_integer.txt")
 
 def test_context_integer():
     list_of_goals = [
         CGTGoal(
             context=(Context(LTL("y > 5"))),
-            name="contract_1",
+            name="g1",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
             context=(Context(LTL("x > 6"))),
-            name="contract_1",
+            name="g2",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
             context=(Context(LTL("x < 5"))),
-            name="contract_2",
+            name="g3",
             contracts=[BooleanContract(["c"], ["d"])]
         ),
         CGTGoal(
             context=(Context(LTL("x < 3"))),
-            name="contract_6",
+            name="g4",
             contracts=[BooleanContract(["k"], ["p"])]
         ),
         CGTGoal(
             context=(Context(LTL("x < 7 & x !=5"))),
-            name="contract_55",
+            name="g5",
             contracts=[BooleanContract(["kd"], ["pf"])]
         ),
         CGTGoal(
             context=(Context(LTL("x = 5"))),
-            name="contract_55",
+            name="g6",
             contracts=[BooleanContract(["kd"], ["pf"])]
         )
     ]
 
-    cgt = create_contextual_combinatorial_cgt(list_of_goals)
-
-    save_to_file(str(cgt), "context_cgt_integer")
+    cgt = create_contextual_simple_cgt(list_of_goals)
+    save_to_file(str(cgt), "test_context_integer")
 
 

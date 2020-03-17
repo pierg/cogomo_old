@@ -129,7 +129,7 @@ def merge_contexes(contexts: List[List[Context]]) -> Tuple[List[Context], List[C
         for cb in list(context_merged_simplified):
             if ca is not cb:
                 if ca.is_satisfiable_with(cb):
-                    print(str(ca) + "  SAT WITH   " + str(cb))
+                    # print(str(ca) + "  SAT WITH   " + str(cb))
                     mutex = False
                 if ca.is_included_in(cb):
                     print(str(ca) + "  INCLUDED IN   " + str(cb))
@@ -146,6 +146,7 @@ def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal], refined
     """Map each goal to each context, refined indicates if among a two elements pointing at the same goal
     it must be taken the most reefined, otherwise the most abstract (in tems of context) is taken"""
 
+    print("Mapping " + str(len(goals)) + " goals to " + str(len(contexts)) + " contexts")
     context_goals: Dict[Context, List[CGTGoal]] = {}
     for ctx in contexts:
         for goal in goals:
@@ -158,15 +159,27 @@ def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal], refined
                 else:
                     context_goals[ctx] = [goal]
             else:
-                """Verify that the context is an abstraction of the goal context"""
                 goal_ctx = goal.context
-                if ctx.is_included_in(goal_ctx):
-                    """Add goal to the context"""
-                    if ctx in context_goals:
-                        if goal not in context_goals[ctx]:
-                            context_goals[ctx].append(goal)
-                    else:
-                        context_goals[ctx] = [goal]
+                if refined:
+                    """Verify that the goal context is an refinement of the context"""
+                    if goal_ctx.is_included_in(ctx):
+                        print("Goal_ctx: " + str(goal_ctx) + " \t-->\t Ctx: " + str(ctx))
+                        """Add goal to the context"""
+                        if ctx in context_goals:
+                            if goal not in context_goals[ctx]:
+                                context_goals[ctx].append(goal)
+                        else:
+                            context_goals[ctx] = [goal]
+                else:
+                    """Verify that the context is an refinement of the goal context"""
+                    if ctx.is_included_in(goal_ctx):
+                        print("Ctx: " + str(ctx) + " \t-->\t Goal_ctx: " + str(goal_ctx))
+                        """Add goal to the context"""
+                        if ctx in context_goals:
+                            if goal not in context_goals[ctx]:
+                                context_goals[ctx].append(goal)
+                        else:
+                            context_goals[ctx] = [goal]
 
     """Check all the contexts that point to the same set of goals and take the most abstract/refined one"""
     for ctxa, goalsa in dict(context_goals).items():
@@ -182,6 +195,20 @@ def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal], refined
                         if ctxa.is_included_in(ctxb):
                             print("Simplifying " + str(ctxa))
                             del context_goals[ctxa]
+
+    """Check the all the goals have been mapped"""
+    for g in goals:
+        goal_not_present = True
+        for k, v in context_goals.items():
+            if g in v:
+                goal_not_present = False
+                break
+        if goal_not_present:
+            print("+++++CAREFUL+++++++")
+            print(g.name + ": " + str(g.context) + " not mapped to any goal")
+            # raise Exception("Some goals have not been mapped to the context!")
+
+    print("All goals have been mapped to a context")
 
     return context_goals
 
