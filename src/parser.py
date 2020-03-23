@@ -1,4 +1,8 @@
+import os
+import random
 import re
+import string
+
 from src.cgtgoal import *
 
 # contract file attributes
@@ -35,6 +39,24 @@ CGT_NAME_HEADER = 'NAME'
 CGT_TREE_HEADER = 'TREE'
 CGT_END_TREE = 'ENDTREE'
 CGT_END_OPERATION = 'ENDTREE|CONJUNCTION|COMPOSITION'
+
+
+def parse_from_string(string_to_parse):
+
+    temp_text_file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + ".txt"
+
+    with open(temp_text_file_name, "w") as text_file:
+        text_file.write(string_to_parse)
+
+    goals = parse(temp_text_file_name)
+
+    if os.path.exists(temp_text_file_name):
+        os.remove(temp_text_file_name)
+    else:
+        print("The file does not exist")
+
+    return goals
+
 
 
 def parse(specfile):
@@ -136,9 +158,9 @@ def parse(specfile):
                         else:
                             raise Exception("Unexpected Goal Header")
 
-    print("Loaded Goals:\n\n____________________________________________________________________\n\n")
-    for key, value in goal_dictionary.items():
-        print(str(value) + "____________________________________________________________________\n\n")
+    # print("Loaded Goals:\n\n____________________________________________________________________\n\n")
+    # for key, value in goal_dictionary.items():
+    #     print(str(value) + "____________________________________________________________________\n\n")
     return goal_dictionary
 
 

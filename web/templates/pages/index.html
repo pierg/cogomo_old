@@ -1,0 +1,164 @@
+<section class="hero is-info is-medium is-bold">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item" style="height: 90px">
+                        <img src="/static/assets/images/cogomo-logo-white.png" alt="CoGoMo" style="max-height: 4.5rem;">
+                    </a>
+                </div>
+                <div id="navbarMenu" class="navbar-menu">
+                    <div class="navbar-end">
+                        <div class="tabs is-right">
+                            <span class="navbar-item">
+                                <a class="button is-white is-outlined"
+                                   href="https://github.com/BulmaTemplates/bulma-templates/blob/master/templates/hero.html">
+                                    <span class="icon">
+                                        <i class="fa fa-github"></i>
+                                    </span>
+                                    <span title="Hello from the other side">View Source</span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="hero-body" style="padding-bottom: 3rem; padding-top: 3rem">
+        <div class="container has-text-centered">
+            <h1 class="title">
+                Incremental Refinement of Goal Models with Contracts
+            </h1>
+            <h2 class="subtitle">
+                A requirement engineering framework combining the goal-oriented and contract-based approaches to
+                requirement engineering.
+                This tool is a support to the designer to build a <i> contract-based goal tree</i>, to represent goal
+                models in terms of hierarchies of contracts.
+            </h2>
+        </div>
+    </div>
+</section>
+<section class="container" id="menu_bar">
+    <div class="box cta">
+        <div class="columns is-mobile is-centered">
+            <div class="buttons is-grouped is-grouped-multiline">
+                <div class="button is-primary" id="insert_goals_button">Insert Goals</div>
+                <div class="button is-primary" id="link_goals_button">Link Goals</div>
+                <div class="tabs is-right">
+                    <div class="button is-primary is-outlined is-right" id="toggle_console">Toggle Console</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <section class="articles">
+        <div class="column is-8 is-offset-2">
+            <div class="card article" id="insert_goals_div">
+                <div class="card-content">
+                    <nav class="navbar" role="navigation" aria-label="main navigation">
+                        <div id="navbarBasicExample" class="navbar-menu">
+                            <div class="navbar-end">
+                                <a class="navbar-item">
+                                    Documentation
+                                </a>
+                                <a class="navbar-item">
+
+                                    <div class="file has-name">
+                                        <label class="file-label">
+                                            <input class="file-input" type="file" name="resume">
+                                            <span class="file-cta">
+                                              <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                              </span>
+                                              <span class="file-label">
+                                                Choose a file…
+                                              </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </a>
+
+
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link">
+                                        Load Examples
+                                    </a>
+
+                                    <div class="navbar-dropdown">
+                                        <a class="navbar-item" id="load_platooning_txt">
+                                            Platooning
+                                        </a>
+                                        <a class="navbar-item">
+                                            Following Mode
+                                        </a>
+                                        <a class="navbar-item">
+                                            Following Corrected
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+
+                    <div class="field">
+                        <label class="label">Structured Text</label>
+                        <div class="control">
+                            <textarea class="textarea is-small is-family-monospace" rows="20"
+                                      id="textarea_insert_goals"></textarea>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-link is-fullwidth has-text-weight-medium is-medium"
+                                id="insert_goals_text_button">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="columns is-multiline" id="goal_list">
+        <script id="goal" type="template">
+            <div class="column is-4">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            __NAME__
+                        </p>
+                        <a class="card-header-icon" aria-label="more options">
+                  <span class="icon">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            __DESCRIPTION__
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a class="card-footer-item">ASSUMPTIONS</a>
+                        <a class="card-footer-item">GUARANTEES</a>
+                    </footer>
+                </div>
+            </div>
+        </script>
+    </div>
+
+    <div class="columns is-mobile">
+        <div class="column is-12">
+            <h1>CONSOLE</h1>
+            <div class="card article" id="console_div">
+                <div class="card-content has-background-dark has-text-success is-family-monospace"
+                     style="height: 500px; overflow:auto;">
+                    <p id="console_content"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
