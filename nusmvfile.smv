@@ -1,13 +1,16 @@
 MODULE main
 VAR
-	locA: boolean;
-	power2: 0..100;
-	locB: boolean;
-	day: boolean;
-	heavy_item_pickup: boolean;
-	robot_power: 0..100;
-	power1: 0..100;
-	locC: boolean;
-	weight_power: 0..100;
+	velocity_ego_tnext  :  REAL;
+	RSSI_net: 60;
+	MAX_STEERING: 1;
+	distance_front      :  REAL;
+	velocity_ego_t      :  REAL;
+	distance_available  :  BOOL;
+	DELAYMAX: 0.01;
+	TR_min: 3000000;
+	D_platoon: 10;
+	L: 3200;
+	TR_max: 27000000;
+	MAX_PLATOON: 5;
 
-LTLSPEC !((G((locA & !locB) | (locB & !locA)) & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)) & day & !day))
+LTLSPEC !(distance_available)

@@ -1,3 +1,7 @@
+import os
+import random
+import string
+
 from src.goals.cgtgoal import *
 from src.contracts.contract import *
 from src.components.components import *
@@ -38,6 +42,25 @@ PARAMETERS_HEADER = 'PARAMETERS'
 VARIABLES_HEADER = 'VARIABLES'
 ASSUMPTIONS_HEADER = 'ASSUMPTIONS'
 GUARANTEES_HEADER = 'GUARANTEES'
+
+
+
+def parse_from_string(string_to_parse):
+
+    temp_text_file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)) + ".txt"
+
+    with open(temp_text_file_name, "w") as text_file:
+        text_file.write(string_to_parse)
+
+    goals = parse(temp_text_file_name)
+
+    if os.path.exists(temp_text_file_name):
+        os.remove(temp_text_file_name)
+    else:
+        print("The file does not exist")
+
+    return goals
+
 
 
 def parse(specfile):
@@ -137,7 +160,8 @@ def parse(specfile):
                         if GOAL_NAME_HEADER in goal_header:
                             cgt_goal.name = line.strip()
                             for key, value in constants.items():
-                                contract.add_variables(({str(key): str(value)}))
+                                var = Type(str(key), str(value))
+                                contract.add_variable(var)
                         elif DESCRIPTION_HEADER in goal_header:
                             description = line.strip()
                         elif CONTEXT_HEADER in goal_header:
@@ -146,8 +170,9 @@ def parse(specfile):
                             pattern = line.strip()
                             contract = eval(pattern)
                         elif VARIABLES_HEADER in goal_header:
-                            var, init = line.split(ASSIGNMENT_CHAR, 1)
-                            contract.add_variables({var.strip(): init.strip()})
+                            key, value = line.split(ASSIGNMENT_CHAR, 1)
+                            var = Type(str(key), str(value))
+                            contract.add_variable(var)
                         elif ASSUMPTIONS_HEADER in goal_header:
                             contract.add_assumption(Assumption(line.strip()))
                         elif GUARANTEES_HEADER in goal_header:

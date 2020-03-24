@@ -95,6 +95,10 @@ class Contract:
 
         add_variables_to_list(self.variables, variables)
 
+    def add_variable(self, variable: Type):
+
+        add_variable_to_list(self.variables, variable)
+
     def add_assumptions(self, assumptions: List[Assumption]):
 
         for assumption in assumptions:
