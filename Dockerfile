@@ -40,7 +40,7 @@ WORKDIR /home
 
 RUN git clone -b master --single-branch https://github.com/pierg/cogomo.git
 
-RUN python3 -m pip install --user --upgrade pip==9.0.3
+RUN python3 -m pip install --user --upgrade pip
 
 WORKDIR /home/cogomo
 

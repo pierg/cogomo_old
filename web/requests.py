@@ -1,6 +1,6 @@
 from flask import request
 
-from operations import conjoin_goals, compose_goals
+from src.z3.src_z3.operations import conjoin_goals, compose_goals
 from web import socketio
 from flask_socketio import emit
 import json
