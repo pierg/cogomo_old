@@ -89,19 +89,27 @@ def goals_link(message):
     print('Goals link from - %s' + request.sid)
     print('-----------------------')
 
-    emit('notification',
-         {'type': "success", 'content': "Linking goals received"})
+    # emit('notification',
+    #      {'type': "success", 'content': "Linking goals received"})
 
     s_goals = get_goals(request.sid)
     s_cgt = get_cgt(request.sid)
 
-    if message["operation"] == "compostion":
+    if message["operation"] == "composition":
         goals = message["goals"]
         comp_goals = []
         for g in goals:
             comp_goals.append(s_goals[g])
 
-        new_goal = compose_goals(comp_goals, name=message["name"], description=message["description"])
+        try:
+            new_goal = compose_goals(comp_goals, name=message["name"], description=message["description"])
+
+        except Exception as e:
+            txt = str(e)
+            txt = "<br />".join(txt.split("\n"))
+            emit('alert',
+                 {'type': "Conflict", 'content': txt})
+            return
 
         s_goals.update({message["name"]: new_goal})
 
@@ -111,7 +119,6 @@ def goals_link(message):
              {'type': "success", 'content': "New goal created"})
 
         render_goals(request.sid)
-
 
     elif message["operation"] == "conjunction":
         goals = message["goals"]

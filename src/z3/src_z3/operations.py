@@ -350,19 +350,22 @@ def compose_contracts(contracts):
     satis, model = sat_check(assumptions)
     if not satis:
         print(("Fix the following assumptions:\n" + str(model)))
-        raise Exception("The composition is uncompatible")
+        raise Exception("The composition is not compatible\n" +
+                        "Fix the these assumptions related to the following goals:\n" + str(model))
 
     # CHECK CONSISTENCY
     satis, model = sat_check(guarantees)
     if not satis:
         print(("Fix the following guarantees:\n" + str(model)))
-        raise Exception("The composition is inconsistent")
+        raise Exception("The composition is not consistent\n" +
+                        "Fix the these guarantees related to the following goals:\n" + str(model))
 
     # CHECK SATISFIABILITY
     satis, model = sat_check(merge_two_dicts(assumptions, guarantees))
     if not satis:
         print(("Fix the following conditions:\n" + str(model)))
-        raise Exception("The composition is unsatisfiable")
+        raise Exception("The composition is not feasible\n" +
+                        "Fix these inconsistencies related to the following goals:\n" + str(model))
 
     print("The composition is compatible, consistent and satisfiable. Composing now...")
 

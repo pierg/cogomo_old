@@ -309,6 +309,17 @@ $(document).ready(function () {
     }
 
 
+    function c_alert(type, content) {
+        notie.confirm({
+            type: 2,
+            text: '<div class="title">' + type + ' detected </div><br>' + content + '<br>',
+            submitText: 'OK'
+        })
+
+
+    }
+
+
     // Connect to the Socket.IO server.
     // The connection URL has the following format, relative to the current page:
     //     http[s]://<domain>:<port>[/<namespace>]
@@ -324,7 +335,11 @@ $(document).ready(function () {
     // to the client. The data is then displayed in the "Received"
     // section of the page.
     socket.on('notification', function (message) {
+        c_notify(message["title"], message["content"], message["type"])
+    });
 
+    socket.on('alert', function (message) {
+        c_alert(message["type"], message["content"])
     });
 
     socket.on('log', function (message) {
@@ -332,7 +347,6 @@ $(document).ready(function () {
     });
 
     socket.on('goal_list', function (goal_list) {
-        c_notify("Goals Received", "", "success");
         toggle_insert_goal_div();
         show_goals(goal_list)
     });
