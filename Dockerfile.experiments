@@ -38,14 +38,12 @@ RUN \
 
 WORKDIR /home
 
-RUN git clone -b master --single-branch https://github.com/pierg/cogomo.git
+RUN git clone -b ltldev --single-branch https://github.com/pierg/cogomo.git
 
 RUN python3 -m pip install --user --upgrade pip==9.0.3
 
 WORKDIR /home/cogomo
 
-RUN pip3 install -r requirements.txt
-
-ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo:/home/cogomo/src:/home/cogomo/src/z3"
+ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo/src"
 
 ENTRYPOINT ["./entrypoint.sh"]

@@ -6,11 +6,6 @@ git reset --hard HEAD
 git clean -f
 git pull
 
-echo "...evaluation launch_script..."
+echo "...launching server..."
 
-if [ $# -eq 0 ]
-  then
-    source run_evaluation.sh
-else
-    source run_evaluation.sh "$@"
-fi
+python3 webapp.py
