@@ -183,15 +183,25 @@ $(document).ready(function () {
         toggle_console_div()
     });
 
-    $("#load_platooning_txt").click(function () {
-        $("#textarea_insert_goals").load("static/assets/examples/platooning.txt");
+    // $("#load_example_dropdown").click(function () {
+    //     alert($('#dropDownId').val());
+    //     $("#textarea_insert_goals").load("static/assets/examples/platooning.txt");
+    // });
+
+    $('#load_example_dropdown').on('click', function (event) {
+        if (event.target !== this) {
+            file_name = $(event.target).attr("download");
+            $("#textarea_insert_goals").load("static/assets/examples/" + file_name);
+        }
     });
 
     function toggle_insert_goal_div() {
+        $("#insert_goals_button").toggleClass("is-active");
         $("#insert_goals_div").toggle();
     }
 
     function toggle_link_goals_div() {
+        $("#link_goals_button").toggleClass("is-active");
         $("#link_goals_div").toggle();
     }
 
@@ -312,7 +322,8 @@ $(document).ready(function () {
     function c_alert(type, content) {
         notie.confirm({
             type: 2,
-            text: '<div class="title">' + type + ' detected </div><br>' + content + '<br>',
+            text: '<div class="title">' + type + '</div>' +
+                '<div align="left" class="content is-family-monospace">' + content + '</div>',
             submitText: 'OK'
         })
 
@@ -339,7 +350,7 @@ $(document).ready(function () {
     });
 
     socket.on('alert', function (message) {
-        c_alert(message["type"], message["content"])
+        c_alert(message["title"], message["content"])
     });
 
     socket.on('log', function (message) {
@@ -415,9 +426,9 @@ $(document).ready(function () {
             msg["refined"] = $("#options_of_goals_2").val();
         }
         if (op_sel === "mapping") {
-            msg["operation"] = "refinement";
+            msg["operation"] = "mapping";
             msg["goal"] = $("#options_of_goals").val();
-            msg["refined"] = $("#library_select").val();
+            msg["library"] = $("#library_select").val();
         }
         socket.emit('goals_link', msg);
         return false;

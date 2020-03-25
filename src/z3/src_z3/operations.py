@@ -94,7 +94,8 @@ def conjoin_goals(goals, name="", description=""):
                     if not sat_2:
                         print("The assumptions in the conjunction of contracts are not mutually exclusive")
                         print("Conflict with the following guarantees:\n" + str(model))
-                        raise Exception("Conjunction Failed")
+                        raise Exception("The assumptions in the conjunction of contracts are not mutually exclusive\n" +
+                                        "Conflict with the following guarantees:\n" + str(model))
 
     print("The conjunction satisfiable.")
 
@@ -142,6 +143,30 @@ def prioritize_goal(first_priority_goal, second_priority_goal):
     print(second_priority_goal)
 
 
+def mapping_complete(library, goal):
+
+    specification = goal.get_contracts()[0]
+
+    components, msg = mapping(library, specification)
+
+    id_components = {}
+
+    for c in components:
+        id_components[c.get_id()] = c
+
+    comp_contract = compose_contracts(id_components)
+
+    new_goal = CGTGoal(name="mapped_goal", contracts=[comp_contract])
+
+    refine_goal(goal, new_goal)
+
+    msg += "\n\nA new goal has been created and linked via refinement to the mapped goal"
+    msg += "\nAssumptions have been propagated\n"
+
+    return new_goal, msg
+
+
+
 def mapping(component_library, specification):
     if not isinstance(component_library, ComponentsLibrary):
         raise Exception("Attribute Error")
@@ -159,7 +184,7 @@ def mapping(component_library, specification):
     except Exception as e:
         print("No refinement possible")
         print(e)
-        return []
+        raise Exception("No component found to refine the goal")
 
     first_selected_components = greedy_selection(candidates_compositions)
     print("Selected components " + str([component.get_id() for component in first_selected_components]) + " out of " +
@@ -206,20 +231,26 @@ def mapping(component_library, specification):
                 if comp not in component_already_searched:
                     components_to_search.append(comp)
 
-
     """Flattening list of selections and eliminating duplicates"""
     flat_list_refining_components = list(set([item for sublist in set_components_to_return for item in sublist]))
 
     print(str(len(flat_list_refining_components)) +
           " components found in the library that composed refine the specifications:")
 
+    msg = str(len(flat_list_refining_components)) + \
+          " components found in the library that composed refine the specifications\n" + \
+          str(len(set_components_to_return)) + " levels of hierarchy\n\n"
     for n, l in enumerate(set_components_to_return):
+        msg += "LEVEL " + str(n) + " "
         ret = "\t" * n
+        msg += "___ " * n
         for component in l:
-            ret += component.get_id() + " "
+            ret += component.get_id() + ", "
+            msg += component.get_id() + ", "
         print(ret)
+        msg += "\n"
 
-    return flat_list_refining_components
+    return flat_list_refining_components, msg
 
 
 def propagate_assumptions(abstract_goal, refined_goal):
@@ -249,15 +280,16 @@ def propagate_assumptions(abstract_goal, refined_goal):
         contracts_abstracted[i].add_assumptions(assumptions_to_add)
 
 
-
 def is_refinement_correct(refined_contract, abstracted_contract, couterexample=False):
     """
     Check if A1 >= A2 and if G1 <= G2
     """
 
-    a_check = is_set_smaller_or_equal(abstracted_contract.get_list_assumptions(), refined_contract.get_list_assumptions())
+    a_check = is_set_smaller_or_equal(abstracted_contract.get_list_assumptions(),
+                                      refined_contract.get_list_assumptions())
 
-    g_check = is_set_smaller_or_equal(refined_contract.get_list_guarantees_saturated(), abstracted_contract.get_list_guarantees_saturated())
+    g_check = is_set_smaller_or_equal(refined_contract.get_list_guarantees_saturated(),
+                                      abstracted_contract.get_list_guarantees_saturated())
 
     if couterexample:
         if not a_check:
@@ -273,6 +305,12 @@ def is_refinement_correct(refined_contract, abstracted_contract, couterexample=F
             print("\n\nABSTRACT:\n" + str(abstracted_contract.get_list_guarantees()[0]))
             print("\n\nCOUNTEREXAMPLE:\n" + str(model_g))
 
+            msg = "Guarantees are not a valid refinement\n"
+            msg += "REFINED:\n" + str(refined_contract.get_list_guarantees()[0]) + "\n"
+            msg += "\n\nABSTRACT:\n" + str(abstracted_contract.get_list_guarantees()[0]) + "\n"
+            msg += "\n\nCOUNTEREXAMPLE:\n" + str(model_g) + "\n"
+
+            raise Exception(msg)
 
     return a_check and g_check
 
@@ -290,12 +328,13 @@ def refine_goal(abstract_goal, refined_goal):
     abstracted_contracts = get_z3_contract(abstract_goal)
     refined_contracts = get_z3_contract(refined_goal)
 
-    if not is_refinement_correct(refined_contracts, abstracted_contracts, couterexample=True):
-        raise Exception("Incomplete Refinement!")
+    try:
+        is_refinement_correct(refined_contracts, abstracted_contracts, couterexample=True)
+    except Exception as e:
+        raise e
 
     print("The refinement has been proven, connecting the goals..")
     refined_goal.set_parent(abstract_goal, "ABSTRACTION")
-
     abstract_goal.set_refinement(refined_goal)
 
     print("The goals are now connected with each other")
@@ -464,20 +503,20 @@ def greedy_selection(candidate_compositions):
                 contract_b.add_assumptions(component_b.get_list_assumptions())
                 contract_b.add_guarantees(component_b.get_list_guarantees())
 
-            if is_refinement_correct(contract_a, contract_b):
+            try:
+                is_refinement_correct(contract_a, contract_b)
                 candidates_points[tuple(candidate_a)] += 1
-            else:
+            except:
                 candidates_points[tuple(candidate_b)] += 1
 
-            n_comparisons += 1
+        n_comparisons += 1
 
+    print(str(n_comparisons) + " comparisons have been made")
+    """Extract the candidate with the highest score (the most refined)"""
+    best_candidate = max(candidates_points.items(), key=operator.itemgetter(1))[0]
 
-        print(str(n_comparisons) + " comparisons have been made")
-        """Extract the candidate with the highest score (the most refined)"""
-        best_candidate = max(candidates_points.items(), key=operator.itemgetter(1))[0]
-
-        print("\tgreedly seelected the best candidate based on biggest assumption set")
-        return list(best_candidate)
+    print("\tgreedly seelected the best candidate based on biggest assumption set")
+    return list(best_candidate)
 
 
 def merge_two_dicts(x, y):

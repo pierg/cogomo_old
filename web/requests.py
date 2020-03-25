@@ -1,6 +1,7 @@
 from flask import request
 
-from src.z3.src_z3.operations import conjoin_goals, compose_goals
+from src.z3.src_z3.operations import *
+from tests.component_selection_platooning import libraries
 from web import socketio
 from flask_socketio import emit
 import json
@@ -108,7 +109,7 @@ def goals_link(message):
             txt = str(e)
             txt = "<br />".join(txt.split("\n"))
             emit('alert',
-                 {'type': "Conflict", 'content': txt})
+                 {'title': "Conflict detected", 'content': txt})
             return
 
         s_goals.update({message["name"]: new_goal})
@@ -122,11 +123,19 @@ def goals_link(message):
 
     elif message["operation"] == "conjunction":
         goals = message["goals"]
-        comp_goals = []
+        conj_goals = []
         for g in goals:
-            comp_goals.append(s_goals[g])
+            conj_goals.append(s_goals[g])
 
-        new_goal = conjoin_goals(comp_goals, name=message["name"], description=message["description"])
+        try:
+            new_goal = conjoin_goals(conj_goals, name=message["name"], description=message["description"])
+
+        except Exception as e:
+            txt = str(e)
+            txt = "<br />".join(txt.split("\n"))
+            emit('alert',
+                 {'title': "Conflict detected", 'content': txt})
+            return
 
         s_goals.update({message["name"]: new_goal})
 
@@ -139,16 +148,63 @@ def goals_link(message):
 
 
     elif message["operation"] == "refinement":
-        goals = message["goals"]
-        comp_goals = []
-        for g in goals:
-            comp_goals.append(s_goals[g])
+        abstract_goal_name = message["abstract"]
+        refined_goal_name = message["refined"]
+
+        abstract_goal = get_goals(request.sid)[abstract_goal_name]
+        refined_goal = get_goals(request.sid)[refined_goal_name]
+
+        try:
+            refine_goal(abstract_goal, refined_goal)
+
+        except Exception as e:
+            txt = str(e)
+            txt = "<br />".join(txt.split("\n"))
+            emit('alert',
+                 {'title': "Refinement unsuccessful", 'content': txt})
+            return
+
+        emit('alert',
+             {'titles': "Refinement successful"})
+
+        return
+
 
     elif message["operation"] == "mapping":
-        goals = message["goals"]
-        comp_goals = []
-        for g in goals:
-            comp_goals.append(s_goals[g])
+        goal_name_to_map = message["goal"]
+        library_name = message["library"]
+
+        s_goals = get_goals(request.sid)
+
+        goal = s_goals[goal_name_to_map]
+
+        library = libraries[library_name]
+
+        try:
+            new_goal, msg = mapping_complete(library, goal)
+
+        except Exception as e:
+            txt = str(e)
+            txt = "<br />".join(txt.split("\n"))
+            emit('alert',
+                 {'title': "Mapping unsuccessful", 'content': txt})
+            return
+
+        name = new_goal.get_name()
+        s_goals.update({name: new_goal})
+
+        set_goals(request.sid, s_goals)
+
+        emit('notification',
+             {'type': "success", 'content': "Goals added"})
+
+        msg = "<br />".join(msg.split("\n"))
+        emit('alert',
+             {'title': "Mapping successful", 'content': msg})
+
+        render_goals(request.sid)
+        return
+
 
     else:
         raise Exception("Unknown operation")
@@ -172,7 +228,9 @@ def render_goals(session_id):
         goal = {}
         goal['name'] = name
         goal['description'] = cgtgoal.get_description()
-        goal['assumptions'], goal['guarantees'] = cgtgoal.render_A_G()
+        a, g = cgtgoal.render_A_G()
+        goal['assumptions'] = "<br />".join(a.split("\n"))
+        goal['guarantees'] = "<br />".join(g.split("\n"))
         goal_list.append(goal)
 
     goals_json = json.dumps(goal_list)

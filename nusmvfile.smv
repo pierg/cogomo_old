@@ -1,16 +1,8 @@
 MODULE main
 VAR
-	velocity_ego_tnext  :  REAL;
-	RSSI_net: 60;
-	MAX_STEERING: 1;
-	distance_front      :  REAL;
-	velocity_ego_t      :  REAL;
-	distance_available  :  BOOL;
-	DELAYMAX: 0.01;
-	TR_min: 3000000;
-	D_platoon: 10;
-	L: 3200;
-	TR_max: 27000000;
-	MAX_PLATOON: 5;
+	day: boolean;
+	locC: boolean;
+	locB: boolean;
+	locA: boolean;
 
-LTLSPEC !(distance_available)
+LTLSPEC !(F(locA & F(locB)) & !locB U locA & G(!locC))

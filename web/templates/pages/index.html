@@ -45,9 +45,6 @@
             <div class="buttons is-grouped is-grouped-multiline">
                 <div class="button is-primary" id="insert_goals_button">Insert Goals</div>
                 <div class="button is-primary" id="link_goals_button">Link Goals</div>
-{#                <div class="tabs is-right">#}
-{#                    <div class="button is-primary is-outlined is-right" id="console_button">Toggle Console</div>#}
-{#                </div>#}
             </div>
         </div>
     </div>
@@ -86,15 +83,18 @@
                                         Load Examples
                                     </a>
 
-                                    <div class="navbar-dropdown">
-                                        <a class="navbar-item" id="load_platooning_txt">
-                                            Platooning
+                                    <div class="navbar-dropdown" id="load_example_dropdown">
+                                        <a class="navbar-item" download="platooning.txt">
+                                            Platooning Example
                                         </a>
-                                        <a class="navbar-item">
-                                            Following Mode
+                                        <a class="navbar-item" download="ex_completeness.txt">
+                                            Completeness Example
                                         </a>
-                                        <a class="navbar-item">
-                                            Following Corrected
+                                        <a class="navbar-item" download="ex_conflict2.txt">
+                                            Conflict Example
+                                        </a>
+                                        <a class="navbar-item" download="ex_mapping2.txt">
+                                            Mapping Example
                                         </a>
                                     </div>
                                 </div>
@@ -180,9 +180,8 @@
                                 <div class="control">
                                     <div class="select is-fullwidth">
                                         <select id="library_select">
-                                            <option value="car_hardware">Car hardware</option>
-                                            <option value="libars">Lidars</option>
-                                            <option value="sensors">Sensors</option>
+                                            <option value="car_sensors">All car sensors</option>
+                                            <option value="car_radars">Car radars</option>
                                         </select>
                                     </div>
                                 </div>
@@ -305,9 +304,9 @@
                             <p class="modal-card-title">Assumptions</p>
                             <button class="delete modal-custom-close" aria-label="close"></button>
                         </header>
-                        <section class="modal-card-body">
+                        <code>
                             __ASSUMPTIONS__
-                        </section>
+                        </code>
                         <footer class="modal-card-foot">
                             <button class="button is-success">Save changes</button>
                             <button class="button modal-custom-close">Cancel</button>
@@ -324,9 +323,10 @@
                             <p class="modal-card-title">Guarantees</p>
                             <button class="delete modal-custom-close" aria-label="close"></button>
                         </header>
-                        <section class="modal-card-body">
+                        <code>
                             __GUARANTEES__
-                        </section>
+                        </code>
+
                         <footer class="modal-card-foot">
                             <button class="button is-success">Save changes</button>
                             <button class="button modal-custom-close">Cancel</button>

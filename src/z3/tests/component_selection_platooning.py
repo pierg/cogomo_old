@@ -82,11 +82,15 @@ list_components = [accelerometer,
 
 component_library = ComponentsLibrary(name="cogomo", list_of_components=list_components)
 
+libraries = {"car_sensors": component_library, "car_radars": component_library}
+
 specification = Contract(
     assumptions=[],
     guarantees=[(distance_front > 0),
-                Implies(distance_front > distance_real, (distance_front - distance_real) < Delta_m),
-                Implies(distance_front <= distance_real, (distance_real - distance_front) <= Delta_m)]
+                distance_front - distance_real < Delta_m]
 )
 
-mapping(component_library, specification)
+
+if __name__ == '__main__':
+    mapping(component_library, specification)
+

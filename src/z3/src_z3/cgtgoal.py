@@ -69,11 +69,12 @@ class CGTGoal:
         g = ""
         for n, contract in enumerate(self.contracts):
             if n > 0:
-                a += "\t/\\ \n"
-                g += "\t/\\ \n"
-            a += ' & '.join(str(x) for x in contract.get_list_assumptions_to_print()).replace('\n', ' ').replace(' ',
-                                                                                                                  '') + "\n"
-            g += ' & '.join(str(x) for x in contract.get_list_guarantees()).replace('\n', ' ').replace(' ', '') + "\n"
+                a += "\nOR\n"
+                g += "\nAND\n"
+            a += ' AND '.join(str(x) for x in contract.get_list_assumptions_to_print()).replace('\n', ' ')
+            g += ' AND '.join(str(x) for x in contract.get_list_guarantees()).replace('\n', ' ')
+
+        g_sat = "(" + a + ") -> (" + g + ")"
         return a, g
 
     def __str__(self, level=0):
