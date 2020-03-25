@@ -198,11 +198,16 @@ $(document).ready(function () {
     function toggle_insert_goal_div() {
         $("#insert_goals_button").toggleClass("is-active");
         $("#insert_goals_div").toggle();
+        $("#link_goals_div").hide();
+        $("#link_goals_button").removeClass("is-active");
     }
 
+    var_link_toggled = false;
     function toggle_link_goals_div() {
         $("#link_goals_button").toggleClass("is-active");
         $("#link_goals_div").toggle();
+        $("#insert_goals_div").hide();
+        $("#insert_goals_button").removeClass("is-active");
     }
 
     function toggle_console_div() {

@@ -190,8 +190,10 @@ def goals_link(message):
                  {'title': "Mapping unsuccessful", 'content': txt})
             return
 
-        name = new_goal.get_name()
-        s_goals.update({name: new_goal})
+        abs_name = goal.get_name()
+        ref_name = new_goal.get_name()
+        s_goals.update({abs_name: goal})
+        s_goals.update({ref_name: new_goal})
 
         set_goals(request.sid, s_goals)
 
