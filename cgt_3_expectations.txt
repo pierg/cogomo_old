@@ -1,4 +1,4 @@
-NAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
+refinNAME:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
  CTX:	day
  DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
  EXP:	G(weight_power > 10)

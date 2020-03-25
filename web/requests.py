@@ -165,7 +165,7 @@ def goals_link(message):
             return
 
         emit('alert',
-             {'titles': "Refinement successful"})
+             {'title': "Refinement successful", 'content': "Assumption propagated<br>Goals connected"})
 
         return
 
@@ -194,6 +194,9 @@ def goals_link(message):
         ref_name = new_goal.get_name()
         s_goals.update({abs_name: goal})
         s_goals.update({ref_name: new_goal})
+
+        print(goal)
+        print(new_goal)
 
         set_goals(request.sid, s_goals)
 

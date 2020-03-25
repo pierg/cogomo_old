@@ -56,7 +56,7 @@ class CGTGoal:
         self.description = description
 
     def get_description(self):
-        return repr(self.description)
+        return self.description
 
     def get_subgoals_ops(self):
         return self.sub_goals, self.sub_operation

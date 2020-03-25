@@ -110,7 +110,10 @@ class Contract(object):
             else:
                 self.assumptions.append(eval(assumption))
         else:
+            if True in self.assumptions:
+                self.assumptions.remove(True)
             self.assumptions.append(assumption)
+            print(str(assumption) + "\nadded")
 
     def add_guarantees(self, guarantees):
         for guarantee in guarantees:

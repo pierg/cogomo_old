@@ -275,7 +275,6 @@ def propagate_assumptions(abstract_goal, refined_goal):
                 assumptions_to_add.append(assumption)
 
         """Unify alphabets"""
-        vars = contract.get_variables()
         contracts_abstracted[i].merge_variables(contract.get_variables())
         contracts_abstracted[i].add_assumptions(assumptions_to_add)
 
@@ -324,6 +323,10 @@ def refine_goal(abstract_goal, refined_goal):
     """
 
     propagate_assumptions(abstract_goal, refined_goal)
+
+    print("CIAO")
+    print(abstract_goal)
+    print(refined_goal)
 
     abstracted_contracts = get_z3_contract(abstract_goal)
     refined_contracts = get_z3_contract(refined_goal)

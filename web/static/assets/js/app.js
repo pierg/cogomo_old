@@ -363,7 +363,6 @@ $(document).ready(function () {
     });
 
     socket.on('goal_list', function (goal_list) {
-        toggle_insert_goal_div();
         show_goals(goal_list)
     });
 
