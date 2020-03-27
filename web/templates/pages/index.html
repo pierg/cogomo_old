@@ -49,23 +49,22 @@
         </div>
     </div>
 </section>
-<div class="container">
-    <section class="articles">
-        <div class="column is-8 is-offset-2">
-            <div class="card article" id="insert_goals_div">
-                <div class="card-content">
-                    <nav class="navbar" role="navigation" aria-label="main navigation">
-                        <div id="navbarBasicExample" class="navbar-menu">
-                            <div class="navbar-end">
-                                <a class="navbar-item">
-                                    Documentation
-                                </a>
-                                <a class="navbar-item">
+<section class="container">
+    <div class="column is-8 is-offset-2">
+        <div class="card article" id="insert_goals_div">
+            <div class="card-content">
+                <nav class="navbar" role="navigation" aria-label="main navigation">
+                    <div id="navbarBasicExample" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a class="navbar-item">
+                                Documentation
+                            </a>
+                            <a class="navbar-item">
 
-                                    <div class="file has-name">
-                                        <label class="file-label">
-                                            <input class="file-input" type="file" name="resume">
-                                            <span class="file-cta">
+                                <div class="file has-name">
+                                    <label class="file-label">
+                                        <input class="file-input" type="file" name="resume">
+                                        <span class="file-cta">
                                               <span class="file-icon">
                                                 <i class="fas fa-upload"></i>
                                               </span>
@@ -73,280 +72,312 @@
                                                 Choose a file…
                                               </span>
                                             </span>
-                                        </label>
-                                    </div>
+                                    </label>
+                                </div>
+                            </a>
+
+
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                <a class="navbar-link" id="load_examples">
+                                    Load Examples
                                 </a>
 
-
-                                <div class="navbar-item has-dropdown is-hoverable">
-                                    <a class="navbar-link" id="load_examples">
-                                        Load Examples
+                                <div class="navbar-dropdown" id="load_example_dropdown">
+                                    <a class="navbar-item" download="ex_platooning.txt">
+                                        Platooning Example
                                     </a>
-
-                                    <div class="navbar-dropdown" id="load_example_dropdown">
-                                        <a class="navbar-item" download="platooning.txt">
-                                            Platooning Example
-                                        </a>
-                                        <a class="navbar-item" download="ex_completeness.txt">
-                                            Completeness Example
-                                        </a>
-                                        <a class="navbar-item" download="ex_conflict2.txt">
-                                            Conflict Example
-                                        </a>
-                                        <a class="navbar-item" download="ex_mapping2.txt">
-                                            Mapping Example
-                                        </a>
-                                    </div>
+                                    <a class="navbar-item" download="ex_completeness.txt">
+                                        Completeness Example
+                                    </a>
+                                    <a class="navbar-item" download="ex_conflict2.txt">
+                                        Conflict Example
+                                    </a>
+                                    <a class="navbar-item" download="ex_mapping2.txt">
+                                        Mapping Example
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </nav>
+                    </div>
+                </nav>
 
 
-                    <div class="field">
-                        <label class="label">Structured Text</label>
-                        <div class="control">
+                <div class="field">
+                    <label class="label">Structured Text</label>
+                    <div class="control">
                             <textarea class="textarea is-small is-family-monospace" rows="20"
                                       id="textarea_insert_goals"></textarea>
-                        </div>
-                    </div>
-                    <div class="control">
-                        <button type="submit"
-                                class="button is-link is-fullwidth has-text-weight-medium is-medium"
-                                id="insert_goals_text_button">
-                            Submit
-                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="card article" id="link_goals_div">
-                <div class="card-content">
-                    <nav class="panel is-shadowless">
-                        <div class="panel-tabs">
-                            <div class="field" id="radio_operations">
-                                <input class="is-checkradio require_new_goal" id="composition_input" type="radio"
-                                       name="cgt_operation_radio" value="composition">
-                                <label for="composition_input">Composition</label>
-
-                                <input class="is-checkradio require_new_goal" id="conjunction_input" type="radio"
-                                       name="cgt_operation_radio" value="conjunction">
-                                <label for="conjunction_input">Conjunction</label>
-
-                                <input class="is-checkradio no_require_new_goal" id="mapping_input" type="radio"
-                                       name="cgt_operation_radio" value="mapping">
-                                <label for="mapping_input">Mapping</label>
-
-                                <input class="is-checkradio no_require_new_goal " id="refinement_input" type="radio"
-                                       name="cgt_operation_radio" value="refinement">
-                                <label for="refinement_input">Refinement</label>
-
-                            </div>
-                        </div>
-                    </nav>
-
-                    <div id="goal_list_linking_checkbox" class="comp_conj_element" type="template">
-                    </div>
-                    <script id="goal_checkbox" type="template">
-                        <label class="panel-block">
-                            <input type="checkbox" value="__GOAL_ID__">
-                            __NAME__
-                        </label>
-                    </script>
-
-                    <div class="field is-horizontal mapping_element">
-                        <div class="field-label is-normal">
-                            <label class="label">Goal to Map</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-fullwidth">
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select id="options_of_goals">
-                                        </select>
-                                        <script id="options_of_goals_template" type="template">
-                                            <option>__NAME__</option>
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal mapping_element">
-                        <div class="field-label is-normal">
-                            <label class="label">Library of Components</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-fullwidth">
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select id="library_select">
-                                            <option value="car_sensors">All car sensors</option>
-                                            <option value="car_radars">Car radars</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="field is-horizontal refinement_element">
-                        <div class="field-label is-normal">
-                            <label class="label">Abstract Goal</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-fullwidth">
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select id="options_of_goals_1">
-                                        </select>
-                                        <script id="options_of_goals_1_template" type="template">
-                                            <option value="__GOAL_ID__">__NAME__</option>
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal refinement_element">
-                        <div class="field-label is-normal">
-                            <label class="label">Refined Goal</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-fullwidth">
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select id="options_of_goals_2">
-                                        </select>
-                                        <script id="options_of_goals_2_template" type="template">
-                                            <option value="__GOAL_ID__">__NAME__</option>
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="field is-horizontal comp_conj_element">
-                        <div class="field-label is-normal">
-                            <label class="label">New goal name</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control">
-                                    <input id="new_goal_name" class="input is-danger" type="text"
-                                           placeholder="Name identifies the goal">
-                                </div>
-                                <p class="help is-danger">
-                                    This field is required
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal comp_conj_element">
-                        <div class="field-label is-normal">
-                            <label class="label">Description</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control">
-                                        <textarea id="new_goal_description" class="textarea" rows="2"
-                                                  placeholder="Describe what the goal is supposed to do"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="control">
-                        <button type="submit"
-                                class="button is-link is-fullwidth has-text-weight-medium is-medium"
-                                id="submit_links_goals_button">
-                            Submit
-                        </button>
-                    </div>
+                <div class="control">
+                    <button type="submit"
+                            class="button is-link is-fullwidth has-text-weight-medium is-medium"
+                            id="insert_goals_text_button">
+                        Submit
+                    </button>
                 </div>
-
             </div>
         </div>
-</div>
-</section>
+        <div class="card article" id="link_goals_div">
+            <div class="card-content">
+                <nav class="panel is-shadowless">
+                    <div class="panel-tabs">
+                        <div class="field" id="radio_operations">
+                            <input class="is-checkradio require_new_goal" id="composition_input" type="radio"
+                                   name="cgt_operation_radio" value="composition">
+                            <label for="composition_input">Composition</label>
 
-<div class="columns is-multiline" id="goal_list">
-</div>
-<script id="goal" type="template">
-    <div class="column is-4">
-        <div class="card">
-            <header class="card-header">
-                <p class="card-header-title">
-                    __NAME__
-                </p>
-                <a class="card-header-icon" aria-label="more options">
+                            <input class="is-checkradio require_new_goal" id="conjunction_input" type="radio"
+                                   name="cgt_operation_radio" value="conjunction">
+                            <label for="conjunction_input">Conjunction</label>
+
+                            <input class="is-checkradio no_require_new_goal" id="mapping_input" type="radio"
+                                   name="cgt_operation_radio" value="mapping">
+                            <label for="mapping_input">Mapping</label>
+
+                            <input class="is-checkradio no_require_new_goal " id="refinement_input" type="radio"
+                                   name="cgt_operation_radio" value="refinement">
+                            <label for="refinement_input">Refinement</label>
+
+                        </div>
+                    </div>
+                </nav>
+
+                <div id="goal_list_linking_checkbox" class="comp_conj_element" type="template">
+                </div>
+                <script id="goal_checkbox" type="template">
+                    <label class="panel-block">
+                        <input type="checkbox" value="__GOAL_ID__">
+                        __NAME__
+                    </label>
+                </script>
+
+                <div class="field is-horizontal mapping_element">
+                    <div class="field-label is-normal">
+                        <label class="label">Goal to Map</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-fullwidth">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select id="options_of_goals">
+                                    </select>
+                                    <script id="options_of_goals_template" type="template">
+                                        <option>__NAME__</option>
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal mapping_element">
+                    <div class="field-label is-normal">
+                        <label class="label">Library of Components</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-fullwidth">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select id="library_select">
+                                        <option value="car_sensors">All car sensors</option>
+                                        <option value="car_radars">Car radars</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="field is-horizontal refinement_element">
+                    <div class="field-label is-normal">
+                        <label class="label">Abstract Goal</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-fullwidth">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select id="options_of_goals_1">
+                                    </select>
+                                    <script id="options_of_goals_1_template" type="template">
+                                        <option value="__GOAL_ID__">__NAME__</option>
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal refinement_element">
+                    <div class="field-label is-normal">
+                        <label class="label">Refined Goal</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-fullwidth">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select id="options_of_goals_2">
+                                    </select>
+                                    <script id="options_of_goals_2_template" type="template">
+                                        <option value="__GOAL_ID__">__NAME__</option>
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="field is-horizontal comp_conj_element">
+                    <div class="field-label is-normal">
+                        <label class="label">New goal name</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input id="new_goal_name" class="input is-danger" type="text"
+                                       placeholder="Name identifies the goal">
+                            </div>
+                            <p class="help is-danger">
+                                This field is required
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal comp_conj_element">
+                    <div class="field-label is-normal">
+                        <label class="label">Description</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                        <textarea id="new_goal_description" class="textarea" rows="2"
+                                                  placeholder="Describe what the goal is supposed to do"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control">
+                    <button type="submit"
+                            class="button is-link is-fullwidth has-text-weight-medium is-medium"
+                            id="submit_links_goals_button">
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal_goal_list">
+    </div>
+    <script id="modal_goal" type="template">
+        <div class="remodal" data-remodal-id="modal___GOAL_ID__">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <h1>__NAME__</h1>
+            <p>
+                __DESCRIPTION__
+            </p>
+            <h2>Assumptions</h2>
+            <code>
+                __ASSUMPTIONS__
+            </code>
+            <h2>Guarantees</h2>
+            <code>
+                __GUARANTEES__
+            </code>
+            <br>
+            <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+            <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
+        </div>
+    </script>
+
+    {##}
+    {#    <script>#}
+    {#        window.addEventListener('DOMContentLoaded', function () {#}
+    {#            #}
+    {##}
+    {#        });#}
+    {#    </script>#}
+    <div class="columns is-centered" id="cgt">
+        <div class="has-background-grey-lighter" id="cy"></div>
+    </div>
+
+    <div class="columns is-multiline" id="goal_list">
+    </div>
+    <script id="goal" type="template">
+        <div class="column is-4">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        __NAME__
+                    </p>
+                    <a class="card-header-icon" aria-label="more options">
                   <span class="icon">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
-                </a>
-            </header>
-            <div class="card-content">
-                <div class="content">
-                    __DESCRIPTION__
-                </div>
-            </div>
-            <footer class="card-footer">
-                <a class="card-footer-item" id="__A_ID_BTN__">
-                    ASSUMPTIONS
-                </a>
-                <div class="modal" id="__A_ID_CTN__">
-                    <div class="modal-background"></div>
-                    <div class="modal-card">
-                        <header class="modal-card-head">
-                            <p class="modal-card-title">Assumptions</p>
-                            <button class="delete modal-custom-close" aria-label="close"></button>
-                        </header>
-                        <code>
-                            __ASSUMPTIONS__
-                        </code>
-                        <footer class="modal-card-foot">
-                            <button class="button is-success">Save changes</button>
-                            <button class="button modal-custom-close">Cancel</button>
-                        </footer>
+                    </a>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        __DESCRIPTION__
                     </div>
                 </div>
-                <a class="card-footer-item" id="__G_ID_BTN__">
-                    GUARANTEES
-                </a>
-                <div class="modal" id="__G_ID_CTN__">
-                    <div class="modal-background"></div>
-                    <div class="modal-card">
-                        <header class="modal-card-head">
-                            <p class="modal-card-title">Guarantees</p>
-                            <button class="delete modal-custom-close" aria-label="close"></button>
-                        </header>
-                        <code>
-                            __GUARANTEES__
-                        </code>
-
-                        <footer class="modal-card-foot">
-                            <button class="button is-success">Save changes</button>
-                            <button class="button modal-custom-close">Cancel</button>
-                        </footer>
+                <footer class="card-footer">
+                    <a class="card-footer-item" id="__A_ID_BTN__">
+                        ASSUMPTIONS
+                    </a>
+                    <div class="modal" id="__A_ID_CTN__">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title">Assumptions</p>
+                                <button class="delete modal-custom-close" aria-label="close"></button>
+                            </header>
+                            <code>
+                                __ASSUMPTIONS__
+                            </code>
+                            <footer class="modal-card-foot">
+                                <button class="button is-success">Save changes</button>
+                                <button class="button modal-custom-close">Cancel</button>
+                            </footer>
+                        </div>
                     </div>
-                </div>
-            </footer>
-        </div>
-    </div>
-</script>
+                    <a class="card-footer-item" id="__G_ID_BTN__">
+                        GUARANTEES
+                    </a>
+                    <div class="modal" id="__G_ID_CTN__">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title">Guarantees</p>
+                                <button class="delete modal-custom-close" aria-label="close"></button>
+                            </header>
+                            <code>
+                                __GUARANTEES__
+                            </code>
 
-<div class="columns is-mobile">
-    <div class="column is-12">
-        <div class="card article" id="console_div">
-            <div class="card-content has-background-dark has-text-success is-family-monospace"
-                 style="height: 500px; overflow:auto;">
-                <p id="console_content"></p>
+                            <footer class="modal-card-foot">
+                                <button class="button is-success">Save changes</button>
+                                <button class="button modal-custom-close">Cancel</button>
+                            </footer>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </script>
+
+    <div class="columns is-mobile">
+        <div class="column is-12">
+            <div class="card article" id="console_div">
+                <div class="card-content has-background-dark has-text-success is-family-monospace"
+                     style="height: 500px; overflow:auto;">
+                    <p id="console_content"></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
+</section>
 

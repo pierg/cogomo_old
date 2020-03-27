@@ -1,5 +1,6 @@
 from flask import request
 
+from src.z3.example import platooning_example
 from src.z3.src_z3.operations import *
 from tests.component_selection_platooning import libraries
 from web import socketio
@@ -35,10 +36,7 @@ def set_goals(session_id: str, goals_to_set: list):
     """Add the goals in list of goals of the session_id"""
 
     with lock:
-        if session_id in sess_goals.keys():
-            sess_goals[session_id] = goals_to_set
-        else:
-            raise Exception("No session ID found")
+        sess_goals[session_id] = goals_to_set
 
 
 def get_cgt(session_id):
@@ -55,10 +53,39 @@ def set_cgt(session_id: str, cgt: CGTGoal):
     """Set the CGT to session_id"""
 
     with lock:
-        if session_id in sess_goals.keys():
-            sess_cgts[session_id] = cgt
-        else:
-            raise Exception("No session ID found")
+        sess_cgts[session_id] = cgt
+
+
+@socketio.on('cgt_example')
+def cgt_example():
+    print('-----------------------')
+    print('Example request received from - %s' + request.sid)
+    print('-----------------------')
+
+    curpath = os.path.abspath(os.curdir)
+
+    with open(os.path.join(curpath, 'web/static/data_examples/example_goals.json')) as json_file:
+        goal_list = json.load(json_file)
+
+    with open(os.path.join(curpath, 'web/static/data_examples/example_ops.json')) as json_file:
+        operator_list = json.load(json_file)
+
+    with open(os.path.join(curpath, 'web/static/data_examples/example_edges.json')) as json_file:
+        edges_list = json.load(json_file)
+
+    emit('goal_list', [json.dumps(goal_list),
+                       json.dumps(operator_list),
+                       json.dumps(edges_list)])
+
+    # s_goals, s_cgt = platooning_example()
+    #
+    # set_goals(request.sid, s_goals)
+    # set_cgt(request.sid, s_cgt)
+    #
+    # emit('notification',
+    #      {'type': "success", 'content': "Example executed correctly"})
+    #
+    # render_goals(request.sid)
 
 
 @socketio.on('goals_text')
@@ -218,26 +245,93 @@ def goals_link(message):
 
     set_goals(request.sid, s_goals)
 
+    cgt_n_children = 0
+    cgt_head = None
+    for goal_name, goal in s_goals.items():
+        n_children = goal.n_children()
+        if n_children > cgt_n_children:
+            cgt_n_children = n_children
+            cgt_head = goal
+
+    if cgt_head is not None:
+        set_cgt(request.sid, cgt_head)
+        print(cgt_head.get_name() + " SETTED")
+
     emit('notification',
          {'type': "success", 'content': "Goals saved"})
 
     render_goals(request.sid)
 
 
+def navigate_dag(current_node, operator_list, edges_list):
+    if current_node.sub_goals is not None and len(current_node.sub_goals) > 0:
+        operator = current_node.sub_operation
+        parent_node_name = current_node.get_name()
+        op_node_name = parent_node_name + "_" + operator
+        operator_list.append(
+            {
+                "id": op_node_name,
+                "type": operator
+            }
+        )
+        edges_list.append(
+            {
+                "source": parent_node_name,
+                "target": op_node_name,
+                "type": "refinement"
+            }
+        )
+
+        for child in current_node.sub_goals:
+            child_name = child.get_name()
+            edges_list.append(
+                {
+                    "source": op_node_name,
+                    "target": child_name,
+                    "type": "input"
+                }
+            )
+            navigate_dag(child, operator_list, edges_list)
+
+    return
+
+
 def render_goals(session_id):
     s_goals = get_goals(session_id)
+    s_cgt = get_cgt(session_id)
 
     goal_list = []
+    operator_list = []
+    edges_list = []
 
     for name, cgtgoal in s_goals.items():
-        goal = {}
-        goal['name'] = name
-        goal['description'] = cgtgoal.get_description()
+        desc = cgtgoal.get_description()
         a, g = cgtgoal.render_A_G()
-        goal['assumptions'] = "<br />".join(a.split("\n"))
-        goal['guarantees'] = "<br />".join(g.split("\n"))
+        assumptions = "<br />".join(a.split("\n"))
+        guarantees = "<br />".join(g.split("\n"))
+        goal = {
+            "name": name,
+            "description": desc,
+            "assumptions": assumptions,
+            "guarantees": guarantees
+        }
         goal_list.append(goal)
 
-    goals_json = json.dumps(goal_list)
+    cgt_head = s_cgt
 
-    emit('goal_list', goals_json)
+    if s_cgt is not None:
+        navigate_dag(cgt_head, operator_list, edges_list)
+
+    # curpath = os.path.abspath(os.curdir)
+    # with open(os.path.join(curpath, "web/static/data_examples/new_goals.json"), 'w') as outfile:
+    #     json.dump(goal_list, outfile)
+    #
+    # with open(os.path.join(curpath, "web/static/data_examples/new_ops.json"), 'w') as outfile:
+    #     json.dump(operator_list, outfile)
+    #
+    # with open(os.path.join(curpath, "web/static/data_examples/new_edges.json"), 'w') as outfile:
+    #     json.dump(edges_list, outfile)
+
+    emit('goal_list', [json.dumps(goal_list),
+                       json.dumps(operator_list),
+                       json.dumps(edges_list)])

@@ -7,7 +7,7 @@ $(document).ready(function () {
         $('#status').fadeOut(); // will first fade out the loading animation
         $('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
         $('body').delay(350).css({'overflow': 'visible'});
-    })
+    });
 
     //Mobile menu toggle
     if ($('.navbar-burger').length) {
@@ -203,6 +203,7 @@ $(document).ready(function () {
     }
 
     var_link_toggled = false;
+
     function toggle_link_goals_div() {
         $("#link_goals_button").toggleClass("is-active");
         $("#link_goals_div").toggle();
@@ -215,7 +216,7 @@ $(document).ready(function () {
     }
 
 
-    function show_goals(goals_json) {
+    function show_goals(goals_json, ops_json, edges_json) {
 
         $('#goal_list_linking_checkbox').empty();
 
@@ -227,12 +228,17 @@ $(document).ready(function () {
 
         $('#goal_list').empty();
 
+        var modal_goal_list = $.trim($('#modal_goal').html());
         var goal_list = $.trim($('#goal').html());
         var goal_list_checkbox = $.trim($('#goal_checkbox').html());
         var options_of_goals_template = $.trim($('#options_of_goals_template').html());
         var options_of_goals_1_template = $.trim($('#options_of_goals_1_template').html());
         var options_of_goals_2_template = $.trim($('#options_of_goals_2_template').html());
 
+
+        nodes = [];
+
+        edges = [];
 
         $.each(JSON.parse(goals_json), function (index, obj) {
 
@@ -253,7 +259,15 @@ $(document).ready(function () {
             x = x.replace("__G_ID_BTN__", obj.name + "_g_btn");
             x = x.replace("__G_ID_CTN__", obj.name + "_g_ctn");
 
+            var y = modal_goal_list.replace("__NAME__", obj.name);
+            y = y.replace("__DESCRIPTION__", obj.description);
+            y = y.replace("__ASSUMPTIONS__", obj.assumptions);
+            y = y.replace("__GUARANTEES__", obj.guarantees);
+            y = y.replace("__GOAL_ID__", obj.name);
+
             $('#goal_list').append(x);
+            $('#modal_goal_list').append(y);
+
 
             $('#goal_list_linking_checkbox').append(checkbox);
 
@@ -271,7 +285,47 @@ $(document).ready(function () {
                 $("#" + obj.name + "_g_ctn").addClass("is-active");
             });
 
+            nodes.push(
+                {
+                    data: {
+                        type: "goal",
+                        id: obj.name,
+                        description: obj.description,
+                        assumptions: obj.assumptions,
+                        guarantees: obj.guarantees
+                    }
+                }
+            )
+
         });
+
+        $.each(JSON.parse(ops_json), function (index, obj) {
+
+            nodes.push(
+                {
+                    data: {
+                        id: obj.id,
+                        type: obj.type
+                    }
+                }
+            )
+
+        });
+
+        $.each(JSON.parse(edges_json), function (index, obj) {
+
+            edges.push(
+                {
+                    data: {
+                        source: obj.source,
+                        target: obj.target,
+                        type: obj.type
+                    }
+                }
+            )
+
+        });
+
 
         $(".modal-close").click(function () {
             $(".modal").removeClass("is-active");
@@ -279,6 +333,8 @@ $(document).ready(function () {
         $(".modal-custom-close").click(function () {
             $(".modal").removeClass("is-active");
         });
+
+        render_cgt(nodes, edges)
 
     }
 
@@ -343,7 +399,12 @@ $(document).ready(function () {
 
     // // Event handler for new connections.
     socket.on('connect', function () {
-        c_notify("Connected", "connected to the backend", "success")
+        c_notify("Connected", "connected to the backend", "success");
+
+        c_notify("Loading example");
+
+        socket.emit('cgt_example');
+
     });
 
     // Event handler for server sent data.
@@ -362,8 +423,8 @@ $(document).ready(function () {
         $('#console_content').append('<br>' + $('<div/>').text(message.content).html());
     });
 
-    socket.on('goal_list', function (goal_list) {
-        show_goals(goal_list)
+    socket.on('goal_list', function ([goals, ops, edges]) {
+        show_goals(goals, ops, edges)
     });
 
 
@@ -392,7 +453,7 @@ $(document).ready(function () {
 
     $('#insert_goals_text_button').click(function (event) {
         socket.emit('goals_text', {data: $('#textarea_insert_goals').val()});
-        return false;
+        toggle_insert_goal_div();
     });
 
     $('#submit_links_goals_button').click(function (event) {
@@ -435,7 +496,7 @@ $(document).ready(function () {
             msg["library"] = $("#library_select").val();
         }
         socket.emit('goals_link', msg);
-        return false;
+        toggle_link_goals_div();
     });
 
 });

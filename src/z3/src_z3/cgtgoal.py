@@ -64,6 +64,15 @@ class CGTGoal:
     def get_contracts(self):
         return self.contracts
 
+    def n_children(self):
+        if self.sub_goals is not None and len(self.sub_goals) > 0:
+            n = 1
+            for child in self.sub_goals:
+                n += child.n_children()
+            return n
+        else:
+            return 1
+
     def render_A_G(self):
         a = ""
         g = ""

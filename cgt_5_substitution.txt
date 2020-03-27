@@ -1,99 +1,64 @@
-NAME:	'a-b-c||collaborate||pick_up_item||robot_2||robot_3^^a-b||collaborate||pick_up_item||robot_2||robot_3||never-c'
- CTX:	day
- DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
+NAME:	'collaborate||pick_up_item||robot_2||robot_3^^collaborate||pick_up_item||robot_2||robot_3'
   A:	TRUE
-  G:	robot_power >= 8 & !locC U locB & G(weight_power > 12) & robot_power >= 9 & F(locA & F(locB & F(locC))) & G(heavy_item_pickup) & !locB U locA
+  G:	G(heavy_item_pickup) & robot_power >= 8 & G(weight_power > 12) & robot_power >= 9
 	/\ 
- CTX:	!day
- DOM:	G((locA & !locB) | (locB & !locA))
   A:	TRUE
-  G:	F(locA & F(locB)) & G(!locC) & robot_power >= 8 & G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & !locB U locA
+  G:	G(heavy_item_pickup) & robot_power >= 8 & G(weight_power > 12) & robot_power >= 9
 
 	CONJUNCTION
-		NAME:	'a-b-c||collaborate||pick_up_item||robot_2||robot_3'
-		 CTX:	day
-		 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
+		NAME:	'collaborate||pick_up_item||robot_2||robot_3'
 		  A:	TRUE
-		  G:	robot_power >= 8 & !locC U locB & G(weight_power > 12) & robot_power >= 9 & F(locA & F(locB & F(locC))) & G(heavy_item_pickup) & !locB U locA
+		  G:	G(heavy_item_pickup) & robot_power >= 8 & G(weight_power > 12) & robot_power >= 9
 
-			COMPOSITION
-				NAME:	'a-b-c'
-				 CTX:	day
-				 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
-				  A:	TRUE
-				  G:	F(locA & F(locB & F(locC))) & !locB U locA & !locC U locB
+			COMPOSITION/MAPPING
+				NAME:	'pick_up_item'
+				  A:	G(weight_power > 12)
+				  G:	G(heavy_item_pickup)
 
-				NAME:	'collaborate||pick_up_item||robot_2||robot_3'
-				  A:	TRUE
-				  G:	robot_power >= 8 & G(weight_power > 12) & G(heavy_item_pickup) & robot_power >= 9
-
-					COMPOSITION/MAPPING
-						NAME:	'pick_up_item'
-						  A:	G(weight_power > 12)
-						  G:	G(heavy_item_pickup)
+					PROVIDED_BY
+						NAME:	'collaborate'
+						  A:	power1 >= 8 & power2 >= 8
+						  G:	G(weight_power > 12)
 
 							PROVIDED_BY
-								NAME:	'collaborate'
-								  A:	power1 >= 8 & power2 >= 8
-								  G:	G(weight_power > 12)
+								NAME:	'robot_2||robot_3'
+								  A:	TRUE
+								  G:	robot_power >= 8 & robot_power >= 9
 
-									PROVIDED_BY
-										NAME:	'robot_2||robot_3'
+									COMPOSITION
+										NAME:	'robot_2'
 										  A:	TRUE
-										  G:	robot_power >= 8 & robot_power >= 9
+										  G:	robot_power >= 8
 
-											COMPOSITION
-												NAME:	'robot_2'
-												  A:	TRUE
-												  G:	robot_power >= 8
+										NAME:	'robot_3'
+										  A:	TRUE
+										  G:	robot_power >= 9
 
-												NAME:	'robot_3'
-												  A:	TRUE
-												  G:	robot_power >= 9
-
-		NAME:	'a-b||collaborate||pick_up_item||robot_2||robot_3||never-c'
-		 CTX:	!day
-		 DOM:	G((locA & !locB) | (locB & !locA))
+		NAME:	'collaborate||pick_up_item||robot_2||robot_3'
 		  A:	TRUE
-		  G:	F(locA & F(locB)) & G(!locC) & robot_power >= 8 & G(weight_power > 12) & robot_power >= 9 & G(heavy_item_pickup) & !locB U locA
+		  G:	G(heavy_item_pickup) & robot_power >= 8 & G(weight_power > 12) & robot_power >= 9
 
-			COMPOSITION
-				NAME:	'a-b'
-				 CTX:	!day
-				 DOM:	G((locA & !locB) | (locB & !locA))
-				  A:	TRUE
-				  G:	F(locA & F(locB)) & !locB U locA
+			COMPOSITION/MAPPING
+				NAME:	'pick_up_item'
+				  A:	G(weight_power > 12)
+				  G:	G(heavy_item_pickup)
 
-				NAME:	'never-c'
-				 CTX:	!day
-				  A:	TRUE
-				  G:	G(!locC)
-
-				NAME:	'collaborate||pick_up_item||robot_2||robot_3'
-				  A:	TRUE
-				  G:	robot_power >= 8 & G(weight_power > 12) & G(heavy_item_pickup) & robot_power >= 9
-
-					COMPOSITION/MAPPING
-						NAME:	'pick_up_item'
-						  A:	G(weight_power > 12)
-						  G:	G(heavy_item_pickup)
+					PROVIDED_BY
+						NAME:	'collaborate'
+						  A:	power1 >= 8 & power2 >= 8
+						  G:	G(weight_power > 12)
 
 							PROVIDED_BY
-								NAME:	'collaborate'
-								  A:	power1 >= 8 & power2 >= 8
-								  G:	G(weight_power > 12)
+								NAME:	'robot_2||robot_3'
+								  A:	TRUE
+								  G:	robot_power >= 8 & robot_power >= 9
 
-									PROVIDED_BY
-										NAME:	'robot_2||robot_3'
+									COMPOSITION
+										NAME:	'robot_2'
 										  A:	TRUE
-										  G:	robot_power >= 8 & robot_power >= 9
+										  G:	robot_power >= 8
 
-											COMPOSITION
-												NAME:	'robot_2'
-												  A:	TRUE
-												  G:	robot_power >= 8
-
-												NAME:	'robot_3'
-												  A:	TRUE
-												  G:	robot_power >= 9
+										NAME:	'robot_3'
+										  A:	TRUE
+										  G:	robot_power >= 9
 
