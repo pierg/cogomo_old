@@ -6,12 +6,15 @@ function makePopper(ele) {
             let content = document.createElement('div');
 
             if (ele.data("type") === "goal") {
-                content.innerHTML = ele.data("description");
-            }
-            else{
+                if (ele.data("description") !== "") {
+                    content.innerHTML = ele.data("description");
+                }
+                else{
+                    content.innerHTML = "no description available";
+                }
+            } else {
                 content.innerHTML = ele.data("type") + " operator";
             }
-
             return content;
         },
         trigger: 'manual' // probably want manual mode

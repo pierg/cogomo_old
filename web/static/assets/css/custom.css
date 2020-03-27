@@ -37,3 +37,8 @@
 .tippy-popper {
     transition: none !important;
 }
+
+
+code {
+    background-color: unset;
+}
