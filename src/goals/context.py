@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from contracts.formulas import LTL
+from contracts.formulas import *
 from contracts.types import *
 from src.helper.tools import extract_terms
 from src.checks.nsmvhelper import *
@@ -46,21 +46,28 @@ class Context:
     def formula(self, value):
         self.__formula = value
 
+    def merge_with(self, other: 'Context'):
+        missing_elements = set(other.variables) - set(self.variables)
+        self.variables.extend(list(missing_elements))
+        self.formula = And([self.formula, other.formula])
+        print("context extended: " + str(self.formula))
+
+
     def get_context(self) -> Tuple[List[Type], LTL]:
         return self.__variables, self.__formula
 
     def is_included_in(self, other: 'Context') -> bool:
-        return are_implied_in([self.variables, other.variables],
-                              [self.formula],
-                              [other.formula])
+        return is_smaller_set_than([self.variables, other.variables],
+                                   [self.formula],
+                                   [other.formula])
 
     def is_not_included_in_and_viceversa(self, other: 'Context') -> bool:
-        one = not are_implied_in([self.variables, other.variables],
-                                 [self.formula],
-                                 [other.formula])
-        two = not are_implied_in([self.variables, other.variables],
-                                 [other.formula],
-                                 [self.formula])
+        one = not is_smaller_set_than([self.variables, other.variables],
+                                      [self.formula],
+                                      [other.formula])
+        two = not is_smaller_set_than([self.variables, other.variables],
+                                      [other.formula],
+                                      [self.formula])
 
         return one and two
 
@@ -77,8 +84,8 @@ class Context:
         if set(self.variables) != set(other.variables):
             return False
 
-        implied_a = is_implied_in(self.variables, self.formula, other.formula)
-        implied_b = is_implied_in(self.variables, self.formula, other.formula)
+        implied_a = includes(self.variables, self.formula, other.formula)
+        implied_b = includes(self.variables, self.formula, other.formula)
 
         return implied_a and implied_b
 
@@ -92,8 +99,8 @@ def get_smallest_context(contexts: List[Context]):
 
     for context in contexts:
         if context is not smallest and \
-                are_implied_in([smallest.variables, context.variables],
-                               [context.formula], [smallest.formula]):
+                is_smaller_set_than([smallest.variables, context.variables],
+                                    [context.formula], [smallest.formula]):
             smallest = context
 
     return smallest

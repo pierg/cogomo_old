@@ -306,14 +306,11 @@ def render_goals(session_id):
 
     for name, cgtgoal in s_goals.items():
         desc = cgtgoal.get_description()
-        a, g = cgtgoal.render_A_G()
-        assumptions = "<br />".join(a.split("\n"))
-        guarantees = "<br />".join(g.split("\n"))
+        contracts = cgtgoal.render_contracts()
         goal = {
             "name": name,
             "description": desc,
-            "assumptions": assumptions,
-            "guarantees": guarantees
+            "contracts": contracts,
         }
         goal_list.append(goal)
 

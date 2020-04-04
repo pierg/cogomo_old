@@ -320,38 +320,67 @@
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a class="card-footer-item" id="__A_ID_BTN__">
-                        ASSUMPTIONS
+                    <a class="card-footer-item" id="__EDIT_ID_BTN__">
+                        EDIT
                     </a>
-                    <div class="modal" id="__A_ID_CTN__">
+                    <div class="modal" id="__EDIT_ID_CTN__">
                         <div class="modal-background"></div>
                         <div class="modal-card">
                             <header class="modal-card-head">
-                                <p class="modal-card-title">Assumptions</p>
+                                <p class="modal-card-title">Edit Goal</p>
                                 <button class="delete modal-custom-close" aria-label="close"></button>
                             </header>
-                            <code>
-                                __ASSUMPTIONS__
-                            </code>
-                            <footer class="modal-card-foot">
-                                <button class="button is-success">Save changes</button>
-                                <button class="button modal-custom-close">Cancel</button>
-                            </footer>
-                        </div>
-                    </div>
-                    <a class="card-footer-item" id="__G_ID_BTN__">
-                        GUARANTEES
-                    </a>
-                    <div class="modal" id="__G_ID_CTN__">
-                        <div class="modal-background"></div>
-                        <div class="modal-card">
-                            <header class="modal-card-head">
-                                <p class="modal-card-title">Guarantees</p>
-                                <button class="delete modal-custom-close" aria-label="close"></button>
-                            </header>
-                            <code>
-                                __GUARANTEES__
-                            </code>
+                            <div class="modal-card-body">
+                                <div class="field is-horizontal comp_conj_element">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Name</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                                <input id="new_goal_name" class="input" type="text" value="__NAME2__">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field is-horizontal comp_conj_element">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Description</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                        <textarea id="new_goal_description" class="textarea" rows="2">__DESCRIPTION2__</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal comp_conj_element">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Assumptions</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                        <textarea id="new_goal_description" class="textarea is-family-monospace" rows="2">__ASSUMPTIONS__</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal comp_conj_element">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Guarantees</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                        <textarea id="new_goal_description" class="textarea is-family-monospace" rows="2">__GUARANTEES__</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <footer class="modal-card-foot">
                                 <button class="button is-success">Save changes</button>

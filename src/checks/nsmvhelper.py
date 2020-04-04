@@ -13,7 +13,7 @@ def get_smallest_set(variables: List[Type], formulas: List[LTL]):
 
     for formula in formulas:
         if formula is not smallest and \
-                is_implied_in(variables, formula, smallest):
+                includes(variables, formula, smallest):
             smallest = formula
 
     return smallest
@@ -32,12 +32,13 @@ def are_satisfiable(list_variables: List[List[Type]], propositions: List[LTL]):
     return check_satisfiability(variables, propositions)
 
 
-def are_implied_in(list_variables: List[List[Type]],
-                   antecedent: List[LTL],
-                   consequent: List[LTL],
-                   check_type: bool = False):
-    """Checks if the conjunction of antecedent is contained in the conjunction of consequent,
-    i.e. consequent is a bigger set than antecedent"""
+def is_smaller_set_than(list_variables: List[List[Type]],
+                        antecedent: List[LTL],
+                        consequent: List[LTL],
+                        check_type: bool = False):
+    """Checks if the conjunction of antecedent and conjunction of consequent:
+    antecedent implies consequent == antecedent is a smaller set of the consequent ==
+    antecedent is contained in the consequent"""
 
     """Merge Lists"""
     variables = []
@@ -51,13 +52,17 @@ def are_implied_in(list_variables: List[List[Type]],
     if not isinstance(antecedent, list):
         raise AttributeError
 
-    return is_implied_in(variables, And(antecedent), And(consequent), check_type)
+    return includes(variables, And(antecedent), And(consequent), check_type)
 
 
-def is_implied_in(variables: List[Type],
-                  antecedent: LTL,
-                  consequent: LTL,
-                  check_type: bool = False):
+def includes(variables: List[Type],
+             antecedent: LTL,
+             consequent: LTL,
+             check_type: bool = False):
+    """Check if:
+    antecedent implies consequent == antecedent is a smaller set of the consequent ==
+    antecedent is contained in the consequent"""
+
     if consequent.formula == "TRUE":
         return True
 
@@ -114,10 +119,10 @@ def add_proposition_to_list(variables: List[Type],
     if simplify:
         for p in where:
 
-            if is_implied_in(variables, p, what):
+            if includes(variables, p, what):
                 where.remove(p)
 
-            elif is_implied_in(variables, what, p):
+            elif includes(variables, what, p):
                 return
 
     where.append(what)

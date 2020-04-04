@@ -50,7 +50,7 @@ def test_two_contracts_composition():
 
     print(goal_composed)
 
-    assert is_implied_in(
+    assert includes(
         variables=goal_composed.contracts[0].variables,
         antecedent=goal_composed.get_ltl_assumptions(),
         consequent="a & c")

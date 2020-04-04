@@ -1,0 +1,11 @@
+MODULE main
+
+VAR
+	a: boolean;
+	b: boolean;
+	c: boolean;
+	d: boolean;
+
+LTLSPEC a -> a & b
+
+LTLSPEC a & b -> a

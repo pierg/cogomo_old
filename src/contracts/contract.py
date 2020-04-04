@@ -21,7 +21,7 @@ class Contract:
                 g_pairs = permutations(guarantees, 2)
 
                 for g_1, g_2 in g_pairs:
-                    if is_implied_in(variables, g_1, g_2):
+                    if includes(variables, g_1, g_2):
                         guarantees.remove(g_2)
 
             if assumptions is not None:
@@ -31,7 +31,7 @@ class Contract:
                     """Ignore if its a port"""
                     if hasattr(a_1, "port_type") or hasattr(a_2, "port_type"):
                         continue
-                    if is_implied_in(variables, a_1, a_2):
+                    if includes(variables, a_1, a_2):
                         assumptions.remove(a_1)
 
         """List of variables"""
@@ -129,15 +129,15 @@ class Contract:
 
     def _has_smaller_guarantees_than(self, c: 'Contract') -> bool:
 
-        return are_implied_in([self.variables, c.variables],
-                              self.guarantees,
-                              c.guarantees)
+        return is_smaller_set_than([self.variables, c.variables],
+                                   self.guarantees,
+                                   c.guarantees)
 
     def _has_bigger_assumptions_than(self, c: 'Contract') -> bool:
 
-        return are_implied_in([c.variables, self.variables],
-                              c.assumptions,
-                              self.assumptions)
+        return is_smaller_set_than([c.variables, self.variables],
+                                   c.assumptions,
+                                   self.assumptions)
 
     def propagate_assumptions_from(self, c: 'Contract'):
         """propagates assumptions while simplifying other assumptions"""

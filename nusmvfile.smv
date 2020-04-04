@@ -1,10 +1,8 @@
 MODULE main
 VAR
-	robot_power: 0..100;
-	heavy_item_pickup: boolean;
-	weight_power: 0..100;
-	power1: 0..100;
-	locB: boolean;
-	power2: 0..100;
+	kitchen: boolean;
+	warehouse: boolean;
+	alarm: boolean;
+	home: boolean;
 
-LTLSPEC !(G(locB -> F(heavy_item_pickup)))
+LTLSPEC ((G(home) & (F(alarm) -> (warehouse U alarm)) & (G(alarm -> G(warehouse))) & G(kitchen) & !(G(warehouse)) & G(!((warehouse | !home) & (home | !warehouse))) & G(!((alarm | !home) & (home | !alarm)))) -> (G(kitchen)))

@@ -115,7 +115,7 @@ class CGTGoal:
             return None
 
     @context.setter
-    def context(self, value):
+    def context(self, value: Context):
         self.add_context(value)
 
     @property

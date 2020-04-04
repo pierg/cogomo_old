@@ -1,0 +1,16 @@
+MODULE main
+
+VAR
+	a: boolean;
+	b: boolean;
+	c: boolean;
+
+LTLSPEC !( (G(a) & (a -> b)) & !b)
+
+LTLSPEC !( G(a -> b -> c) )
+
+LTLSPEC !( G((a -> b) -> c) )
+
+LTLSPEC (G((a -> b) -> c) -> G(a -> b -> c)) & (G(a -> b -> c) -> G((a -> b) -> c))
+
+

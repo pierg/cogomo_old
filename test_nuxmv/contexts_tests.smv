@@ -1,0 +1,10 @@
+MODULE main
+
+VAR
+	place: boolean;
+	home: boolean;
+	office: boolean;
+	gym: boolean;
+
+LTLSPEC !( G( place = home ) & G ( place = office) & place & G (!home | !office | !gym))
+-- FALSE = satisfiable

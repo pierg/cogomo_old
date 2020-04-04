@@ -134,10 +134,10 @@ class ComponentsLibrary:
             """Check if any component refine the to_be_refined"""
             for component in self.components:
 
-                if are_implied_in([component.variables, variables],
-                                  component.guarantees,
-                                  [proposition],
-                                  check_type=True):
+                if is_smaller_set_than([component.variables, variables],
+                                       component.guarantees,
+                                       [proposition],
+                                       check_type=True):
 
                     if len(assumptions) > 0 and assumptions[0] is not "TRUE":
 

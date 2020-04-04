@@ -242,6 +242,22 @@ $(document).ready(function () {
 
         $.each(JSON.parse(goals_json), function (index, obj) {
 
+            var cas = [];
+            var cgs = [];
+
+            $.each(obj.contracts, function (i, c) {
+
+                ca = c.assumptions.join(",<br>");
+                cg = c.guarantees.join(",<br>");
+
+                cas.push(ca);
+                cgs.push(cg);
+
+            });
+
+            var assumptions = cas.join("<br><br>OR<br><br>");
+            var guarantees = cgs.join("<br><br>AND<br><br>");
+
             var checkbox = goal_list_checkbox.replace("__NAME__", obj.name);
             checkbox = checkbox.replace("__GOAL_ID__", obj.name);
 
@@ -250,19 +266,15 @@ $(document).ready(function () {
 
             var x = goal_list.replace("__NAME__", obj.name);
             x = x.replace("__DESCRIPTION__", obj.description);
-            x = x.replace("__ASSUMPTIONS__", obj.assumptions);
-            x = x.replace("__GUARANTEES__", obj.guarantees);
+            x = x.replace("__CONTRACTS", JSON.stringify(obj.contracts, null, '\t'));
 
-            x = x.replace("__A_ID_BTN__", obj.name + "_a_btn");
-            x = x.replace("__A_ID_CTN__", obj.name + "_a_ctn");
-
-            x = x.replace("__G_ID_BTN__", obj.name + "_g_btn");
-            x = x.replace("__G_ID_CTN__", obj.name + "_g_ctn");
+            x = x.replace("__EDIT_ID_BTN__", obj.name + "_e_btn");
+            x = x.replace("__EDIT_ID_CTN__", obj.name + "_e_ctn");
 
             var y = modal_goal_list.replace("__NAME__", obj.name);
             y = y.replace("__DESCRIPTION__", obj.description);
-            y = y.replace("__ASSUMPTIONS__", obj.assumptions);
-            y = y.replace("__GUARANTEES__", obj.guarantees);
+            y = y.replace("__ASSUMPTIONS__", assumptions);
+            y = y.replace("__GUARANTEES__", guarantees);
             y = y.replace("__GOAL_ID__", obj.name);
 
             $('#goal_list').append(x);
@@ -277,12 +289,8 @@ $(document).ready(function () {
             $('#options_of_goals_2').append(options);
 
 
-            $("#" + obj.name + "_a_btn").click(function () {
-                $("#" + obj.name + "_a_ctn").addClass("is-active");
-            });
-
-            $("#" + obj.name + "_g_btn").click(function () {
-                $("#" + obj.name + "_g_ctn").addClass("is-active");
+            $("#" + obj.name + "_e_btn").click(function () {
+                $("#" + obj.name + "_e_ctn").addClass("is-active");
             });
 
             nodes.push(

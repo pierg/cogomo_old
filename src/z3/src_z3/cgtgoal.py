@@ -73,18 +73,27 @@ class CGTGoal:
         else:
             return 1
 
-    def render_A_G(self):
-        a = ""
-        g = ""
+    def render_contracts(self):
+        contracts = []
         for n, contract in enumerate(self.contracts):
-            if n > 0:
-                a += "\nOR\n"
-                g += "\nAND\n"
-            a += ' AND '.join(str(x) for x in contract.get_list_assumptions_to_print()).replace('\n', ' ')
-            g += ' AND '.join(str(x) for x in contract.get_list_guarantees()).replace('\n', ' ')
 
-        g_sat = "(" + a + ") -> (" + g + ")"
-        return a, g
+            assumptions = []
+            guarantees = []
+
+            for a in contract.get_list_assumptions():
+                assumptions.append(str(a))
+
+            for g in contract.get_list_guarantees():
+                guarantees.append(str(g))
+
+            contract = {
+                "assumptions": assumptions,
+                "guarantees": guarantees
+            }
+
+            contracts.append(contract)
+
+        return contracts
 
     def __str__(self, level=0):
         """Override the print behavior"""

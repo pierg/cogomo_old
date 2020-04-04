@@ -1,0 +1,28 @@
+MODULE main
+
+VAR
+	p: boolean;
+	r: boolean;
+	q: boolean;
+
+	t:    0..24;
+
+
+-- a W b == (a U b) | G a == a U (b | G a)
+
+-- Globally:            G p
+LTLSPEC !(G p)
+
+-- Before r:            F (r) -> (p U r)
+LTLSPEC !((F (r) -> (p U r)))
+
+-- After q              G(q -> G(p))
+LTLSPEC !(!q & p & G(q -> G(p)))
+
+-- Between q and r:     G((q & !r & F r) -> (p U r))
+LTLSPEC !(G((q & !r & F r) -> (p U r)))
+
+-- After q until r:     G(q & !r -> ((p U r) | G p))
+LTLSPEC !(G(q & !r -> ((p U r) | G p)))
+
+
