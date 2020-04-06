@@ -84,8 +84,8 @@ class Context:
         if set(self.variables) != set(other.variables):
             return False
 
-        implied_a = includes(self.variables, self.formula, other.formula)
-        implied_b = includes(self.variables, self.formula, other.formula)
+        implied_a = is_included_in(self.variables, self.formula, other.formula)
+        implied_b = is_included_in(self.variables, self.formula, other.formula)
 
         return implied_a and implied_b
 

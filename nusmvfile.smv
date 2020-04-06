@@ -1,8 +1,7 @@
 MODULE main
 VAR
-	kitchen: boolean;
-	warehouse: boolean;
-	alarm: boolean;
-	home: boolean;
+	a: boolean;
+	b: boolean;
+	e: boolean;
 
-LTLSPEC ((G(home) & (F(alarm) -> (warehouse U alarm)) & (G(alarm -> G(warehouse))) & G(kitchen) & !(G(warehouse)) & G(!((warehouse | !home) & (home | !warehouse))) & G(!((alarm | !home) & (home | !alarm)))) -> (G(kitchen)))
+LTLSPEC ((G(a) & G(b) & G(e)) -> (G(a) & G(e)))

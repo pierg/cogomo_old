@@ -12,14 +12,14 @@ from helper.logic import Not, And, Or
 """Context Creation"""
 """Within one context combination (a row), analyse each pair and discard the bigger set"""
 KEEP_SMALLER_CONTEXT = True
-"""Among a pair of context combinations (two colums), save only the smaller context"""
+"""Among a pair of context combinations (two rows), save only the smaller context"""
 KEEP_SMALLER_COMBINATION = True
 
 """Goal Mapping"""
 """When mapping a goal context to a combination of context C, map if the goal context is smaller than C"""
 GOAL_CTX_SMALLER = False
 """When more context points to the same set of goal take the smaller context"""
-SAVE_SMALLER_CONTEXT = True
+SAVE_SMALLER_CONTEXT = False
 
 
 def find_goal_with_name(name: str, goals: Union[Dict[CGTGoal, List[CGTGoal]], List[CGTGoal]]):
@@ -152,7 +152,7 @@ def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], context_
             vars.extend(c.variables)
         for k, v in context_variables_rules.items():
             if len(list(set(vars) & set(v))) > 0:
-                """They have at least two variables in common, then add rule"""
+                """They have at least one variables in common, then add rule"""
                 c_list.append(Context(k, v))
 
     return copy_list
@@ -176,7 +176,7 @@ def extract_all_combinations_and_negations_from_contexts(contexts: List[Context]
     """Extract the combinations of all contexts"""
     combs_all_contexts: List[List[Context]] = []
 
-    """Extract the combinations of all contextes with negations"""
+    """Extract the combinations of all contexts with negations"""
     combs_all_contexts_neg: List[List[Context]] = []
 
     for i in range(0, len(contexts)):

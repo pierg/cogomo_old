@@ -13,7 +13,7 @@ def get_smallest_set(variables: List[Type], formulas: List[LTL]):
 
     for formula in formulas:
         if formula is not smallest and \
-                includes(variables, formula, smallest):
+                is_included_in(variables, formula, smallest):
             smallest = formula
 
     return smallest
@@ -52,13 +52,13 @@ def is_smaller_set_than(list_variables: List[List[Type]],
     if not isinstance(antecedent, list):
         raise AttributeError
 
-    return includes(variables, And(antecedent), And(consequent), check_type)
+    return is_included_in(variables, And(antecedent), And(consequent), check_type)
 
 
-def includes(variables: List[Type],
-             antecedent: LTL,
-             consequent: LTL,
-             check_type: bool = False):
+def is_included_in(variables: List[Type],
+                   antecedent: LTL,
+                   consequent: LTL,
+                   check_type: bool = False):
     """Check if:
     antecedent implies consequent == antecedent is a smaller set of the consequent ==
     antecedent is contained in the consequent"""
@@ -107,7 +107,7 @@ def add_proposition_to_list(variables: List[Type],
                             where: List[LTL],
                             what: LTL, simplify=True):
     """Add the proposition 'what' to the list 'where' if is consistent with the other propositions in 'where'
-    also simplifies if a proposition is already included in the list"""
+    also simplifies if a proposition is already included in where"""
 
     if what == 'TRUE':
         return
@@ -115,15 +115,24 @@ def add_proposition_to_list(variables: List[Type],
     if what in where:
         return
 
-    """Check if assumption is a abstraction of existing assumptions and vice-versa"""
+    """Check for possible simplifications"""
     if simplify:
         for p in where:
 
-            if includes(variables, p, what):
-                where.remove(p)
+            if isinstance(p, Assumption):
+                """Remove the bigger assumption"""
+                if is_included_in(variables, p, what):
+                    return
 
-            elif includes(variables, what, p):
-                return
+                elif is_included_in(variables, what, p):
+                    where.remove(p)
+            else:
+                if is_included_in(variables, p, what):
+                    where.remove(p)
+
+                elif is_included_in(variables, what, p):
+                    return
+
 
     where.append(what)
 

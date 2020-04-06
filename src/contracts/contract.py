@@ -21,7 +21,7 @@ class Contract:
                 g_pairs = permutations(guarantees, 2)
 
                 for g_1, g_2 in g_pairs:
-                    if includes(variables, g_1, g_2):
+                    if is_included_in(variables, g_1, g_2):
                         guarantees.remove(g_2)
 
             if assumptions is not None:
@@ -31,7 +31,7 @@ class Contract:
                     """Ignore if its a port"""
                     if hasattr(a_1, "port_type") or hasattr(a_2, "port_type"):
                         continue
-                    if includes(variables, a_1, a_2):
+                    if is_included_in(variables, a_1, a_2):
                         assumptions.remove(a_1)
 
         """List of variables"""

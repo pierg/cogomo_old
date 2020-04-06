@@ -53,7 +53,7 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
     for a_elem in assumptions:
         for g_elem in guarantees:
             if g_elem not in g_ports_used and a_elem not in a_simplified:
-                if includes(variables, g_elem, a_elem, check_type=True):
+                if is_included_in(variables, g_elem, a_elem, check_type=True):
                     print("Simplifying assumption " + str(a_elem))
                     assumptions_simplified.remove(a_elem)
                     g_ports_used.append(g_elem)

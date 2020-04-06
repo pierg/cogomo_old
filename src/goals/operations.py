@@ -1,4 +1,4 @@
-import copy
+from copy import deepcopy
 import itertools
 from typing import Dict, List, Tuple, Set
 
@@ -132,7 +132,7 @@ def conjunction(goals: List[CGTGoal],
     for goal in goals:
         contracts = goal.contracts
         for contract in contracts:
-            new_contract = copy.deepcopy(contract)
+            new_contract = deepcopy(contract)
             list_of_new_contracts.append(new_contract)
 
     conjoined_goal = CGTGoal(name=name,
@@ -239,15 +239,15 @@ def create_contextual_simple_cgt(goals: List[CGTGoal], context_rules: Dict) -> C
     """Extract context rules in LTL"""
     context_variables_rules = extract_context_rules(context_rules)
 
-    for g in goals:
-        print(g)
-
-    """Add rules to contexts goals"""
-    add_constraints_to_goal(goals, context_variables_rules)
-
-    print("\n\nRules added to the goals:")
-    for g in goals:
-        print(g)
+    # for g in goals:
+    #     print(g)
+    #
+    # """Add rules to contexts goals"""
+    # add_constraints_to_goal(goals, context_variables_rules)
+    #
+    # print("\n\nRules added to the goals:")
+    # for g in goals:
+    #     print(g)
 
     """Extract all unique contexts"""
     contexts: List[Context] = extract_unique_contexts_from_goals(goals)
@@ -268,11 +268,13 @@ def create_contextual_simple_cgt(goals: List[CGTGoal], context_rules: Dict) -> C
 
     combs_all_contexts_neg = add_constraints_to_all_contexts(combs_all_contexts_neg, context_variables_rules)
 
-    print("\n\n__ALL_COMBINATIONS___________________________________________________________")
+    print("\n\n__ALL_COMBINATIONS_(" + str(
+        len(combs_all_contexts)) + ")___________________________________________________________")
     for c_list in combs_all_contexts:
         print(*c_list, sep='\t\t\t')
 
-    print("\n\n__ALL_COMBINATIONS_WITH_NEG__________________________________________________")
+    print("\n\n__ALL_COMBINATIONS_WITH_NEG_(" + str(
+        len(combs_all_contexts_neg)) + ")__________________________________________________")
     for c_list in combs_all_contexts_neg:
         print(*c_list, sep='\t\t\t')
 
@@ -281,15 +283,15 @@ def create_contextual_simple_cgt(goals: List[CGTGoal], context_rules: Dict) -> C
 
     combs_all_contexts_neg = filter_and_simplify_contexts(combs_all_contexts_neg)
 
-    print("\n\n__ALL_COMBINATIONS_CONSISTENT________________________________________________")
+    print("\n\n__ALL_COMBINATIONS_CONSISTENT_(" + str(
+        len(combs_all_contexts)) + ")________________________________________________")
     for c_list in combs_all_contexts:
         print(*c_list, sep='\t\t\t')
 
-
-    print("\n\n__ALL_COMBINATIONS_WITH_NEG_CONSISTENT_______________________________________")
+    print("\n\n__ALL_COMBINATIONS_WITH_NEG_CONSISTENT_(" + str(
+        len(combs_all_contexts_neg)) + ")_______________________________________")
     for c_list in combs_all_contexts_neg:
         print(*c_list, sep='\t\t\t')
-
 
     merged, merged_simplified = merge_contexes(combs_all_contexts)
 
@@ -311,27 +313,27 @@ def create_contextual_simple_cgt(goals: List[CGTGoal], context_rules: Dict) -> C
 
     context_goals = map_goals_to_contexts(contexts_list, goals)
     for ctx, ctx_goals in context_goals.items():
-        print(str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+        print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
 
     contexts_list = merged_simplified
 
     context_goals = map_goals_to_contexts(contexts_list, goals)
     for ctx, ctx_goals in context_goals.items():
-        print(str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+        print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
     print("\n\n")
 
     contexts_list = merged_neg
 
     context_goals = map_goals_to_contexts(contexts_list, goals)
     for ctx, ctx_goals in context_goals.items():
-        print(str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+        print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
 
     contexts_list = merged_simplified_neg
 
     context_goals = map_goals_to_contexts(contexts_list, goals)
 
     for ctx, ctx_goals in context_goals.items():
-        print(str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+        print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
 
     print("\n\n\n\n\n\nComposing and Conjoining based on the Context...")
 
