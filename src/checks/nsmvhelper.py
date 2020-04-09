@@ -1,4 +1,3 @@
-from contracts.formulas import Assumption
 from src.checks.nusmv import *
 from src.helper.logic import *
 from src.helper.tools import *
@@ -32,10 +31,10 @@ def are_satisfiable(list_variables: List[List[Type]], propositions: List[LTL]):
     return check_satisfiability(variables, propositions)
 
 
-def is_smaller_set_than(list_variables: List[List[Type]],
-                        antecedent: List[LTL],
-                        consequent: List[LTL],
-                        check_type: bool = False):
+def are_included_in(list_variables: List[List[Type]],
+                    antecedent: List[LTL],
+                    consequent: List[LTL],
+                    check_type: bool = False):
     """Checks if the conjunction of antecedent and conjunction of consequent:
     antecedent implies consequent == antecedent is a smaller set of the consequent ==
     antecedent is contained in the consequent"""
@@ -109,7 +108,7 @@ def add_proposition_to_list(variables: List[Type],
     """Add the proposition 'what' to the list 'where' if is consistent with the other propositions in 'where'
     also simplifies if a proposition is already included in where"""
 
-    if what == 'TRUE':
+    if what == LTL('TRUE'):
         return
 
     if what in where:
@@ -119,6 +118,7 @@ def add_proposition_to_list(variables: List[Type],
     if simplify:
         for p in where:
 
+            from typescogomo.formulae import Assumption
             if isinstance(p, Assumption):
                 """Remove the bigger assumption"""
                 if is_included_in(variables, p, what):

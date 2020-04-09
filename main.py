@@ -1,7 +1,7 @@
 import os
 import sys
 
-from goals.context import Context
+from typescogomo.formulae import Context
 from src.patterns.patterns import *
 from src.goals.operations import *
 from src.components.operations import *
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     ]
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_simple_cgt(list_of_goals)
+    cgt = create_contextual_cgt(list_of_goals)
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 

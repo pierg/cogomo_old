@@ -3,12 +3,11 @@ import random
 import string
 
 from src.goals.cgtgoal import *
-from src.contracts.contract import *
 from src.components.components import *
 
 from src.patterns.patterns import *
-from src.goals.context import *
-from src.contracts.types import *
+from typescogomo.formulae import Context
+from typescogomo.variables import *
 
 # contract file attributes
 TAB_WIDTH = 2

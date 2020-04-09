@@ -1,8 +1,8 @@
+from typescogomo.formulae import Assumption, Guarantee
+from src.checks.nsmvhelper import *
+from typescogomo.variables import *
 from itertools import permutations
 
-from contracts.formulas import Assumption, Guarantee
-from src.checks.nsmvhelper import *
-from src.contracts.types import *
 
 
 class Contract:
@@ -104,10 +104,30 @@ class Contract:
         for assumption in assumptions:
             self.add_assumption(assumption)
 
+    def remove_contextual_assumptions(self):
+        vars_to_remove = set()
+        vars_not_to_remove = set()
+
+        for a in list(self.assumptions):
+            if a.kind == "context":
+                self.assumptions.remove(a)
+                vars_to_remove.update(a.get_formula_variable_names())
+            else:
+                vars_not_to_remove.update(a.get_formula_variable_names())
+        if len(vars_to_remove) == 0:
+            return
+        for g in self.guarantees:
+            vars_not_to_remove.update(g.get_formula_variable_names())
+
+        vars_to_remove = vars_to_remove - vars_not_to_remove
+        for v in list(self.variables):
+            if v.name in vars_to_remove:
+                self.variables.remove(v)
+
     def add_assumption(self, assumption: Assumption):
 
         for a in list(self.assumptions):
-            if a == "TRUE":
+            if a == LTL("TRUE"):
                 self.assumptions.remove(a)
 
         """Adding assumption if is compatible with th other assumptions"""
@@ -115,6 +135,14 @@ class Contract:
 
         if len(self.assumptions) == 0:
             self.assumptions = [Assumption("TRUE")]
+        else:
+            """Saturate the guarantees with the assumptions"""
+            self.saturate_guarantees(And(self.assumptions))
+
+    def saturate_guarantees(self, assumptions: LTL):
+
+        for guarantee in self.guarantees:
+            guarantee.saturate_with(assumptions)
 
     def add_guarantees(self, guarantees: List[Guarantee]):
         """Add guarantees in 'guarantees'"""
@@ -129,15 +157,15 @@ class Contract:
 
     def _has_smaller_guarantees_than(self, c: 'Contract') -> bool:
 
-        return is_smaller_set_than([self.variables, c.variables],
-                                   self.guarantees,
-                                   c.guarantees)
+        return are_included_in([self.variables, c.variables],
+                               self.guarantees,
+                               c.guarantees)
 
     def _has_bigger_assumptions_than(self, c: 'Contract') -> bool:
 
-        return is_smaller_set_than([c.variables, self.variables],
-                                   c.assumptions,
-                                   self.assumptions)
+        return are_included_in([c.variables, self.variables],
+                               c.assumptions,
+                               self.assumptions)
 
     def propagate_assumptions_from(self, c: 'Contract'):
         """propagates assumptions while simplifying other assumptions"""
@@ -177,9 +205,9 @@ class Contract:
         astr = astr[:-2] + ' ]\n  guarantees :\t[ '
         for guarantee in self.guarantees:
             astr += str(guarantee) + ', '
-        astr = astr[:-2] + ' ]\n  saturated  :\t[ '
+        astr = astr[:-2] + ' ]\n  unsaturated  :\t[ '
         for guarantee in self.guarantees:
-            astr += str(guarantee.saturated) + ', '
+            astr += str(guarantee.unsaturated) + ', '
         return astr[:-2] + ' ]\n'
 
 

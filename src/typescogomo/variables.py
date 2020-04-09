@@ -18,7 +18,7 @@ class Type(object):
         self.port_type = port_type if port_type is not None else name
 
     def __str__(self):
-        return self.name + ": " + self.basic_type
+        return self.name
 
     def nuxmv_variable(self):
         return self.name + ": " + self.basic_type + ";\n"

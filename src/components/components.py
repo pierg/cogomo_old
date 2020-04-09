@@ -1,9 +1,10 @@
-from typing import List, Dict
+from typing import Dict
 
-from contracts.formulas import Assumption, Guarantee
-from src.contracts.helpers import incomposable_check, duplicate_contract
+from src.contracts.helpers import incomposable_check
+from typescogomo.formulae import Assumption, Guarantee
 from src.contracts.contract import Contract
 from src.checks.nsmvhelper import *
+
 import itertools as it
 
 
@@ -134,10 +135,10 @@ class ComponentsLibrary:
             """Check if any component refine the to_be_refined"""
             for component in self.components:
 
-                if is_smaller_set_than([component.variables, variables],
-                                       component.guarantees,
-                                       [proposition],
-                                       check_type=True):
+                if are_included_in([component.variables, variables],
+                                   component.guarantees,
+                                   [proposition],
+                                   check_type=True):
 
                     if len(assumptions) > 0 and assumptions[0] is not "TRUE":
 

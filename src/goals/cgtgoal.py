@@ -1,9 +1,9 @@
 from copy import deepcopy
-from typing import List, Tuple, Dict
+from typing import List
 
 from contracts.contract import Contract, Type
-from contracts.formulas import Assumption, Guarantee
-from goals.context import Context
+from typescogomo.formulae import Assumption, Guarantee
+from typescogomo.formulae import Context
 
 from helper.logic import And, Or
 from helper.tools import extract_variables_from_LTL
@@ -49,7 +49,7 @@ class CGTGoal:
             raise AttributeError
 
         if context is not None:
-            self.add_context(context)
+            self.set_context(context)
 
     @property
     def name(self):
@@ -116,7 +116,7 @@ class CGTGoal:
 
     @context.setter
     def context(self, value: Context):
-        self.add_context(value)
+        self.set_context(value)
 
     @property
     def connected_to(self):
@@ -178,10 +178,20 @@ class CGTGoal:
         self.__refined_with = "PROVIDED_BY"
         goal.connected_to = self
 
-    def add_context(self, context: Context):
+    def set_context(self, context: Context):
         """Set the context as assumptions of all the contracts in the node"""
+        variables, context_assumptions = context.get_vars_and_formula()
+        context_assumptions = Assumption(str(context_assumptions), kind="context")
+        for contract in self.contracts:
+            contract.remove_contextual_assumptions()
+            contract.add_variables(variables)
+            contract.add_assumption(context_assumptions)
+        self.consolidate_bottom_up()
+
+    def add_context(self, context: Context):
+        """Add the context as assumptions of all the contracts in the node"""
         if context is not None:
-            variables, context_assumptions = context.get_context()
+            variables, context_assumptions = context.get_vars_and_formula()
             context_assumptions = Assumption(str(context_assumptions), kind="context")
             for contract in self.contracts:
                 contract.add_variables(variables)
@@ -212,7 +222,7 @@ class CGTGoal:
         Expectations are conditional assumptions, they get added to each contract of the CGT
         only if the Contract guarantees concern the 'expectations' guarantees and are consistent with them"""
         from src.checks.nsmvhelper import are_satisfied_in
-        from src.contracts.types import have_shared_variables
+        from typescogomo.variables import have_shared_variables
         for contract in self.contracts:
             for expectation in expectations:
                 if have_shared_variables(contract.variables, expectation.variables):

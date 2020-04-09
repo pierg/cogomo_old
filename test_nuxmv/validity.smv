@@ -4,8 +4,10 @@ VAR
 	a: boolean;
 	b: boolean;
 	c: boolean;
-	d: boolean;
+	top: boolean;
 
-LTLSPEC a -> a & b
+LTLSPEC ((a -> top) & (b -> top) -> ((a & b) -> top))
 
-LTLSPEC a & b -> a
+LTLSPEC ((a & b) -> top) -> ((a -> top) & (b -> top))
+
+

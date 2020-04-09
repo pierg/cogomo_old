@@ -103,7 +103,7 @@ class OrderedVisit(CoreMovement):
 
         for n, location in enumerate(locations):
             if n < len(locations) - 1:
-                self.add_guarantee(Guarantee("!" + locations[n + 1] + " U " + locations[n]))
+                self.add_guarantee(Guarantee("(!" + locations[n + 1] + " U " + locations[n] + ")"))
 
 
 class GlobalAvoidance(Pattern):

@@ -1,8 +1,11 @@
 import os
 import sys
-from src.goals.operations import *
-from src.helper.parser import *
 
+from typescogomo.formulae import Context
+from src.patterns.patterns import *
+from src.goals.operations import *
+from src.components.operations import *
+from src.helper.parser import *
 
 file_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
@@ -21,38 +24,14 @@ if __name__ == "__main__":
     """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
     list_of_goals = [
         CGTGoal(
-            context=(Context(Always(LTL("home")))),
-            name="always-home",
-            contracts=[OrderedVisit(["locA", "locB", "locC"])]
-        ),
-        CGTGoal(
-            context=(Context(WeakUntilR(LTL("warehouse"), LTL("alarm")))),
-            name="warehouse-pre-alarm",
-            contracts=[OrderedVisit(["locX", "locY"])]
-        ),
-        # CGTGoal(
-        #     context=(Context(AfterQ(UntilR(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
-        #     name="warehouse-after-alarm",
-        #     contracts=[OrderedVisit(["locAlarm"])]
-        # ),
-        CGTGoal(
-            context=(Context(AfterQuntilR(LTL("warehouse"), LTL("alarm"),  LTL("!alarm")))),
-            name="warehouse-after-alarm",
+            context=(Context(UntilR(AP("warehouse"), AP("!alarm")))),
+            name="UntilR",
             contracts=[OrderedVisit(["locAlarm"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("warehouse")))),
-            name="always-warehouse",
-            contracts=[GlobalAvoidance("locBad")]
-        ),
-        CGTGoal(
-            context=(Context(Always(LTL("kitchen")))),
-            name="kitchen",
-            contracts=[GlobalAvoidance("locSink")]
-        ),
-        CGTGoal(
-            name="always",
-            contracts=[DelayedReaction("heavy_item", "heavy_item_pickup")]
+            context=(Context(BetweenQandR(AP("warehouse"), AP("!alarm"), AP("alarm")))),
+            name="BetweenQandR",
+            contracts=[OrderedVisit(["locAlarm"])]
         )
     ]
 

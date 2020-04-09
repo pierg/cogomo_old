@@ -1,7 +1,6 @@
 import os
 import sys
 
-from goals.context import Context
 from src.patterns.patterns import *
 from src.goals.operations import *
 from src.components.operations import *

@@ -1,6 +1,6 @@
 from copy import copy
 from typing import List
-from contracts.formulas import LTL
+from typescogomo.formulae import LTL
 
 
 def And(propositions: List[LTL]) -> LTL:

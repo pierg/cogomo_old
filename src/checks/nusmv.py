@@ -1,5 +1,5 @@
 import subprocess
-from src.contracts.types import *
+from typescogomo.variables import *
 from src.helper.logic import *
 
 smvfile = "nusmvfile.smv"
