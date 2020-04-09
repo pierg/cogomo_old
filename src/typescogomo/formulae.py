@@ -1,14 +1,18 @@
-from typing import Tuple, Union
+from typing import Tuple, Union, List
 
-from typescogomo.variables import *
+from checks.nusmv import check_satisfiability, check_validity
+from checks.tools import And
+from typescogomo.variables import Variables
 
+
+class IconsistentException(Exception):
+    pass
 
 class LTL:
 
-    def __init__(self, formula: str, variables: List[Type] = None):
-
+    def __init__(self, formula: str, variables: Variables):
         self.__formula: str = formula
-        self.__variables: List[Type] = variables
+        self.__variables: Variables = variables
 
         """Wrap the formula in parenthesis if contains an OR"""
         if "|" in self.__formula and \
@@ -16,13 +20,16 @@ class LTL:
                 not self.__formula.endswith(")"):
             self.__formula = f"({formula})"
 
+        if not formula == "TRUE":
+            if not self.is_satisfiable:
+                raise IconsistentException("The formula is not satisfiable:\n" + self.formula)
 
     @property
     def formula(self) -> str:
         return self.__formula
 
     @formula.setter
-    def formula(self, value):
+    def formula(self, value: str):
         self.__formula = value
 
     @property
@@ -30,240 +37,132 @@ class LTL:
         return self.__variables
 
     @variables.setter
-    def variables(self, value):
+    def variables(self, value: Variables):
         self.__variables = value
 
-    def get_formula_variable_names(self):
-        from helper.tools import extract_terms
-        return extract_terms(self)
+    def is_satisfiable(self):
+        return check_satisfiability(self.variables.get_list_str(), self.formula)
 
-    def merge_with(self, other: 'LTL'):
-        if self.variables is not None and other.variables is not None:
-            missing_elements = set(other.variables) - set(self.variables)
-            self.variables.extend(list(missing_elements))
-            from helper.logic import And
-            self.formula = And([self, other])
-            print("LTL extended: " + str(self.formula))
-        else:
-            Exception("None Attributes to LTL formula")
+    def conjoin_with(self, others: Union['LTL', List['LTL']]):
+        if isinstance(others, LTL):
+            others = [others]
+        for other in others:
+            if self.is_satisfiable_with(other):
+                self.variables.extend(other.variables)
+                self.formula = And([self.formula, other.formula])
+            else:
+                raise IconsistentException("Conjunction not satisfiable:\n" + str(self) + "\nWITH\n" + str(other))
 
-    def get_vars_and_formula(self) -> Tuple[List[Type], 'LTL']:
-        return self.__variables, self
-
-    def is_included_in(self, other: 'Context') -> bool:
-        from checks.nsmvhelper import are_included_in
-        return are_included_in([self.variables, other.variables], [self], [other])
-
-    def is_not_included_in_and_viceversa(self, other: 'Context') -> bool:
-        from checks.nsmvhelper import are_included_in
-        one = not are_included_in([self.variables, other.variables], [self], [other])
-        two = not are_included_in([self.variables, other.variables], [other], [self])
-        return one and two
-
-    def is_satisfiable_with(self, other: 'Context') -> bool:
-        from checks.nsmvhelper import are_satisfiable
-        sat = are_satisfiable([self.variables, other.variables], [other, self])
-        return sat
+    def is_satisfiable_with(self, other):
+        if self.formula == "TRUE" or other.formula == "TRUE":
+            return True
+        variables = self.variables.get_list_str()
+        variables.extend(other.variables.get_list_str())
+        return check_satisfiability(variables, [self.formula, other.formula])
 
     def __str__(self):
         return self.__formula
 
-    def __eq__(self, other: Union[str, 'LTL']):
-        if isinstance(other, str):
-            print("WTF")
-        if self.variables is None and other.variables is None:
-            if isinstance(other, str):
-                return self.formula == other
-            elif isinstance(other, LTL):
-                return self.formula == other.formula
-            else:
-                raise AttributeError
+    def __lt__(self, other: 'LTL'):
+        """Check if the set of behaviours is smaller in the other set of behaviours"""
+        lt = self <= other
+        neq = self != other
+        return lt and neq
 
-        if set(self.variables) != set(other.variables):
-            return False
-        from checks.nsmvhelper import is_included_in
-        implied_a = is_included_in(self.variables, self, other)
-        implied_b = is_included_in(self.variables, other, self)
+    def __le__(self, other: 'LTL'):
+        """Check if the set of behaviours is smaller or equal in the other set of behaviours"""
+        return check_validity(self.variables.get_list_str(), "((" + self.formula + ") -> (" + other.formula + "))")
 
+    def __eq__(self, other: 'LTL'):
+        """Check if the set of behaviours is equal to the other set of behaviours"""
+        implied_a = self >= other
+        implied_b = self <= other
         return implied_a and implied_b
+
+    def __ne__(self, other: 'LTL'):
+        """Check if the set of behaviours is different from the other set of behaviours"""
+        return not (self == other)
+
+    def __gt__(self, other: 'LTL'):
+        """Check if the set of behaviours is bigger than the other set of behaviours"""
+        gt = self >= other
+        neq = self != other
+        return gt and neq
+
+    def __ge__(self, other: 'LTL'):
+        """Check if the set of behaviours is bigger of equal than the other set of behaviours"""
+        return check_validity(self.variables.get_list_str(), "((" + other.formula + ") -> (" + self.formula + "))")
 
     def __hash__(self):
         return hash(self.__formula)
 
-    def __add__(self, other):
-        return str(self) + other
 
-    def __radd__(self, other):
-        return other + str(self)
+class LTLs:
+    """List of LTL formulae in conjunction with each other"""
+
+    def __init__(self, formulae: List['LTL']):
+
+        self.__formula : LTL = LTL(formulae[0].formula, formulae[0].variables)
+
+        if len(formulae) > 1:
+            self.__formula.conjoin_with(formulae[1:])
+
+        self.__formulae: List[LTL] = formulae
 
 
-class Context(LTL):
+    @property
+    def formulae(self):
+        return self.__formulae
 
-    def __init__(self, expression: LTL = None, variables: List[Type] = None):
+    @formulae.setter
+    def formulae(self, value: List['LTL']):
+        self.__formula = LTL(value[0].formula, value[0].variables)
 
-        if variables is None:
-            from helper.tools import extract_terms
-            var_names = extract_terms(expression)
+        self.__formula.conjoin_with(value[1:])
 
-            context_vars: List[Type] = []
+        self.__formulae: List[LTL] = value
 
-            try:
-                int(var_names[1])
-                context_vars.append(BoundedInt(var_names[0]))
-            except:
-                for var_name in var_names:
-                    context_vars.append(Boolean(var_name))
+    @property
+    def formula(self) -> LTL:
+        return self.__formula
 
+    @property
+    def variables(self):
+        return self.formula.variables
+
+    def are_satisfiable_with(self, other: 'LTLs'):
+        return self.formula.is_satisfiable_with(other.formula)
+
+    def extend(self, other: 'LTLs'):
+        self.__formula = LTL(other.formulae[0].formula, other.formulae[0].variables)
+        self.__formula.conjoin_with(other.formulae[1:])
+        self.formulae.extend(other.formulae)
+
+
+    def add(self, formulae: Union['LTL', List['LTL']]):
+
+        self.formula.conjoin_with(formulae)
+
+        if isinstance(formulae, LTL):
+            self.formulae.append(formulae)
         else:
-            context_vars: List[Type] = variables
+            self.formulae.extend(formulae)
 
-        super().__init__(str(expression), context_vars)
+    def remove(self, formulae: Union['LTL', List['LTL']]):
 
+        if isinstance(formulae, LTL):
+            formulae = [formulae]
 
-USE_SATURATED_GUARANTEES = False
-
-
-class Guarantee(LTL):
-
-    def __init__(self, formula: str, saturated: str = None):
-        if saturated is None:
-            super().__init__(formula)
-            self.__unsaturated: str = formula
-            self.__saturated = None
-        else:
-            self.__unsaturated: str = formula
-            self.__saturated: str = saturated
-            if USE_SATURATED_GUARANTEES:
-                super().__init__(saturated)
+        for formula in formulae:
+            if formula in self.formulae:
+                self.formulae.remove(formula)
             else:
-                super().__init__(formula)
+                Exception("LTL formula not found, cannot be removed")
 
-    @property
-    def unsaturated(self) -> str:
-        return self.__unsaturated
-
-    @property
-    def saturated(self) -> str:
-        return self.__saturated
-
-    def saturate_with(self, assumptions: LTL):
-        from helper.logic import Implies
-        saturated = str(Implies(assumptions, LTL(self.unsaturated)))
-        self.__init__(self.unsaturated, saturated)
-
-
-class Assumption(LTL):
-
-    def __init__(self, formula: str, kind: str = None):
-        super().__init__(formula)
-        if kind is None:
-            self.__kind = "assumed"
+        if len(self.formulae) > 0:
+            self.__formula = LTL(self.formulae[0].formula, self.formulae[0].variables)
+            if len(self.formulae) > 1:
+                self.__formula.conjoin_with(self.formulae[1:])
         else:
-            self.__kind = kind
+            self.formulae = None
 
-    @property
-    def kind(self) -> str:
-        return self.__kind
-
-
-class AP:
-    """Atomic Proposition"""
-
-    def __init__(self, ap: str):
-        self.__ap: str = ap
-
-    @property
-    def ap(self) -> str:
-        return self.__ap
-
-    def __str__(self):
-        return self.__ap
-
-    def __eq__(self, other: Union[str, 'AP']):
-        if isinstance(other, str):
-            return self.ap == other
-        elif isinstance(other, AP):
-            return self.ap == other.ap
-        else:
-            raise AttributeError
-
-    def __hash__(self):
-        return hash(self.__ap)
-
-
-class Scope(LTL):
-
-    def __init__(self, formula: str):
-        super().__init__(formula)
-
-
-class Always(Scope):
-    """G p"""
-
-    def __init__(self, p: LTL):
-        formula = "G({p})".format(p=str(p))
-        super().__init__(formula)
-
-
-class BeforeR(Scope):
-    """	F (r) -> (p U r) """
-
-    def __init__(self, p: LTL, r: LTL):
-        formula = "(F({r}) -> ({p} U {r}))".format(p=str(p), r=str(r))
-        super().__init__(formula)
-
-
-class UntilR(Scope):
-    """	(p U r) """
-
-    def __init__(self, p: LTL, r: LTL):
-        formula = "({p} U {r})".format(p=str(p), r=str(r))
-        super().__init__(formula)
-
-
-class WeakUntilR(Scope):
-    """	p W r = ((p U r) | G (p)) """
-
-    def __init__(self, p: LTL, r: LTL):
-        formula = "(({p} U {r}) | G ({p}))".format(p=str(p), r=str(r))
-        super().__init__(formula)
-
-
-class ReleaseR(Scope):
-    """	r R p = p W (r & p) = (p U (r & p) | G (p)) """
-
-    def __init__(self, r: LTL, p: LTL):
-        formula = "({p} U ({r} & {p}) | G ({p}))".format(r=str(r), p=str(p))
-        super().__init__(formula)
-
-
-class StrongReleaseR(Scope):
-    """	r R p = (p U (r & p)) """
-
-    def __init__(self, r: LTL, p: LTL):
-        formula = "({p} U ({r} & {p}))".format(r=str(r), p=str(p))
-        super().__init__(formula)
-
-
-class AfterQ(Scope):
-    """	G(q -> G(p)) """
-
-    def __init__(self, p: LTL, q: LTL):
-        formula = "(G({q} -> G({p})))".format(p=str(p), q=str(q))
-        super().__init__(formula)
-
-
-class BetweenQandR(Scope):
-    """	G((q & !r & F r) -> (p U r)) """
-
-    def __init__(self, p: LTL, q: LTL, r: LTL):
-        formula = "(G(({q} & !{r} & F {r}) -> ({p} U {r})))".format(p=str(p), q=str(q), r=str(r))
-        super().__init__(formula)
-
-
-class AfterQuntilR(Scope):
-    """	G(q & !r -> ((p U r) | G p)) """
-
-    def __init__(self, p: LTL, q: LTL, r: LTL):
-        formula = "(G({q} & !{r} -> (({p} U {r}) | G {p})))".format(p=str(p), q=str(q), r=str(r))
-        super().__init__(formula)

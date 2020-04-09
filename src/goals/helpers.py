@@ -174,7 +174,8 @@ def add_constraints_to_goal(goals: List[CGTGoal], context_variables_rules: Dict[
             for k, v in context_variables_rules.items():
                 if len(list(set(cvars) & set(v))) > 0:
                     """They have at least two variables in common, then add rule"""
-                    context.merge_with(Context(k, v))
+                    context.\
+                        merge_with(Context(k, v))
                     goal.context = context
 
 

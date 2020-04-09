@@ -1,5 +1,6 @@
-from typing import List
-
+from copy import deepcopy
+from typing import List, Union
+from helper.tools import extract_variables_name
 
 class Type(object):
     """Base Type Class, a Type is a variable with a name, basic_type for nuxmv (e.g. boolean),
@@ -7,7 +8,6 @@ class Type(object):
     but having different names. If the port_type is not specified then it's the same as the name of the variable"""
 
     def __init__(self, name: str, basic_type: str, port_type: str = None):
-
         """Name of the variable"""
         self.name = name
 
@@ -54,11 +54,76 @@ class BoundedNat(Integer):
         super().__init__(name, min=0, max=100, port_type=port_type)
 
 
-def have_shared_variables(list_a: List[Type], list_b: List[Type]):
-    """Returns true if the two list have at least a type with the same name in common"""
+class Variables(object):
 
-    for elem_a in list_a:
-        for elem_b in list_b:
-            if elem_a == elem_b:
-                return True
-    return False
+    def __init__(self, variables: Union[List['Type'], Type]):
+        if isinstance(variables, Type):
+            variables = [variables]
+        self.__variables = variables
+
+    @property
+    def variables(self):
+        return self.__variables
+
+    @variables.setter
+    def variables(self, value):
+        self.__variables = value
+
+    def __add__(self, other):
+        res = deepcopy(self.variables)
+        res.extend(other.variables)
+
+    def get_list_str(self):
+        """Get List[str] for nuxmv"""
+        tuple_vars = []
+        for v in self.variables:
+            tuple_vars.append(v.name + ": " + v.basic_type)
+        return tuple_vars
+
+    def extend(self, other: 'Variables'):
+        for v in other.variables:
+            self.add(v)
+
+    def add(self, var: Union['Type', List['Type']]):
+        if isinstance(var, Type):
+            var = [var]
+
+        for v in var:
+            for ex_v in self.variables:
+                if v.name == ex_v.name:
+                    type_a = type(v).__name__
+                    type_b = type(ex_v).__name__
+                    if type_a != type_b:
+                        Exception("Variable " + str(v) + " is already present but "
+                                                         "is of tyoe " + type_a + " instead of " + type_b)
+                    else:
+                        return
+
+            self.variables.append(v)
+
+    def remove(self, var: Union['Type', List['Type']]):
+
+        if isinstance(var, Type):
+            var = [var]
+
+        for v in var:
+            if v in self.variables:
+                self.variables.remove(v)
+            else:
+                Exception("Variable " + v.name + " not found, it cannot be removed")
+
+
+def extract_variables(formula: str) -> 'Variables':
+
+    var_names = extract_variables_name(formula)
+
+    context_vars: List[Type] = []
+
+    try:
+        int(var_names[1])
+        context_vars.append(BoundedInt(var_names[0]))
+    except:
+        for var_name in var_names:
+            context_vars.append(Boolean(var_name))
+
+    return Variables(context_vars)

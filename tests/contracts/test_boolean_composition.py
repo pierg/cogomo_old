@@ -1,5 +1,4 @@
-from src.helper.parser import *
-from src.contracts.operations import *
+from src.contracts.contract import BooleanContract
 
 """Parse Goals from Structured Text File"""
 

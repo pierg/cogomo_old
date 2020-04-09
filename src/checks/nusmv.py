@@ -1,23 +1,16 @@
 import subprocess
-from typescogomo.variables import *
-from src.helper.logic import *
+from typing import Tuple, List, Union
+from checks.tools import And, Not
 
 smvfile = "nusmvfile.smv"
 
 
+def check_satisfiability(variables: List[str],
+                         propositions: Union[List[str], str]) -> bool:
+    if isinstance(propositions, str):
+        propositions = [propositions]
 
-def test_sat():
-    sat = check_satisfiability(
-        variables=[Boolean("z"), Boolean("x"), Boolean("y")],
-        propositions=[LTL("x & !y & y & x|z & z & !z")]
-    )
-    print(sat)
-
-
-def check_satisfiability(variables: List[Type],
-                         propositions: List[LTL]) -> bool:
-
-    if len(propositions) == 1 and propositions[0].formula == "TRUE":
+    if len(propositions) == 1 and propositions[0] == "TRUE":
         return True
     if len(propositions) == 0:
         return True
@@ -29,13 +22,8 @@ def check_satisfiability(variables: List[Type],
 
         ofile.write('VAR\n')
 
-        vars_to_add = []
-
-        for v in variables:
-            vars_to_add.append((v.name, v.basic_type))
-
-        for v, t in list(set(vars_to_add)):
-            ofile.write('\t' + v + ": " + t + ";\n")
+        for v in list(set(variables)):
+            ofile.write('\t' + v + ";\n")
 
         ofile.write('\n')
         ofile.write('LTLSPEC ')
@@ -58,31 +46,19 @@ def check_satisfiability(variables: List[Type],
         raise e
 
 
-def check_validity(variables: List[Type],
-                   proposition: LTL,
-                   check_type: bool = False) -> bool:
-
-    proposition = proposition.formula
+def check_validity(variables: List[str],
+                   proposition: str) -> bool:
+    proposition = proposition
 
     """Write the NuSMV file"""
     with open(smvfile, 'w') as ofile:
 
-        # write module heading declaration
         ofile.write('MODULE main\n')
 
-        # write variable type declarations
         ofile.write('VAR\n')
-        vars_to_add = []
-        """Change name of the ports with their type"""
-        for v in variables:
-            if check_type:
-                vars_to_add.append((v.port_type, v.basic_type))
-                proposition = proposition.replace(v.name, v.port_type)
-            else:
-                vars_to_add.append((v.name, v.basic_type))
 
-        for v, t in list(set(vars_to_add)):
-            ofile.write('\t' + v + ": " + t + ";\n")
+        for v in list(set(variables)):
+            ofile.write('\t' + v + ";\n")
 
         ofile.write('\n')
         ofile.write('LTLSPEC ' + proposition)

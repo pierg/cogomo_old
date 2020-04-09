@@ -1,15 +1,16 @@
-from typescogomo.formulae import Assumption, Guarantee
-from src.checks.nsmvhelper import *
-from typescogomo.variables import *
+from typing import List
+
+from typescogomo.assumptions import Assumptions, Assumption
+from typescogomo.guarantees import Guarantees, Guarantee
 from itertools import permutations
 
+from typescogomo.variables import Variables, Boolean
 
 
 class Contract:
     def __init__(self,
-                 variables: List[Type] = None,
-                 assumptions: List[Assumption] = None,
-                 guarantees: List[Guarantee] = None,
+                 assumptions: Assumptions = None,
+                 guarantees: Guarantees = None,
                  simplify: bool = True,
                  validate: bool = True
                  ):
@@ -18,175 +19,94 @@ class Contract:
         if simplify:
             if guarantees is not None:
                 """Check any guarantee is a refinement of another guarantee and vice-versa"""
-                g_pairs = permutations(guarantees, 2)
-
+                g_pairs = permutations(guarantees.formulae, 2)
+                g_removed = []
                 for g_1, g_2 in g_pairs:
-                    if is_included_in(variables, g_1, g_2):
-                        guarantees.remove(g_2)
+                    if g_1 <= g_2:
+                        if g_2 not in g_removed:
+                            guarantees.remove(g_2)
+                            g_removed.append(g_2)
 
             if assumptions is not None:
                 """Check any assumption is an abstraction of another assumption and vice-versa"""
-                a_pairs = permutations(assumptions, 2)
+                a_pairs = permutations(assumptions.formulae, 2)
+                a_removed = []
                 for a_1, a_2 in a_pairs:
                     """Ignore if its a port"""
                     if hasattr(a_1, "port_type") or hasattr(a_2, "port_type"):
                         continue
-                    if is_included_in(variables, a_1, a_2):
-                        assumptions.remove(a_1)
-
-        """List of variables"""
-        if variables is None:
-            self.__variables = []
-        else:
-            self.__variables = variables
+                    if a_1 >= a_2:
+                        if a_2 not in a_removed:
+                            assumptions.remove(a_2)
+                            a_removed.append(a_2)
 
         """List of assumptions in conjunction"""
         if assumptions is None:
-            self.__assumptions = [Assumption("TRUE")]
-        elif isinstance(assumptions, list) and len(assumptions) == 0:
-            self.__assumptions = [Assumption("TRUE")]
+            self.__assumptions = Assumptions()
         else:
             self.__assumptions = assumptions
 
         """List of guarantees in conjunction. All guarantees are saturated"""
         if guarantees is None:
-            self.__guarantees = []
+            self.__guarantees = Guarantees()
         else:
             self.__guarantees = guarantees
 
-        """Checks compatibility, consistency and feasibility"""
-        if validate and self.is_full():
-            """Performs compatibility, consistency and feasibility checks on the contract"""
-            if not check_satisfiability(self.__variables, self.__assumptions):
-                raise Exception("The contract is incompatible")
-            if not check_satisfiability(self.__variables, self.__guarantees):
-                raise Exception("The contract is inconsistent")
-            if not check_satisfiability(self.__variables, self.__guarantees + self.__assumptions):
+        """Checks feasibility"""
+        if validate:
+            if not self.assumptions.are_satisfiable_with(self.guarantees):
                 raise Exception("The contract is unfeasible")
 
     @property
     def variables(self):
-        return self.__variables
-
-    @variables.setter
-    def variables(self, values: List[Type]):
-        self.__variables = values
+        a_vars = self.assumptions.variables
+        g_vars = self.guarantees.variables
+        return a_vars + g_vars
 
     @property
-    def assumptions(self) -> List[Assumption]:
+    def assumptions(self) -> Assumptions:
         return self.__assumptions
 
     @assumptions.setter
-    def assumptions(self, values: List[Assumption]):
-        if isinstance(values, list) and len(values) == 0:
-            self.__assumptions = [Assumption("TRUE")]
-        else:
-            self.__assumptions = values
+    def assumptions(self, values: Assumptions):
+        self.__assumptions = values
 
     @property
-    def guarantees(self) -> List[Guarantee]:
+    def guarantees(self) -> Guarantees:
         return self.__guarantees
 
     @guarantees.setter
-    def guarantees(self, values: List[Guarantee]):
+    def guarantees(self, values: Guarantees):
         self.__guarantees = values
 
-    def add_variables(self, variables: List[Type]):
-
-        add_variables_to_list(self.variables, variables)
-
-    def add_variable(self, variable: Type):
-
-        add_variable_to_list(self.variables, variable)
-
-    def add_assumptions(self, assumptions: List[Assumption]):
-
-        for assumption in assumptions:
-            self.add_assumption(assumption)
-
     def remove_contextual_assumptions(self):
-        vars_to_remove = set()
-        vars_not_to_remove = set()
+        self.assumptions.remove_kind("context")
 
-        for a in list(self.assumptions):
-            if a.kind == "context":
-                self.assumptions.remove(a)
-                vars_to_remove.update(a.get_formula_variable_names())
-            else:
-                vars_not_to_remove.update(a.get_formula_variable_names())
-        if len(vars_to_remove) == 0:
-            return
-        for g in self.guarantees:
-            vars_not_to_remove.update(g.get_formula_variable_names())
+    def add_assumption(self, assumptions: List[Assumption]):
 
-        vars_to_remove = vars_to_remove - vars_not_to_remove
-        for v in list(self.variables):
-            if v.name in vars_to_remove:
-                self.variables.remove(v)
+        self.assumptions.add(assumptions)
 
-    def add_assumption(self, assumption: Assumption):
-
-        for a in list(self.assumptions):
-            if a == LTL("TRUE"):
-                self.assumptions.remove(a)
-
-        """Adding assumption if is compatible with th other assumptions"""
-        add_proposition_to_list(self.variables, self.assumptions, assumption)
-
-        if len(self.assumptions) == 0:
-            self.assumptions = [Assumption("TRUE")]
-        else:
-            """Saturate the guarantees with the assumptions"""
-            self.saturate_guarantees(And(self.assumptions))
-
-    def saturate_guarantees(self, assumptions: LTL):
-
-        for guarantee in self.guarantees:
-            guarantee.saturate_with(assumptions)
+        self.guarantees.saturate_with(self.assumptions)
 
     def add_guarantees(self, guarantees: List[Guarantee]):
-        """Add guarantees in 'guarantees'"""
 
-        for i, guarantee in enumerate(guarantees):
-            self.add_guarantee(guarantee)
-
-    def add_guarantee(self, guarantee: Guarantee):
-
-        """Adding guarantee if is consistent with th other guarantees"""
-        add_proposition_to_list(self.variables, self.guarantees, guarantee)
-
-    def _has_smaller_guarantees_than(self, c: 'Contract') -> bool:
-
-        return are_included_in([self.variables, c.variables],
-                               self.guarantees,
-                               c.guarantees)
-
-    def _has_bigger_assumptions_than(self, c: 'Contract') -> bool:
-
-        return are_included_in([c.variables, self.variables],
-                               c.assumptions,
-                               self.assumptions)
+        self.guarantees.add(guarantees)
 
     def propagate_assumptions_from(self, c: 'Contract'):
-        """propagates assumptions while simplifying other assumptions"""
-        self.add_variables(c.variables)
-        self.add_assumptions(c.assumptions)
 
-    def is_refined_by(self, c: 'Contract') -> bool:
-        if not (c._has_smaller_guarantees_than(self) and
-                c._has_bigger_assumptions_than(self)):
-            return False
-        return True
+        self.assumptions.extend(c.assumptions)
 
-    def is_full(self):
+    def is_refined_by(self, other: 'Contract') -> bool:
 
-        return self.variables and self.assumptions and self.guarantees
+        smaller_g = self.guarantees.formula <= other.guarantees.formula
+        bigger_a = self.assumptions.formula >= other.assumptions.formula
+        return smaller_g and bigger_a
 
     def cost(self):
         """Used for component selection. Always [0, 1]
         Lower is better"""
-        lg = len(self.guarantees)
-        la = len(self.assumptions)
+        lg = len(self.guarantees.formulae)
+        la = len(self.assumptions.formulae)
 
         """heuristic
         Low: guarantees while assuming little (assumption set is bigger)
@@ -199,15 +119,15 @@ class Contract:
         astr = '  variables:\t[ '
         for var in self.variables:
             astr += str(var) + ', '
-        astr = astr[:-2] + ' ]\n  assumptions:\t[ '
-        for assumption in self.assumptions:
-            astr += str(assumption) + ', '
-        astr = astr[:-2] + ' ]\n  guarantees :\t[ '
-        for guarantee in self.guarantees:
-            astr += str(guarantee) + ', '
-        astr = astr[:-2] + ' ]\n  unsaturated  :\t[ '
-        for guarantee in self.guarantees:
-            astr += str(guarantee.unsaturated) + ', '
+        astr = astr[:-2] + ' ]\n  assumptions      :\t[ '
+        for assumption in self.assumptions.formulae:
+            astr += assumption.formula + ', '
+        astr = astr[:-2] + ' ]\n  guarantees_satur :\t[ '
+        for guarantee in self.guarantees.formulae:
+            astr += guarantee.saturated + ', '
+        astr = astr[:-2] + ' ]\n  guarantees_unsat :\t[ '
+        for guarantee in self.guarantees.formulae:
+            astr += guarantee.unsaturated + ', '
         return astr[:-2] + ' ]\n'
 
 
@@ -217,23 +137,19 @@ class BooleanContract(Contract):
                  assumptions_str: List[str],
                  guarantees_str: List[str]):
 
-        variables: List[Type] = []
-
-        for a in assumptions_str:
-            variables.append(Boolean(a))
-        for g in guarantees_str:
-            variables.append(Boolean(g))
-
         assumptions = []
         guarantees = []
 
         for a in assumptions_str:
-            assumptions.append(Assumption(a))
+            assumptions.append(Assumption(a, Variables(Boolean(a))))
 
         for g in guarantees_str:
-            saturated = Implies(And(assumptions), LTL(g))
-            guarantees.append(Guarantee(g, saturated=str(saturated)))
+            guarantees.append(Guarantee(g, Variables(Boolean(g))))
 
-        super().__init__(variables=variables,
-                         assumptions=assumptions,
+        assumptions = Assumptions(assumptions)
+        guarantees = Guarantees(guarantees)
+
+        guarantees.saturate_with(assumptions)
+
+        super().__init__(assumptions=assumptions,
                          guarantees=guarantees)
