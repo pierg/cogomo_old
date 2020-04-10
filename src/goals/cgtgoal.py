@@ -185,7 +185,7 @@ class CGTGoal:
         for contract in self.contracts:
             contract.remove_contextual_assumptions()
             contract.add_variables(variables)
-            contract.add_assumption(context_assumptions)
+            contract.add_assumptions(context_assumptions)
         self.consolidate_bottom_up()
 
     def add_context(self, context: Context):
@@ -195,7 +195,7 @@ class CGTGoal:
             context_assumptions = Assumption(str(context_assumptions), kind="context")
             for contract in self.contracts:
                 contract.add_variables(variables)
-                contract.add_assumption(context_assumptions)
+                contract.add_assumptions(context_assumptions)
 
             if self.refined_by is None:
                 self.consolidate_bottom_up()

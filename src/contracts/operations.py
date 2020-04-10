@@ -1,6 +1,6 @@
-from typescogomo.formulae import Guarantee, Assumption
+from copy import deepcopy
+from typing import List
 from src.contracts.contract import Contract
-from src.checks.nsmvhelper import *
 
 
 def compose_contracts(contracts: List[Contract]) -> Contract:
@@ -11,34 +11,17 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
     if len(contracts) == 0:
         raise Exception("No contract specified in the composition")
 
-    """Variables of the resulting contract"""
-    variables: List[Type] = []
-
-    """Assumptions of the resulting contract"""
-    assumptions: List[Assumption] = []
-
-    """Guarantees of the resulting contract"""
-    guarantees: List[Guarantee] = []
+    new_contract = deepcopy(contracts[0])
 
     """Populate the data structure while checking for compatibility and consistency"""
-    for contract in contracts:
+    for contract in contracts[1:]:
         try:
-            add_variables_to_list(variables, contract.variables)
-            add_propositions_to_list(variables, assumptions, contract.assumptions, simplify=False)
-            add_propositions_to_list(variables, guarantees, contract.guarantees, simplify=False)
-        except NonConsistentException:
-            print("Composition is not doable")
-            raise NonConsistentException
+            new_contract.merge_with(contract)
+        except Exception as e:
+            print("COMPOSITION FAILED")
+            raise e
 
-    """Check for feasibility"""
-    if not check_satisfiability(variables, assumptions + guarantees):
-        raise Exception("Composition not feasible:\n" + str(assumptions + guarantees))
-
-    print("The composition is compatible, consistent and feasible. Composing now...")
-
-    """Removing Duplicates"""
-    guarantees = list(set(guarantees))
-    assumptions = list(set(assumptions))
+    print("The composition is compatible, consistent and feasible")
 
     """Removing 'TRUE' from assumptions"""
     for a in list(assumptions):

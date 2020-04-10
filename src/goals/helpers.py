@@ -364,4 +364,4 @@ def prioritize_goal(first_priority_goal, second_priority_goal):
 
     for contract in second_priority_goal.contracts:
         contract.add_variables(variables)
-        contract.add_assumption(Not(Or(stronger_assumptions_list)))
+        contract.add_assumptions(Not(Or(stronger_assumptions_list)))

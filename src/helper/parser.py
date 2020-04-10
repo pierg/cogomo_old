@@ -142,7 +142,7 @@ def parse(specfile):
                         elif VARIABLES_HEADER in component_header:
                             component.add_variables([eval(line.strip())])
                         elif ASSUMPTIONS_HEADER in component_header:
-                            component.add_assumption(line.strip())
+                            component.add_assumptions(line.strip())
                         elif GUARANTEES_HEADER in component_header:
                             component.add_guarantee(line.strip())
                         else:
@@ -173,7 +173,7 @@ def parse(specfile):
                             var = Type(str(key), str(value))
                             contract.add_variable(var)
                         elif ASSUMPTIONS_HEADER in goal_header:
-                            contract.add_assumption(Assumption(line.strip()))
+                            contract.add_assumptions(Assumption(line.strip()))
                         elif GUARANTEES_HEADER in goal_header:
                             contract.add_guarantee(Guarantee(line.strip()))
                         else:

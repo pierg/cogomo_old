@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import Tuple, Union, List
 
 from checks.nusmv import check_satisfiability, check_validity
@@ -7,6 +8,7 @@ from typescogomo.variables import Variables
 
 class IconsistentException(Exception):
     pass
+
 
 class LTL:
 
@@ -48,8 +50,15 @@ class LTL:
             others = [others]
         for other in others:
             if self.is_satisfiable_with(other):
-                self.variables.extend(other.variables)
-                self.formula = And([self.formula, other.formula])
+                new_formula = deepcopy(self)
+                new_formula.variables.extend(other.variables)
+                new_formula.formula = And([new_formula.formula, other.formula])
+
+                """If by conjoining other, the result is a refinement of the existing formula"""
+                if new_formula < self:
+                    self.variables.extend(other.variables)
+                    self.formula = And([self.formula, other.formula])
+                    
             else:
                 raise IconsistentException("Conjunction not satisfiable:\n" + str(self) + "\nWITH\n" + str(other))
 
@@ -102,25 +111,24 @@ class LTLs:
 
     def __init__(self, formulae: List['LTL']):
 
-        self.__formula : LTL = LTL(formulae[0].formula, formulae[0].variables)
+        self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
 
         if len(formulae) > 1:
             self.__formula.conjoin_with(formulae[1:])
 
-        self.__formulae: List[LTL] = formulae
-
+        self.__list: List[LTL] = formulae
 
     @property
-    def formulae(self):
-        return self.__formulae
+    def list(self):
+        return self.__list
 
-    @formulae.setter
-    def formulae(self, value: List['LTL']):
+    @list.setter
+    def list(self, value: List['LTL']):
         self.__formula = LTL(value[0].formula, value[0].variables)
 
         self.__formula.conjoin_with(value[1:])
 
-        self.__formulae: List[LTL] = value
+        self.__list: List[LTL] = value
 
     @property
     def formula(self) -> LTL:
@@ -134,19 +142,18 @@ class LTLs:
         return self.formula.is_satisfiable_with(other.formula)
 
     def extend(self, other: 'LTLs'):
-        self.__formula = LTL(other.formulae[0].formula, other.formulae[0].variables)
-        self.__formula.conjoin_with(other.formulae[1:])
-        self.formulae.extend(other.formulae)
-
+        self.__formula = LTL(other.list[0].formula, other.list[0].variables)
+        self.__formula.conjoin_with(other.list[1:])
+        self.list.extend(other.list)
 
     def add(self, formulae: Union['LTL', List['LTL']]):
 
         self.formula.conjoin_with(formulae)
 
         if isinstance(formulae, LTL):
-            self.formulae.append(formulae)
+            self.list.append(formulae)
         else:
-            self.formulae.extend(formulae)
+            self.list.extend(formulae)
 
     def remove(self, formulae: Union['LTL', List['LTL']]):
 
@@ -154,15 +161,14 @@ class LTLs:
             formulae = [formulae]
 
         for formula in formulae:
-            if formula in self.formulae:
-                self.formulae.remove(formula)
+            if formula in self.list:
+                self.list.remove(formula)
             else:
                 Exception("LTL formula not found, cannot be removed")
 
-        if len(self.formulae) > 0:
-            self.__formula = LTL(self.formulae[0].formula, self.formulae[0].variables)
-            if len(self.formulae) > 1:
-                self.__formula.conjoin_with(self.formulae[1:])
+        if len(self.list) > 0:
+            self.__formula = LTL(self.list[0].formula, self.list[0].variables)
+            if len(self.list) > 1:
+                self.__formula.conjoin_with(self.list[1:])
         else:
-            self.formulae = None
-
+            self.list = None

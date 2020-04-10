@@ -31,7 +31,7 @@ def test_one_integer_contracts_with_guarantees_simplifiable_add_assumption():
         guarantees=["b < 5", "b < 10"]
     )
     print(contract)
-    contract.add_assumption("a > 2")
+    contract.add_assumptions("a > 2")
     print(contract)
     assert contract.assumptions == ["a > 2"]
 

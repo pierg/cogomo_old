@@ -138,7 +138,7 @@ def prioritize_goal(first_priority_goal, second_priority_goal):
     print(second_priority_goal)
 
     for contract in second_priority_goal.get_contracts():
-        contract.add_assumption(Not(Or(stronger_assumptions_list)))
+        contract.add_assumptions(Not(Or(stronger_assumptions_list)))
 
     print(second_priority_goal)
 

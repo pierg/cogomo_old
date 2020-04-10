@@ -10,35 +10,8 @@ from typescogomo.variables import Variables, Boolean
 class Contract:
     def __init__(self,
                  assumptions: Assumptions = None,
-                 guarantees: Guarantees = None,
-                 simplify: bool = True,
-                 validate: bool = True
+                 guarantees: Guarantees = None
                  ):
-
-        """Remove redundant assumptions and guarantees"""
-        if simplify:
-            if guarantees is not None:
-                """Check any guarantee is a refinement of another guarantee and vice-versa"""
-                g_pairs = permutations(guarantees.formulae, 2)
-                g_removed = []
-                for g_1, g_2 in g_pairs:
-                    if g_1 <= g_2:
-                        if g_2 not in g_removed:
-                            guarantees.remove(g_2)
-                            g_removed.append(g_2)
-
-            if assumptions is not None:
-                """Check any assumption is an abstraction of another assumption and vice-versa"""
-                a_pairs = permutations(assumptions.formulae, 2)
-                a_removed = []
-                for a_1, a_2 in a_pairs:
-                    """Ignore if its a port"""
-                    if hasattr(a_1, "port_type") or hasattr(a_2, "port_type"):
-                        continue
-                    if a_1 >= a_2:
-                        if a_2 not in a_removed:
-                            assumptions.remove(a_2)
-                            a_removed.append(a_2)
 
         """List of assumptions in conjunction"""
         if assumptions is None:
@@ -52,10 +25,8 @@ class Contract:
         else:
             self.__guarantees = guarantees
 
-        """Checks feasibility"""
-        if validate:
-            if not self.assumptions.are_satisfiable_with(self.guarantees):
-                raise Exception("The contract is unfeasible")
+        if not self.assumptions.are_satisfiable_with(self.guarantees):
+            raise Exception("The contract is unfeasible")
 
     @property
     def variables(self):
@@ -82,7 +53,12 @@ class Contract:
     def remove_contextual_assumptions(self):
         self.assumptions.remove_kind("context")
 
-    def add_assumption(self, assumptions: List[Assumption]):
+    def merge_with(self, other):
+
+        self.add_guarantees(other.guarantees.list)
+        self.add_assumptions(other.assumptions.list)
+
+    def add_assumptions(self, assumptions: List[Assumption]):
 
         self.assumptions.add(assumptions)
 
