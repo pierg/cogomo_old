@@ -1,18 +1,21 @@
 from typescogomo.assumptions import Assumption
 from typescogomo.formulae import LTL
-from typescogomo.variables import extract_variables
+from typescogomo.variables import extract_variable, Variables
 
 
 class Context(Assumption):
 
-    def __init__(self, scope: 'Scope'):
-        super().__init__(scope.formula, scope.variables, kind="context")
+    def __init__(self, scope: 'Scope' = None, formula: str = None, variables: Variables = None):
+        if scope is not None:
+            super().__init__(scope.formula, scope.variables, kind="context")
+        else:
+            super().__init__(formula, variables, kind="context")
 
 
 class Scope(LTL):
 
     def __init__(self, formula: str):
-        variables = extract_variables(str(formula))
+        variables = extract_variable(str(formula))
         super().__init__(formula, variables)
 
 

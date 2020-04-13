@@ -38,12 +38,12 @@ class Guarantee(LTL):
 class Guarantees(LTLs):
     def __init__(self, guarantees: Union[List[Guarantee], Guarantee] = None):
         if guarantees is None:
-            guarantees = []
+            guarantees = [Guarantee("TRUE")]
         if isinstance(guarantees, Guarantee):
             guarantees = [guarantees]
         super().__init__(guarantees)
 
     def saturate_with(self, assumptions: Assumptions):
-        for guarantee in self.formulae:
+        for guarantee in self.list:
             guarantee.saturate_with(assumptions)
-        super().__init__(self.formulae)
+        super().__init__(self.list)

@@ -23,33 +23,18 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
 
     print("The composition is compatible, consistent and feasible")
 
-    """Removing 'TRUE' from assumptions"""
-    for a in list(assumptions):
-        if a.formula == 'TRUE':
-            assumptions.remove(a)
-
-    assumptions_simplified = assumptions.copy()
-
-    a_simplified = []
-    g_ports_used = []
-
+    a_removed = []
+    g_used = []
     """For each combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
-    for a_elem in assumptions:
-        for g_elem in guarantees:
-            if g_elem not in g_ports_used and a_elem not in a_simplified:
-                if is_included_in(variables, g_elem, a_elem, check_type=True):
+    for a_elem in list(new_contract.assumptions.list):
+        for g_elem in list(new_contract.guarantees.list):
+            if g_elem not in g_used and a_elem not in a_removed:
+                if g_elem <= a_elem:
                     print("Simplifying assumption " + str(a_elem))
-                    assumptions_simplified.remove(a_elem)
-                    g_ports_used.append(g_elem)
-                    a_simplified.append(a_elem)
-
-
-    composed_contract = Contract(variables=variables,
-                                 assumptions=assumptions_simplified,
-                                 guarantees=guarantees,
-                                 validate=False,
-                                 simplify=False)
+                    new_contract.assumptions.remove(a_elem)
+                    g_used.append(g_elem)
+                    a_removed.append(a_elem)
 
     print("Composed contract:")
-    print(composed_contract)
-    return composed_contract
+    print(new_contract)
+    return new_contract

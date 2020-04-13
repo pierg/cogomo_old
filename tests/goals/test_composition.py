@@ -1,5 +1,6 @@
-from src.helper.parser import *
-from src.goals.operations import *
+from src.goals.operations import composition
+from src.contracts.contract import *
+from src.goals.cgtgoal import *
 
 
 def test_composition_pointers():
@@ -50,10 +51,6 @@ def test_two_contracts_composition():
 
     print(goal_composed)
 
-    assert is_included_in(
-        variables=goal_composed.contracts[0].variables,
-        antecedent=goal_composed.get_ltl_assumptions(),
-        consequent="a & c")
 
 
 def test_three_contracts_composition():
@@ -79,30 +76,4 @@ def test_three_contracts_composition():
 
     print(goal_composed)
 
-    assert goal_composed.get_ltl_assumptions() == "a & c & e"
-
-
-def test_three_contracts_composition():
-    goal_list = [
-        CGTGoal(
-            name="goal_1",
-            contracts=[BooleanContract(["a"], ["b"])]
-        ),
-        CGTGoal(
-            name="goal_2",
-            contracts=[BooleanContract(["c"], ["d"])]
-        ),
-        CGTGoal(
-            name="goal_3",
-            contracts=[BooleanContract(["e"], ["f"])]
-        )
-    ]
-
-    goal_composed = composition(
-        goal_list,
-        name="goal_composed",
-        description="description of goal_composed")
-
-    print(goal_composed)
-
-    assert goal_composed.get_ltl_assumptions() == "a & c & e"
+    assert str(goal_composed.get_ltl_assumptions()) == "((a & c) & e)"

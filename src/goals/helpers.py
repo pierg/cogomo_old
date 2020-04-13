@@ -1,12 +1,12 @@
 import itertools
+from copy import deepcopy
 from typing import Union, Dict, List, Tuple
-
-from checks.nsmvhelper import add_variables_to_list
 from checks.nusmv import check_satisfiability
-from typescogomo.formulae import LTL, Assumption, Context
-from typescogomo.variables import Type, Boolean
+from checks.tools import Not, Or, And
+from typescogomo.contexts import Context
+from typescogomo.formulae import LTL, LTLs, IconsistentException
+from typescogomo.variables import Type, Boolean, Variables
 from goals.cgtgoal import CGTGoal
-from helper.logic import Not, And, Or
 
 """Context Creation"""
 """Within one context combination (a row), analyse each pair and discard the bigger set"""
@@ -37,44 +37,35 @@ def find_goal_with_name(name: str, goals: Union[Dict[CGTGoal, List[CGTGoal]], Li
                 return goal
 
 
-# def group(contexts: List[Context], keep_smaller)
-
-
 def filter_and_simplify_contexts(contexts: List[List[Context]]) -> List[List[Context]]:
     new_list: List[List[Context]] = []
     print("\n\nFILTERING " + str(len(contexts)) + " CONTEXTS...")
 
     for c_list in contexts:
         """Extract formulas and check satisfiability"""
-        c_vars = []
-        c_expr = []
-        for c in c_list:
-            add_variables_to_list(c_vars, c.variables)
-            c_expr.append(c)
-
-        if not check_satisfiability(c_vars, c_expr):
+        try:
+            LTLs(c_list)
+        except IconsistentException:
             continue
 
         """Simplify"""
         new_comb = c_list.copy()
 
         """If a context in one combination includes another context, take smaller or bigger set"""
-        # group(new_comb, keep_smaller=KEEP_SMALLER_CONTEXT)
-
         new_comb_copy = list(new_comb)
         for ca in new_comb_copy:
             for cb in new_comb_copy:
                 if KEEP_SMALLER_CONTEXT:
                     if (ca is not cb) and \
                             cb in new_comb:
-                        if ca.is_included_in(cb):
+                        if ca <= cb:
                             print(str(ca) + "\nINCLUDED IN\n" + str(cb))
                             new_comb.remove(cb)
                             print(str(cb) + "\nREMOVED (kept smaller)")
                 else:
                     if (ca is not cb) and \
                             ca in new_comb:
-                        if ca.is_included_in(cb):
+                        if ca <= cb:
                             print(str(ca) + "\nINCLUDED IN\n" + str(cb))
                             new_comb.remove(ca)
                             print(str(ca) + "\nREMOVED (kept bigger)")
@@ -101,39 +92,38 @@ def are_all_mutually_exclusive(contexts: List[Context]) -> bool:
     return True
 
 
-def extract_context_rules(context_rules: Dict) -> Dict[LTL, List[Type]]:
+def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
     """Dict:  ltl_formula -> list_of_variables_involved"""
 
-    context_rules_variables: Dict[LTL, List[Type]] = {}
-
+    ltl_list: List[LTL] = []
     for cvars in context_rules["mutex"]:
+        variables_list: List[Type] = []
         ltl = "G("
         ltl_components = []
-        var_types = []
         for vs in cvars:
-            var_types.append(Boolean(str(vs)))
+            variables_list.append(Boolean(str(vs)))
             vars_mod = list(cvars)
             vars_mod.remove(vs)
-            vars_mod.append(Not(vs, brakets=False))
+            vars_mod.append(Not(vs))
             ltl_components.append(Or(vars_mod))
 
-        ltl += str(Not(And(ltl_components)))
+        ltl += Not(And(ltl_components))
 
         ltl += ")"
-        context_rules_variables[Assumption(ltl, kind="context")] = var_types
+        ltl_list.append(LTL(formula=ltl, variables=Variables(variables_list)))
 
     for cvars in context_rules["inclusion"]:
-        var_types = []
+        variables_list: List[Type] = []
         ltl = "G("
         for i, vs in enumerate(cvars):
-            var_types.append(Boolean(str(vs)))
+            variables_list.append(Boolean(str(vs)))
             ltl += str(vs)
             if i < (len(cvars) - 1):
                 ltl += " -> "
         ltl += ")"
-        context_rules_variables[Assumption(ltl, kind="context")] = var_types
+        ltl_list.append(LTL(formula=ltl, variables=Variables(variables_list)))
 
-    return context_rules_variables
+    return ltl_list
 
 
 def extract_unique_contexts_from_goals(goals: List[CGTGoal]) -> List[Context]:
@@ -174,7 +164,7 @@ def add_constraints_to_goal(goals: List[CGTGoal], context_variables_rules: Dict[
             for k, v in context_variables_rules.items():
                 if len(list(set(cvars) & set(v))) > 0:
                     """They have at least two variables in common, then add rule"""
-                    context.\
+                    context. \
                         merge_with(Context(k, v))
                     goal.context = context
 
@@ -192,19 +182,15 @@ def extract_all_combinations_and_negations_from_contexts(contexts: List[Context]
 
         for comb in combs:
 
-            comb_contexts = list(comb).copy()
-
-            comb_contexts_neg = list(comb).copy()
+            comb_contexts = list(comb)
+            comb_contexts_neg = list(comb)
 
             for ctx in contexts:
                 if ctx not in comb_contexts_neg:
-                    ctx_vars = ctx.variables
-                    ctx_exp = Not(ctx)
-                    comb_contexts_neg.append(Context(variables=ctx_vars,
-                                                     expression=ctx_exp))
+                    ctx_copy = deepcopy(ctx)
+                    comb_contexts_neg.append(ctx_copy.negate())
 
             combs_all_contexts.append(comb_contexts)
-
             combs_all_contexts_neg.append(comb_contexts_neg)
 
     return combs_all_contexts, combs_all_contexts_neg
@@ -217,15 +203,9 @@ def merge_contexes(contexts: List[List[Context]]) -> Tuple[List[Context], List[C
     print("\n\nMERGING " + str(len(contexts)) + " CONTEXTS...")
 
     for group in contexts:
-        variables: List[Type] = []
-        formulas: List[LTL] = []
-        for ctx in group:
-            add_variables_to_list(variables, ctx.variables)
-            formulas.append(ctx)
-
-        """Conjunction of one consistent context"""
-        formula = And(formulas)
-        new_ctx = Context(expression=formula, variables=variables)
+        conj = LTLs(group)
+        # TODO: extra sat checks not needed
+        new_ctx = Context(formula=str(conj.formula), variables=conj.variables)
         already_there = False
         """"Check if newly created context is not equivalent to an existing previously created context"""
         for c in contexts_merged:
@@ -242,7 +222,7 @@ def merge_contexes(contexts: List[List[Context]]) -> Tuple[List[Context], List[C
             if KEEP_SMALLER_COMBINATION:
                 if (ca is not cb) and \
                         cb in context_merged_simplified:
-                    if ca.is_included_in(cb):
+                    if ca <= cb:
                         print(str(ca) + "\nINCLUDED IN\n" + str(cb))
                         context_merged_simplified.remove(cb)
                         print(str(cb) + "\nREMOVED (kept smaller)")
@@ -252,7 +232,7 @@ def merge_contexes(contexts: List[List[Context]]) -> Tuple[List[Context], List[C
             else:
                 if (ca is not cb) and \
                         ca in context_merged_simplified:
-                    if ca.is_included_in(cb):
+                    if ca <= cb:
                         print(str(ca) + "\nINCLUDED IN\n" + str(cb))
                         context_merged_simplified.remove(ca)
                         print(str(ca) + "\nREMOVED (kept bigger)")
@@ -298,7 +278,7 @@ def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal]) -> Dict
                             context_goals[ctx] = [goal]
                 else:
                     """Verify that the context is included in goal context"""
-                    if ctx.is_included_in(goal_ctx):
+                    if ctx <= goal_ctx:
                         print("Ctx: " + str(ctx) + " \t-->\t Goal_ctx: " + str(goal_ctx))
                         """Add goal to the context"""
                         if ctx in context_goals:
@@ -319,7 +299,7 @@ def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal]) -> Dict
                 continue
             if ctxa is not ctxb:
                 if set(goalsa) == set(goalsb):
-                    if ctxa.is_included_in(ctxb):
+                    if ctxa <= ctxb:
                         print(str(ctxa) + "\nINCLUDED IN\n" + str(ctxb))
                         if SAVE_SMALLER_CONTEXT:
                             del context_goals[ctxb]
@@ -342,10 +322,12 @@ def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal]) -> Dict
             print("+++++CAREFUL+++++++")
             print(g.name + ": " + str(g.context) + " not mapped to any goal")
             all_mapped = False
-            # raise Exception("Some goals have not been mapped to the context!")
+            raise Exception("Some goals have not been mapped to the context!")
 
     if all_mapped:
         print("*** ALL GOAL HAVE BEEN MAPPED TO A CONTEXT ***")
+    else:
+        raise Exception("Some goals have not been mapped to the context!")
 
     return context_goals
 

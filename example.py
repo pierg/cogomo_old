@@ -1,9 +1,5 @@
-import os
 import sys
 
-from src.patterns.patterns import *
-from src.goals.operations import *
-from src.components.operations import *
 from src.helper.parser import *
 
 file_path = os.path.dirname(os.path.abspath(__file__))

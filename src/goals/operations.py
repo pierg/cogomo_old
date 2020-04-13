@@ -1,14 +1,16 @@
 from copy import deepcopy
-import itertools as it
-from typing import Dict, List, Tuple, Set
-
-from goals import helpers
-from typescogomo.formulae import Context
-from goals.helpers import *
-from src.components.components import ComponentsLibrary
-from src.components.operations import components_selection
+from itertools import product, combinations
+from typing import List, Dict
+from components.components import ComponentsLibrary
+from src.contracts.contract import Contract
+from src.contracts.operations import compose_contracts
 from src.goals.cgtgoal import CGTGoal
-from src.contracts.operations import *
+from typescogomo.contexts import Context
+from typescogomo.formulae import IconsistentException
+from typescogomo.guarantees import Guarantees, Assumptions
+from src.goals.helpers import extract_ltl_rules, map_goals_to_contexts, filter_and_simplify_contexts, \
+    extract_unique_contexts_from_goals, extract_all_combinations_and_negations_from_contexts, \
+    add_constraints_to_all_contexts, merge_contexes
 
 
 def composition(goals: List[CGTGoal],
@@ -22,7 +24,7 @@ def composition(goals: List[CGTGoal],
         if goal.connected_to is not None and connect_to is not None:
             if connect_to != goal.connected_to:
                 print(goal.name + " is already part of another CGT. Making a copy of it...")
-                goals[n] = copy.deepcopy(goal)
+                goals[n] = deepcopy(goal)
                 goals[n].name = goals[n].name
 
     contracts: Dict[CGTGoal, List[Contract]] = {}
@@ -41,7 +43,7 @@ def composition(goals: List[CGTGoal],
         contracts[goal.name] = goal.contracts
 
     """Dot products among the contracts to perform the compositions of the conjunctions"""
-    composition_contracts = (dict(list(zip(contracts, x))) for x in it.product(*iter(contracts.values())))
+    composition_contracts = (dict(list(zip(contracts, x))) for x in product(*iter(contracts.values())))
 
     """List of composed contracts. Each element of the list is in conjunction"""
     composed_contracts: List[Contract] = []
@@ -77,7 +79,7 @@ def conjunction(goals: List[CGTGoal],
         if goal.connected_to is not None and connect_to is not None:
             if connect_to != goal.connected_to:
                 print(goal.name + " is already part of another CGT. Making a copy of it...")
-                goals[n] = copy.deepcopy(goal)
+                goals[n] = deepcopy(goal)
                 goals[n].name = goals[n].name
 
     if name is None:
@@ -91,39 +93,35 @@ def conjunction(goals: List[CGTGoal],
         name = conj_name[:-2]
 
     """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
-    for pair_of_goals in it.combinations(goals, r=2):
+    for pair_of_goals in combinations(goals, r=2):
 
         assumptions_set = []
         guarantees_set = []
 
         for contract_1 in pair_of_goals[0].contracts:
 
-            assumptions_set.extend(contract_1.assumptions)
-
-            guarantees_set.extend(contract_1.guarantees)
+            assumptions_set.extend(contract_1.assumptions.list)
+            guarantees_set.extend(contract_1.guarantees.list)
 
             for contract_2 in pair_of_goals[1].contracts:
 
-                variables = contract_1.variables.copy()
+                assumptions_set.extend(contract_2.assumptions.list)
+                guarantees_set.extend(contract_2.guarantees.list)
 
-                variables.extend(contract_2.variables)
+                try:
+                    Assumptions(assumptions_set)
 
-                assumptions_set.extend(contract_2.assumptions)
+                    try:
+                        Guarantees(guarantees_set)
 
-                guarantees_set.extend(contract_2.guarantees)
-
-                """Checking Consistency only when the assumptions are satisfied together"""
-                sat = check_satisfiability(variables, list(set(assumptions_set)))
-                if sat:
-                    """Checking Consistency only when the assumptions are satisfied together"""
-                    sat = check_satisfiability(variables, list(set(guarantees_set)))
-                    if not sat:
+                    except IconsistentException:
                         print("The assumptions in the conjunction of contracts "
                               "are not mutually exclusive and are inconsistent:\n" +
                               str(pair_of_goals[0]) + "\nCONJOINED WITH\n" + str(pair_of_goals[1])
                               + "\n\n" + str(list(set(guarantees_set))))
-
                         raise Exception("Conjunction Failed")
+                except:
+                    pass
 
     print("The conjunction satisfiable.")
 
@@ -164,6 +162,7 @@ def mapping(component_library: ComponentsLibrary,
         raise Exception("The goal has multiple contracts in conjunction and cannot be mapped")
 
     """Get a list of components from the specification, greedy algorithm"""
+    from components.operations import components_selection
     components, hierarchy = components_selection(component_library, specification)
 
     if len(components) == 0:
@@ -177,10 +176,10 @@ def mapping(component_library: ComponentsLibrary,
         for component in components:
             names.append(component.id)
         names.sort()
-        mapping_name = ""
-        for name in names:
-            mapping_name += name + "||"
-        mapping_name = mapping_name[:-2]
+        name = ""
+        for n in names:
+            name += n + "||"
+        name = name[:-2]
 
     if len(hierarchy.values()) > 0:
         """Transforms the components in the dictionary in Goals"""
@@ -188,6 +187,7 @@ def mapping(component_library: ComponentsLibrary,
 
         for i, (comp, comp_provided_by) in enumerate(hierarchy.items()):
             """Look if there is already a goal"""
+            from goals.helpers import find_goal_with_name
             goal = find_goal_with_name(comp.id, hierarchy_goals)
 
             if goal is None:
@@ -223,7 +223,7 @@ def mapping(component_library: ComponentsLibrary,
             providing_goals_top.append(CGTGoal(name=c.id, contracts=[c]))
 
     """Create a top level goal 'composition_goal'"""
-    composition_goal = CGTGoal(name=mapping_name,
+    composition_goal = CGTGoal(name=name,
                                description=description,
                                contracts=[composition_contract],
                                refined_by=providing_goals_top,
@@ -236,6 +236,7 @@ def mapping(component_library: ComponentsLibrary,
 
 def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) -> CGTGoal:
     """Returns all combinations that are consistent"""
+    from contracts import helpers
 
     if type == "MINIMAL":
         """Context Creation"""
@@ -264,7 +265,7 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
         raise Exception("The type is not supported, either MINIMAL or MUTEX")
 
     """Extract context rules in LTL"""
-    context_variables_rules = extract_context_rules(context_rules)
+    ltl_rules = extract_ltl_rules(context_rules)
 
     # for g in goals:
     #     print(g)
@@ -293,7 +294,7 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
     if type == "MINIMAL":
 
         """Add constaints to the context combinations"""
-        combs_all_contexts = add_constraints_to_all_contexts(combs_all_contexts, context_variables_rules)
+        combs_all_contexts = add_constraints_to_all_contexts(combs_all_contexts, ltl_rules)
 
         print("\n\n__ALL_COMBINATIONS_(" + str(
             len(combs_all_contexts)) + ")___________________________________________________________")
@@ -320,13 +321,15 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
 
         context_goals = map_goals_to_contexts(contexts_list, goals)
         for ctx, ctx_goals in context_goals.items():
-            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+                [c.name for c in ctx_goals]))
 
         contexts_list = merged_simplified
 
         context_goals = map_goals_to_contexts(contexts_list, goals)
         for ctx, ctx_goals in context_goals.items():
-            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+                [c.name for c in ctx_goals]))
         print("\n\n")
 
         print("\n\n\n\n\n\nComposing and Conjoining based on the Context...")
@@ -353,7 +356,7 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
 
     if type == "MUTEX":
 
-        combs_all_contexts_neg = add_constraints_to_all_contexts(combs_all_contexts_neg, context_variables_rules)
+        combs_all_contexts_neg = add_constraints_to_all_contexts(combs_all_contexts_neg, ltl_rules)
 
         print("\n\n__ALL_COMBINATIONS_WITH_NEG_(" + str(
             len(combs_all_contexts_neg)) + ")__________________________________________________")
@@ -371,7 +374,6 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
 
         merged_neg, merged_simplified_neg = merge_contexes(combs_all_contexts_neg)
 
-
         print("\n\n__MERGED_NEG_________________________________________________________________")
         print(*merged_neg, sep='\n')
 
@@ -382,13 +384,15 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
 
         context_goals = map_goals_to_contexts(contexts_list, goals)
         for ctx, ctx_goals in context_goals.items():
-            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+                [c.name for c in ctx_goals]))
 
         contexts_list = merged_simplified_neg
 
         context_goals = map_goals_to_contexts(contexts_list, goals)
         for ctx, ctx_goals in context_goals.items():
-            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str([c.name for c in ctx_goals]))
+            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+                [c.name for c in ctx_goals]))
 
         print("\n\n\n\n\n\nComposing and Conjoining based on the Context...")
 

@@ -1,11 +1,10 @@
 from typing import Dict
-
 from src.contracts.helpers import incomposable_check
-from typescogomo.formulae import Assumption, Guarantee
-from src.contracts.contract import Contract
-from src.checks.nsmvhelper import *
+from src.contracts.contract import *
 
 import itertools as it
+
+from typescogomo.formulae import LTL, LTLs
 
 
 class NoComponentsAvailable(Exception):
@@ -18,11 +17,9 @@ class Component(Contract):
     def __init__(self,
                  component_id: str,
                  description: str = None,
-                 variables: List[Type] = None,
-                 assumptions: List[Assumption] = None,
-                 guarantees: List[Guarantee] = None):
+                 assumptions: Assumptions = None,
+                 guarantees: Guarantees = None):
         super().__init__(assumptions=assumptions,
-                         variables=variables,
                          guarantees=guarantees)
 
         """Component ID"""
@@ -53,12 +50,18 @@ class Component(Contract):
     def __str__(self):
         """Override the print behavior"""
         astr = '  component id:\t ' + self.id + '\n'
-        astr += '  assumptions:\t[ '
-        for assumption in self.assumptions:
-            astr += str(assumption) + ', '
-        astr = astr[:-2] + ' ]\n  guarantees:\t[ '
-        for guarantee in self.guarantees:
-            astr += str(guarantee) + ', '
+        astr += '  variables:\t[ '
+        for var in self.variables.list:
+            astr += str(var) + ', '
+        astr = astr[:-2] + ' ]\n  assumptions      :\t[ '
+        for assumption in self.assumptions.list:
+            astr += assumption.formula + ', '
+        astr = astr[:-2] + ' ]\n  guarantees_satur :\t[ '
+        for guarantee in self.guarantees.list:
+            astr += guarantee.saturated + ', '
+        astr = astr[:-2] + ' ]\n  guarantees_unsat :\t[ '
+        for guarantee in self.guarantees.list:
+            astr += guarantee.unsaturated + ', '
         return astr[:-2] + ' ]\n'
 
 
@@ -104,16 +107,15 @@ class ComponentsLibrary:
             self.add_component(component)
 
     def extract_selection(self,
-                          variables: List[Type],
-                          assumptions: List[Assumption],
-                          to_be_refined: List[LTL]) -> List[List['Component']]:
+                          assumptions: Assumptions,
+                          to_be_refined: LTLs) -> List[List['Component']]:
         """Extract all candidate compositions in the library whose guarantees, once combined, refine 'to_be_refined'
         and are consistent 'assumptions'. It also performs other tasks (filters and select the candidates)."""
 
         """How many different variables are needed for each port"""
         ports_n: Dict[str, int] = {}
-
-        for v in variables:
+        variables = to_be_refined.variables
+        for v in variables.list:
             if hasattr(v, "port_type"):
                 if v.port_type not in ports_n:
                     ports_n[v.port_type] = 1
@@ -127,49 +129,32 @@ class ComponentsLibrary:
 
         candidates_for_each_proposition = {}
 
-        if len(to_be_refined) == 0:
+        if len(to_be_refined.list) == 0:
             return []
 
-        for proposition in to_be_refined:
+        for formula in to_be_refined.list:
 
-            """Check if any component refine the to_be_refined"""
+            """Check if any component guarantees refine the to_be_refined"""
             for component in self.components:
 
-                if are_included_in([component.variables, variables],
-                                   component.guarantees,
-                                   [proposition],
-                                   check_type=True):
+                if component.guarantees.formula <= formula:
 
-                    if len(assumptions) > 0 and assumptions[0] is not "TRUE":
-
-                        """Check if contracts have compatible assumptions with the one provided"""
-                        props_to_check = set()
-
-                        for assumption in assumptions:
-                            props_to_check.add(assumption)
-
-                        for assumption in component.assumptions:
-                            props_to_check.add(assumption)
-
-                        all_variables = variables.copy()
-                        all_variables.extend(component.variables)
-
-                        compatible = check_satisfiability(all_variables, list(props_to_check))
-                    else:
-                        compatible = True
+                    """Check if contracts have compatible assumptions with the one provided"""
+                    compatible = assumptions.are_satisfiable_with(component.assumptions)
 
                     """If the contract has compatible assumptions, add it to the list of contracts 
                     that can refine to_be_refined"""
                     if compatible:
-                        if proposition in candidates_for_each_proposition:
-                            if component not in candidates_for_each_proposition[proposition]:
-                                candidates_for_each_proposition[proposition].append(component)
+                        if formula in candidates_for_each_proposition:
+                            if component not in candidates_for_each_proposition[formula]:
+                                candidates_for_each_proposition[formula].append(component)
                         else:
-                            candidates_for_each_proposition[proposition] = [component]
+                            candidates_for_each_proposition[formula] = [component]
 
         """Check that all the propositions of to_be_refined can be refined"""
-        if not all(props in candidates_for_each_proposition for props in to_be_refined):
-            raise Exception("The specification cannot be refined further with the components in the library")
+        if not all(props in candidates_for_each_proposition for props in to_be_refined.list):
+            raise NoComponentsAvailable(
+                "The specification cannot be refined further with the components in the library")
 
         """Create candidate compositions, each refining to_be_refined"""
         candidates_compositions = [[value for (key, value) in zip(candidates_for_each_proposition, values)]
@@ -211,7 +196,7 @@ class ComponentsLibrary:
             ports_n_candidate: Dict[str, int] = {}
 
             for component in candidate:
-                for v in component.variables:
+                for v in component.variables.list:
                     if v.port_type not in ports_n_candidate:
                         ports_n_candidate[v.port_type] = 1
                     else:
@@ -242,17 +227,51 @@ class BooleanComponent(Component):
 
     def __init__(self,
                  component_id: str,
+                 assumptions_str: List[str],
+                 guarantees_str: List[str]):
+
+        assumptions = []
+        guarantees = []
+
+        for a in assumptions_str:
+            assumptions.append(Assumption(a, Variables(Boolean(a))))
+
+        for g in guarantees_str:
+            guarantees.append(Guarantee(g, Variables(Boolean(g))))
+
+        assumptions = Assumptions(assumptions)
+        guarantees = Guarantees(guarantees)
+
+        guarantees.saturate_with(assumptions)
+
+        super().__init__(component_id=component_id,
+                         assumptions=assumptions,
+                         guarantees=guarantees)
+
+
+class SimpleComponent(Component):
+
+    def __init__(self,
+                 component_id: str,
                  assumptions: List[str],
                  guarantees: List[str]):
 
-        variables: List[Type] = []
+        assumptions_obj = []
+        guarantees_obj = []
+
+        from typescogomo.variables import extract_variable
 
         for a in assumptions:
-            variables.append(Boolean(a))
+            assumptions_obj.append(Assumption(a, extract_variable(a)))
+
         for g in guarantees:
-            variables.append(Boolean(g))
+            guarantees_obj.append(Guarantee(g, extract_variable(g)))
+
+        assumptions_obj = Assumptions(assumptions_obj)
+        guarantees_obj = Guarantees(guarantees_obj)
+
+        guarantees_obj.saturate_with(assumptions_obj)
 
         super().__init__(component_id=component_id,
-                         variables=variables,
-                         assumptions=assumptions,
-                         guarantees=guarantees)
+                         assumptions=assumptions_obj,
+                         guarantees=guarantees_obj)

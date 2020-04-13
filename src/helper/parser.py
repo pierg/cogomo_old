@@ -5,7 +5,7 @@ import string
 from src.goals.cgtgoal import *
 from src.components.components import *
 
-from src.patterns.patterns import *
+from contracts.patterns import *
 from typescogomo.formulae import Context
 from typescogomo.variables import *
 

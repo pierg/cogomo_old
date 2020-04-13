@@ -12,14 +12,12 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
         :return Flat List of Components
         :return Dict with compoent -> components that provide its assumptions"""
 
-    spec_variables = specification.variables
     spec_assumptions = specification.assumptions
     spec_guarantees = specification.guarantees
 
     set_components_to_return = []
-
     try:
-        candidates_compositions = component_library.extract_selection(spec_variables, spec_assumptions, spec_guarantees)
+        candidates_compositions = component_library.extract_selection(spec_assumptions, spec_guarantees)
     except Exception as e:
         raise e
 
@@ -47,22 +45,16 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
             components_to_search.remove(component)
             component_already_searched.append(component)
 
-            component_variables = component.variables
             component_assumptions = component.assumptions
 
-            if "TRUE" in component_assumptions:
+            if component_assumptions.is_universe():
                 continue
-
-            variables = component_variables.copy()
-            for v in spec_variables:
-                if v not in variables:
-                    variables.append(v)
 
             """Extract all candidate compositions that can provide the assumptions, if they exists"""
             try:
-                candidates_compositions = component_library.extract_selection(variables, spec_assumptions,
+                candidates_compositions = component_library.extract_selection(spec_assumptions,
                                                                               component_assumptions)
-            except NoComponentsAvailable as e:
+            except:
                 print("No further found")
                 continue
 
@@ -143,22 +135,19 @@ def greedy_selection(candidate_compositions: List[List[Component]]) -> List[Comp
         candidate_pairs = it.combinations(best_candidates, 2)
 
         n_comparisons = 0
+
         for candidate_a, candidate_b in candidate_pairs:
 
             contract_a = Contract()
             contract_b = Contract()
 
             for component_a in candidate_a:
-                contract_a.add_variables(component_a.variables)
-                contract_a.add_assumptions(component_a.assumptions)
-                contract_a.add_guarantees(component_a.guarantees)
+                contract_a.merge_with(component_a)
 
             for component_b in candidate_b:
-                contract_b.add_variables(component_b.variables)
-                contract_b.add_assumptions(component_b.assumptions)
-                component_b.add_guarantees(component_b.guarantees)
+                contract_b.merge_with(component_b)
 
-            if contract_a.is_refined_by(contract_b):
+            if contract_a.refines(contract_b):
                 candidates_points[tuple(candidate_a)] += 1
             else:
                 candidates_points[tuple(candidate_b)] += 1

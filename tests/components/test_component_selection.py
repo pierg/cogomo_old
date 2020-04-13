@@ -1,5 +1,6 @@
+from src.contracts.operations import compose_contracts
 from src.components.operations import *
-from src.contracts.operations import *
+from src.contracts.contract import *
 
 
 def test_component_selection():
@@ -7,34 +8,28 @@ def test_component_selection():
 
     component_library.add_components(
         [
-            Component(component_id="c0",
-                      variables={"a": "boolean", "b": "boolean"},
-                      assumptions=["a"],
-                      guarantees=["b"]),
-            Component(component_id="c9",
-                      variables={"l": "boolean", "p": "boolean"},
-                      assumptions=["l"],
-                      guarantees=["p"]),
-            Component(component_id="c10",
-                      variables={"a": "boolean", "o": "boolean"},
-                      assumptions=["o"],
-                      guarantees=["a"]),
-            Component(component_id="c1",
-                      variables={"a": "boolean", "b": "boolean", "p": "boolean", "x": "0..100"},
-                      assumptions=["a", "p"],
-                      guarantees=["b", "x > 5"]),
-            Component(component_id="c2",
-                      variables={"b": "boolean", "x": "0..100", "y": "0..100"},
-                      assumptions=["b", "x > 10"],
-                      guarantees=["y > 20"]),
-            Component(component_id="c3",
-                      variables={"b": "boolean", "x": "0..100", "y": "0..100"},
-                      assumptions=["b", "x > 3"],
-                      guarantees=["y > 40"])
+            SimpleComponent(component_id="c0",
+                            assumptions=["a"],
+                            guarantees=["b"]),
+            SimpleComponent(component_id="c9",
+                            assumptions=["l"],
+                            guarantees=["p"]),
+            SimpleComponent(component_id="c10",
+                            assumptions=["o"],
+                            guarantees=["a"]),
+            SimpleComponent(component_id="c1",
+                            assumptions=["a", "p"],
+                            guarantees=["b", "x > 5"]),
+            SimpleComponent(component_id="c2",
+                            assumptions=["b", "x > 10"],
+                            guarantees=["y > 20"]),
+            SimpleComponent(component_id="c3",
+                            assumptions=["b", "x > 3"],
+                            guarantees=["y > 40"])
         ]
     )
 
-    specification = Contract(variables={"y": "0..100"}, guarantees=["y > 10"])
+    specification = SimpleContract(guarantees=["y > 10"])
 
     components, hierarchy = components_selection(component_library, specification)
 
@@ -47,8 +42,8 @@ def test_component_selection():
 
     assert all(cid in ids for cid in ['c3', 'c9', 'c10', 'c1'])
 
-    assert all(g in composition.guarantees for g in ["(a & p -> b)",
-                                                     "(a & p -> x > 5)",
-                                                     "(o -> a)",
-                                                     "(b & x > 3 -> y > 40)",
-                                                     "(l -> p)"])
+    # assert all(g in composition.guarantees.list for g in [LTL("(a & p -> b)"),
+    #                                                       LTL("(a & p -> x > 5)"),
+    #                                                       LTL("(o -> a)"),
+    #                                                       LTL("(b & x > 3 -> y > 40)"),
+    #                                                       LTL("(l -> p)")])

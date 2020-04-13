@@ -1,10 +1,6 @@
-import os
 import sys
 
-from typescogomo.formulae import Context
-from src.patterns.patterns import *
 from src.goals.operations import *
-from src.components.operations import *
 from src.helper.parser import *
 
 file_path = os.path.dirname(os.path.abspath(__file__))
@@ -113,7 +109,7 @@ if __name__ == "__main__":
     )
 
     """Looking in the library for components for goals that can refine all the goals to pickup an object 'a->pickup'"""
-    goals_to_map = cgt.get_all_goals("a->pickup")
+    goals_to_map = cgt.get_all_goals_with_name("a->pickup")
 
     for goal in goals_to_map:
         mapping(component_library, goal)

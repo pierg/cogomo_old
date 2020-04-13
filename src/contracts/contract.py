@@ -1,9 +1,7 @@
-from typing import List
+from typing import List, Union
 
 from typescogomo.assumptions import Assumptions, Assumption
 from typescogomo.guarantees import Guarantees, Guarantee
-from itertools import permutations
-
 from typescogomo.variables import Variables, Boolean
 
 
@@ -58,13 +56,11 @@ class Contract:
         self.add_guarantees(other.guarantees.list)
         self.add_assumptions(other.assumptions.list)
 
-    def add_assumptions(self, assumptions: List[Assumption]):
+    def add_assumptions(self, assumptions: Union[List[Assumption], Assumption]):
 
         self.assumptions.add(assumptions)
 
-        self.guarantees.saturate_with(self.assumptions)
-
-    def add_guarantees(self, guarantees: List[Guarantee]):
+    def add_guarantees(self, guarantees: Union[List[Guarantee], Guarantee]):
 
         self.guarantees.add(guarantees)
 
@@ -72,7 +68,7 @@ class Contract:
 
         self.assumptions.extend(c.assumptions)
 
-    def is_refined_by(self, other: 'Contract') -> bool:
+    def refines(self, other: 'Contract') -> bool:
 
         smaller_g = self.guarantees.formula <= other.guarantees.formula
         bigger_a = self.assumptions.formula >= other.assumptions.formula
@@ -81,8 +77,8 @@ class Contract:
     def cost(self):
         """Used for component selection. Always [0, 1]
         Lower is better"""
-        lg = len(self.guarantees.formulae)
-        la = len(self.assumptions.formulae)
+        lg = len(self.guarantees.list)
+        la = len(self.assumptions.list)
 
         """heuristic
         Low: guarantees while assuming little (assumption set is bigger)
@@ -90,19 +86,22 @@ class Contract:
 
         return la / lg
 
+    def add_domain_properties(self):
+        pass
+
     def __str__(self):
         """Override the print behavior"""
         astr = '  variables:\t[ '
-        for var in self.variables:
+        for var in self.variables.list:
             astr += str(var) + ', '
         astr = astr[:-2] + ' ]\n  assumptions      :\t[ '
-        for assumption in self.assumptions.formulae:
+        for assumption in self.assumptions.list:
             astr += assumption.formula + ', '
         astr = astr[:-2] + ' ]\n  guarantees_satur :\t[ '
-        for guarantee in self.guarantees.formulae:
+        for guarantee in self.guarantees.list:
             astr += guarantee.saturated + ', '
         astr = astr[:-2] + ' ]\n  guarantees_unsat :\t[ '
-        for guarantee in self.guarantees.formulae:
+        for guarantee in self.guarantees.list:
             astr += guarantee.unsaturated + ', '
         return astr[:-2] + ' ]\n'
 
@@ -129,3 +128,35 @@ class BooleanContract(Contract):
 
         super().__init__(assumptions=assumptions,
                          guarantees=guarantees)
+
+
+class SimpleContract(Contract):
+
+    def __init__(self,
+                 guarantees: List[str],
+                 assumptions: List[str] = None):
+
+        guarantees_obj = []
+
+        from typescogomo.variables import extract_variable
+
+        for g in guarantees:
+            guarantees_obj.append(Guarantee(g, extract_variable(g)))
+
+        guarantees_obj = Guarantees(guarantees_obj)
+
+        if assumptions is None:
+            assumptions_obj = Assumptions()
+
+        else:
+            assumptions_obj = []
+
+            for a in assumptions:
+                assumptions_obj.append(Assumption(a, extract_variable(a)))
+
+            assumptions_obj = Assumptions(assumptions_obj)
+            guarantees_obj.saturate_with(assumptions_obj)
+
+
+        super().__init__(assumptions=assumptions_obj,
+                         guarantees=guarantees_obj)

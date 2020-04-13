@@ -7,27 +7,23 @@ def test_mapping_simple():
 
     component_library.add_components(
         [
-            Component(component_id="c0",
-                      variables={"a": "boolean", "b": "boolean"},
+            SimpleComponent(component_id="c0",
                       assumptions=["a"],
                       guarantees=["b"]),
-            Component(component_id="c1",
-                      variables={"a": "boolean", "b": "boolean", "x": "0..100", "l": "boolean", "k": "boolean"},
+            SimpleComponent(component_id="c1",
                       assumptions=["a", "l", "k"],
                       guarantees=["b", "x > 5"]),
-            Component(component_id="c2",
-                      variables={"b": "boolean", "x": "0..100", "y": "0..100"},
+            SimpleComponent(component_id="c2",
                       assumptions=["b", "x > 10"],
                       guarantees=["y > 20"]),
-            Component(component_id="c3",
-                      variables={"b": "boolean", "x": "0..100", "y": "0..100"},
+            SimpleComponent(component_id="c3",
                       assumptions=["b", "x > 3"],
                       guarantees=["y > 40"]),
         ])
 
     specification = CGTGoal(
         name="specification",
-        contracts=[Contract(variables={"y": "0..100"}, guarantees=["y > 10"])])
+        contracts=[SimpleContract(guarantees=["y > 10"])])
 
     mapping(component_library, specification)
 

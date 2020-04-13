@@ -10,6 +10,9 @@ VARIABLE = r'^[A-Za-z]\w*'
 INTEGER = r'^[+-]\d*|^\d*$'
 
 
+
+
+
 def extract_variables_name(expression: str) -> List[str]:
     integer_pattern = re.compile(INTEGER)
     list_terms = extract_terms(expression)

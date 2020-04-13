@@ -27,6 +27,28 @@ class Assumptions(LTLs):
 
     def remove_kind(self, kind: str):
 
-        for assumption in list(self.formulae):
+        for assumption in list(self.list):
             if assumption.kind == kind:
-                self.formulae.remove(assumption)
+                self.list.remove(assumption)
+
+    def get_kind(self, kind: str):
+        ret = []
+        for assumption in list(self.list):
+            if assumption.kind == kind:
+                ret.append(assumption)
+        if len(ret) == 0:
+            return None
+        return Assumptions(ret)
+
+
+class Expectation(Assumption):
+
+    def __init__(self, formula: str, variables: Variables = None):
+        super().__init__(formula, variables, kind="expectation")
+
+class Domain(Assumption):
+
+    def __init__(self, formula: str, variables: Variables = None):
+        super().__init__(formula, variables, kind="domain")
+
+

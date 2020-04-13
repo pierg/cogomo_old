@@ -1,4 +1,7 @@
+from checks.tools import And
 from src.contracts.contract import *
+from typescogomo.assumptions import Domain
+from typescogomo.variables import extract_variable
 
 
 class Pattern(Contract):
@@ -6,12 +9,13 @@ class Pattern(Contract):
     General Pattern Class
     """
 
-    def __init__(self):
+    def __init__(self, formula: str, variables: Variables):
         super().__init__()
-        self.domain_properties: List[Assumption] = []
+        self.domain_properties = []
+        self.add_guarantees(Guarantee(formula, variables))
 
     def add_domain_properties(self):
-        if len(self.domain_properties) > 0:
+        if self.domain_properties is not []:
             self.add_assumptions(self.domain_properties)
 
 
@@ -19,17 +23,17 @@ class CoreMovement(Pattern):
     """Core Movements Patterns
     All the variables are locations where there robot can be at a certain time"""
 
-    def __init__(self, locations: List[str] = None):
-        super().__init__()
+    def __init__(self, locations: List[str], formula: str):
 
         if locations is None:
             raise Exception("No location provided")
 
-        """Adding variables for each location"""
-        self.add_variables([Boolean(loc) for loc in locations])
-
         # Eliminating duplicates
         list_locations = list(dict.fromkeys(locations))
+
+        """Adding variables for each location"""
+        vars = [Boolean(loc) for loc in locations]
+        variables = Variables(vars)
 
         """Domain Property: A robot cannot be in the same location at the same time"""
         ltl_formula = "G("
@@ -44,18 +48,19 @@ class CoreMovement(Pattern):
 
         ltl_formula += ")"
 
-        self.domain_properties.append(Assumption(ltl_formula, kind="domain"))
+        self.domain_properties.append(Domain(ltl_formula, Variables(vars)))
+        super().__init__(formula, variables)
 
 
 class Visit(CoreMovement):
     """Visit a set of locations in an unspecified order"""
 
     def __init__(self, locations: List[str] = None):
-        super().__init__(locations)
-
-        """Adding the pattern as guarantee"""
+        conj_list = []
         for location in locations:
-            self.add_guarantee(Guarantee("F(" + location + ")"))
+            conj_list.append("F(" + location + ")")
+
+        super().__init__(locations, And(conj_list))
 
 
 class SequencedVisit(CoreMovement):
@@ -63,9 +68,6 @@ class SequencedVisit(CoreMovement):
 
     def __init__(self, locations: List[str] = None):
 
-        super().__init__(locations)
-
-        """Adding the pattern as guarantee"""
         guarantee = "F("
         for n, location in enumerate(locations):
 
@@ -76,7 +78,8 @@ class SequencedVisit(CoreMovement):
             else:
                 guarantee += " & F("
 
-        self.add_guarantee(Guarantee(guarantee))
+        self.add_guarantees(Guarantee(guarantee))
+        super().__init__(locations, guarantee)
 
 
 class OrderedVisit(CoreMovement):
@@ -86,9 +89,8 @@ class OrderedVisit(CoreMovement):
 
     def __init__(self, locations: List[str] = None):
 
-        super().__init__(locations)
+        conj_list = []
 
-        """Adding the pattern as guarantee"""
         guarantee = "F("
         for n, location in enumerate(locations):
 
@@ -99,36 +101,34 @@ class OrderedVisit(CoreMovement):
             else:
                 guarantee += " & F("
 
-        self.add_guarantee(Guarantee(guarantee))
+        conj_list.append(guarantee)
 
         for n, location in enumerate(locations):
             if n < len(locations) - 1:
-                self.add_guarantee(Guarantee("(!" + locations[n + 1] + " U " + locations[n] + ")"))
+                conj_list.append("(!" + locations[n + 1] + " U " + locations[n] + ")")
+
+        super().__init__(locations, And(conj_list))
 
 
 class GlobalAvoidance(Pattern):
     """Always avoid"""
 
     def __init__(self, proposition: str = None):
-        super().__init__()
-
         if proposition is None:
             raise Exception("No proposition provided")
 
-        self.add_variables([Boolean(proposition)])
+        variables = extract_variable(proposition)
 
-        self.add_guarantee(Guarantee("G(!" + proposition + ")"))
+        super().__init__("G(!" + proposition + ")", variables)
 
 
 class DelayedReaction(Pattern):
     """Delayed Reaction Pattern"""
 
     def __init__(self, trigger=None, reaction=None):
-        super().__init__()
         if trigger is None or reaction is None:
             raise Exception("No trigger or reaction provided")
 
-        self.add_variables([Boolean(trigger)])
-        self.add_variables([Boolean(reaction)])
+        variables = Variables([Boolean(trigger), Boolean(reaction)])
 
-        self.add_guarantee(Guarantee("G(" + trigger + " -> F(" + reaction + "))"))
+        super().__init__("G(" + trigger + " -> F(" + reaction + "))", variables)

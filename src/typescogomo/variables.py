@@ -1,6 +1,6 @@
 from copy import deepcopy
 from typing import List, Union
-from helper.tools import extract_variables_name
+from helper.tools import extract_terms
 
 class Type(object):
     """Base Type Class, a Type is a variable with a name, basic_type for nuxmv (e.g. boolean),
@@ -62,26 +62,27 @@ class Variables(object):
         self.__variables = variables
 
     @property
-    def variables(self):
+    def list(self):
         return self.__variables
 
-    @variables.setter
-    def variables(self, value):
+    @list.setter
+    def list(self, value):
         self.__variables = value
 
     def __add__(self, other):
-        res = deepcopy(self.variables)
-        res.extend(other.variables)
+        res = deepcopy(self)
+        res.extend(other)
+        return res
 
     def get_list_str(self):
         """Get List[str] for nuxmv"""
         tuple_vars = []
-        for v in self.variables:
-            tuple_vars.append(v.name + ": " + v.basic_type)
+        for v in self.list:
+            tuple_vars.append(v.port_type + ": " + v.basic_type)
         return tuple_vars
 
     def extend(self, other: 'Variables'):
-        for v in other.variables:
+        for v in other.list:
             self.add(v)
 
     def add(self, var: Union['Type', List['Type']]):
@@ -89,7 +90,7 @@ class Variables(object):
             var = [var]
 
         for v in var:
-            for ex_v in self.variables:
+            for ex_v in self.list:
                 if v.name == ex_v.name:
                     type_a = type(v).__name__
                     type_b = type(ex_v).__name__
@@ -99,7 +100,7 @@ class Variables(object):
                     else:
                         return
 
-            self.variables.append(v)
+            self.list.append(v)
 
     def remove(self, var: Union['Type', List['Type']]):
 
@@ -107,15 +108,16 @@ class Variables(object):
             var = [var]
 
         for v in var:
-            if v in self.variables:
-                self.variables.remove(v)
+            if v in self.list:
+                self.list.remove(v)
             else:
                 Exception("Variable " + v.name + " not found, it cannot be removed")
 
 
-def extract_variables(formula: str) -> 'Variables':
 
-    var_names = extract_variables_name(formula)
+def extract_variable(formula: str) -> 'Variables':
+
+    var_names = extract_terms(formula)
 
     context_vars: List[Type] = []
 

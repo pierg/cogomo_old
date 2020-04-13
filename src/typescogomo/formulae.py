@@ -12,19 +12,25 @@ class IconsistentException(Exception):
 
 class LTL:
 
-    def __init__(self, formula: str, variables: Variables):
-        self.__formula: str = formula
-        self.__variables: Variables = variables
+    def __init__(self, formula: str, variables: Variables = None):
+        if (formula == "TRUE" or formula == "FALSE") and variables is None:
+            self.__formula: str = formula
+        else:
+            if variables is None:
+                raise Exception("Variables not provided in the formula")
 
-        """Wrap the formula in parenthesis if contains an OR"""
-        if "|" in self.__formula and \
-                not self.__formula.startswith("(") and \
-                not self.__formula.endswith(")"):
-            self.__formula = f"({formula})"
+            """Wrap the formula in parenthesis if contains an OR"""
+            if "|" in formula and \
+                    not formula.startswith("(") and \
+                    not formula.endswith(")"):
+                formula = f"({formula})"
 
-        if not formula == "TRUE":
-            if not self.is_satisfiable:
-                raise IconsistentException("The formula is not satisfiable:\n" + self.formula)
+            self.__formula: str = formula
+            self.__variables: Variables = variables
+
+            if not formula == "TRUE":
+                if not self.is_satisfiable:
+                    raise IconsistentException("The formula is not satisfiable:\n" + self.formula)
 
     @property
     def formula(self) -> str:
@@ -42,23 +48,41 @@ class LTL:
     def variables(self, value: Variables):
         self.__variables = value
 
+    def negate(self):
+        """Modifies the LTL formula with its negation"""
+        self.formula = '!(' + self.formula + ')'
+
+    def is_true(self):
+        return self.formula == "TRUE"
+
     def is_satisfiable(self):
         return check_satisfiability(self.variables.get_list_str(), self.formula)
 
     def conjoin_with(self, others: Union['LTL', List['LTL']]):
+        if self.formula == "FALSE":
+            return
         if isinstance(others, LTL):
+            if others == "TRUE":
+                return
+            if others == "FALSE":
+                self.formula = "FALSE"
+                self.variables = None
+                return
             others = [others]
         for other in others:
             if self.is_satisfiable_with(other):
-                new_formula = deepcopy(self)
-                new_formula.variables.extend(other.variables)
-                new_formula.formula = And([new_formula.formula, other.formula])
+                if self.formula == "TRUE":
+                    self.formula = deepcopy(other.formula)
+                    self.variables = deepcopy(other.variables)
+                else:
+                    new_formula = deepcopy(self)
+                    new_formula.variables.extend(other.variables)
+                    new_formula.formula = And([new_formula.formula, other.formula])
 
-                """If by conjoining other, the result is a refinement of the existing formula"""
-                if new_formula < self:
-                    self.variables.extend(other.variables)
-                    self.formula = And([self.formula, other.formula])
-                    
+                    """If by conjoining other, the result should be a refinement of the existing formula"""
+                    if new_formula <= self:
+                        self.formula = deepcopy(new_formula.formula)
+                        self.variables = deepcopy(new_formula.variables)
             else:
                 raise IconsistentException("Conjunction not satisfiable:\n" + str(self) + "\nWITH\n" + str(other))
 
@@ -80,7 +104,10 @@ class LTL:
 
     def __le__(self, other: 'LTL'):
         """Check if the set of behaviours is smaller or equal in the other set of behaviours"""
-        return check_validity(self.variables.get_list_str(), "((" + self.formula + ") -> (" + other.formula + "))")
+        variables_a = set(self.variables.get_list_str())
+        variables_b = set(other.variables.get_list_str())
+        variables = variables_a | variables_b
+        return check_validity(list(variables), "((" + self.formula + ") -> (" + other.formula + "))")
 
     def __eq__(self, other: 'LTL'):
         """Check if the set of behaviours is equal to the other set of behaviours"""
@@ -100,7 +127,10 @@ class LTL:
 
     def __ge__(self, other: 'LTL'):
         """Check if the set of behaviours is bigger of equal than the other set of behaviours"""
-        return check_validity(self.variables.get_list_str(), "((" + other.formula + ") -> (" + self.formula + "))")
+        variables_a = set(self.variables.get_list_str())
+        variables_b = set(other.variables.get_list_str())
+        variables = variables_a | variables_b
+        return check_validity(list(variables), "((" + other.formula + ") -> (" + self.formula + "))")
 
     def __hash__(self):
         return hash(self.__formula)
@@ -111,12 +141,21 @@ class LTLs:
 
     def __init__(self, formulae: List['LTL']):
 
-        self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
+        if len(formulae) == 0:
+            self.__formula: LTL = LTL("TRUE")
 
-        if len(formulae) > 1:
-            self.__formula.conjoin_with(formulae[1:])
+        else:
+            if formulae[0].formula == "TRUE":
+                self.__formula: LTL = LTL("TRUE")
 
-        self.__list: List[LTL] = formulae
+            else:
+
+                self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
+
+                if len(formulae) > 1:
+                    self.__formula.conjoin_with(formulae[1:])
+
+            self.__list: List[LTL] = formulae
 
     @property
     def list(self):
@@ -137,6 +176,9 @@ class LTLs:
     @property
     def variables(self):
         return self.formula.variables
+
+    def is_universe(self):
+        return self.formula.is_true()
 
     def are_satisfiable_with(self, other: 'LTLs'):
         return self.formula.is_satisfiable_with(other.formula)
@@ -172,3 +214,6 @@ class LTLs:
                 self.__formula.conjoin_with(self.list[1:])
         else:
             self.list = None
+
+    def __str__(self):
+        return str(self.formula)
