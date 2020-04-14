@@ -1,8 +1,6 @@
 MODULE main
 VAR
-	locB: boolean;
-	heavy_item_pickup: boolean;
-	locA: boolean;
-	locC: boolean;
+	a: boolean;
+	b: boolean;
 
-LTLSPEC ((((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(locB -> F(heavy_item_pickup)))) -> ((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))))
+LTLSPEC ((((G(a) & G(b)) & (G(a) & G(b)))) -> ((G(a) & G(b))))

@@ -1,16 +1,10 @@
 import re
-import subprocess
 from typing import List
-
-from graphviz import Source
 
 OPERATORS = r'(^==|\*|\/|-|<=|>=|<|>|\+|!=|!|=|\(|\)|\||->|&|\s)'
 TEMPORALOPS = r'^F|^G|^X|^U'
 VARIABLE = r'^[A-Za-z]\w*'
 INTEGER = r'^[+-]\d*|^\d*$'
-
-
-
 
 
 def extract_variables_name(expression: str) -> List[str]:

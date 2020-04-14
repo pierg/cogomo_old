@@ -36,11 +36,13 @@ if __name__ == "__main__":
 
     context_rules = {
         "mutex": [
-            ["home", "warehouse"],
-            ["home", "alarm"]
+            [LTL("home"), LTL("warehouse")],
+            [LTL("home"), LTL("alarm")],
         ],
         "inclusion": [
-            ["kitchen", "home"]
+            [LTL("kitchen"), LTL("home")],
+            [LTL("alarm"), LTL("warehouse")],
+
         ]
     }
 

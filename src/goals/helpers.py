@@ -147,7 +147,8 @@ def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], context_
             if len(list(set(cvars) & set(rule.variables.list))) > 0:
                 rules_to_add.append(rule.formula)
                 variables_to_add.extend(rule.variables.list)
-        c_list.append(Context(formula=And(rules_to_add), variables=Variables(variables_to_add)))
+        if len(variables_to_add) > 0:
+            c_list.append(Context(formula=And(rules_to_add), variables=Variables(variables_to_add)))
     return copy_list
 
 
