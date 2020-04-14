@@ -2,6 +2,7 @@ from copy import deepcopy
 from typing import List, Union
 from helper.tools import extract_terms
 
+
 class Type(object):
     """Base Type Class, a Type is a variable with a name, basic_type for nuxmv (e.g. boolean),
     and variable_type: used for example when a component requires multiple variables of the same type
@@ -56,10 +57,13 @@ class BoundedNat(Integer):
 
 class Variables(object):
 
-    def __init__(self, variables: Union[List['Type'], Type]):
-        if isinstance(variables, Type):
-            variables = [variables]
-        self.__variables = variables
+    def __init__(self, variables: Union[List['Type'], Type] = None):
+        if variables is None:
+            self.__variables = []
+        else:
+            if isinstance(variables, Type):
+                variables = [variables]
+            self.__variables = variables
 
     @property
     def list(self):
@@ -74,7 +78,14 @@ class Variables(object):
         res.extend(other)
         return res
 
-    def get_list_str(self):
+    def get_nusmv_names(self):
+        """Get List[str] for nuxmv"""
+        tuple_vars = []
+        for v in self.list:
+            tuple_vars.append(v.name + ": " + v.basic_type)
+        return tuple_vars
+
+    def get_nusmv_types(self):
         """Get List[str] for nuxmv"""
         tuple_vars = []
         for v in self.list:
@@ -95,8 +106,8 @@ class Variables(object):
                     type_a = type(v).__name__
                     type_b = type(ex_v).__name__
                     if type_a != type_b:
-                        Exception("Variable " + str(v) + " is already present but "
-                                                         "is of tyoe " + type_a + " instead of " + type_b)
+                        raise Exception("Variable " + str(v) + " is already present but "
+                                                               "is of tyoe " + type_a + " instead of " + type_b)
                     else:
                         return
 
@@ -114,16 +125,14 @@ class Variables(object):
                 Exception("Variable " + v.name + " not found, it cannot be removed")
 
 
-
 def extract_variable(formula: str) -> 'Variables':
-
     var_names = extract_terms(formula)
 
     context_vars: List[Type] = []
 
     try:
         int(var_names[1])
-        context_vars.append(BoundedInt(var_names[0]))
+        context_vars.append(BoundedNat(var_names[0]))
     except:
         for var_name in var_names:
             context_vars.append(Boolean(var_name))

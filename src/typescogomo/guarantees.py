@@ -14,7 +14,7 @@ class Guarantee(LTL):
         if saturated is None:
             super().__init__(formula, variables)
             self.__unsaturated: str = formula
-            self.__saturated = None
+            self.__saturated: str = formula
         else:
             self.__unsaturated: str = formula
             self.__saturated: str = saturated

@@ -1,6 +1,7 @@
 from copy import deepcopy
 from typing import List
 from src.contracts.contract import Contract
+from typescogomo.formulae import IconsistentException
 
 
 def compose_contracts(contracts: List[Contract]) -> Contract:
@@ -17,8 +18,9 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
     for contract in contracts[1:]:
         try:
             new_contract.merge_with(contract)
-        except Exception as e:
+        except IconsistentException as e:
             print("COMPOSITION FAILED")
+            print(str(e))
             raise e
 
     print("The composition is compatible, consistent and feasible")

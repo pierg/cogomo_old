@@ -234,7 +234,7 @@ def mapping(component_library: ComponentsLibrary,
     specification_goal.refine_by([composition_goal])
 
 
-def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) -> CGTGoal:
+def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict= None) -> CGTGoal:
     """Returns all combinations that are consistent"""
     from contracts import helpers
 
@@ -265,7 +265,10 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
         raise Exception("The type is not supported, either MINIMAL or MUTEX")
 
     """Extract context rules in LTL"""
-    ltl_rules = extract_ltl_rules(context_rules)
+    if context_rules is not None:
+        ltl_rules = extract_ltl_rules(context_rules)
+    else:
+        ltl_rules = []
 
     # for g in goals:
     #     print(g)
@@ -294,21 +297,23 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
     if type == "MINIMAL":
 
         """Add constaints to the context combinations"""
-        combs_all_contexts = add_constraints_to_all_contexts(combs_all_contexts, ltl_rules)
+        if context_rules is not None:
+            combs_all_contexts = add_constraints_to_all_contexts(combs_all_contexts, ltl_rules)
 
         print("\n\n__ALL_COMBINATIONS_(" + str(
             len(combs_all_contexts)) + ")___________________________________________________________")
         for c_list in combs_all_contexts:
             print(*c_list, sep='\t\t\t')
 
-        """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify them"""
-        combs_all_contexts = filter_and_simplify_contexts(combs_all_contexts)
+        # """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify them"""
+        # combs_all_contexts = filter_and_simplify_contexts(combs_all_contexts)
+        #
+        # print("\n\n__ALL_COMBINATIONS_CONSISTENT_(" + str(
+        #     len(combs_all_contexts)) + ")________________________________________________")
+        # for c_list in combs_all_contexts:
+        #     print(*c_list, sep='\t\t\t')
 
-        print("\n\n__ALL_COMBINATIONS_CONSISTENT_(" + str(
-            len(combs_all_contexts)) + ")________________________________________________")
-        for c_list in combs_all_contexts:
-            print(*c_list, sep='\t\t\t')
-
+        """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify and merge them"""
         merged, merged_simplified = merge_contexes(combs_all_contexts)
 
         print("\n\n__MERGED_____________________________________________________________________")
@@ -317,12 +322,12 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
         print("\n\n__MERGED_AND_GROUPED_________________________________________________________")
         print(*merged_simplified, sep='\n')
 
-        contexts_list = merged
-
-        context_goals = map_goals_to_contexts(contexts_list, goals)
-        for ctx, ctx_goals in context_goals.items():
-            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
-                [c.name for c in ctx_goals]))
+        # contexts_list = merged
+        #
+        # context_goals = map_goals_to_contexts(contexts_list, goals)
+        # for ctx, ctx_goals in context_goals.items():
+        #     print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+        #         [c.name for c in ctx_goals]))
 
         contexts_list = merged_simplified
 
@@ -340,13 +345,13 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
             ctx_goals = composition(goals)
             if ctx_goals.context is not None:
                 print("CTX\t" + str(ctx_goals.context))
-                print(*ctx_goals.contracts[0].variables, sep=", ")
+                print(*ctx_goals.contracts[0].variables.list, sep=", ")
             else:
                 print("CTX\t" + str(ctx_goals.context))
-                print(*ctx_goals.contracts[0].variables, sep=", ")
+                print(*ctx_goals.contracts[0].variables.list, sep=", ")
             ctx_goals.context = ctx
             print("CTX\t" + str(ctx_goals.context))
-            print(*ctx_goals.contracts[0].variables, sep=", ")
+            print(*ctx_goals.contracts[0].variables.list, sep=", ")
             composed_goals.append(ctx_goals)
 
         """Conjoin the goals across all the mutually exclusive contexts"""
@@ -356,22 +361,24 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
 
     if type == "MUTEX":
 
-        combs_all_contexts_neg = add_constraints_to_all_contexts(combs_all_contexts_neg, ltl_rules)
+        if context_rules is not None:
+            combs_all_contexts_neg = add_constraints_to_all_contexts(combs_all_contexts_neg, ltl_rules)
 
         print("\n\n__ALL_COMBINATIONS_WITH_NEG_(" + str(
             len(combs_all_contexts_neg)) + ")__________________________________________________")
         for c_list in combs_all_contexts_neg:
             print(*c_list, sep='\t\t\t')
 
-        """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify them"""
+        # """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify them"""
+        #
+        # combs_all_contexts_neg = filter_and_simplify_contexts(combs_all_contexts_neg)
+        #
+        # print("\n\n__ALL_COMBINATIONS_WITH_NEG_CONSISTENT_(" + str(
+        #     len(combs_all_contexts_neg)) + ")_______________________________________")
+        # for c_list in combs_all_contexts_neg:
+        #     print(*c_list, sep='\t\t\t')
 
-        combs_all_contexts_neg = filter_and_simplify_contexts(combs_all_contexts_neg)
-
-        print("\n\n__ALL_COMBINATIONS_WITH_NEG_CONSISTENT_(" + str(
-            len(combs_all_contexts_neg)) + ")_______________________________________")
-        for c_list in combs_all_contexts_neg:
-            print(*c_list, sep='\t\t\t')
-
+        """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify and merge them"""
         merged_neg, merged_simplified_neg = merge_contexes(combs_all_contexts_neg)
 
         print("\n\n__MERGED_NEG_________________________________________________________________")
@@ -380,12 +387,12 @@ def create_contextual_cgt(goals: List[CGTGoal], context_rules: Dict, type: str) 
         print("\n\n__MERGED_AND_GROUPED_NEG______________________________________________________")
         print(*merged_simplified_neg, sep='\n')
 
-        contexts_list = merged_neg
-
-        context_goals = map_goals_to_contexts(contexts_list, goals)
-        for ctx, ctx_goals in context_goals.items():
-            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
-                [c.name for c in ctx_goals]))
+        # contexts_list = merged_neg
+        #
+        # context_goals = map_goals_to_contexts(contexts_list, goals)
+        # for ctx, ctx_goals in context_goals.items():
+        #     print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+        #         [c.name for c in ctx_goals]))
 
         contexts_list = merged_simplified_neg
 

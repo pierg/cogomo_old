@@ -1,7 +1,10 @@
 import sys
-
-from src.goals.operations import *
-from src.helper.parser import *
+import os
+from goals.operations import create_contextual_cgt
+from helper.tools import save_to_file
+from src.goals.cgtgoal import *
+from src.typescogomo.contexts import *
+from src.contracts.patterns import *
 
 file_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
@@ -20,39 +23,29 @@ if __name__ == "__main__":
     """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
     list_of_goals = [
         CGTGoal(
-            context=(Context(UntilR(AP("warehouse"), AP("!alarm")))),
-            name="UntilR",
-            contracts=[OrderedVisit(["locAlarm"])]
+            context=(Context(Always(LTL("a")))),
+            name="a",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=(Context(BetweenQandR(AP("warehouse"), AP("!alarm"), AP("alarm")))),
-            name="BetweenQandR",
-            contracts=[OrderedVisit(["locAlarm"])]
+            context=(Context(Always(LTL("b")))),
+            name="b",
+            contracts=[GlobalAvoidance("locX")]
         )
     ]
 
-    for g in list_of_goals:
-        print(g)
-
     context_rules = {
         "mutex": [
-            [LTL("home"), LTL("warehouse")],
-            [LTL("home"), LTL("alarm")],
+            ["home", "warehouse"],
+            ["home", "alarm"]
         ],
         "inclusion": [
-            [LTL("kitchen"), LTL("home")],
-            [LTL("alarm"), LTL("warehouse")],
-
+            ["kitchen", "home"]
         ]
     }
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals, context_rules, "MINIMAL")
+    cgt = create_contextual_cgt(list_of_goals, "MINIMAL", context_rules)
 
-    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MINIMAL")
-
-    """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals, context_rules, "MUTEX")
-
-    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MUTEX")
+    save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 

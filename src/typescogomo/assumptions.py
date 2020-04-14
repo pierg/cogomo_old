@@ -38,7 +38,7 @@ class Assumptions(LTLs):
                 ret.append(assumption)
         if len(ret) == 0:
             return None
-        return Assumptions(ret)
+        return ret
 
 
 class Expectation(Assumption):

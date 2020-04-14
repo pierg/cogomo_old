@@ -97,8 +97,19 @@ class CGTGoal:
         """Return a list of contexts, each is in OR with each other"""
         contexts = []
         for contract in self.contracts:
-            contexts.append(contract.assumptions.get_kind("context"))
-        return contexts
+            cs = contract.assumptions.get_kind("context")
+            if cs is not None:
+                f = []
+                v = []
+                for c in cs:
+                    f.append(c.formula)
+                    v.extend(c.variables.list)
+                from typescogomo.variables import Variables
+                c = Context(formula=And(f), variables=Variables(v))
+                contexts.append(c)
+        if len(contexts) > 0:
+            return contexts
+        return None
 
     @context.setter
     def context(self, value: Context):
@@ -197,12 +208,16 @@ class CGTGoal:
             for goal in self.refined_by:
                 goal.add_domain_properties()
 
-    def add_expectations(self, expectations: List[Expectation]):
+
+    def add_expectations(self, expectations: List[Contract]):
         """Domain Hypothesis or Expectations (i.e. prescriptive assumptions on the environment)
         Expectations are conditional assumptions, they get added to each contract of the CGT
         only if the Contract guarantees concern the 'expectations' guarantees and are consistent with them"""
         for contract in self.contracts:
-            contract.add_assumptions(expectations)
+            for expectation in expectations:
+                if len(list(set(contract.variables.list) & set(expectation.variables.list))) > 0:
+                    if contract.guarantees.are_satisfiable_with(expectation.guarantees):
+                        contract.add_assumptions(expectation.assumptions.list)
 
         if self.refined_by is None:
             self.consolidate_bottom_up()
@@ -314,17 +329,17 @@ class CGTGoal:
                 ret += "\t" * level + "\t/\\ \n"
 
             a_context = contract.assumptions.get_kind("context")
-            a_domain = contract.assumptions.get_kind("context")
+            a_domain = contract.assumptions.get_kind("domain")
             a_expectation = contract.assumptions.get_kind("expectation")
 
             if a_context is not None:
-                ret += "\t" * level + " CTX:\t" + str(a_context) + "\n"
+                ret += "\t" * level + " CTX:\t" + ', '.join(map(str, a_context)) + "\n"
 
             if a_domain is not None:
-                ret += "\t" * level + " DOM:\t" + str(a_domain) + "\n"
+                ret += "\t" * level + " DOM:\t" + ', '.join(map(str, a_domain)) + "\n"
 
             if a_expectation is not None:
-                ret += "\t" * level + " EXP:\t" + str(a_expectation) + "\n"
+                ret += "\t" * level + " EXP:\t" + ', '.join(map(str, a_expectation)) + "\n"
 
             ret += "\t" * level + "  A:\t" + str(contract.assumptions) + "\n"
             ret += "\t" * level + "  G:\t" + str(contract.guarantees) + "\n"

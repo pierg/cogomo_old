@@ -1,9 +1,0 @@
-import sys
-
-from src.helper.parser import *
-
-file_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
-
-if __name__ == "__main__":
-    """Check out example.py"""

@@ -54,7 +54,7 @@ def components_selection(component_library: ComponentsLibrary, specification: Co
             try:
                 candidates_compositions = component_library.extract_selection(spec_assumptions,
                                                                               component_assumptions)
-            except:
+            except NoComponentsAvailable:
                 print("No further found")
                 continue
 

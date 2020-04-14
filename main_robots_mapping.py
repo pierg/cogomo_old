@@ -1,7 +1,13 @@
 import sys
+import os
 
-from src.goals.operations import *
-from src.helper.parser import *
+from components.components import ComponentsLibrary, Component, SimpleComponent
+from goals.operations import create_contextual_cgt, mapping
+from helper.tools import save_to_file
+from src.goals.cgtgoal import *
+from src.typescogomo.contexts import *
+from src.contracts.patterns import *
+from typescogomo.variables import BoundedNat
 
 file_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
@@ -20,17 +26,17 @@ if __name__ == "__main__":
     """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
     list_of_goals = [
         CGTGoal(
-            context=(Context(LTL("day"))),
+            context=(Context(Always(LTL("day")))),
             name="a-b-c",
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=(Context(LTL("!day"))),
+            context=(Context(Always(LTL("!day")))),
             name="a-b",
             contracts=[OrderedVisit(["locA", "locB"])]
         ),
         CGTGoal(
-            context=(Context(LTL("!day"))),
+            context=(Context(Always(LTL("!day")))),
             name="never-c",
             contracts=[GlobalAvoidance("locC")]
         ),
@@ -41,7 +47,7 @@ if __name__ == "__main__":
     ]
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_cgt(list_of_goals, type="MINIMAL")
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 
@@ -55,9 +61,16 @@ if __name__ == "__main__":
     E.g. In the environment of deployment of the mission the item weight 10kg so in order to pick it up 
     there is a new assumption where the 'weight_power' must be at least 10"""
     expectations = [
-        Contract(variables=[BoundedNat("weight_power"), Boolean("heavy_item_pickup")],
-                 assumptions=[Assumption("G(weight_power > 10)", kind="expectation")],
-                 guarantees=[Guarantee("G(heavy_item_pickup)")])
+        Contract(
+            assumptions=Assumptions(
+                Assumption(
+                    formula="G(weight_power > 10)",
+                    variables=Variables(BoundedNat("weight_power")),
+                    kind="expectation")),
+            guarantees=Guarantees(
+                Guarantee(
+                    formula="G(heavy_item_pickup)",
+                    variables=Variables(Boolean("heavy_item_pickup")))))
     ]
 
     cgt.add_expectations(expectations)
@@ -75,35 +88,38 @@ if __name__ == "__main__":
     """Or define them here"""
     component_library.add_components(
         [
-            Component(
+            SimpleComponent(
                 component_id="robot_1",
-                variables=[BoundedNat("robot_power")],
-                guarantees=[Guarantee("robot_power = 7")],
+                guarantees=["robot_power = 7"]
             ),
-            Component(
+            SimpleComponent(
                 component_id="robot_2",
-                variables=[BoundedNat("robot_power")],
-                guarantees=[Guarantee("robot_power >= 8")],
+                guarantees=["robot_power >= 8"],
             ),
-            Component(
+            SimpleComponent(
                 component_id="robot_3",
-                variables=[BoundedNat("robot_power")],
-                guarantees=[Guarantee("robot_power >= 9")],
+                guarantees=["robot_power >= 9"],
             ),
             Component(
                 component_id="collaborate",
-                variables=[BoundedNat(port_type="robot_power", name="power1"),
-                           BoundedNat(port_type="robot_power", name="power2"),
-                           BoundedNat("weight_power")],
-                assumptions=[Assumption("power1 >= 8"),
-                             Assumption("power2 >= 8")],
-                guarantees=[Guarantee("G(weight_power > 12)")]
+                assumptions=Assumptions([
+                    Assumption(
+                        formula="power1 >= 8",
+                        variables=Variables(BoundedNat(port_type="robot_power", name="power1"))),
+                    Assumption(
+                        formula="power2 >= 8",
+                        variables=Variables(BoundedNat(port_type="robot_power", name="power2")))
+                ]),
+                guarantees=Guarantees(
+                    Guarantee(
+                        formula="G(weight_power > 12)",
+                        variables=Variables(BoundedNat("weight_power")))
+                ),
             ),
-            Component(
+            SimpleComponent(
                 component_id="pick_up_item",
-                variables=[Boolean("heavy_item_pickup"), BoundedNat("weight_power")],
-                assumptions=[Assumption("G(weight_power > 12)")],
-                guarantees=[Guarantee("G(heavy_item_pickup)")]
+                assumptions=["G(weight_power > 12)"],
+                guarantees=["G(heavy_item_pickup)"]
             )
         ]
     )
@@ -118,7 +134,6 @@ if __name__ == "__main__":
 
     """Refinements formalize a notion of substitutability. We can substitute goals with most refined one.
     For example, from 'cgt_4_mapping' we can substitute 'a->pickup' with 'collaborate||robot_2||pick_up_item||robot_3'"""
-
     cgt.substitute_with("a->pickup", "collaborate||pick_up_item||robot_2||robot_3")
 
     """Notice how all the tree is consistent with the substitution 
@@ -127,11 +142,7 @@ if __name__ == "__main__":
 
     """The designer can specify to 'abstract' a goal to have fewer guarantees, however CoGoMo will keep the guarantees
     that are needed to 'relax' assumptions in other goals of the trees"""
-
-    variables = [Boolean("locB"), Boolean("heavy_item_pickup")]
-    guarantees = [Guarantee("G(locB -> F(heavy_item_pickup))")]
+    guarantees = Guarantees(Guarantee("G(locB -> F(heavy_item_pickup))"))
     cgt.abstract_guarantees_of("collaborate||pick_up_item||robot_2||robot_3",
-                               guarantees, variables, "pick_up_item_abstracted")
+                               guarantees, "pick_up_item_abstracted")
     save_to_file(str(cgt), file_path + "/cgt_6_abstracted")
-
-

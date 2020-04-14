@@ -48,8 +48,9 @@ class CoreMovement(Pattern):
 
         ltl_formula += ")"
 
-        self.domain_properties.append(Domain(ltl_formula, Variables(vars)))
         super().__init__(formula, variables)
+        self.domain_properties.append(Domain(ltl_formula, Variables(vars)))
+
 
 
 class Visit(CoreMovement):

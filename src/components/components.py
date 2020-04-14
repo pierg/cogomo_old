@@ -137,7 +137,7 @@ class ComponentsLibrary:
             """Check if any component guarantees refine the to_be_refined"""
             for component in self.components:
 
-                if component.guarantees.formula <= formula:
+                if component.guarantees.formula.can_provide_for(formula):
 
                     """Check if contracts have compatible assumptions with the one provided"""
                     compatible = assumptions.are_satisfiable_with(component.assumptions)
@@ -253,16 +253,18 @@ class SimpleComponent(Component):
 
     def __init__(self,
                  component_id: str,
-                 assumptions: List[str],
-                 guarantees: List[str]):
+                 guarantees: List[str],
+                 assumptions: List[str] = None
+                 ):
 
         assumptions_obj = []
         guarantees_obj = []
 
         from typescogomo.variables import extract_variable
 
-        for a in assumptions:
-            assumptions_obj.append(Assumption(a, extract_variable(a)))
+        if assumptions is not None:
+            for a in assumptions:
+                assumptions_obj.append(Assumption(a, extract_variable(a)))
 
         for g in guarantees:
             guarantees_obj.append(Guarantee(g, extract_variable(g)))

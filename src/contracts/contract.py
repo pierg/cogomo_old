@@ -59,6 +59,7 @@ class Contract:
     def add_assumptions(self, assumptions: Union[List[Assumption], Assumption]):
 
         self.assumptions.add(assumptions)
+        # self.guarantees.saturate_with(self.assumptions)
 
     def add_guarantees(self, guarantees: Union[List[Guarantee], Guarantee]):
 

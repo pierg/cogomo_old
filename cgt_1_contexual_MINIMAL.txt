@@ -1,0 +1,94 @@
+GOAL:	'always||always-home||always-warehouse||warehouse-after-alarm||warehouse-pre-alarm^^always||always-home||kitchen^^always||always-warehouse||kitchen||warehouse-after-alarm||warehouse-pre-alarm'
+ CTX:	(G(warehouse) & (G(!(((warehouse | !(home)) & (!(home) | !(warehouse))))) & G(alarm -> warehouse)))
+  A:	((((G(home) & ((warehouse U alarm) | G (warehouse))) & (G(alarm & !!alarm -> ((warehouse U !alarm) | G warehouse)))) & G(warehouse)) & (G(warehouse) & (G(!(((warehouse | !(home)) & (!(home) | !(warehouse))))) & G(alarm -> warehouse))))
+  G:	(((((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locX & F(locY)) & (!locY U locX))) & F(locAlarm)) & G(!locBad)) & G(heavy_item -> F(heavy_item_pickup)))
+	/\ 
+ CTX:	(G(kitchen) & G(kitchen -> home))
+  A:	((G(home) & G(kitchen)) & (G(kitchen) & G(kitchen -> home)))
+  G:	(((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(!locSink)) & G(heavy_item -> F(heavy_item_pickup)))
+	/\ 
+ CTX:	(G(warehouse) & G(kitchen))
+  A:	((((((warehouse U alarm) | G (warehouse)) & (G(alarm & !!alarm -> ((warehouse U !alarm) | G warehouse)))) & G(warehouse)) & G(kitchen)) & (G(warehouse) & G(kitchen)))
+  G:	(((((F(locX & F(locY)) & (!locY U locX)) & F(locAlarm)) & G(!locBad)) & G(!locSink)) & G(heavy_item -> F(heavy_item_pickup)))
+
+	CONJUNCTION
+		GOAL:	'always||always-home||always-warehouse||warehouse-after-alarm||warehouse-pre-alarm'
+		 CTX:	(G(warehouse) & (G(!(((warehouse | !(home)) & (!(home) | !(warehouse))))) & G(alarm -> warehouse)))
+		  A:	((((G(home) & ((warehouse U alarm) | G (warehouse))) & (G(alarm & !!alarm -> ((warehouse U !alarm) | G warehouse)))) & G(warehouse)) & (G(warehouse) & (G(!(((warehouse | !(home)) & (!(home) | !(warehouse))))) & G(alarm -> warehouse))))
+		  G:	(((((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locX & F(locY)) & (!locY U locX))) & F(locAlarm)) & G(!locBad)) & G(heavy_item -> F(heavy_item_pickup)))
+
+			COMPOSITION
+				GOAL:	'always-home'
+				 CTX:	G(home)
+				  A:	G(home)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-pre-alarm'
+				 CTX:	((warehouse U alarm) | G (warehouse))
+				  A:	((warehouse U alarm) | G (warehouse))
+				  G:	(F(locX & F(locY)) & (!locY U locX))
+
+				GOAL:	'warehouse-after-alarm'
+				 CTX:	(G(alarm & !!alarm -> ((warehouse U !alarm) | G warehouse)))
+				  A:	(G(alarm & !!alarm -> ((warehouse U !alarm) | G warehouse)))
+				  G:	F(locAlarm)
+
+				GOAL:	'always-warehouse'
+				 CTX:	G(warehouse)
+				  A:	G(warehouse)
+				  G:	G(!locBad)
+
+				GOAL:	'always'
+				  A:	TRUE
+				  G:	G(heavy_item -> F(heavy_item_pickup))
+
+		GOAL:	'always||always-home||kitchen'
+		 CTX:	(G(kitchen) & G(kitchen -> home))
+		  A:	((G(home) & G(kitchen)) & (G(kitchen) & G(kitchen -> home)))
+		  G:	(((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(!locSink)) & G(heavy_item -> F(heavy_item_pickup)))
+
+			COMPOSITION
+				GOAL:	'always-home'
+				 CTX:	G(home)
+				  A:	G(home)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'kitchen'
+				 CTX:	G(kitchen)
+				  A:	G(kitchen)
+				  G:	G(!locSink)
+
+				GOAL:	'always'
+				  A:	TRUE
+				  G:	G(heavy_item -> F(heavy_item_pickup))
+
+		GOAL:	'always||always-warehouse||kitchen||warehouse-after-alarm||warehouse-pre-alarm'
+		 CTX:	(G(warehouse) & G(kitchen))
+		  A:	((((((warehouse U alarm) | G (warehouse)) & (G(alarm & !!alarm -> ((warehouse U !alarm) | G warehouse)))) & G(warehouse)) & G(kitchen)) & (G(warehouse) & G(kitchen)))
+		  G:	(((((F(locX & F(locY)) & (!locY U locX)) & F(locAlarm)) & G(!locBad)) & G(!locSink)) & G(heavy_item -> F(heavy_item_pickup)))
+
+			COMPOSITION
+				GOAL:	'warehouse-pre-alarm'
+				 CTX:	((warehouse U alarm) | G (warehouse))
+				  A:	((warehouse U alarm) | G (warehouse))
+				  G:	(F(locX & F(locY)) & (!locY U locX))
+
+				GOAL:	'warehouse-after-alarm'
+				 CTX:	(G(alarm & !!alarm -> ((warehouse U !alarm) | G warehouse)))
+				  A:	(G(alarm & !!alarm -> ((warehouse U !alarm) | G warehouse)))
+				  G:	F(locAlarm)
+
+				GOAL:	'always-warehouse'
+				 CTX:	G(warehouse)
+				  A:	G(warehouse)
+				  G:	G(!locBad)
+
+				GOAL:	'kitchen'
+				 CTX:	G(kitchen)
+				  A:	G(kitchen)
+				  G:	G(!locSink)
+
+				GOAL:	'always'
+				  A:	TRUE
+				  G:	G(heavy_item -> F(heavy_item_pickup))
+

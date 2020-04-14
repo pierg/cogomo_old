@@ -1,18 +1,8 @@
 MODULE main
 VAR
-	locX: boolean;
-	kitchen: boolean;
-	warehouse: boolean;
-	heavy_item: boolean;
-	locY: boolean;
-	locAlarm: boolean;
-	home: boolean;
 	locB: boolean;
-	alarm: boolean;
-	locC: boolean;
-	locBad: boolean;
 	heavy_item_pickup: boolean;
 	locA: boolean;
-	locSink: boolean;
+	locC: boolean;
 
-LTLSPEC !(G(heavy_item -> F(heavy_item_pickup)) & (!locB U locA) & G(!locBad) & F(locAlarm) & F(locX & F(locY)) & (!locY U locX) & G(!locSink) & F(locA & F(locB & F(locC))) & (!locC U locB))
+LTLSPEC ((((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(locB -> F(heavy_item_pickup)))) -> ((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))))

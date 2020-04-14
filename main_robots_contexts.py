@@ -1,8 +1,11 @@
 import os
 import sys
-from src.goals.operations import *
-from src.helper.parser import *
 
+from goals.operations import create_contextual_cgt
+from helper.tools import save_to_file
+from src.goals.cgtgoal import *
+from src.typescogomo.contexts import *
+from src.contracts.patterns import *
 
 file_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
@@ -36,7 +39,7 @@ if __name__ == "__main__":
         #     contracts=[OrderedVisit(["locAlarm"])]
         # ),
         CGTGoal(
-            context=(Context(AfterQuntilR(LTL("warehouse"), LTL("alarm"),  LTL("!alarm")))),
+            context=(Context(AfterQuntilR(LTL("warehouse"), LTL("alarm"), LTL("!alarm")))),
             name="warehouse-after-alarm",
             contracts=[OrderedVisit(["locAlarm"])]
         ),
@@ -72,12 +75,11 @@ if __name__ == "__main__":
     }
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals, context_rules, "MINIMAL")
+    cgt = create_contextual_cgt(list_of_goals, "MINIMAL", context_rules)
 
-    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MINIMAL")
+    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MINIMAL", context_rules)
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals, context_rules, "MUTEX")
+    cgt = create_contextual_cgt(list_of_goals, "MUTEX")
 
-    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MUTEX")
-
+    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MUTEX", context_rules)
