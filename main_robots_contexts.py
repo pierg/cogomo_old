@@ -33,11 +33,11 @@ if __name__ == "__main__":
             name="warehouse-pre-alarm",
             contracts=[OrderedVisit(["locX", "locY"])]
         ),
-        # CGTGoal(
-        #     context=(Context(AfterQ(UntilR(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
-        #     name="warehouse-after-alarm",
-        #     contracts=[OrderedVisit(["locAlarm"])]
-        # ),
+        CGTGoal(
+            context=(Context(AfterQ(UntilR(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
+            name="warehouse-after-alarm",
+            contracts=[OrderedVisit(["locAlarm"])]
+        ),
         CGTGoal(
             context=(Context(AfterQuntilR(LTL("warehouse"), LTL("alarm"), LTL("!alarm")))),
             name="warehouse-after-alarm",

@@ -44,3 +44,16 @@ if __name__ == '__main__':
     generate_buchi(AfterQuntilR(LTL("warehouse"), LTL("alarm"), LTL("!alarm")), "after-alarm-until-not-alarm-previous")
 
     generate_buchi(BetweenQandR(LTL("warehouse"), LTL("alarm"), LTL("!alarm")), "between-alarm-not-alarm-previous")
+
+    generate_buchi(StrongReleaseR(LTL("alarm"), UntilR(LTL("warehouse"), LTL("!alarm"))),
+                   "strong-release-alarm-warehouse-until-not-alarm")
+
+    generate_buchi(ReleaseR(LTL("alarm"), UntilR(LTL("warehouse"), LTL("!alarm"))),
+                   "release-alarm-warehouse-until-not-alarm")
+
+    generate_buchi(AfterQ(UntilR(LTL("G (warehouse)"), LTL("!alarm")), LTL("warehouse & alarm")),
+                       "after-alarm-global-warehouse-until-not-alarm")
+
+    generate_buchi(AfterQ(UntilR(LTL("G (warehouse)"), LTL("!alarm")), LTL("warehouse & alarm")),
+                       "after-alarm-global-warehouse-until-not-alarm")
+

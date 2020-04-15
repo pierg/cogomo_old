@@ -1,4 +1,29 @@
-document.addEventListener("DOMContentLoaded", function () {
+function makePopper(ele) {
+    let ref = ele.popperRef(); // used only for positioning
+
+    ele.tippy = tippy(ref, { // tippy options:
+        content: () => {
+            let content = document.createElement('div');
+
+            if (ele.data("type") === "goal") {
+                if (ele.data("description") !== "") {
+                    content.innerHTML = ele.data("description");
+                }
+                else{
+                    content.innerHTML = "no description available";
+                }
+            } else {
+                content.innerHTML = ele.data("type") + " operator";
+            }
+            return content;
+        },
+        trigger: 'manual' // probably want manual mode
+    });
+}
+
+
+function render_cgt(nodes, edges) {
+
     var cy = (window.cy = cytoscape({
         container: document.getElementById("cy"),
         style: [
@@ -7,17 +32,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 css: {
                     content: "data(id)",
                     "font-family": "monospace",
-                    "font-size": "0.7em",
+                    "font-size": "0.5em",
                     "text-valign": "center",
                     "text-halign": "center",
                     height: "30px",
-                    width: "100px",
+                    width: "200px",
                     shape: "rectangle",
                     "background-color": "DodgerBlue"
                 }
             },
             {
-                selector: "node[type='composition']",
+                selector: "node[type='COMPOSITION']",
                 css: {
                     content: "||",
                     "font-family": "monospace",
@@ -31,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             },
             {
-                selector: "node[type='conjunction']",
+                selector: "node[type='CONJUNCTION']",
                 css: {
                     content: "/\\",
                     "font-family": "monospace",
@@ -45,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             },
             {
-                selector: "node[type='refinement']",
+                selector: "node[type='REFINEMENT']",
                 css: {
                     content: "R",
                     "font-family": "monospace",
@@ -59,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             },
             {
-                selector: "node[type='mapping']",
+                selector: "node[type='MAPPING']",
                 css: {
                     content: "M",
                     "font-family": "monospace",
@@ -93,47 +118,13 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
 
         elements: {
-            nodes: [
-                {
-                    data: {
-                        type: "goal",
-                        id: "node1",
-                        description: "description",
-                        assumptions: "ASSUMPTIONS_GOAL_1",
-                        guarantees: "GUARANTEES_GOAL_1"
-                    }
-                },
-                {data: {id: "1-234", type: "conjunction"}},
-                {data: {id: "2", type: "goal"}},
-                {data: {id: "3", type: "goal"}},
-                {data: {id: "4", type: "goal"}}
-            ],
-            edges: [
-                {data: {source: "node1", target: "1-234", type: "refinement"}},
-                {data: {source: "1-234", target: "2", type: "input"}},
-                {data: {source: "1-234", target: "3", type: "input"}},
-                {data: {source: "1-234", target: "4", type: "input"}}
-            ]
+            nodes: nodes,
+            edges: edges
         },
         layout: {
             name: "dagre"
         }
     }));
-
-    function makePopper(ele) {
-        let ref = ele.popperRef(); // used only for positioning
-
-        ele.tippy = tippy(ref, { // tippy options:
-            content: () => {
-                let content = document.createElement('div');
-
-                content.innerHTML = ele.data("assumptions");
-
-                return content;
-            },
-            trigger: 'manual' // probably want manual mode
-        });
-    }
 
     cy.ready(function () {
         cy.nodes().forEach(function (ele) {
@@ -147,16 +138,18 @@ document.addEventListener("DOMContentLoaded", function () {
     cy.nodes().unbind('mouseout');
     cy.nodes().bind('mouseout', (event) => event.target.tippy.hide());
     cy.bind('click', 'node', function (evt) {
-        var inst = $('[data-remodal-id=modal2]').remodal();
+        modal_id = '[data-remodal-id=modal_' + this.id() + ']';
+        var inst = $(modal_id).remodal();
         if (typeof inst !== "undefined") {
             inst.open();
         }
-        //
-        // cy.elements().layout(
-        //     {
-        //         name: 'dagre',
-        //     }).run();
     });
 
+    // cy.elements().layout(
+    //     {
+    //         name: 'dagre',
+    //     }).run();
 
-});
+}
+
+

@@ -50,4 +50,3 @@ if __name__ == "__main__":
     cgt = create_contextual_cgt(list_of_goals, "MINIMAL", context_rules)
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
-
