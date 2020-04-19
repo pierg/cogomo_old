@@ -24,32 +24,32 @@ if __name__ == "__main__":
     """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
     list_of_goals = [
         CGTGoal(
-            context=(Context(Always(LTL("home")))),
+            context=(Context(P_globally(LTL("home")))),
             name="always-home",
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=(Context(WeakUntilR(LTL("warehouse"), LTL("alarm")))),
+            context=(Context(P_weakuntil_R(LTL("warehouse"), LTL("alarm")))),
             name="warehouse-pre-alarm",
             contracts=[OrderedVisit(["locX", "locY"])]
         ),
         CGTGoal(
-            context=(Context(AfterQ(UntilR(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
+            context=(Context(P_after_Q(P_until_R(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
             name="warehouse-after-alarm",
             contracts=[OrderedVisit(["locAlarm"])]
         ),
         CGTGoal(
-            context=(Context(AfterQuntilR(LTL("warehouse"), LTL("alarm"), LTL("!alarm")))),
+            context=(Context(P_after_Q_until_R(LTL("warehouse"), LTL("alarm"), LTL("!alarm")))),
             name="warehouse-after-alarm",
             contracts=[OrderedVisit(["locAlarm"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("warehouse")))),
+            context=(Context(P_globally(LTL("warehouse")))),
             name="always-warehouse",
             contracts=[GlobalAvoidance("locBad")]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("kitchen")))),
+            context=(Context(P_globally(LTL("kitchen")))),
             name="kitchen",
             contracts=[GlobalAvoidance("locSink")]
         ),

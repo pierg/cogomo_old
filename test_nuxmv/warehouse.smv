@@ -1,0 +1,8 @@
+MODULE main
+VAR
+	warehouse: boolean;
+	alarm: boolean;
+
+LTLSPEC !((G ( alarm & alarm -> (( warehouse U ! alarm) | G warehouse ))) -> (G ( alarm -> G (( warehouse U ! alarm )))))
+
+LTLSPEC (G ( alarm -> G (( warehouse U ! alarm )))) -> (G ( alarm & alarm -> (( warehouse U ! alarm) | G warehouse )))

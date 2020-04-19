@@ -1,1 +1,0 @@
-digraph "G(!alarm | G(warehouse U !alarm))" {  rankdir=LR  labelloc="t"  node [shape="circle"]  I [label="", style=invis, width=0]  I -> 0  0 [label="0", peripheries=2]  0 -> 0 [label="!alarm"]  0 -> 1 [label="alarm & warehouse"]  1 [label="1"]  1 -> 0 [label="!alarm"]  1 -> 1 [label="alarm & warehouse"]}

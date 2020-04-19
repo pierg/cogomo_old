@@ -18,7 +18,10 @@ class Scope(LTL):
         super().__init__(formula)
 
 
-class Always(Scope):
+"""Scopes for the property 'P is true' defined by Dwyer"""
+
+
+class P_globally(Scope):
     """G p"""
 
     def __init__(self, p: LTL):
@@ -26,7 +29,7 @@ class Always(Scope):
         super().__init__(formula)
 
 
-class BeforeR(Scope):
+class P_before_R(Scope):
     """	F (r) -> (p U r) """
 
     def __init__(self, p: LTL, r: LTL):
@@ -34,39 +37,7 @@ class BeforeR(Scope):
         super().__init__(formula)
 
 
-class UntilR(Scope):
-    """	(p U r) """
-
-    def __init__(self, p: LTL, r: LTL):
-        formula = "({p} U {r})".format(p=p.formula, r=r.formula)
-        super().__init__(formula)
-
-
-class WeakUntilR(Scope):
-    """	p W r = ((p U r) | G (p)) """
-
-    def __init__(self, p: LTL, r: LTL):
-        formula = "(({p} U {r}) | G ({p}))".format(p=p.formula, r=r.formula)
-        super().__init__(formula)
-
-
-class ReleaseR(Scope):
-    """	r R p = p W (r & p) = (p U (r & p) | G (p)) """
-
-    def __init__(self, r: LTL, p: LTL):
-        formula = "({p} U ({r} & {p}) | G ({p}))".format(r=r.formula, p=p.formula)
-        super().__init__(formula)
-
-
-class StrongReleaseR(Scope):
-    """	r R p = (p U (r & p)) """
-
-    def __init__(self, r: LTL, p: LTL):
-        formula = "({p} U ({r} & {p}))".format(r=r.formula, p=p.formula)
-        super().__init__(formula)
-
-
-class AfterQ(Scope):
+class P_after_Q(Scope):
     """	G(q -> G(p)) """
 
     def __init__(self, p: LTL, q: LTL):
@@ -74,17 +45,51 @@ class AfterQ(Scope):
         super().__init__(formula)
 
 
-class BetweenQandR(Scope):
+class P_between_Q_and_R(Scope):
     """	G((q & !r & F r) -> (p U r)) """
-
     def __init__(self, p: LTL, q: LTL, r: LTL):
         formula = "(G(({q} & !{r} & F {r}) -> ({p} U {r})))".format(p=p.formula, q=q.formula, r=r.formula)
         super().__init__(formula)
 
 
-class AfterQuntilR(Scope):
+class P_after_Q_until_R(Scope):
     """	G(q & !r -> ((p U r) | G p)) """
 
     def __init__(self, p: LTL, q: LTL, r: LTL):
         formula = "(G({q} & !{r} -> (({p} U {r}) | G {p})))".format(p=p.formula, q=q.formula, r=r.formula)
+        super().__init__(formula)
+
+
+"""Other patterns defined"""
+
+
+class P_until_R(Scope):
+    """	(p U r) """
+
+    def __init__(self, p: LTL, r: LTL):
+        formula = "({p} U {r})".format(p=p.formula, r=r.formula)
+        super().__init__(formula)
+
+
+class P_weakuntil_R(Scope):
+    """	p W r = ((p U r) | G (p)) """
+
+    def __init__(self, p: LTL, r: LTL):
+        formula = "(({p} U {r}) | G ({p}))".format(p=p.formula, r=r.formula)
+        super().__init__(formula)
+
+
+class P_release_R(Scope):
+    """	p R r = !(!p U !r) """
+
+    def __init__(self, p: LTL, r: LTL):
+        formula = "!(!{p} U !{r})".format(r=r.formula, p=p.formula)
+        super().__init__(formula)
+
+
+class P_strongrelease_R(Scope):
+    """	p M r = ¬(¬p W ¬r) = r U (p & r) """
+
+    def __init__(self, p: LTL, r: LTL):
+        formula = "({r} U ({p} & {r}))".format(r=r.formula, p=p.formula)
         super().__init__(formula)

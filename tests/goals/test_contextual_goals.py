@@ -5,17 +5,17 @@ from src.goals.operations import *
 def test_context_booleans_1():
     list_of_goals = [
         CGTGoal(
-            context=(Context(Always(LTL("x")))),
+            context=(Context(P_globally(LTL("x")))),
             name="g1",
             contracts=[BooleanContract(["ax"], ["bx"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("y")))),
+            context=(Context(P_globally(LTL("y")))),
             name="g2",
             contracts=[BooleanContract(["ay"], ["by"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("z")))),
+            context=(Context(P_globally(LTL("z")))),
             name="g3",
             contracts=[BooleanContract(["az"], ["gz"])]
         )
@@ -26,17 +26,17 @@ def test_context_booleans_1():
 def test_context_booleans_2():
     list_of_goals = [
         CGTGoal(
-            context=(Context(Always(LTL("!x")))),
+            context=(Context(P_globally(LTL("!x")))),
             name="g1",
             contracts=[BooleanContract(["ax"], ["bx"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x")))),
+            context=(Context(P_globally(LTL("x")))),
             name="g2",
             contracts=[BooleanContract(["ay"], ["by"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("y")))),
+            context=(Context(P_globally(LTL("y")))),
             name="g3",
             contracts=[BooleanContract(["az"], ["gz"])]
         )
@@ -47,32 +47,32 @@ def test_context_booleans_2():
 def test_context_booleans_3():
     list_of_goals = [
         CGTGoal(
-            context=(Context(Always(LTL("x")))),
+            context=(Context(P_globally(LTL("x")))),
             name="g1",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("!y")))),
+            context=(Context(P_globally(LTL("!y")))),
             name="g2",
             contracts=[BooleanContract(["ad"], ["bd"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("y")))),
+            context=(Context(P_globally(LTL("y")))),
             name="g3",
             contracts=[BooleanContract(["c"], ["d"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x|z")))),
+            context=(Context(P_globally(LTL("x|z")))),
             name="g4",
             contracts=[BooleanContract(["k"], ["p"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("z")))),
+            context=(Context(P_globally(LTL("z")))),
             name="g5",
             contracts=[BooleanContract(["k2"], ["p2"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("!z")))),
+            context=(Context(P_globally(LTL("!z")))),
             name="g6",
             contracts=[BooleanContract(["k3"], ["p4"])]
         )
@@ -85,32 +85,32 @@ def test_context_booleans_3():
 def test_context_integer_simple():
     list_of_goals = [
         CGTGoal(
-            context=(Context(Always(LTL("y > 5")))),
+            context=(Context(P_globally(LTL("y > 5")))),
             name="g1",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x > 1")))),
+            context=(Context(P_globally(LTL("x > 1")))),
             name="g2",
             contracts=[BooleanContract(["a1"], ["b1"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x > 6")))),
+            context=(Context(P_globally(LTL("x > 6")))),
             name="g3",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x < 5")))),
+            context=(Context(P_globally(LTL("x < 5")))),
             name="g4",
             contracts=[BooleanContract(["c"], ["d"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x < 3")))),
+            context=(Context(P_globally(LTL("x < 3")))),
             name="g5",
             contracts=[BooleanContract(["k"], ["p"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x < 10")))),
+            context=(Context(P_globally(LTL("x < 10")))),
             name="g6",
             contracts=[BooleanContract(["kd"], ["pf"])]
         )
@@ -123,32 +123,32 @@ def test_context_integer_simple():
 def test_context_integer():
     list_of_goals = [
         CGTGoal(
-            context=(Context(Always(LTL("y > 5")))),
+            context=(Context(P_globally(LTL("y > 5")))),
             name="g1",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x > 6")))),
+            context=(Context(P_globally(LTL("x > 6")))),
             name="g2",
             contracts=[BooleanContract(["a"], ["b"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x < 5")))),
+            context=(Context(P_globally(LTL("x < 5")))),
             name="g3",
             contracts=[BooleanContract(["c"], ["d"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x < 3")))),
+            context=(Context(P_globally(LTL("x < 3")))),
             name="g4",
             contracts=[BooleanContract(["k"], ["p"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x < 7 & x !=5")))),
+            context=(Context(P_globally(LTL("x < 7 & x !=5")))),
             name="g5",
             contracts=[BooleanContract(["kd"], ["pf"])]
         ),
         CGTGoal(
-            context=(Context(Always(LTL("x = 5")))),
+            context=(Context(P_globally(LTL("x = 5")))),
             name="g6",
             contracts=[BooleanContract(["kd"], ["pf"])]
         )
