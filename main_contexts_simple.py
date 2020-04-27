@@ -23,12 +23,12 @@ if __name__ == "__main__":
     """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
     list_of_goals = [
         CGTGoal(
-            context=(Context(P_globally(LTL("a")))),
+            context=(Context(P_global(LTL("a")))),
             name="a",
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=(Context(P_globally(LTL("b")))),
+            context=(Context(P_global(LTL("b")))),
             name="b",
             contracts=[GlobalAvoidance("locX")]
         )

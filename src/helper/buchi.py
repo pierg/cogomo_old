@@ -30,22 +30,22 @@ def generate_buchi(formula: LTL, name: str, path: str = ""):
         raise e
 
 
-if __name__ == '__main__':
-    formula = "GFa & GFb"
-    generate_buchi(P_before_R(LTL("p"), LTL("r")), "before-r")
-    generate_buchi(P_after_Q(LTL("p"), LTL("q")), "after-q")
+def basic_scopes():
+    # Dwyer
+    generate_buchi(P_global(p=LTL("p")), "P_global")
+    generate_buchi(P_before_R(p=LTL("p"), r=LTL("r")), "P_before_R")
+    generate_buchi(P_after_Q(p=LTL("p"), q=LTL("q")), "P_after_Q")
+    generate_buchi(P_between_Q_and_R(p=LTL("p"), q=LTL("q"), r=LTL("r")), "P_between_Q_and_R")
+    generate_buchi(P_after_Q_until_R(p=LTL("p"), q=LTL("q"), r=LTL("r")), "P_after_Q_until_R")
 
-    generate_buchi(P_between_Q_and_R(LTL("p"), LTL("q"), LTL("r")), "between-q-and-r")
-    generate_buchi(P_after_Q_until_R(LTL("p"), LTL("q"), LTL("r")), "after-q-until-r")
-
+    # Other
     generate_buchi(P_until_R(p=LTL("p"), r=LTL("r")), "P_until_R")
-
     generate_buchi(P_weakuntil_R(p=LTL("p"), r=LTL("r")), "P_weakuntil_R")
-
     generate_buchi(P_release_R(p=LTL("p"), r=LTL("r")), "P_release_R")
-
     generate_buchi(P_strongrelease_R(p=LTL("p"), r=LTL("r")), "P_strongrelease_R")
 
+
+def composition_scopes():
     generate_buchi(P_after_Q(P_release_R(LTL("!alarm"), LTL("warehouse")), LTL("alarm")), "after-alarm-release")
 
     generate_buchi(P_after_Q(P_until_R(P_release_R(LTL("!alarm"), LTL("warehouse")), LTL("!alarm")), LTL("alarm")),
@@ -83,7 +83,7 @@ if __name__ == '__main__':
         , "after-alarm-global-warehouse-until-not-alarmAND")
 
     generate_buchi(
-        P_after_Q( 
+        P_after_Q(
             p=P_until_R(
                 p=LTL("warehouse"),
                 r=LTL("!alarm")),
@@ -120,4 +120,75 @@ if __name__ == '__main__':
             r=LTL("!alarm")
         ), "case_between_alarm")
 
+    generate_buchi(
+        P_strongrelease_R(
+            p=P_until_R(
+                p=LTL("warehouse"),
+                r=LTL("!alarm")),
+            r=LTL("alarm")
+        ), "robot-release-strong")
+
+    generate_buchi(
+        P_release_R(
+            p=P_until_R(
+                p=LTL("warehouse"),
+                r=LTL("!alarm")),
+            r=LTL("alarm")
+        ), "robot-release")
+
+    generate_buchi(
+        P_strongrelease_R(
+            r=P_until_R(
+                p=LTL("warehouse"),
+                r=LTL("!alarm")),
+            p=LTL("alarm")
+        ), "robot-release-strong2")
+
+    generate_buchi(
+        P_release_R(
+            r=P_until_R(
+                p=LTL("warehouse"),
+                r=LTL("!alarm")),
+            p=LTL("alarm")
+        ), "robot-release2")
+
+    generate_buchi(
+        P_global(
+            p=P_until_R(
+                p=P_until_R(
+                    p=LTL("warehouse"),
+                    r=LTL("alarm")),
+                r=LTL("!alarm"))
+        ), "robot-global")
+
+    generate_buchi(
+        P_release_R(
+            p=LTL("warehouse"),
+            r=LTL("alarm")
+        ), "robot-release2-alarm")
+
+    generate_buchi(
+        P_release_R(
+            r=LTL("warehouse"),
+            p=LTL("alarm")
+        ), "robot-release-alarm")
+
+    generate_buchi(
+        P_after_Q(
+            q=P_release_R(
+                r=LTL("warehouse"),
+                p=LTL("alarm")
+            ),
+            p=P_until_R(
+                p=LTL("warehouse"),
+                r=LTL("!alarm")
+            )
+        ), "robot-release-alarm-after-composot")
+
+    clean_up()
+
+
+if __name__ == '__main__':
+    basic_scopes()
+    composition_scopes()
     clean_up()

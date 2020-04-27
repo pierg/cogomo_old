@@ -24,7 +24,7 @@ if __name__ == "__main__":
     """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
     list_of_goals = [
         CGTGoal(
-            context=(Context(P_globally(LTL("home")))),
+            context=(Context(P_global(LTL("home")))),
             name="always-home",
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
@@ -44,12 +44,12 @@ if __name__ == "__main__":
             contracts=[OrderedVisit(["locAlarm"])]
         ),
         CGTGoal(
-            context=(Context(P_globally(LTL("warehouse")))),
+            context=(Context(P_global(LTL("warehouse")))),
             name="always-warehouse",
             contracts=[GlobalAvoidance("locBad")]
         ),
         CGTGoal(
-            context=(Context(P_globally(LTL("kitchen")))),
+            context=(Context(P_global(LTL("kitchen")))),
             name="kitchen",
             contracts=[GlobalAvoidance("locSink")]
         ),
@@ -70,16 +70,15 @@ if __name__ == "__main__":
         "inclusion": [
             [LTL("kitchen"), LTL("home")],
             [LTL("alarm"), LTL("warehouse")],
-
         ]
     }
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     cgt = create_contextual_cgt(list_of_goals, "MINIMAL", context_rules)
 
-    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MINIMAL", context_rules)
+    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MINIMAL")
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     cgt = create_contextual_cgt(list_of_goals, "MUTEX")
 
-    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MUTEX", context_rules)
+    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MUTEX")

@@ -21,7 +21,7 @@ class Scope(LTL):
 """Scopes for the property 'P is true' defined by Dwyer"""
 
 
-class P_globally(Scope):
+class P_global(Scope):
     """G p"""
 
     def __init__(self, p: LTL):
