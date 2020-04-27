@@ -92,6 +92,9 @@ class Variables(object):
             tuple_vars.append(v.port_type + ": " + v.basic_type)
         return tuple_vars
 
+    def n_shared_variables_with(self, other: 'Variables'):
+        return len(list(set(self.list) & set(other.list)))
+
     def extend(self, other: 'Variables'):
         for v in other.list:
             self.add(v)

@@ -87,7 +87,6 @@ class LTL:
                     if new_formula <= self:
                         self.formula = deepcopy(new_formula.formula)
                         self.variables = deepcopy(new_formula.variables)
-                        return True
             else:
                 raise IconsistentException("Conjunction not satisfiable:\n" + str(self) + "\nWITH\n" + str(other))
 

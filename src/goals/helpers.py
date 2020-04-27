@@ -82,33 +82,55 @@ def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
     ltl_list: List[LTL] = []
 
     for cvars in context_rules["mutex"]:
-        variables_list: List[Type] = []
+        variables_list: Variables = Variables()
         ltl = "G("
         ltl_components = []
         for vs in cvars:
-            variables_list.extend(vs.variables.list)
+            variables_list.extend(vs.variables)
 
         cvars_str = [n.formula for n in cvars]
         for vs in list(cvars_str):
-            cvars_str.remove(vs)
-            cvars_str.append(Not(vs))
-            ltl_components.append(Or(cvars_str))
+            cvars_str_copy = deepcopy(cvars_str)
+            cvars_str_copy.remove(vs)
+            cvars_str_copy.append(Not(vs))
+            ltl_components.append(Or(cvars_str_copy))
 
         ltl += Not(And(ltl_components))
 
         ltl += ")"
-        ltl_list.append(LTL(formula=ltl, variables=Variables(variables_list)))
+        ltl_list.append(LTL(formula=ltl, variables=variables_list))
 
     for cvars in context_rules["inclusion"]:
-        variables_list: List[Type] = []
+        variables_list_inclusion: Variables = Variables()
         ltl = "G("
         for i, vs in enumerate(cvars):
-            variables_list.extend(vs.variables.list)
+            variables_list_inclusion.extend(vs.variables)
             ltl += str(vs)
             if i < (len(cvars) - 1):
                 ltl += " -> "
         ltl += ")"
-        ltl_list.append(LTL(formula=ltl, variables=Variables(variables_list)))
+
+        """Check if there are mutex rules in the AP regarding the inclusion rules"""
+        for cvars_mtx in context_rules["mutex"]:
+            variables_list_mutex: Variables = Variables()
+            for vs in cvars_mtx:
+                variables_list_mutex.extend(vs.variables)
+            if variables_list_inclusion.n_shared_variables_with(variables_list_mutex) > 0:
+                ltl_mtx = "G("
+                ltl_components_mtx = []
+                cvars_str_mtx = [n.formula for n in cvars_mtx]
+                for vs in list(cvars_str_mtx):
+                    cvars_str_mtx.remove(vs)
+                    cvars_str_mtx.append(Not(vs))
+                    ltl_components_mtx.append(Or(cvars_str_mtx))
+
+                ltl_mtx += Not(And(ltl_components_mtx))
+
+                ltl_mtx += ")"
+                variables_list_inclusion.extend(variables_list_mutex)
+                ltl += " & " + ltl_mtx
+
+        ltl_list.append(LTL(formula=ltl, variables=variables_list_inclusion))
 
     return ltl_list
 
@@ -138,17 +160,17 @@ def extract_unique_contexts_from_goals(goals: List[CGTGoal]) -> List[Context]:
 def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], context_variables_rules: List[LTL]):
     copy_list = list(comb_contexts)
     for c_list in copy_list:
-        cvars = []
+        cvars: Variables = Variables()
         for c in c_list:
-            cvars.extend(c.variables.list)
+            cvars.extend(c.variables)
         rules_to_add = []
-        variables_to_add = []
+        variables_to_add : Variables = Variables()
         for rule in context_variables_rules:
-            if len(list(set(cvars) & set(rule.variables.list))) > 0:
+            if cvars.n_shared_variables_with(rule.variables) > 0:
                 rules_to_add.append(rule.formula)
-                variables_to_add.extend(rule.variables.list)
-        if len(variables_to_add) > 0:
-            c_list.append(Context(formula=And(rules_to_add), variables=Variables(variables_to_add)))
+                variables_to_add.extend(rule.variables)
+        if len(variables_to_add.list) > 0:
+            c_list.append(Context(formula=And(rules_to_add), variables=variables_to_add))
     return copy_list
 
 

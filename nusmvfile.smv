@@ -1,6 +1,7 @@
 MODULE main
 VAR
-	locSink: boolean;
-	locAlarm: boolean;
+	locC: boolean;
+	locB: boolean;
+	locA: boolean;
 
-LTLSPEC (((F(locAlarm) & G(!locSink))) -> (F(locAlarm)))
+LTLSPEC ((((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))) -> ((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))))
