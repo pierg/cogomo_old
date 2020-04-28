@@ -22,29 +22,6 @@ if __name__ == "__main__":
     """Order Visit pattern of 2 locations in the context '!day'"""
     """Global Avoidance pattern of 1 location in the context '!day'"""
     """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
-    # list_of_goals = [
-    #     CGTGoal(
-    #         context=(Context(P_global(LTL("home")))),
-    #         name="always-home",
-    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
-    #     ),
-    #     CGTGoal(
-    #         context=(Context(P_global(LTL("warehouse")))),
-    #         name="always-warehouse",
-    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
-    #     ),
-    #     CGTGoal(
-    #         context=(Context(P_global(LTL("kitchen")))),
-    #         name="always-kitchen",
-    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
-    #     ),
-    #     CGTGoal(
-    #         context=(Context(P_after_Q(P_until_R(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
-    #         name="warehouse-after-alarm",
-    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
-    #     )
-    # ]
-
     list_of_goals = [
         CGTGoal(
             context=(Context(P_global(LTL("home")))),
@@ -55,30 +32,31 @@ if __name__ == "__main__":
             context=(Context(P_global(LTL("warehouse")))),
             name="always-warehouse",
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        ),
+        CGTGoal(
+            context=(Context(P_global(LTL("kitchen")))),
+            name="always-kitchen",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        ),
+        CGTGoal(
+            context=(Context(P_after_Q(P_until_R(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
+            name="warehouse-after-alarm",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
         )
     ]
 
     for g in list_of_goals:
         print(g)
 
-    # context_rules = {
-    #     "mutex": [
-    #         [LTL("home"), LTL("warehouse")],
-    #         [LTL("home"), LTL("alarm")],
-    #     ],
-    #     "inclusion": [
-    #         [LTL("kitchen"), LTL("home")],
-    #         [LTL("alarm"), LTL("warehouse")],
-    #     ]
-    # }
-
     context_rules = {
         "mutex": [
-            [LTL("home"), LTL("warehouse")],
+            [LTL("home"), LTL("warehouse")]
         ],
         "inclusion": [
+            [LTL("kitchen"), LTL("home")]
         ]
     }
+
 
 
     # """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""

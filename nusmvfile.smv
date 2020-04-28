@@ -1,7 +1,7 @@
 MODULE main
 VAR
-	locC: boolean;
 	locB: boolean;
 	locA: boolean;
+	locC: boolean;
 
 LTLSPEC ((((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))) -> ((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))))

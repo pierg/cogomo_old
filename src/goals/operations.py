@@ -394,7 +394,7 @@ def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict= 
         #     print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
         #         [c.name for c in ctx_goals]))
 
-        contexts_list = merged_simplified_neg
+        contexts_list = merged_neg
 
         context_goals = map_goals_to_contexts(contexts_list, goals)
         for ctx, ctx_goals in context_goals.items():

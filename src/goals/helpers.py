@@ -84,19 +84,19 @@ def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
     for cvars in context_rules["mutex"]:
         variables_list: Variables = Variables()
         ltl = "G("
-        ltl_components = []
         for vs in cvars:
             variables_list.extend(vs.variables)
-
         cvars_str = [n.formula for n in cvars]
-        for vs in list(cvars_str):
-            cvars_str_copy = deepcopy(cvars_str)
-            cvars_str_copy.remove(vs)
-            cvars_str_copy.append(Not(vs))
-            ltl_components.append(Or(cvars_str_copy))
+        clauses = []
+        for vs_a in cvars_str:
+            clause = []
+            clause.append(deepcopy(vs_a))
+            for vs_b in cvars_str:
+                if vs_a is not vs_b:
+                    clause.append(Not(deepcopy(vs_b)))
+            clauses.append(And(clause))
 
-        ltl += Not(And(ltl_components))
-
+        ltl += Or(clauses)
         ltl += ")"
         ltl_list.append(LTL(formula=ltl, variables=variables_list))
 
@@ -109,26 +109,6 @@ def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
             if i < (len(cvars) - 1):
                 ltl += " -> "
         ltl += ")"
-
-        """Check if there are mutex rules in the AP regarding the inclusion rules"""
-        for cvars_mtx in context_rules["mutex"]:
-            variables_list_mutex: Variables = Variables()
-            for vs in cvars_mtx:
-                variables_list_mutex.extend(vs.variables)
-            if variables_list_inclusion.n_shared_variables_with(variables_list_mutex) > 0:
-                ltl_mtx = "G("
-                ltl_components_mtx = []
-                cvars_str_mtx = [n.formula for n in cvars_mtx]
-                for vs in list(cvars_str_mtx):
-                    cvars_str_mtx.remove(vs)
-                    cvars_str_mtx.append(Not(vs))
-                    ltl_components_mtx.append(Or(cvars_str_mtx))
-
-                ltl_mtx += Not(And(ltl_components_mtx))
-
-                ltl_mtx += ")"
-                variables_list_inclusion.extend(variables_list_mutex)
-                ltl += " & " + ltl_mtx
 
         ltl_list.append(LTL(formula=ltl, variables=variables_list_inclusion))
 
@@ -159,18 +139,25 @@ def extract_unique_contexts_from_goals(goals: List[CGTGoal]) -> List[Context]:
 
 def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], context_variables_rules: List[LTL]):
     copy_list = list(comb_contexts)
+    print(*context_variables_rules, sep="\n")
     for c_list in copy_list:
+        rules_added = []
         cvars: Variables = Variables()
         for c in c_list:
             cvars.extend(c.variables)
         rules_to_add = []
         variables_to_add : Variables = Variables()
+        rules_to_add_ltl = []
         for rule in context_variables_rules:
             if cvars.n_shared_variables_with(rule.variables) > 0:
-                rules_to_add.append(rule.formula)
-                variables_to_add.extend(rule.variables)
+                if rule.formula not in rules_added:
+                    rules_added.append(rule.formula)
+                    rules_to_add.append(rule.formula)
+                    variables_to_add.extend(rule.variables)
+                    rules_to_add_ltl.append(LTL(rule.formula, rule.variables))
         if len(variables_to_add.list) > 0:
-            c_list.append(Context(formula=And(rules_to_add), variables=variables_to_add))
+            rules_to_add_LTLs = LTLs(rules_to_add_ltl)
+            c_list.append(Context(formula=rules_to_add_LTLs.formula.formula, variables=variables_to_add))
     return copy_list
 
 
@@ -274,8 +261,7 @@ def merge_contexes(contexts: List[List[Context]]) -> Tuple[List[Context], List[C
 
 
 def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal]) -> Dict[Context, List[CGTGoal]]:
-    """Map each goal to each context, refined indicates if a contexts c point to goals that have a context which is
-    a refinement of c, or an abstraction of c (refined=False) """
+    """Map each goal to each context """
 
     goals_non_mapped = list(goals)
     print("\n\nMAPPING " + str(len(goals)) + " GOALS TO " + str(len(contexts)) + " CONTEXTS")
