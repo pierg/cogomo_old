@@ -1,156 +1,8 @@
-from copy import deepcopy
-from typing import Tuple, Union, List
+from typing import Union, List
 
-from checks.nusmv import check_satisfiability, check_validity
-from checks.tools import And, Implies
-from typescogomo.variables import Variables, extract_variable
-
-
-class IconsistentException(Exception):
-    pass
-
-
-class LTL:
-
-    def __init__(self, formula: str, variables: Variables = None):
-        if (formula == "TRUE" or formula == "FALSE") and variables is None:
-            self.__formula: str = formula
-            self.__variables: Variables = Variables()
-            return
-
-        if variables is None:
-            variables = extract_variable(str(formula))
-
-        self.__formula: str = formula
-        self.__variables: Variables = variables
-
-        if not self.is_satisfiable:
-            raise IconsistentException("The formula is not satisfiable:\n" + self.formula)
-
-    @property
-    def formula(self) -> str:
-        return self.__formula
-
-    @formula.setter
-    def formula(self, value: str):
-        self.__formula = value
-
-    @property
-    def variables(self):
-        return self.__variables
-
-    @variables.setter
-    def variables(self, value: Variables):
-        self.__variables = value
-
-    def negate(self):
-        """Modifies the LTL formula with its negation"""
-        self.formula = '!(' + self.formula + ')'
-
-    def is_true(self):
-        return self.formula == "TRUE"
-
-    def is_satisfiable(self):
-        return check_satisfiability(self.variables.get_nusmv_names(), self.formula)
-
-    def conjoin_with(self, others: Union['LTL', List['LTL']]):
-        if self.formula == "FALSE":
-            return False
-        if isinstance(others, LTL):
-            if others.formula == "TRUE":
-                return True
-            if others.formula == "FALSE":
-                self.formula = "FALSE"
-                self.variables = None
-                return True
-            if self.formula == "TRUE":
-                self.__init__(others.formula, others.variables)
-                return True
-            others = [others]
-        for other in others:
-            if self.is_satisfiable_with(other):
-                if self.formula == "TRUE":
-                    self.formula = deepcopy(other.formula)
-                    self.variables = deepcopy(other.variables)
-                else:
-                    if other.formula == "TRUE":
-                        continue
-                    if other.formula == "FALSE":
-                        self.formula = "FALSE"
-                        self.variables = None
-                        return True
-                    new_formula = deepcopy(self)
-                    new_formula.variables.extend(other.variables)
-                    new_formula.formula = And([new_formula.formula, other.formula])
-
-                    """If by conjoining other, the result should be a refinement of the existing formula"""
-                    if new_formula <= self:
-                        self.formula = deepcopy(new_formula.formula)
-                        self.variables = deepcopy(new_formula.variables)
-            else:
-                raise IconsistentException("Conjunction not satisfiable:\n" + str(self) + "\nWITH\n" + str(other))
-
-        return False
-
-    def is_satisfiable_with(self, other):
-        if self.formula == "TRUE" or other.formula == "TRUE":
-            return True
-        variables = self.variables
-        variables.extend(other.variables)
-        return check_satisfiability(variables.get_nusmv_names(), [self.formula, other.formula])
-
-    def can_provide_for(self, other):
-        """Check if the set of behaviours is smaller or equal in the other set of behaviours but on the types"""
-        variables = self.variables + other.variables
-        proposition = Implies(self.formula, other.formula)
-        for v in variables.list:
-            proposition = proposition.replace(v.name, v.port_type)
-        return check_validity(variables.get_nusmv_types(), proposition)
-
-
-    def __str__(self):
-        return self.__formula
-
-    def __lt__(self, other: 'LTL'):
-        """Check if the set of behaviours is smaller in the other set of behaviours"""
-        lt = self <= other
-        neq = self != other
-        return lt and neq
-
-    def __le__(self, other: 'LTL'):
-        """Check if the set of behaviours is smaller or equal in the other set of behaviours"""
-        variables_a = set(self.variables.get_nusmv_names())
-        variables_b = set(other.variables.get_nusmv_names())
-        variables = variables_a | variables_b
-        return check_validity(list(variables), "((" + self.formula + ") -> (" + other.formula + "))")
-
-    def __eq__(self, other: 'LTL'):
-        """Check if the set of behaviours is equal to the other set of behaviours"""
-        if self.formula == other.formula:
-            return True
-        implied_a = self >= other
-        implied_b = self <= other
-        return implied_a and implied_b
-
-    def __ne__(self, other: 'LTL'):
-        """Check if the set of behaviours is different from the other set of behaviours"""
-        return not (self == other)
-
-    def __gt__(self, other: 'LTL'):
-        """Check if the set of behaviours is bigger than the other set of behaviours"""
-        gt = self >= other
-        neq = self != other
-        return gt and neq
-
-    def __ge__(self, other: 'LTL'):
-        """Check if the set of behaviours is bigger of equal than the other set of behaviours"""
-        variables_a = set(self.variables.get_nusmv_names())
-        variables_b = set(other.variables.get_nusmv_names())
-        variables = variables_a | variables_b
-        return check_validity(list(variables), "((" + other.formula + ") -> (" + self.formula + "))")
-
-    def __hash__(self):
-        return hash(self.__formula)
+from typescogomo.formula import LTL
+from typescogomo.assumption import Assumption
+from typescogomo.guarantee import Guarantee
 
 
 class LTLs:
@@ -169,7 +21,10 @@ class LTLs:
                 self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
 
                 if len(formulae) > 1:
-                    self.__formula.conjoin_with(formulae[1:])
+                    try:
+                        self.__formula.conjoin_with(formulae[1:])
+                    except Exception as e:
+                        raise e
 
             self.__list: List[LTL] = formulae
 
@@ -179,11 +34,15 @@ class LTLs:
 
     @list.setter
     def list(self, value: List['LTL']):
-        self.__formula = LTL(value[0].formula, value[0].variables)
+        if value is not None:
 
-        self.__formula.conjoin_with(value[1:])
+            self.__formula = LTL(value[0].formula, value[0].variables)
 
-        self.__list: List[LTL] = value
+            self.__formula.conjoin_with(value[1:])
+
+            self.__list: List[LTL] = value
+        else:
+            self.__list = []
 
     @property
     def formula(self) -> LTL:
@@ -237,3 +96,41 @@ class LTLs:
 
     def __str__(self):
         return str(self.formula)
+
+
+class Assumptions(LTLs):
+    def __init__(self, assumptions: Union[List[Assumption], Assumption] = None):
+        if assumptions is None:
+            assumptions = [Assumption("TRUE")]
+        if isinstance(assumptions, Assumption):
+            assumptions = [assumptions]
+        super().__init__(assumptions)
+
+    def remove_kind(self, kind: str):
+
+        for assumption in list(self.list):
+            if assumption.kind == kind:
+                self.list.remove(assumption)
+
+    def get_kind(self, kind: str):
+        ret = []
+        for assumption in list(self.list):
+            if assumption.kind == kind:
+                ret.append(assumption)
+        if len(ret) == 0:
+            return None
+        return ret
+
+
+class Guarantees(LTLs):
+    def __init__(self, guarantees: Union[List[Guarantee], Guarantee] = None):
+        if guarantees is None:
+            guarantees = [Guarantee("TRUE")]
+        if isinstance(guarantees, Guarantee):
+            guarantees = [guarantees]
+        super().__init__(guarantees)
+
+    def saturate_with(self, assumptions: Assumptions):
+        for guarantee in self.list:
+            guarantee.saturate_with(assumptions)
+        super().__init__(self.list)

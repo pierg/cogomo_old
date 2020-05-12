@@ -139,7 +139,11 @@ def extract_variable(formula: str) -> 'Variables':
 
     try:
         int(var_names[1])
-        context_vars.append(BoundedNat(var_names[0]))
+        """TODO: remove hard-coding"""
+        if var_names[0] == "time":
+            context_vars.append(Integer(var_names[0], 0, 24))
+        else:
+            context_vars.append(BoundedNat(var_names[0]))
     except:
         for var_name in var_names:
             context_vars.append(Boolean(var_name))

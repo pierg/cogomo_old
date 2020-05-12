@@ -1,24 +1,45 @@
 import itertools
 from copy import deepcopy
 from typing import Union, Dict, List, Tuple
-from checks.nusmv import check_satisfiability
-from checks.tools import Not, Or, And
-from typescogomo.contexts import Context
-from typescogomo.formulae import LTL, LTLs, IconsistentException
-from typescogomo.variables import Type, Boolean, Variables
+from checks.tools import Not, Or, And, Implies
+from helper.tools import traslate_boolean
+from typescogomo.assumption import Context
+from typescogomo.formulae import LTLs, Assumptions
+from typescogomo.formula import LTL, IconsistentException
+from typescogomo.variables import Type, Variables
 from goals.cgtgoal import CGTGoal
 
-"""Context Creation"""
-"""Within one context combination (a row), analyse each pair and discard the bigger set"""
-KEEP_SMALLER_CONTEXT = True
-"""Among a pair of context combinations (two rows), save only the smaller context"""
-KEEP_SMALLER_COMBINATION = True
 
-"""Goal Mapping"""
-"""When mapping a goal context to a combination of context C, map if the goal context is smaller than C"""
-GOAL_CTX_SMALLER = False
-"""When more context points to the same set of goal take the smaller context"""
-SAVE_SMALLER_CONTEXT = False
+def context_based_specification_clustering(combinations: List[List[Context]],
+                                           rules: List[LTL],
+                                           goals,
+                                           KEEP_SMALLER_COMBINATION,
+                                           GOAL_CTX_SAT,
+                                           GOAL_CTX_SMALLER,
+                                           SAVE_SMALLER_CONTEXT):
+    """Add constaints to the context combinations"""
+    if rules is not None:
+        combinations = add_constraints_to_all_contexts(combinations, rules)
+
+    print("\n\n__ALL_COMBINATIONS_(" + str(
+        len(combinations)) + ")___________________________________________________________")
+    for c_list in combinations:
+        print(*c_list, sep='\t\t\t')
+
+    """Filter from combinations the comb that are satisfiable and if they are then simplify and merge them"""
+    merged, merged_simplified = merge_contexes(combinations, KEEP_SMALLER_COMBINATION)
+
+    print("\n\n__MERGED_____________________________________________________________________")
+    print(*merged, sep='\n')
+
+    print("\n\n__MERGED_AND_GROUPED_________________________________________________________")
+    print(*merged_simplified, sep='\n')
+
+    contexts_list = merged_simplified
+
+    context_goals = map_goals_to_contexts(contexts_list, goals, GOAL_CTX_SAT, GOAL_CTX_SMALLER, SAVE_SMALLER_CONTEXT)
+
+    return context_goals
 
 
 def find_goal_with_name(name: str, goals: Union[Dict[CGTGoal, List[CGTGoal]], List[CGTGoal]]):
@@ -37,7 +58,7 @@ def find_goal_with_name(name: str, goals: Union[Dict[CGTGoal, List[CGTGoal]], Li
                 return goal
 
 
-def filter_and_simplify_contexts(contexts: List[List[Context]]) -> List[List[Context]]:
+def filter_and_simplify_contexts(contexts: List[List[Context]], KEEP_SMALLER_CONTEXT) -> List[List[Context]]:
     new_list: List[List[Context]] = []
     print("\n\nFILTERING " + str(len(contexts)) + " CONTEXTS...")
 
@@ -146,7 +167,7 @@ def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], context_
         for c in c_list:
             cvars.extend(c.variables)
         rules_to_add = []
-        variables_to_add : Variables = Variables()
+        variables_to_add: Variables = Variables()
         rules_to_add_ltl = []
         for rule in context_variables_rules:
             if cvars.n_shared_variables_with(rule.variables) > 0:
@@ -202,7 +223,7 @@ def extract_all_combinations_and_negations_from_contexts(contexts: List[Context]
     return combs_all_contexts, combs_all_contexts_neg
 
 
-def merge_contexes(contexts: List[List[Context]]) -> Tuple[List[Context], List[Context]]:
+def merge_contexes(contexts: List[List[Context]], KEEP_SMALLER_COMBINATION) -> Tuple[List[Context], List[Context]]:
     """Merge the consistent contexts with conjunction"""
     contexts_merged: List[Context] = []
 
@@ -225,6 +246,8 @@ def merge_contexes(contexts: List[List[Context]]) -> Tuple[List[Context], List[C
                     already_there = True
             if not already_there:
                 contexts_merged.append(new_ctx)
+
+    return contexts_merged, contexts_merged
 
     context_merged_simplified = contexts_merged.copy()
     mutex = True
@@ -260,7 +283,8 @@ def merge_contexes(contexts: List[List[Context]]) -> Tuple[List[Context], List[C
     return contexts_merged, context_merged_simplified
 
 
-def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal]) -> Dict[Context, List[CGTGoal]]:
+def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal], GOAL_CTX_SAT, GOAL_CTX_SMALLER,
+                          SAVE_SMALLER_CONTEXT) -> Dict[Context, List[CGTGoal]]:
     """Map each goal to each context """
 
     goals_non_mapped = list(goals)
@@ -281,10 +305,10 @@ def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal]) -> Dict
             else:
                 goal_ctxs = goal.context
                 goal_ctx = goal_ctxs[0]
-                if GOAL_CTX_SMALLER:
-                    """Verify that the goal is included the context"""
-                    if goal_ctx <= ctx:
-                        print("Goal_ctx: " + str(goal_ctx) + " \t-->\t Ctx: " + str(ctx))
+                if GOAL_CTX_SAT:
+                    """Verify that the goal-context is satisfiable with the context"""
+                    if goal_ctx.is_satisfiable_with(ctx):
+                        print("Goal_ctx (" + goal.name + "): " + str(goal_ctx) + " \t-->\t Ctx: " + str(ctx))
                         """Add goal to the context"""
                         if ctx in context_goals:
                             if goal not in context_goals[ctx]:
@@ -294,17 +318,30 @@ def map_goals_to_contexts(contexts: List[Context], goals: List[CGTGoal]) -> Dict
                         if goal in goals_non_mapped:
                             goals_non_mapped.remove(goal)
                 else:
-                    """Verify that the context is included in goal context"""
-                    if ctx <= goal_ctx:
-                        print("Ctx: " + str(ctx) + " \t-->\t Goal_ctx: " + str(goal_ctx))
-                        """Add goal to the context"""
-                        if ctx in context_goals:
-                            if goal not in context_goals[ctx]:
-                                context_goals[ctx].append(goal)
-                        else:
-                            context_goals[ctx] = [goal]
-                        if goal in goals_non_mapped:
-                            goals_non_mapped.remove(goal)
+                    if GOAL_CTX_SMALLER:
+                        """Verify that the goal is included the context"""
+                        if goal_ctx <= ctx:
+                            print("Goal_ctx: " + str(goal_ctx) + " \t-->\t Ctx: " + str(ctx))
+                            """Add goal to the context"""
+                            if ctx in context_goals:
+                                if goal not in context_goals[ctx]:
+                                    context_goals[ctx].append(goal)
+                            else:
+                                context_goals[ctx] = [goal]
+                            if goal in goals_non_mapped:
+                                goals_non_mapped.remove(goal)
+                    else:
+                        """Verify that the context is included in goal context"""
+                        if ctx <= goal_ctx:
+                            print("Ctx: " + str(ctx) + " \t-->\t Goal_ctx: " + str(goal_ctx))
+                            """Add goal to the context"""
+                            if ctx in context_goals:
+                                if goal not in context_goals[ctx]:
+                                    context_goals[ctx].append(goal)
+                            else:
+                                context_goals[ctx] = [goal]
+                            if goal in goals_non_mapped:
+                                goals_non_mapped.remove(goal)
 
     """Check all the contexts that point to the same set of goals and take the most abstract one"""
     ctx_removed = []
@@ -356,3 +393,129 @@ def prioritize_goal(first_priority_goal, second_priority_goal):
     for contract in second_priority_goal.contracts:
         contract.add_variables(variables)
         contract.add_assumptions(Not(Or(stronger_assumptions_list)))
+
+
+def extract_variables_name_from_dics(dics: List[Dict]) -> List[str]:
+    vars_name = []
+    for d in dics:
+        for k, v in d.items():
+            for var in v.variables.list:
+                vars_name.append(var.name)
+    return vars_name
+
+
+def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
+                                    uncontrollable_vars: List[str],
+                                    context_rules: Dict,
+                                    domain_rules: Dict,
+                                    new_assumptions: LTL = None) -> Tuple[List[str], List[str], List[str], List[str], List[str]]:
+    """Goal gaurantees will be saturated with their assumptions or in case of new_assumptions,
+    the entire list of goals will be saturated with new_assumptions
+    Returns: context_rules, domain_rules, guarantees, uncontrollable, controllable"""
+    if isinstance(goals, CGTGoal):
+        goals = [goals]
+
+    variables = Variables()
+
+    ctx_rules = []
+    dom_rules = []
+    guarantees = []
+    uncontrollable = []
+    controllable = []
+
+    if new_assumptions is None:
+
+        for goal in goals:
+            ltl = goal.get_ltl_saturated_guarantees()
+            guarantees.append(ltl.formula)
+            variables.extend(ltl.variables)
+    else:
+        guarantees_list = []
+        for goal in goals:
+            ltl = goal.get_ltl_guarantees()
+            guarantees_list.append(ltl.formula)
+            variables.extend(ltl.variables)
+            guarantees.append(Implies(new_assumptions.formula, And(guarantees_list)))
+
+
+    for v in variables.list:
+        if v.name in uncontrollable_vars:
+            uncontrollable.append(v.name)
+        else:
+            controllable.append(v.name)
+
+    environment_rules = extract_ltl_rules(context_rules)
+    domain_rules = extract_ltl_rules(domain_rules)
+
+    for e in environment_rules:
+        for v in e.variables.list:
+            if v.name not in uncontrollable:
+                uncontrollable.append(v.name)
+                # raise Exception("variable missing")
+        ctx_rules.append(e.formula)
+
+    for e in domain_rules:
+        for v in e.variables.list:
+            if v.name not in controllable:
+                controllable.append(v.name)
+                # raise Exception("variable missing")
+        dom_rules.append(e.formula)
+
+    return ctx_rules, dom_rules, guarantees, uncontrollable, controllable
+
+
+
+def generate_controller_input_text(ctx_rules, dom_rules, guarantees, uncontrollable, controllable):
+
+    ret = "CONSTRAINTS:\n\n"
+    for p in ctx_rules:
+        ret += p + "\n"
+    ret += "\n"
+    for p in dom_rules:
+        ret += p + "\n"
+
+    ret += "\n\nGUARANTEES:\n\n"
+    for p in guarantees:
+        ret += p + "\n"
+
+    ret += "\n\nUNCONTROLLABLE:\n\n"
+    ret += ", ".join(uncontrollable)
+
+    ret += "\n\nCONTROLLABLE:\n\n"
+    ret += ", ".join(controllable)
+
+    return ret
+
+def extract_saturated_guarantees_from(goals: Union[CGTGoal, List[CGTGoal]]) -> List[str]:
+    if isinstance(goals, CGTGoal):
+        goals = [goals]
+
+    assumptions_goals = []
+    guarantees_goals = []
+    variables_goals = set()
+
+    for goal in goals:
+        goal_variables = set()
+        goal_new_variables = set()
+        goal_old_variables = set()
+        assumptions_guarantee_pairs = []
+        for contract in goal.contracts:
+            a_boolean, a_new_vars, a_old_vars = traslate_boolean(str(contract.assumptions.formula))
+            g_boolean, g_new_vars, g_old_vars = traslate_boolean(str(contract.guarantees.formula))
+            vars = [v.name for v in contract.variables.list]
+            goal_variables.update(vars)
+            a_new_vars.extend(g_old_vars)
+            a_old_vars.extend(g_old_vars)
+            goal_new_variables.update(a_new_vars)
+            goal_old_variables.update(a_old_vars)
+            assumptions_guarantee_pairs.append((a_boolean, g_boolean))
+        goal_variables = goal_variables - goal_old_variables
+        goal_variables.update(goal_new_variables)
+
+        assumptions_goal = Or([a for (a, goal) in assumptions_guarantee_pairs])
+        guarantees_goal = And([Implies(a, goal) for (a, goal) in assumptions_guarantee_pairs])
+
+        guarantees_goals.append(guarantees_goal)
+        variables_goals.update(goal_variables)
+
+    return guarantees_goals

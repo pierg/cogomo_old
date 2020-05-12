@@ -1,0 +1,232 @@
+GOAL:	'always-home^^always-home||always-kitchen^^always-home||always-kitchen||warehouse-after-alarm-until-not-alarm||warehouse-before-alarm^^always-home||always-kitchen||warehouse-before-alarm^^always-home||warehouse-after-alarm-until-not-alarm||warehouse-before-alarm^^always-home||warehouse-before-alarm^^always-warehouse||warehouse-after-alarm-until-not-alarm||warehouse-before-alarm^^always-warehouse||warehouse-before-alarm^^warehouse-after-alarm-until-not-alarm^^warehouse-after-alarm-until-not-alarm||warehouse-before-alarm^^warehouse-before-alarm'
+ CTX:	G(home)
+  A:	G(home)
+  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+	/\ 
+ CTX:	(G(alarm -> G((warehouse U !alarm))))
+  A:	(G(alarm -> G((warehouse U !alarm))))
+  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+	/\ 
+ CTX:	(F(alarm) -> (warehouse U alarm))
+  A:	(F(alarm) -> (warehouse U alarm))
+  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+	/\ 
+ CTX:	G(home)
+  A:	(G(home) & G(kitchen))
+  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+	/\ 
+ CTX:	G(home)
+  A:	(G(home) & (F(alarm) -> (warehouse U alarm)))
+  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+	/\ 
+ CTX:	G(warehouse)
+  A:	(G(warehouse) & (F(alarm) -> (warehouse U alarm)))
+  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+	/\ 
+ CTX:	(G(alarm -> G((warehouse U !alarm))))
+  A:	((G(alarm -> G((warehouse U !alarm)))) & (F(alarm) -> (warehouse U alarm)))
+  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+	/\ 
+ CTX:	G(home)
+  A:	((G(home) & G(kitchen)) & (F(alarm) -> (warehouse U alarm)))
+  G:	(((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+	/\ 
+ CTX:	G(home)
+  A:	((G(home) & (G(alarm -> G((warehouse U !alarm))))) & (F(alarm) -> (warehouse U alarm)))
+  G:	(((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+	/\ 
+ CTX:	G(warehouse)
+  A:	((G(warehouse) & (G(alarm -> G((warehouse U !alarm))))) & (F(alarm) -> (warehouse U alarm)))
+  G:	(((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+	/\ 
+ CTX:	G(home)
+  A:	(((G(home) & G(kitchen)) & (G(alarm -> G((warehouse U !alarm))))) & (F(alarm) -> (warehouse U alarm)))
+  G:	((((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+	CONJUNCTION
+		GOAL:	'always-home'
+		 CTX:	G(home)
+		  A:	G(home)
+		  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+			COMPOSITION
+				GOAL:	'always-home'
+				 CTX:	G(home)
+				  A:	G(home)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'warehouse-after-alarm-until-not-alarm'
+		 CTX:	(G(alarm -> G((warehouse U !alarm))))
+		  A:	(G(alarm -> G((warehouse U !alarm))))
+		  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+			COMPOSITION
+				GOAL:	'warehouse-after-alarm-until-not-alarm'
+				 CTX:	(G(alarm -> G((warehouse U !alarm))))
+				  A:	(G(alarm -> G((warehouse U !alarm))))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'warehouse-before-alarm'
+		 CTX:	(F(alarm) -> (warehouse U alarm))
+		  A:	(F(alarm) -> (warehouse U alarm))
+		  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+			COMPOSITION
+				GOAL:	'warehouse-before-alarm'
+				 CTX:	(F(alarm) -> (warehouse U alarm))
+				  A:	(F(alarm) -> (warehouse U alarm))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'always-home||always-kitchen'
+		 CTX:	G(home)
+		  A:	(G(home) & G(kitchen))
+		  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+			COMPOSITION
+				GOAL:	'always-home'
+				 CTX:	G(home)
+				  A:	G(home)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'always-kitchen'
+				 CTX:	G(kitchen)
+				  A:	G(kitchen)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'always-home||warehouse-before-alarm'
+		 CTX:	G(home)
+		  A:	(G(home) & (F(alarm) -> (warehouse U alarm)))
+		  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+			COMPOSITION
+				GOAL:	'always-home'
+				 CTX:	G(home)
+				  A:	G(home)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-before-alarm'
+				 CTX:	(F(alarm) -> (warehouse U alarm))
+				  A:	(F(alarm) -> (warehouse U alarm))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'always-warehouse||warehouse-before-alarm'
+		 CTX:	G(warehouse)
+		  A:	(G(warehouse) & (F(alarm) -> (warehouse U alarm)))
+		  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+			COMPOSITION
+				GOAL:	'always-warehouse'
+				 CTX:	G(warehouse)
+				  A:	G(warehouse)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-before-alarm'
+				 CTX:	(F(alarm) -> (warehouse U alarm))
+				  A:	(F(alarm) -> (warehouse U alarm))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'warehouse-after-alarm-until-not-alarm||warehouse-before-alarm'
+		 CTX:	(G(alarm -> G((warehouse U !alarm))))
+		  A:	((G(alarm -> G((warehouse U !alarm)))) & (F(alarm) -> (warehouse U alarm)))
+		  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+			COMPOSITION
+				GOAL:	'warehouse-after-alarm-until-not-alarm'
+				 CTX:	(G(alarm -> G((warehouse U !alarm))))
+				  A:	(G(alarm -> G((warehouse U !alarm))))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-before-alarm'
+				 CTX:	(F(alarm) -> (warehouse U alarm))
+				  A:	(F(alarm) -> (warehouse U alarm))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'always-home||always-kitchen||warehouse-before-alarm'
+		 CTX:	G(home)
+		  A:	((G(home) & G(kitchen)) & (F(alarm) -> (warehouse U alarm)))
+		  G:	(((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+			COMPOSITION
+				GOAL:	'always-home'
+				 CTX:	G(home)
+				  A:	G(home)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'always-kitchen'
+				 CTX:	G(kitchen)
+				  A:	G(kitchen)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-before-alarm'
+				 CTX:	(F(alarm) -> (warehouse U alarm))
+				  A:	(F(alarm) -> (warehouse U alarm))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'always-home||warehouse-after-alarm-until-not-alarm||warehouse-before-alarm'
+		 CTX:	G(home)
+		  A:	((G(home) & (G(alarm -> G((warehouse U !alarm))))) & (F(alarm) -> (warehouse U alarm)))
+		  G:	(((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+			COMPOSITION
+				GOAL:	'always-home'
+				 CTX:	G(home)
+				  A:	G(home)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-after-alarm-until-not-alarm'
+				 CTX:	(G(alarm -> G((warehouse U !alarm))))
+				  A:	(G(alarm -> G((warehouse U !alarm))))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-before-alarm'
+				 CTX:	(F(alarm) -> (warehouse U alarm))
+				  A:	(F(alarm) -> (warehouse U alarm))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'always-warehouse||warehouse-after-alarm-until-not-alarm||warehouse-before-alarm'
+		 CTX:	G(warehouse)
+		  A:	((G(warehouse) & (G(alarm -> G((warehouse U !alarm))))) & (F(alarm) -> (warehouse U alarm)))
+		  G:	(((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+			COMPOSITION
+				GOAL:	'always-warehouse'
+				 CTX:	G(warehouse)
+				  A:	G(warehouse)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-after-alarm-until-not-alarm'
+				 CTX:	(G(alarm -> G((warehouse U !alarm))))
+				  A:	(G(alarm -> G((warehouse U !alarm))))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-before-alarm'
+				 CTX:	(F(alarm) -> (warehouse U alarm))
+				  A:	(F(alarm) -> (warehouse U alarm))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+		GOAL:	'always-home||always-kitchen||warehouse-after-alarm-until-not-alarm||warehouse-before-alarm'
+		 CTX:	G(home)
+		  A:	(((G(home) & G(kitchen)) & (G(alarm -> G((warehouse U !alarm))))) & (F(alarm) -> (warehouse U alarm)))
+		  G:	((((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))) & (F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)))
+
+			COMPOSITION
+				GOAL:	'always-home'
+				 CTX:	G(home)
+				  A:	G(home)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'always-kitchen'
+				 CTX:	G(kitchen)
+				  A:	G(kitchen)
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-after-alarm-until-not-alarm'
+				 CTX:	(G(alarm -> G((warehouse U !alarm))))
+				  A:	(G(alarm -> G((warehouse U !alarm))))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+
+				GOAL:	'warehouse-before-alarm'
+				 CTX:	(F(alarm) -> (warehouse U alarm))
+				  A:	(F(alarm) -> (warehouse U alarm))
+				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
+

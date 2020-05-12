@@ -1,8 +1,10 @@
-from typing import List, Union
+from typing import List, Union, Pattern
 
-from typescogomo.assumptions import Assumptions, Assumption
-from typescogomo.guarantees import Guarantees, Guarantee
+from typescogomo.assumption import Assumption
+from typescogomo.formula import LTL
+from typescogomo.guarantee import Guarantee
 from typescogomo.variables import Variables, Boolean
+from typescogomo.formulae import Assumptions, Guarantees
 
 
 class Contract:
@@ -59,7 +61,7 @@ class Contract:
     def add_assumptions(self, assumptions: Union[List[Assumption], Assumption]):
 
         self.assumptions.add(assumptions)
-        # self.guarantees.saturate_with(self.assumptions)
+        self.guarantees.saturate_with(self.assumptions)
 
     def add_guarantees(self, guarantees: Union[List[Guarantee], Guarantee]):
 
@@ -158,6 +160,23 @@ class SimpleContract(Contract):
             assumptions_obj = Assumptions(assumptions_obj)
             guarantees_obj.saturate_with(assumptions_obj)
 
-
         super().__init__(assumptions=assumptions_obj,
                          guarantees=guarantees_obj)
+
+
+class PContract(Contract):
+
+    def __init__(self, patterns: List[LTL]):
+        self.patterns = patterns
+
+        variables = Variables()
+
+        guarantees = []
+
+        for p in patterns:
+            variables.extend(p.variables)
+            guarantees.append(Guarantee(p.formula, p.variables))
+
+        guarantees = Guarantees(guarantees)
+
+        super().__init__(guarantees=guarantees)

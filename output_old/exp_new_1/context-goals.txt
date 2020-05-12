@@ -1,0 +1,87 @@
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	1 goals: ['night-time']
+
+((((((G(warehouse) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	1 goals: ['always-warehouse']
+
+((((((G(shop) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	1 goals: ['always-shop']
+
+((((((G(alarm) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	1 goals: ['always-alarm']
+
+(((((((F(alarm) & (G(alarm -> G((warehouse U !alarm))))) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	1 goals: ['after-alarm-warehouse-until']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(warehouse)) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['night-time', 'always-warehouse']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(shop)) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['night-time', 'always-shop']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(alarm)) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['night-time', 'always-alarm']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['night-time', 'after-alarm-warehouse-until']
+
+((((((G(warehouse) & G(shop)) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['always-warehouse', 'always-shop']
+
+((((((G(warehouse) & G(alarm)) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['always-warehouse', 'always-alarm']
+
+((((((G(warehouse) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['always-warehouse', 'after-alarm-warehouse-until']
+
+(((((((G(shop) & G(time > 9) & G(time < 17)) & G(shop)) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(warehouse))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['always-shop-working-hours', 'always-shop']
+
+((((((G(shop) & G(alarm)) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['always-shop', 'always-alarm']
+
+((((((G(shop) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	2 goals: ['always-shop', 'after-alarm-warehouse-until']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(warehouse)) & G(shop)) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['night-time', 'always-warehouse', 'always-shop']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(warehouse)) & G(alarm)) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['night-time', 'always-warehouse', 'always-alarm']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(warehouse)) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(shop))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['night-time', 'always-warehouse', 'after-alarm-warehouse-until']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(shop)) & G(alarm)) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['night-time', 'always-shop', 'always-alarm']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(shop)) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !(G(warehouse))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['night-time', 'always-shop', 'after-alarm-warehouse-until']
+
+((((((G(warehouse) & (G(shop) & G(time > 9) & G(time < 17))) & G(shop)) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(alarm))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['always-warehouse', 'always-shop-working-hours', 'always-shop']
+
+((((((G(warehouse) & G(shop)) & G(alarm)) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['always-warehouse', 'always-shop', 'always-alarm']
+
+((((((G(warehouse) & G(shop)) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['always-warehouse', 'always-shop', 'after-alarm-warehouse-until']
+
+(((((((G(shop) & G(time > 9) & G(time < 17)) & G(shop)) & G(alarm)) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(warehouse))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['always-shop-working-hours', 'always-shop', 'always-alarm']
+
+(((((((G(shop) & G(time > 9) & G(time < 17)) & G(shop)) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(warehouse))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	3 goals: ['always-shop-working-hours', 'always-shop', 'after-alarm-warehouse-until']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(warehouse)) & G(shop)) & G(alarm)) & !((G(shop) & G(time > 9) & G(time < 17)))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	4 goals: ['night-time', 'always-warehouse', 'always-shop', 'always-alarm']
+
+((((((((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))) & G(warehouse)) & G(shop)) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !((G(shop) & G(time > 9) & G(time < 17)))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	4 goals: ['night-time', 'always-warehouse', 'always-shop', 'after-alarm-warehouse-until']
+
+((((((G(warehouse) & (G(shop) & G(time > 9) & G(time < 17))) & G(shop)) & G(alarm)) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !((F(alarm) & (G(alarm -> G((warehouse U !alarm))))))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	4 goals: ['always-warehouse', 'always-shop-working-hours', 'always-shop', 'always-alarm']
+
+((((((G(warehouse) & (G(shop) & G(time > 9) & G(time < 17))) & G(shop)) & (F(alarm) & (G(alarm -> G((warehouse U !alarm)))))) & !(((G(time > 20) & G(time < 24)) | (G(time > 0) & G(time < 8))))) & !(G(alarm))) & G(((home & !(warehouse)) | (warehouse & !(home)))))
+-->	4 goals: ['always-warehouse', 'always-shop-working-hours', 'always-shop', 'after-alarm-warehouse-until']

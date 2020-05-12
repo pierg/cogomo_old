@@ -1,26 +1,22 @@
 GOAL:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
  CTX:	G(day)
- DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
-  A:	(G(day) & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)))
+  A:	G(day)
   G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(locB -> F(heavy_item_pickup)))
 	/\ 
- CTX:	G(!day), G(!day)
- DOM:	G((locA & !locB) | (locB & !locA))
-  A:	(G(!day) & G((locA & !locB) | (locB & !locA)))
+ CTX:	G(!day)
+  A:	(((((G(!day) & G(!day)) & power1 >= 8) & power2 >= 8) & power1 >= 8) & power2 >= 8)
   G:	(((F(locA & F(locB)) & (!locB U locA)) & G(!locC)) & G(locB -> F(heavy_item_pickup)))
 
 	CONJUNCTION
 		GOAL:	'a->pickup||a-b-c'
 		 CTX:	G(day)
-		 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
-		  A:	(G(day) & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)))
+		  A:	G(day)
 		  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(locB -> F(heavy_item_pickup)))
 
 			COMPOSITION
 				GOAL:	'a-b-c'
 				 CTX:	G(day)
-				 DOM:	G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB))
-				  A:	(G(day) & G((locA & !locB & !locC) | (locB & !locA & !locC) | (locC & !locA & !locB)))
+				  A:	G(day)
 				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
 
 				GOAL:	'a->pickup'
@@ -29,8 +25,8 @@ GOAL:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 
 					REFINEMENT
 						GOAL:	'collaborate||pick_up_item||robot_2||robot_3'
-						  A:	(power1 >= 8 & power2 >= 8)
-						  G:	(((G(weight_power > 12) & robot_power >= 8) & robot_power >= 9) & G(heavy_item_pickup))
+						  A:	((power1 >= 8 & power2 >= 8) & G(weight_power > 12))
+						  G:	(((G(weight_power > 12) & robot_power >= 9) & G(heavy_item_pickup)) & robot_power >= 8)
 
 							COMPOSITION/MAPPING
 								GOAL:	'pick_up_item'
@@ -57,16 +53,14 @@ GOAL:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 														  G:	robot_power >= 8
 
 		GOAL:	'a->pickup||a-b||never-c'
-		 CTX:	G(!day), G(!day)
-		 DOM:	G((locA & !locB) | (locB & !locA))
-		  A:	(G(!day) & G((locA & !locB) | (locB & !locA)))
+		 CTX:	G(!day)
+		  A:	(((((G(!day) & G(!day)) & power1 >= 8) & power2 >= 8) & power1 >= 8) & power2 >= 8)
 		  G:	(((F(locA & F(locB)) & (!locB U locA)) & G(!locC)) & G(locB -> F(heavy_item_pickup)))
 
 			COMPOSITION
 				GOAL:	'a-b'
 				 CTX:	G(!day)
-				 DOM:	G((locA & !locB) | (locB & !locA))
-				  A:	(G(!day) & G((locA & !locB) | (locB & !locA)))
+				  A:	G(!day)
 				  G:	(F(locA & F(locB)) & (!locB U locA))
 
 				GOAL:	'never-c'
@@ -80,8 +74,8 @@ GOAL:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
 
 					REFINEMENT
 						GOAL:	'collaborate||pick_up_item||robot_2||robot_3'
-						  A:	(power1 >= 8 & power2 >= 8)
-						  G:	(((G(weight_power > 12) & robot_power >= 8) & robot_power >= 9) & G(heavy_item_pickup))
+						  A:	((power1 >= 8 & power2 >= 8) & G(weight_power > 12))
+						  G:	(((G(weight_power > 12) & robot_power >= 9) & G(heavy_item_pickup)) & robot_power >= 8)
 
 							COMPOSITION/MAPPING
 								GOAL:	'pick_up_item'

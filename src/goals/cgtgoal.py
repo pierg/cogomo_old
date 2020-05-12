@@ -1,10 +1,12 @@
 from typing import List
 
 from contracts.contract import Contract
-from src.typescogomo.contexts import Context
-from typescogomo.assumptions import Expectation
-from typescogomo.guarantees import Guarantees, deepcopy
-from src.checks.tools import Or, And
+from src.typescogomo.assumption import Context
+from typescogomo.assumption import Expectation
+from typescogomo.formula import LTL
+from typescogomo.formulae import Guarantees
+from src.checks.tools import Or, And, Implies
+from typescogomo.variables import Variables
 
 
 class CGTGoal:
@@ -208,7 +210,6 @@ class CGTGoal:
             for goal in self.refined_by:
                 goal.add_domain_properties()
 
-
     def add_expectations(self, expectations: List[Contract]):
         """Domain Hypothesis or Expectations (i.e. prescriptive assumptions on the environment)
         Expectations are conditional assumptions, they get added to each contract of the CGT
@@ -309,17 +310,36 @@ class CGTGoal:
         else:
             return
 
-    def get_ltl_assumptions(self):
+    def get_ltl_assumptions(self) -> LTL:
         a_list = []
+        vars = Variables()
         for c in self.contracts:
-            a_list.append(c.assumptions.formula)
-        return Or(a_list)
+            a_list.append(c.assumptions.formula.formula)
+            vars.extend(c.assumptions.formula.variables)
+        new_formula = Or(a_list)
+        return LTL(new_formula, vars)
 
-    def get_ltl_guarantees(self):
+    def get_ltl_guarantees(self) -> LTL:
         g_list = []
+        vars = Variables()
         for c in self.contracts:
-            g_list.append(c.guarantees.formula)
-        return And(g_list)
+            g_list.append(c.guarantees.formula.formula)
+            vars.extend(c.guarantees.formula.variables)
+        new_formula = And(g_list)
+        return LTL(new_formula, vars)
+
+    def get_ltl_saturated_guarantees(self) -> LTL:
+        assumptions_guarantee_pairs = []
+        vars = Variables()
+        for c in self.contracts:
+            assumptions_guarantee_pairs.append((c.assumptions.formula.formula, c.guarantees.formula.formula))
+            vars.extend(c.assumptions.formula.variables)
+            vars.extend(c.guarantees.formula.variables)
+        new_formula = []
+        for ag_pairs in assumptions_guarantee_pairs:
+            new_formula.append(Implies(ag_pairs[0], ag_pairs[1]))
+        new_formula = And(new_formula)
+        return LTL(new_formula, vars)
 
     def __str__(self, level=0):
         """Override the print behavior"""

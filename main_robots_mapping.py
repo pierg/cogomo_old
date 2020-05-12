@@ -47,13 +47,13 @@ if __name__ == "__main__":
     ]
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals, type="MINIMAL")
+    cgt, dict = create_contextual_cgt(list_of_goals, type="MUTEX")
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 
     """Adding Domain Properties (i.e. descriptive statements about the problem world (such as physical laws)
     E.g. a robot cannot be in two locations at the same time. These properties are intrinsic in each pattern"""
-    cgt.add_domain_properties()
+    # cgt.add_domain_properties()
 
     save_to_file(str(cgt), file_path + "/cgt_2_domain")
 
@@ -73,7 +73,7 @@ if __name__ == "__main__":
                     variables=Variables(Boolean("heavy_item_pickup")))))
     ]
 
-    cgt.add_expectations(expectations)
+    # cgt.add_expectations(expectations)
 
     save_to_file(str(cgt), file_path + "/cgt_3_expectations")
 

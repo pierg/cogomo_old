@@ -1,0 +1,36 @@
+    list_of_goals = [
+        CGTGoal(
+            context=(Context(P_global(LTL("home")))),
+            name="always-home",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        ),
+        CGTGoal(
+            context=(Context(P_global(LTL("warehouse")))),
+            name="always-warehouse",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        ),
+        CGTGoal(
+            context=(Context(P_global(LTL("kitchen")))),
+            name="always-kitchen",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        ),
+        CGTGoal(
+            context=(Context(P_after_Q(P_until_R(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
+            name="warehouse-after-alarm-until-not-alarm",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        ),
+        CGTGoal(
+            context=(Context(P_before_R(LTL("warehouse"), LTL("alarm")))),
+            name="warehouse-before-alarm",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        )
+    ]
+
+    context_rules = {
+        "mutex": [
+            [LTL("home"), LTL("warehouse")]
+        ],
+        "inclusion": [
+            [LTL("kitchen"), LTL("home")]
+        ]
+    }

@@ -1,5 +1,5 @@
 import re
-from typing import List
+from typing import List, Tuple
 
 OPERATORS = r'(^==|\*|\/|-|<=|>=|<|>|\+|!=|!|=|\(|\)|\||->|&|\s)'
 TEMPORALOPS = r'^F|^G|^X|^U'
@@ -17,6 +17,25 @@ def extract_variables_name(expression: str) -> List[str]:
             list_terms.remove(term)
 
     return list_terms
+
+
+def traslate_boolean(expression: str) -> Tuple[str, List[str], List[str]]:
+
+    expression = re.sub(r"(\s>\s?)", "_M_", expression)
+    expression = re.sub(r"(\s?<\s?)", "_L_", expression)
+    expression = re.sub(r"(\s?>=\s?)", "_ME_", expression)
+    expression = re.sub(r"(\s?<=\s?)", "_LE_", expression)
+
+    new_vars = re.findall(r"\b\w*[_]\w*\b", expression)
+
+    old_vars = set()
+
+    for s in new_vars:
+        old_vars.add(s.split("_")[0])
+
+
+    return expression, new_vars, list(old_vars)
+
 
 
 def extract_terms(expression: str) -> List[str]:

@@ -1,7 +1,7 @@
 from copy import deepcopy
 from typing import List
 from src.contracts.contract import Contract
-from typescogomo.formulae import IconsistentException
+from typescogomo.formula import IconsistentException
 
 
 def compose_contracts(contracts: List[Contract]) -> Contract:

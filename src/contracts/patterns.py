@@ -1,6 +1,6 @@
 from checks.tools import And
 from src.contracts.contract import *
-from typescogomo.assumptions import Domain
+from typescogomo.assumption import Domain
 from typescogomo.variables import extract_variable
 
 
@@ -83,6 +83,17 @@ class SequencedVisit(CoreMovement):
         super().__init__(locations, guarantee)
 
 
+class Patroling(CoreMovement):
+    """Keep visiting a set of locations, but not in a particular order"""
+
+    def __init__(self, locations: List[str] = None):
+        conj_list = []
+        for location in locations:
+            conj_list.append("G(F(" + location + "))")
+
+        super().__init__(locations, And(conj_list))
+
+
 class OrderedVisit(CoreMovement):
     """Sequence visit does not forbid to visit a successor location before its predecessor, but only that after the
     predecessor is visited the successor is also visited. Ordered visit forbids a successor to be visited
@@ -133,3 +144,27 @@ class DelayedReaction(Pattern):
         variables = Variables([Boolean(trigger), Boolean(reaction)])
 
         super().__init__("G(" + trigger + " -> F(" + reaction + "))", variables)
+
+
+class InstantReaction(Pattern):
+    """Instant Reaction Pattern"""
+
+    def __init__(self, trigger=None, reaction=None):
+        if trigger is None or reaction is None:
+            raise Exception("No trigger or reaction provided")
+
+        variables = Variables([Boolean(trigger), Boolean(reaction)])
+
+        super().__init__("(" + trigger + " -> (" + reaction + "))", variables)
+
+
+class PromptReaction(Pattern):
+    """Prompt Reaction Pattern"""
+
+    def __init__(self, trigger=None, reaction=None):
+        if trigger is None or reaction is None:
+            raise Exception("No trigger or reaction provided")
+
+        variables = Variables([Boolean(trigger), Boolean(reaction)])
+
+        super().__init__("G(" + trigger + " -> X(" + reaction + "))", variables)

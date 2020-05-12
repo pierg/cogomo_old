@@ -74,7 +74,7 @@ if __name__ == "__main__":
     }
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals, "MINIMAL", context_rules)
+    cgt, context_goals = create_contextual_cgt(list_of_goals, "MINIMAL", context_rules)
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual_MINIMAL")
 

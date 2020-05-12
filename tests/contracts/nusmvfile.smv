@@ -1,0 +1,6 @@
+MODULE main
+VAR
+	f: boolean;
+	b: boolean;
+
+LTLSPEC ((f) -> (b))

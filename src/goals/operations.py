@@ -5,12 +5,12 @@ from components.components import ComponentsLibrary
 from src.contracts.contract import Contract
 from src.contracts.operations import compose_contracts
 from src.goals.cgtgoal import CGTGoal
-from typescogomo.contexts import Context
-from typescogomo.formulae import IconsistentException
-from typescogomo.guarantees import Guarantees, Assumptions
+from typescogomo.assumption import Context
+from typescogomo.formula import IconsistentException
+from typescogomo.formulae import Guarantees, Assumptions
 from src.goals.helpers import extract_ltl_rules, map_goals_to_contexts, filter_and_simplify_contexts, \
     extract_unique_contexts_from_goals, extract_all_combinations_and_negations_from_contexts, \
-    add_constraints_to_all_contexts, merge_contexes
+    add_constraints_to_all_contexts, merge_contexes, context_based_specification_clustering
 
 
 def composition(goals: List[CGTGoal],
@@ -234,33 +234,36 @@ def mapping(component_library: ComponentsLibrary,
     specification_goal.refine_by([composition_goal])
 
 
-def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict= None) -> CGTGoal:
+def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict = None) -> CGTGoal:
     """Returns all combinations that are consistent"""
-    from contracts import helpers
 
     if type == "MINIMAL":
         """Context Creation"""
-        """Within one context combination (a row), analyse each pair and discard the bigger set"""
-        helpers.KEEP_SMALLER_CONTEXT = True
+        """Within one context combination (a row), analyse each pair and discard the bigger set. It is always True"""
+        KEEP_SMALLER_CONTEXT = True
         """Among a pair of context combinations (two rows), save only the smaller context"""
-        helpers.KEEP_SMALLER_COMBINATION = True
+        KEEP_SMALLER_COMBINATION = True
         """Goal Mapping"""
+        """When mapping a goal context to a combination of context C, map if the goal context is satisfiable with C"""
+        GOAL_CTX_SAT = False
         """When mapping a goal context to a combination of context C, map if the goal context is smaller than C"""
-        helpers.GOAL_CTX_SMALLER = False
+        GOAL_CTX_SMALLER = False
         """When more context points to the same set of goal take the smaller context"""
-        helpers.SAVE_SMALLER_CONTEXT = False
+        SAVE_SMALLER_CONTEXT = False
 
     elif type == "MUTEX":
         """Context Creation"""
         """Within one context combination (a row), analyse each pair and discard the bigger set"""
-        helpers.KEEP_SMALLER_CONTEXT = True
+        KEEP_SMALLER_CONTEXT = True
         """Among a pair of context combinations (two rows), save only the smaller context"""
-        helpers.KEEP_SMALLER_COMBINATION = True
+        KEEP_SMALLER_COMBINATION = False
         """Goal Mapping"""
+        """When mapping a goal context to a combination of context C, map if the goal context is satisfiable with C"""
+        GOAL_CTX_SAT = False
         """When mapping a goal context to a combination of context C, map if the goal context is smaller than C"""
-        helpers.GOAL_CTX_SMALLER = False
+        GOAL_CTX_SMALLER = False
         """When more context points to the same set of goal take the smaller context"""
-        helpers.SAVE_SMALLER_CONTEXT = False
+        SAVE_SMALLER_CONTEXT = False
     else:
         raise Exception("The type is not supported, either MINIMAL or MUTEX")
 
@@ -269,16 +272,6 @@ def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict= 
         ltl_rules = extract_ltl_rules(context_rules)
     else:
         ltl_rules = []
-
-    # for g in goals:
-    #     print(g)
-    #
-    # """Add rules to contexts goals"""
-    # add_constraints_to_goal(goals, context_variables_rules)
-    #
-    # print("\n\nRules added to the goals:")
-    # for g in goals:
-    #     print(g)
 
     """Extract all unique contexts"""
     contexts: List[Context] = extract_unique_contexts_from_goals(goals)
@@ -294,122 +287,33 @@ def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict= 
     """Extract the combinations of all contextes and the combination with the negations of all the other contexts"""
     combs_all_contexts, combs_all_contexts_neg = extract_all_combinations_and_negations_from_contexts(contexts)
 
+    context_goals = {}
+
     if type == "MINIMAL":
-
-        """Add constaints to the context combinations"""
-        if context_rules is not None:
-            combs_all_contexts = add_constraints_to_all_contexts(combs_all_contexts, ltl_rules)
-
-        print("\n\n__ALL_COMBINATIONS_(" + str(
-            len(combs_all_contexts)) + ")___________________________________________________________")
-        for c_list in combs_all_contexts:
-            print(*c_list, sep='\t\t\t')
-
-        # """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify them"""
-        # combs_all_contexts = filter_and_simplify_contexts(combs_all_contexts)
-        #
-        # print("\n\n__ALL_COMBINATIONS_CONSISTENT_(" + str(
-        #     len(combs_all_contexts)) + ")________________________________________________")
-        # for c_list in combs_all_contexts:
-        #     print(*c_list, sep='\t\t\t')
-
-        """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify and merge them"""
-        merged, merged_simplified = merge_contexes(combs_all_contexts)
-
-        print("\n\n__MERGED_____________________________________________________________________")
-        print(*merged, sep='\n')
-
-        print("\n\n__MERGED_AND_GROUPED_________________________________________________________")
-        print(*merged_simplified, sep='\n')
-
-        # contexts_list = merged
-        #
-        # context_goals = map_goals_to_contexts(contexts_list, goals)
-        # for ctx, ctx_goals in context_goals.items():
-        #     print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
-        #         [c.name for c in ctx_goals]))
-
-        contexts_list = merged_simplified
-
-        context_goals = map_goals_to_contexts(contexts_list, goals)
-        for ctx, ctx_goals in context_goals.items():
-            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
-                [c.name for c in ctx_goals]))
-        print("\n\n")
-
-        print("\n\n\n\n\n\nComposing and Conjoining based on the Context...")
-
-        """Compose all the set of goals in identified context"""
-        composed_goals = []
-        for ctx, goals in context_goals.items():
-            ctx_goals = composition(goals)
-            if ctx_goals.context is not None:
-                print("CTX\t" + str(ctx_goals.context))
-                print(*ctx_goals.contracts[0].variables.list, sep=", ")
-            else:
-                print("CTX\t" + str(ctx_goals.context))
-                print(*ctx_goals.contracts[0].variables.list, sep=", ")
-            ctx_goals.context = ctx
-            print("CTX\t" + str(ctx_goals.context))
-            print(*ctx_goals.contracts[0].variables.list, sep=", ")
-            composed_goals.append(ctx_goals)
-
-        """Conjoin the goals across all the mutually exclusive contexts"""
-        cgt = conjunction(composed_goals)
-
-        return cgt
+        context_goals = context_based_specification_clustering(combs_all_contexts, ltl_rules, goals,
+                                                               KEEP_SMALLER_COMBINATION,
+                                                               GOAL_CTX_SAT,
+                                                               GOAL_CTX_SMALLER,
+                                                               SAVE_SMALLER_CONTEXT)
 
     if type == "MUTEX":
-
-        if context_rules is not None:
-            combs_all_contexts_neg = add_constraints_to_all_contexts(combs_all_contexts_neg, ltl_rules)
-
-        print("\n\n__ALL_COMBINATIONS_WITH_NEG_(" + str(
-            len(combs_all_contexts_neg)) + ")__________________________________________________")
-        for c_list in combs_all_contexts_neg:
-            print(*c_list, sep='\t\t\t')
-
-        # """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify them"""
-        #
-        # combs_all_contexts_neg = filter_and_simplify_contexts(combs_all_contexts_neg)
-        #
-        # print("\n\n__ALL_COMBINATIONS_WITH_NEG_CONSISTENT_(" + str(
-        #     len(combs_all_contexts_neg)) + ")_______________________________________")
-        # for c_list in combs_all_contexts_neg:
-        #     print(*c_list, sep='\t\t\t')
-
-        """Filter from combs_all_contexts the comb that are satisfiable and if they are then simplify and merge them"""
-        merged_neg, merged_simplified_neg = merge_contexes(combs_all_contexts_neg)
-
-        print("\n\n__MERGED_NEG_________________________________________________________________")
-        print(*merged_neg, sep='\n')
-
-        print("\n\n__MERGED_AND_GROUPED_NEG______________________________________________________")
-        print(*merged_simplified_neg, sep='\n')
-
-        # contexts_list = merged_neg
-        #
-        # context_goals = map_goals_to_contexts(contexts_list, goals)
-        # for ctx, ctx_goals in context_goals.items():
-        #     print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
-        #         [c.name for c in ctx_goals]))
-
-        contexts_list = merged_neg
-
-        context_goals = map_goals_to_contexts(contexts_list, goals)
-        for ctx, ctx_goals in context_goals.items():
-            print("\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
-                [c.name for c in ctx_goals]))
-
-        print("\n\n\n\n\n\nComposing and Conjoining based on the Context...")
-
-        """Compose all the set of goals in identified context"""
-        composed_goals = []
+        context_goals = context_based_specification_clustering(combs_all_contexts_neg, ltl_rules, goals,
+                                                               KEEP_SMALLER_COMBINATION,
+                                                               GOAL_CTX_SAT,
+                                                               GOAL_CTX_SMALLER,
+                                                               SAVE_SMALLER_CONTEXT)
         for ctx, goals in context_goals.items():
-            ctx_goals = composition(goals)
-            composed_goals.append(ctx_goals)
+            from helper.buchi import generate_buchi
+            g_name = "||".join(g.name for g in goals)
+            generate_buchi(ctx, "buchi/" + g_name)
 
-        """Conjoin the goals across all the mutually exclusive contexts"""
-        cgt = conjunction(composed_goals)
+    """Compose all the set of goals in identified context"""
+    composed_goals = []
+    for ctx, goals in context_goals.items():
+        ctx_goals = composition(goals)
+        composed_goals.append(ctx_goals)
 
-        return cgt
+    """Conjoin the goals across all the mutually exclusive contexts"""
+    cgt = conjunction(composed_goals)
+
+    return cgt, context_goals

@@ -1,7 +1,9 @@
 import os
 import subprocess
 from graphviz import Source
-from src.typescogomo.contexts import *
+from helper.tools import traslate_boolean
+from typescogomo.formula import AndLTL
+from typescogomo.scopes import *
 
 
 def clean_up():
@@ -16,7 +18,9 @@ def clean_up():
 def generate_buchi(formula: LTL, name: str, path: str = ""):
     try:
         print(formula)
-        output = subprocess.check_output(["ltl2tgba", "-B", str(formula), "-d"], encoding='UTF-8',
+        b_formula, new_vars, old_vars = traslate_boolean(formula.formula)
+        print(b_formula)
+        output = subprocess.check_output(["ltl2tgba", "-B", b_formula, "-d"], encoding='UTF-8',
                                          stderr=subprocess.DEVNULL).splitlines()
         output = [x for x in output if not ('[Büchi]' in x)]
 
@@ -24,7 +28,7 @@ def generate_buchi(formula: LTL, name: str, path: str = ""):
 
         src = Source(output, directory="output", filename=name, format="eps")
 
-        src.render()
+        src.render(cleanup=True)
 
     except Exception as e:
         raise e
@@ -189,6 +193,34 @@ def composition_scopes():
 
 
 if __name__ == '__main__':
-    basic_scopes()
-    composition_scopes()
-    clean_up()
+
+    generate_buchi(
+        AndLTL([
+            P_eventually(LTL("alarm")),
+            P_after_Q(
+                p=P_until_R(
+                    p=LTL("warehouse"),
+                    r=LTL("!alarm")),
+                q=LTL("alarm"))
+        ]), "strong-after-alarm")
+
+    generate_buchi(
+        AndLTL([
+            P_eventually(LTL("alarm")),
+            P_until_R(
+                p=LTL("warehouse"),
+                r=LTL("!alarm"))
+        ]), "strong-after-alarm2")
+
+
+    generate_buchi(
+        AndLTL([
+            P_eventually(LTL("alarm")),
+            P_after_Q(
+                p=LTL("warehouse"),
+                q=LTL("alarm"))
+        ]), "strong-after-alarm2")
+
+    # basic_scopes()
+    # composition_scopes()
+    # clean_up()

@@ -1,0 +1,932 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Creator: graphviz version 2.43.0 (0)
+%%Title: F!warehouse & (G(time_L_24 & time_M_20) | G(time_L_8 & time_M_0)) & F(!shop | !time_L_17 | !time_M_9) & G(alarm & shop & ((home & !warehouse) | (!home & warehouse)))
+%%Pages: 1
+%%BoundingBox: 36 36 5836 651
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+EncodingVector 45 /hyphen put
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset graphviz 0 0
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+       dup 1 exch div /InvScaleFactor exch def
+       scale
+} bind def
+
+% styles
+/solid { [] 0 setdash } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+/tapered { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw text fitted to its expected width
+/alignedtext {			% width text
+	/text exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			[] 0 setdash
+			text stringwidth pop width exch sub text length div 0 text ashow
+		} if
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+/showpage { } def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/layerlen layercolorseq length def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer 1 sub layerlen mod get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+setupLatin1
+%%Page: 1 1
+%%PageBoundingBox: 36 36 5836 651
+%%PageOrientation: Portrait
+0 0 1 beginpage
+gsave
+36 36 5800 615 boxprim clip newpath
+1 1 set_scale 0 rotate 40 40 translate
+% I
+% 0
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+56 329.3725 18 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+52.5 325.1725 moveto 7 (0) alignedtext
+grestore
+% I->0
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1.1549 329.3725 moveto
+2.6725 329.3725 15.0966 329.3725 27.6277 329.3725 curveto
+stroke
+0 0 0 edgecolor
+newpath 27.9419 332.8726 moveto
+37.9419 329.3725 lineto
+27.9418 325.8726 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 27.9419 332.8726 moveto
+37.9419 329.3725 lineto
+27.9418 325.8726 lineto
+closepath stroke
+grestore
+% 1
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+1102.5234 452.3725 18 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1099.0234 448.1725 moveto 7 (1) alignedtext
+grestore
+% 0->1
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 59.2275 347.373 moveto
+62.6518 366.5434 71.1705 396.0533 92 410.3725 curveto
+257.0095 523.8084 930.5977 468.3221 1074.4229 454.9876 curveto
+stroke
+0 0 0 edgecolor
+newpath 1074.9378 458.4547 moveto
+1084.5667 454.035 lineto
+1074.2833 451.4854 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1074.9378 458.4547 moveto
+1084.5667 454.035 lineto
+1074.2833 451.4854 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+99 482.1725 moveto 511.7 (alarm & !home & shop & time_L_8 & time_L_17 & time_M_0 & time_M_9 & warehouse) alignedtext
+grestore
+% 2
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+3005.8008 532.3725 18 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3002.3008 528.1725 moveto 7 (2) alignedtext
+grestore
+% 0->2
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 58.0281 347.5272 moveto
+60.6739 386.9392 69.1856 478.3282 92 497.3725 curveto
+277.5702 652.2768 394.0409 505.8488 635.7041 511.3725 curveto
+1058.6284 521.0394 1164.3321 525.8517 1587.3428 530.3725 curveto
+2147.933 536.3637 2833.3039 533.2756 2977.4245 532.523 curveto
+stroke
+0 0 0 edgecolor
+newpath 2977.5933 536.0222 moveto
+2987.5746 532.4691 lineto
+2977.5561 529.0223 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2977.5933 536.0222 moveto
+2987.5746 532.4691 lineto
+2977.5561 529.0223 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+649.7041 532.1725 moveto 905.64 (\(alarm & !home & shop & time_L_8 & time_M_0 & !time_M_9 & warehouse\) | \(alarm & !home & shop & time_L_8 & !time_L_17 & time_M_0 & warehouse\)) alignedtext
+grestore
+% 3
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+3005.8008 396.3725 18 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3002.3008 392.1725 moveto 7 (3) alignedtext
+grestore
+% 0->3
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 67.189 344.0347 moveto
+73.3849 351.6298 82.0195 360.1741 92 364.3725 curveto
+232.3759 423.4236 2688.0086 399.6735 2977.0828 396.6677 curveto
+stroke
+0 0 0 edgecolor
+newpath 2977.5351 400.1633 moveto
+2987.4978 396.5586 lineto
+2977.4617 393.1637 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2977.5351 400.1633 moveto
+2987.4978 396.5586 lineto
+2977.4617 393.1637 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+846.6714 406.1725 moveto 511.7 (alarm & home & shop & time_L_8 & time_L_17 & time_M_0 & time_M_9 & !warehouse) alignedtext
+grestore
+% 4
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+5407.7002 460.3725 18 18 ellipse_path stroke
+1 setlinewidth
+0 0 0 nodecolor
+5407.7002 460.3725 22 22 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+5404.2002 456.1725 moveto 7 (4) alignedtext
+grestore
+% 0->4
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 73.637 333.3646 moveto
+79.4148 334.5734 85.9596 335.7461 92 336.3725 curveto
+237.7717 351.4906 5242.7813 308.7356 5367.7002 385.3725 curveto
+5383.4466 395.0328 5393.1369 413.3258 5398.9198 429.4265 curveto
+stroke
+0 0 0 edgecolor
+newpath 5395.6307 430.6311 moveto
+5402.0347 439.0715 lineto
+5402.292 428.4798 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5395.6307 430.6311 moveto
+5402.0347 439.0715 lineto
+5402.292 428.4798 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1601.3428 341.1725 moveto 905.64 (\(alarm & home & shop & time_L_8 & time_M_0 & !time_M_9 & !warehouse\) | \(alarm & home & shop & time_L_8 & !time_L_17 & time_M_0 & !warehouse\)) alignedtext
+grestore
+% 5
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+1102.5234 222.3725 18 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1099.0234 218.1725 moveto 7 (5) alignedtext
+grestore
+% 0->5
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 63.9069 313.1408 moveto
+69.6537 301.8334 79.0006 287.5412 92 280.3725 curveto
+436.7069 90.2783 952.072 188.6957 1074.6694 216.0486 curveto
+stroke
+0 0 0 edgecolor
+newpath 1074.1542 219.5206 moveto
+1084.6809 218.3211 lineto
+1075.7038 212.6942 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1074.1542 219.5206 moveto
+1084.6809 218.3211 lineto
+1075.7038 212.6942 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+92 283.1725 moveto 525.7 (alarm & !home & shop & time_L_17 & time_L_24 & time_M_9 & time_M_20 & warehouse) alignedtext
+grestore
+% 6
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+3005.8008 272.3725 18 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3002.3008 268.1725 moveto 7 (6) alignedtext
+grestore
+% 0->6
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 74.3113 329.0378 moveto
+301.5331 324.6441 2693.787 278.3864 2977.3782 272.9028 curveto
+stroke
+0 0 0 edgecolor
+newpath 2977.6746 276.3978 moveto
+2987.6051 272.705 lineto
+2977.5392 269.3991 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2977.6746 276.3978 moveto
+2987.6051 272.705 lineto
+2977.5392 269.3991 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+635.7041 320.1725 moveto 933.64 (\(alarm & !home & shop & time_L_24 & !time_M_9 & time_M_20 & warehouse\) | \(alarm & !home & shop & !time_L_17 & time_L_24 & time_M_20 & warehouse\)) alignedtext
+grestore
+% 7
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+3005.8008 136.3725 18 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3002.3008 132.1725 moveto 7 (7) alignedtext
+grestore
+% 0->7
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 58.0224 311.2966 moveto
+60.6565 272.06 69.1461 181.1031 92 162.3725 curveto
+209.8436 65.7904 2687.8803 128.0288 2977.2932 135.638 curveto
+stroke
+0 0 0 edgecolor
+newpath 2977.6209 139.1478 moveto
+2987.7099 135.9133 lineto
+2977.8059 132.1503 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2977.6209 139.1478 moveto
+2987.7099 135.9133 lineto
+2977.8059 132.1503 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+839.6714 117.1725 moveto 525.7 (alarm & home & shop & time_L_17 & time_L_24 & time_M_9 & time_M_20 & !warehouse) alignedtext
+grestore
+% 8
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+5407.7002 194.3725 18 18 ellipse_path stroke
+1 setlinewidth
+0 0 0 nodecolor
+5407.7002 194.3725 22 22 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+5404.2002 190.1725 moveto 7 (8) alignedtext
+grestore
+% 0->8
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 57.0543 311.3181 moveto
+57.6166 263.8268 61.9602 137.2878 92 111.3725 curveto
+376.4131 -133.9904 3097.054 102.7472 3472.6201 109.3725 curveto
+3893.7553 116.8018 4990.9237 -43.9078 5367.7002 144.3725 curveto
+5377.3757 149.2075 5385.3689 157.6959 5391.5461 166.3214 curveto
+stroke
+0 0 0 edgecolor
+newpath 5388.7203 168.3958 moveto
+5397.1129 174.8622 lineto
+5394.5846 164.5735 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5388.7203 168.3958 moveto
+5397.1129 174.8622 lineto
+5394.5846 164.5735 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1587.3428 56.1725 moveto 933.64 (\(alarm & home & shop & time_L_24 & !time_M_9 & time_M_20 & !warehouse\) | \(alarm & home & shop & !time_L_17 & time_L_24 & time_M_20 & !warehouse\)) alignedtext
+grestore
+% 1->1
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1084.5631 453.6062 moveto
+916.229 465.9398 922.2158 488.3725 1102.5234 488.3725 curveto
+1279.1333 488.3725 1288.499 466.8505 1130.6203 454.3775 curveto
+stroke
+0 0 0 edgecolor
+newpath 1130.7205 450.8751 moveto
+1120.4838 453.6062 lineto
+1130.1894 457.8549 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1130.7205 450.8751 moveto
+1120.4838 453.6062 lineto
+1130.1894 457.8549 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+846.6714 491.1725 moveto 511.7 (alarm & !home & shop & time_L_8 & time_L_17 & time_M_0 & time_M_9 & warehouse) alignedtext
+grestore
+% 1->2
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1120.6383 454.1968 moveto
+1183.0393 460.7685 1404.2688 483.3695 1587.3428 493.3725 curveto
+2001.801 516.0183 2106.0777 504.4017 2520.9814 516.3725 curveto
+2694.7758 521.3868 2903.6408 528.7458 2977.3945 531.3852 curveto
+stroke
+0 0 0 edgecolor
+newpath 2977.5426 534.8927 moveto
+2987.6617 531.7534 lineto
+2977.7936 527.8972 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2977.5426 534.8927 moveto
+2987.6617 531.7534 lineto
+2977.7936 527.8972 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1601.3428 519.1725 moveto 905.64 (\(alarm & !home & shop & time_L_8 & time_M_0 & !time_M_9 & warehouse\) | \(alarm & !home & shop & time_L_8 & !time_L_17 & time_M_0 & warehouse\)) alignedtext
+grestore
+% 1->3
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1120.5408 451.8713 moveto
+1295.1106 446.7295 2758.4376 403.6289 2977.425 397.1788 curveto
+stroke
+0 0 0 edgecolor
+newpath 2977.8132 400.669 moveto
+2987.7058 396.876 lineto
+2977.6071 393.6721 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2977.8132 400.669 moveto
+2987.7058 396.876 lineto
+2977.6071 393.6721 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1798.3101 440.1725 moveto 511.7 (alarm & home & shop & time_L_8 & time_L_17 & time_M_0 & time_M_9 & !warehouse) alignedtext
+grestore
+% 1->4
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1120.6015 452.5309 moveto
+1278.4829 453.9861 2500.1241 465.0531 3490.6201 468.3725 curveto
+3907.7467 469.7704 4952.7038 510.4977 5367.7002 468.3725 curveto
+5370.4422 468.0942 5373.2762 467.7085 5376.107 467.2556 curveto
+stroke
+0 0 0 edgecolor
+newpath 5376.979 470.6537 moveto
+5386.1754 465.3929 lineto
+5375.7055 463.7705 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5376.979 470.6537 moveto
+5386.1754 465.3929 lineto
+5375.7055 463.7705 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2552.9814 470.1725 moveto 905.64 (\(alarm & home & shop & time_L_8 & time_M_0 & !time_M_9 & !warehouse\) | \(alarm & home & shop & time_L_8 & !time_L_17 & time_M_0 & !warehouse\)) alignedtext
+grestore
+% 2->2
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 2987.5095 533.3461 moveto
+2768.4659 545.6215 2774.563 568.3725 3005.8008 568.3725 curveto
+3233.4255 568.3725 3242.8902 546.3269 3034.1948 533.9291 curveto
+stroke
+0 0 0 edgecolor
+newpath 3034.2771 530.4281 moveto
+3024.0921 533.3461 lineto
+3033.8738 537.4164 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3034.2771 530.4281 moveto
+3024.0921 533.3461 lineto
+3033.8738 537.4164 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2827.7212 571.1725 moveto 356.16 (alarm & !home & shop & time_L_8 & time_M_0 & warehouse) alignedtext
+grestore
+% 2->4
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3023.9473 533.7838 moveto
+3212.8532 549.0901 4907.8478 680.2212 5367.7002 496.3725 curveto
+5374.3685 493.7065 5380.5914 489.3271 5386.0219 484.5247 curveto
+stroke
+0 0 0 edgecolor
+newpath 5388.6696 486.8308 moveto
+5393.3709 477.3362 lineto
+5383.7748 481.8267 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5388.6696 486.8308 moveto
+5393.3709 477.3362 lineto
+5383.7748 481.8267 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4251.0806 596.1725 moveto 356.16 (alarm & home & shop & time_L_8 & time_M_0 & !warehouse) alignedtext
+grestore
+% 3->3
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 2987.5095 397.3461 moveto
+2768.4659 409.6215 2774.563 432.3725 3005.8008 432.3725 curveto
+3233.4255 432.3725 3242.8902 410.3269 3034.1948 397.9291 curveto
+stroke
+0 0 0 edgecolor
+newpath 3034.2771 394.4281 moveto
+3024.0921 397.3461 lineto
+3033.8738 401.4164 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3034.2771 394.4281 moveto
+3024.0921 397.3461 lineto
+3033.8738 401.4164 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2479.8711 435.1725 moveto 1051.86 (\(alarm & !home & shop & time_L_8 & time_L_17 & time_M_0 & time_M_9 & warehouse\) | \(alarm & home & shop & time_L_8 & time_L_17 & time_M_0 & time_M_9 & !warehouse\)) alignedtext
+grestore
+% 3->4
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3023.9851 395.953 moveto
+3181.5806 392.2778 4392.1499 367.7063 5367.7002 454.3725 curveto
+5370.2676 454.6006 5372.9227 454.8912 5375.5844 455.2211 curveto
+stroke
+0 0 0 edgecolor
+newpath 5375.3217 458.7184 moveto
+5385.7104 456.6386 lineto
+5376.2922 451.786 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5375.3217 458.7184 moveto
+5385.7104 456.6386 lineto
+5376.2922 451.786 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3518.6201 457.1725 moveto 1821.08 (\(alarm & !home & shop & time_L_8 & time_M_0 & !time_M_9 & warehouse\) | \(alarm & !home & shop & time_L_8 & !time_L_17 & time_M_0 & warehouse\) | \(alarm & home & shop & time_L_8 & time_M_0 & !time_M_9 & !warehouse\) | \(alarm & home & shop & time_L_8 & !time_L_17 & time_M_0 & !warehouse\)) alignedtext
+grestore
+% 4->4
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 5385.4946 461.6604 moveto
+5163.439 475.3465 5170.8408 500.3725 5407.7002 500.3725 curveto
+5640.8586 500.3725 5651.6741 476.1224 5440.1466 462.3101 curveto
+stroke
+0 0 0 edgecolor
+newpath 5440.1073 458.8006 moveto
+5429.9058 461.6604 lineto
+5439.6641 465.7866 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5440.1073 458.8006 moveto
+5429.9058 461.6604 lineto
+5439.6641 465.7866 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+5037.3154 503.1725 moveto 740.77 (\(alarm & !home & shop & time_L_8 & time_M_0 & warehouse\) | \(alarm & home & shop & time_L_8 & time_M_0 & !warehouse\)) alignedtext
+grestore
+% 5->5
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1084.5631 223.6062 moveto
+916.229 235.9398 922.2158 258.3725 1102.5234 258.3725 curveto
+1279.1333 258.3725 1288.499 236.8505 1130.6203 224.3775 curveto
+stroke
+0 0 0 edgecolor
+newpath 1130.7205 220.8751 moveto
+1120.4838 223.6062 lineto
+1130.1894 227.8549 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1130.7205 220.8751 moveto
+1120.4838 223.6062 lineto
+1130.1894 227.8549 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+839.6714 261.1725 moveto 525.7 (alarm & !home & shop & time_L_17 & time_L_24 & time_M_9 & time_M_20 & warehouse) alignedtext
+grestore
+% 5->6
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1120.6635 222.8904 moveto
+1183.1514 224.7739 1404.6415 231.4091 1587.3428 236.3725 curveto
+2147.9384 251.6022 2833.3051 268.2354 2977.4247 271.7133 curveto
+stroke
+0 0 0 edgecolor
+newpath 2977.4932 275.2159 moveto
+2987.5747 271.9581 lineto
+2977.662 268.2179 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2977.4932 275.2159 moveto
+2987.5747 271.9581 lineto
+2977.662 268.2179 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1587.3428 262.1725 moveto 933.64 (\(alarm & !home & shop & time_L_24 & !time_M_9 & time_M_20 & warehouse\) | \(alarm & !home & shop & !time_L_17 & time_L_24 & time_M_20 & warehouse\)) alignedtext
+grestore
+% 5->7
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1120.6585 221.2743 moveto
+1183.1289 217.2933 1404.5667 203.3803 1587.3428 194.3725 curveto
+2002.1334 173.9303 2106.0363 173.3933 2520.9814 156.3725 curveto
+2694.7554 149.2444 2903.633 140.5758 2977.3922 137.5116 curveto
+stroke
+0 0 0 edgecolor
+newpath 2977.8142 140.9972 moveto
+2987.6602 137.085 lineto
+2977.5235 134.0033 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2977.8142 140.9972 moveto
+2987.6602 137.085 lineto
+2977.5235 134.0033 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1791.3101 197.1725 moveto 525.7 (alarm & home & shop & time_L_17 & time_L_24 & time_M_9 & time_M_20 & !warehouse) alignedtext
+grestore
+% 5->8
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1120.6317 222.4848 moveto
+1405.0526 224.3309 5143.2623 247.8156 5367.7002 208.3725 curveto
+5370.9594 207.7997 5374.3066 206.9808 5377.6048 206.0226 curveto
+stroke
+0 0 0 edgecolor
+newpath 5378.8248 209.3055 moveto
+5387.2161 202.8374 lineto
+5376.6227 202.6609 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5378.8248 209.3055 moveto
+5387.2161 202.8374 lineto
+5376.6227 202.6609 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2538.9814 233.1725 moveto 933.64 (\(alarm & home & shop & time_L_24 & !time_M_9 & time_M_20 & !warehouse\) | \(alarm & home & shop & !time_L_17 & time_L_24 & time_M_20 & !warehouse\)) alignedtext
+grestore
+% 6->6
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 2987.5095 273.3461 moveto
+2768.4659 285.6215 2774.563 308.3725 3005.8008 308.3725 curveto
+3233.4255 308.3725 3242.8902 286.3269 3034.1948 273.9291 curveto
+stroke
+0 0 0 edgecolor
+newpath 3034.2771 270.4281 moveto
+3024.0921 273.3461 lineto
+3033.8738 277.4164 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3034.2771 270.4281 moveto
+3024.0921 273.3461 lineto
+3033.8738 277.4164 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2820.7212 311.1725 moveto 370.16 (alarm & !home & shop & time_L_24 & time_M_20 & warehouse) alignedtext
+grestore
+% 6->8
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3023.9106 272.9259 moveto
+3225.2911 279.3356 5140.6634 337.4432 5367.7002 236.3725 curveto
+5375.4981 232.9011 5382.449 227.0403 5388.2451 220.7812 curveto
+stroke
+0 0 0 edgecolor
+newpath 5391.2026 222.7014 moveto
+5394.9459 212.7899 lineto
+5385.8387 218.2037 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5391.2026 222.7014 moveto
+5394.9459 212.7899 lineto
+5385.8387 218.2037 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4244.0806 297.1725 moveto 370.16 (alarm & home & shop & time_L_24 & time_M_20 & !warehouse) alignedtext
+grestore
+% 7->7
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 2987.5095 137.3461 moveto
+2768.4659 149.6215 2774.563 172.3725 3005.8008 172.3725 curveto
+3233.4255 172.3725 3242.8902 150.3269 3034.1948 137.9291 curveto
+stroke
+0 0 0 edgecolor
+newpath 3034.2771 134.4281 moveto
+3024.0921 137.3461 lineto
+3033.8738 141.4164 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3034.2771 134.4281 moveto
+3024.0921 137.3461 lineto
+3033.8738 141.4164 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2465.8711 175.1725 moveto 1079.86 (\(alarm & !home & shop & time_L_17 & time_L_24 & time_M_9 & time_M_20 & warehouse\) | \(alarm & home & shop & time_L_17 & time_L_24 & time_M_9 & time_M_20 & !warehouse\)) alignedtext
+grestore
+% 7->8
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3024.0667 136.7898 moveto
+3224.5798 141.6357 5108.9187 187.1758 5375.4202 193.6166 curveto
+stroke
+0 0 0 edgecolor
+newpath 5375.4794 197.1189 moveto
+5385.5611 193.8616 lineto
+5375.6486 190.121 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5375.4794 197.1189 moveto
+5385.5611 193.8616 lineto
+5375.6486 190.121 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3490.6201 196.1725 moveto 1877.08 (\(alarm & !home & shop & time_L_24 & !time_M_9 & time_M_20 & warehouse\) | \(alarm & !home & shop & !time_L_17 & time_L_24 & time_M_20 & warehouse\) | \(alarm & home & shop & time_L_24 & !time_M_9 & time_M_20 & !warehouse\) | \(alarm & home & shop & !time_L_17 & time_L_24 & time_M_20 & !warehouse\)) alignedtext
+grestore
+% 8->8
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 5385.4946 195.6604 moveto
+5163.439 209.3465 5170.8408 234.3725 5407.7002 234.3725 curveto
+5640.8586 234.3725 5651.6741 210.1224 5440.1466 196.3101 curveto
+stroke
+0 0 0 edgecolor
+newpath 5440.1073 192.8006 moveto
+5429.9058 195.6604 lineto
+5439.6641 199.7866 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 5440.1073 192.8006 moveto
+5429.9058 195.6604 lineto
+5439.6641 199.7866 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+5023.3154 237.1725 moveto 768.77 (\(alarm & !home & shop & time_L_24 & time_M_20 & warehouse\) | \(alarm & home & shop & time_L_24 & time_M_20 & !warehouse\)) alignedtext
+grestore
+endpage
+showpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+end
+restore
+%%EOF

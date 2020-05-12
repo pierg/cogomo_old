@@ -1,6 +1,7 @@
 import os
 import sys
 
+from checks.tools import Implies
 from goals.operations import create_contextual_cgt
 from helper.tools import save_to_file
 from src.goals.cgtgoal import *
@@ -22,6 +23,34 @@ if __name__ == "__main__":
     """Order Visit pattern of 2 locations in the context '!day'"""
     """Global Avoidance pattern of 1 location in the context '!day'"""
     """DelayedReaction pattern in all contexts (always pickup an item when in locaction A)"""
+    # list_of_goals = [
+    #     CGTGoal(
+    #         context=(Context(P_global(LTL("home")))),
+    #         name="always-home",
+    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
+    #     ),
+    #     CGTGoal(
+    #         context=(Context(P_global(LTL("warehouse")))),
+    #         name="always-warehouse",
+    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
+    #     ),
+    #     CGTGoal(
+    #         context=(Context(P_global(LTL("kitchen")))),
+    #         name="always-kitchen",
+    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
+    #     ),
+    #     CGTGoal(
+    #         context=(Context(P_after_Q(P_until_R(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
+    #         name="warehouse-after-alarm",
+    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
+    #     ),
+    #     CGTGoal(
+    #         context=(Context(P_before_R(P_until_R(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
+    #         name="warehouse-before-alarm",
+    #         contracts=[OrderedVisit(["locA", "locB", "locC"])]
+    #     )
+    # ]
+
     list_of_goals = [
         CGTGoal(
             context=(Context(P_global(LTL("home")))),
@@ -39,14 +68,28 @@ if __name__ == "__main__":
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         ),
         CGTGoal(
-            context=(Context(P_after_Q(P_until_R(LTL("warehouse"), LTL("!alarm")), LTL("alarm")))),
-            name="warehouse-after-alarm",
+            context=(Context(
+                AndScopes([
+                    P_global(LTL("warehouse")),
+                    P_after_Q(P_until_R(LTL("warehouse"), LTL("!alarm")), LTL("alarm"))
+                ])
+            )
+            ),
+            name="warehouse-after-alarm-until-not-alarm",
+            contracts=[OrderedVisit(["locA", "locB", "locC"])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndScopes([
+                    P_global(LTL("warehouse")),
+                    P_before_R(LTL("warehouse"), LTL("alarm"))
+                ])
+            )
+            ),
+            name="warehouse-before-alarm",
             contracts=[OrderedVisit(["locA", "locB", "locC"])]
         )
     ]
-
-    for g in list_of_goals:
-        print(g)
 
     context_rules = {
         "mutex": [
@@ -57,7 +100,8 @@ if __name__ == "__main__":
         ]
     }
 
-
+    for g in list_of_goals:
+        print(g)
 
     # """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     # cgt = create_contextual_cgt(list_of_goals, "MINIMAL", context_rules)
@@ -65,6 +109,23 @@ if __name__ == "__main__":
     # save_to_file(str(cgt), file_path + "/cgt_1_contexual_MINIMAL")
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt = create_contextual_cgt(list_of_goals, "MUTEX", context_rules)
+    cgt, context_goals = create_contextual_cgt(list_of_goals, "MUTEX", context_rules)
 
-    save_to_file(str(cgt), file_path + "/cgt_1_contexual_MUTEX", )
+    contexts_goals_str = ""
+    for ctx, ctx_goals in context_goals.items():
+        contexts_goals_str += "\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+            [c.name for c in ctx_goals]) + "\n"
+
+    save_to_file(str(cgt), file_path + "/output/context-based-clustering", )
+    save_to_file(contexts_goals_str, file_path + "/output/context-goals")
+
+    assumptions_guarantee_pairs = []
+
+    for contract in cgt.contracts:
+        assumptions_guarantee_pairs.append((str(contract.assumptions.formula), str(contract.guarantees.formula)))
+
+    assumptions_overall = " | ".join(a for (a, g) in assumptions_guarantee_pairs)
+    guarantees_overall = " & ".join(Implies(a, g) for (a, g) in assumptions_guarantee_pairs)
+
+    save_to_file(assumptions_overall, file_path + "/output/assumptions.txt", )
+    save_to_file(guarantees_overall, file_path + "/output/guarantees.txt", )

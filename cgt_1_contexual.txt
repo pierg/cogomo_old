@@ -1,22 +1,45 @@
-GOAL:	'a||b'
- CTX:	(G(a) & G(b))
-  A:	((G(a) & G(b)) & (G(a) & G(b)))
-  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(!locX))
+GOAL:	'a->pickup||a-b-c^^a->pickup||a-b||never-c'
+ CTX:	G(day)
+  A:	G(day)
+  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(locB -> F(heavy_item_pickup)))
+	/\ 
+ CTX:	G(!day)
+  A:	(G(!day) & G(!day))
+  G:	(((F(locA & F(locB)) & (!locB U locA)) & G(!locC)) & G(locB -> F(heavy_item_pickup)))
 
 	CONJUNCTION
-		GOAL:	'a||b'
-		 CTX:	(G(a) & G(b))
-		  A:	((G(a) & G(b)) & (G(a) & G(b)))
-		  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(!locX))
+		GOAL:	'a->pickup||a-b-c'
+		 CTX:	G(day)
+		  A:	G(day)
+		  G:	((F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB)) & G(locB -> F(heavy_item_pickup)))
 
 			COMPOSITION
-				GOAL:	'a'
-				 CTX:	G(a)
-				  A:	G(a)
+				GOAL:	'a-b-c'
+				 CTX:	G(day)
+				  A:	G(day)
 				  G:	(F(locA & F(locB & F(locC))) & (!locB U locA) & (!locC U locB))
 
-				GOAL:	'b'
-				 CTX:	G(b)
-				  A:	G(b)
-				  G:	G(!locX)
+				GOAL:	'a->pickup'
+				  A:	TRUE
+				  G:	G(locB -> F(heavy_item_pickup))
+
+		GOAL:	'a->pickup||a-b||never-c'
+		 CTX:	G(!day)
+		  A:	(G(!day) & G(!day))
+		  G:	(((F(locA & F(locB)) & (!locB U locA)) & G(!locC)) & G(locB -> F(heavy_item_pickup)))
+
+			COMPOSITION
+				GOAL:	'a-b'
+				 CTX:	G(!day)
+				  A:	G(!day)
+				  G:	(F(locA & F(locB)) & (!locB U locA))
+
+				GOAL:	'never-c'
+				 CTX:	G(!day)
+				  A:	G(!day)
+				  G:	G(!locC)
+
+				GOAL:	'a->pickup'
+				  A:	TRUE
+				  G:	G(locB -> F(heavy_item_pickup))
 

@@ -1,0 +1,6 @@
+MODULE main
+VAR
+	b: boolean;
+	x: -100..100;
+
+LTLSPEC ((x > 3) -> (b))

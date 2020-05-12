@@ -1,0 +1,68 @@
+una missione potrebbe essere:
+durante la notte il robot deve fare patrolling per security.
+Durante il giorno invece fa welcoming di visitatori e
+se chiamato fa delivery di oggetti (possiamo inventarci qualcosa di concreto)
+da un magazzino ai diversi reparti (ad esempio rifornire medicine ai vari reparti).
+Sempre, se la batteria sta sotto il 20% deve andare a ricaricarsi ma
+prima di farlo deve informare il sistema centrale cosi sarà in grado di sostituirlo con un altro robot,
+ad esempio per il patroling (non ci occupiamo di quest'aspetto, ma da concretezza).
+Durante le azioni deve stare attento agli umani, avoidance di obstacles, controllare il suo stato, etc.
+
+
+Night -> patroling
+Day -> welcoming, delivery
+Day after closure -> shelf the warehouse
+TRUE -> charge if battery low and inform central system
+TRUE -> avoid humans
+Warehouse during alarm until no alarm -> call security
+warehouse -> shelfing
+
+# Initial mission:
+always -> avoid humans
+during night -> patroling
+shop during day -> visit, instant reaction
+
+Occurences of patterns:
+('Visit', 138)
+('Global Avoidance', 66)
+('Patrolling', 40)
+('Instant Reaction', 38)
+('Sequence Visit ', 18)
+('Strict Visit', 13)
+('Future Avoidance', 8)
+('Wait', 7)
+('Past Avoidance', 5)
+('Upper Restricted Avoidance ', 5)
+('Delayed Reaction', 5)
+('Lower Restricted Avoidance ', 4)
+('Fair Patrolling', 1)
+('Strict Patrolling', 1)
+('Fair Visit', 0)
+('Exact Restricted Avoidance', 0)
+('Sequenced Patrolling', 0)
+
+Occurences count 349
+
+Frequencies of combinations:
+(frozenset(['Visit']), 71)
+(frozenset(['Global Avoidance', 'Visit']), 28)
+(frozenset(['Patrolling']), 22)
+(frozenset(['Global Avoidance']), 17)
+(frozenset(['Instant Reaction', 'Visit']), 9)
+(frozenset(['Sequence Visit ']), 8)
+(frozenset(['Strict Visit']), 8)
+(frozenset(['Instant Reaction', 'Global Avoidance']), 5)
+(frozenset(['Global Avoidance', 'Patrolling']), 4)
+(frozenset(['Instant Reaction', 'Patrolling']), 4)
+(frozenset(['Instant Reaction', 'Visit', 'Patrolling']), 4)
+(frozenset(['Future Avoidance', 'Patrolling']), 3)
+(frozenset(['Visit', 'Lower Restricted Avoidance ']), 3)
+(frozenset(['Upper Restricted Avoidance ', 'Visit']), 2)
+(frozenset(['Instant Reaction', 'Global Avoidance', 'Delayed Reaction']), 2)
+(frozenset(['Visit', 'Sequence Visit ']), 2)
+(frozenset(['Strict Visit', 'Visit']), 2)
+(frozenset(['Instant Reaction', 'Global Avoidance', 'Visit']), 2)
+(frozenset(['Wait']), 2)
+(frozenset(['Past Avoidance', 'Visit']), 2)
+(frozenset(['Global Avoidance', 'Sequence Visit ']), 2)
+(frozenset(['Strict Visit', 'Global Avoidance']), 2)
