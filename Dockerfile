@@ -33,7 +33,7 @@ RUN apt update && \
 RUN apt --allow-releaseinfo-change update
 RUN apt update
 
-RUN add-apt-repository ppa:webupd8team/java
+RUN add-apt-repository --allow-unauthenticated ppa:webupd8team/java
 
 ## Install strix dependencies
 #RUN \
