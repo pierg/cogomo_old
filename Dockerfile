@@ -11,6 +11,11 @@ COPY bin/linux/nuXmv /usr/local/bin
 RUN chmod +x /usr/local/bin/nuXmv
 
 
+# Needed for spot
+RUN wget -q -O - https://www.lrde.epita.fr/repo/debian.gpg | apt-key add -
+RUN echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' >> /etc/apt/sources.list
+
+
 # Install keyboard-configuration separately to avoid travis hanging waiting for keyboard selection
 RUN \
     apt -y update && \
@@ -26,9 +31,12 @@ RUN \
         gnupg2 \
         tzdata
 
-RUN apt-get update && \
-    apt-get install -y software-properties-common && \
+RUN apt update && \
+    apt install -y software-properties-common && \
     rm -rf /var/lib/apt/lists/*
+
+RUN apt --allow-releaseinfo-change update
+RUN apt update
 
 RUN add-apt-repository ppa:webupd8team/java
 
@@ -65,10 +73,6 @@ RUN \
         python3-pip \
         python3-dev
 
-
-# Install spot
-RUN wget -q -O - https://www.lrde.epita.fr/repo/debian.gpg | apt-key add -
-RUN echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' >> /etc/apt/sources.list
 
 RUN apt -y update && DEBIAN_FRONTEND=noninteractive && \
     apt install -y \
