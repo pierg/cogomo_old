@@ -19,7 +19,8 @@ RUN \
         git \
         unzip \
         nano \
-        wget
+        wget \
+        gnupg2
 
 
 # Install spot
