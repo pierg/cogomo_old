@@ -10,6 +10,7 @@ RUN chmod +x /usr/local/bin/strix
 COPY bin/linux/nuXmv /usr/local/bin
 RUN chmod +x /usr/local/bin/nuXmv
 
+RUN add-apt-repository ppa:webupd8team/java
 
 # Install keyboard-configuration separately to avoid travis hanging waiting for keyboard selection
 RUN \
