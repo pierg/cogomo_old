@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM ubuntu:19.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -36,7 +36,7 @@ RUN \
         libboost-filesystem-dev \
         libboost-iostreams-dev \
         zlib1g-dev \
-        openjdk-12-jdk
+        openjdk-13-jdk
 
 
 # Install CoGoMo dependencies
