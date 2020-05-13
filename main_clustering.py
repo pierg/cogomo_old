@@ -3,6 +3,7 @@ import shutil
 import sys
 
 from checks.tools import Implies
+from controller.parser import parse_controller
 from goals.helpers import extract_saturated_guarantees_from, extract_ltl_rules, extract_variables_name_from_dics, \
     generate_controller_inputs_from, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
@@ -16,14 +17,18 @@ from typescogomo.formula import OrLTL, AndLTL
 from typescogomo.scopes import *
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/clustering"
-try:
-    shutil.rmtree(file_path)
-except:
-    pass
+# try:
+#     shutil.rmtree(file_path)
+# except:
+#     pass
 
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
 if __name__ == "__main__":
+    a, g, i, o = parse_controller(file_path + "/controller-input.txt")
+
+
+
     """The designer specifies a mission using the predefined catalogue of patterns 
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
@@ -221,6 +226,8 @@ if __name__ == "__main__":
     ctx, dom, gs, unc, cont = generate_controller_inputs_from(list_of_goals, list(sns.keys()), context_rules,
                                                               domain_rules)
     save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_path + "/controller-input")
+
+    # a, g, i, o = parse_controller(file_path + "/controller-input.txt")
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)

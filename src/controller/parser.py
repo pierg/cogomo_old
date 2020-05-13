@@ -41,14 +41,14 @@ def parse_controller(file_path: str) -> Tuple[str, str, str, str]:
                     else:
                         Exception("File format not supported")
 
-                if CONSTRAINTS_HEADER in line:
-                    if file_header == "":
+                elif CONSTRAINTS_HEADER in line:
+                    if file_header == ASSUMPTIONS_HEADER:
                         file_header = line
                     else:
                         Exception("File format not supported")
 
                 elif GUARANTEES_HEADER in line:
-                    if file_header == ASSUMPTIONS_HEADER:
+                    if file_header == CONSTRAINTS_HEADER:
                         file_header = line
                     else:
                         Exception("File format not supported")
@@ -67,6 +67,8 @@ def parse_controller(file_path: str) -> Tuple[str, str, str, str]:
 
                 elif END_HEADER in line:
                     if file_header == OUTS_HEADER:
+                        if len(assumptions) == 0:
+                            assumptions.append("TRUE")
                         return And(assumptions), And(guarantees), ",".join(inputs), ",".join(outputs)
                     else:
                         Exception("File format not supported")

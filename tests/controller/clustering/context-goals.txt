@@ -1,0 +1,21 @@
+
+(G(night_time) & !(G(low_battery)) & !((G(entrance) & G(day_time))) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+-->	1 goals: ['night-time-patroling']
+
+(G(low_battery) & !(G(night_time)) & !((G(entrance) & G(day_time))) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+-->	1 goals: ['charge-on-low-battery']
+
+((G(shop) & G(day_time)) & !(G(night_time)) & !(G(low_battery)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+-->	1 goals: ['shop-day-visitors']
+
+(G(night_time) & G(low_battery) & !((G(entrance) & G(day_time))) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+-->	2 goals: ['night-time-patroling', 'charge-on-low-battery']
+
+(G(low_battery) & (G(shop) & G(day_time)) & !(G(night_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+-->	2 goals: ['charge-on-low-battery', 'shop-day-visitors']
+
+((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & !(G(night_time)) & !(G(low_battery)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+-->	2 goals: ['welcome-visitors', 'shop-day-visitors']
+
+(G(low_battery) & (G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & !(G(night_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+-->	3 goals: ['charge-on-low-battery', 'welcome-visitors', 'shop-day-visitors']
