@@ -1,12 +1,12 @@
 FROM ubuntu:latest
 
-# Sudo privileges
-RUN \
-    apt update && \
-    apt -y install sudo
-RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
-
-USER docker
+## Sudo privileges
+#RUN \
+#    apt update && \
+#    apt -y install sudo
+#RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
+#
+#USER docker
 
 # Istall binary files of strix and nuXmv
 COPY bin/linux/strix /usr/local/bin
