@@ -8,6 +8,9 @@ FROM ubuntu:latest
 #
 #USER docker
 
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y install tzdata
+
 # Istall binary files of strix and nuXmv
 COPY bin/linux/strix /usr/local/bin
 RUN chmod +x /usr/local/bin/strix
