@@ -47,7 +47,7 @@ RUN \
         libboost-program-options-dev \
         libboost-filesystem-dev \
         libboost-iostreams-dev \
-        zlib1g-dev \
+        zlib1g-dev
 
 RUN apt update
 RUN apt install openjdk-12-jdk
