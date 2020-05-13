@@ -20,7 +20,7 @@ def test_context_booleans_1():
             contracts=[BooleanContract(["az"], ["gz"])]
         )
     ]
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_clusters(list_of_goals)
     save_to_file(str(cgt), "test_context_booleans_1")
 
 def test_context_booleans_2():
@@ -41,7 +41,7 @@ def test_context_booleans_2():
             contracts=[BooleanContract(["az"], ["gz"])]
         )
     ]
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_clusters(list_of_goals)
     save_to_file(str(cgt), "test_context_booleans_2")
 
 def test_context_booleans_3():
@@ -77,7 +77,7 @@ def test_context_booleans_3():
             contracts=[BooleanContract(["k3"], ["p4"])]
         )
     ]
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_clusters(list_of_goals)
     save_to_file(str(cgt), "test_context_booleans_3")
 
 
@@ -116,7 +116,7 @@ def test_context_integer_simple():
         )
     ]
 
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_clusters(list_of_goals)
     save_to_file(str(cgt), "test_context_integer_simple")
 
 
@@ -154,7 +154,7 @@ def test_context_integer():
         )
     ]
 
-    cgt = create_contextual_cgt(list_of_goals)
+    cgt = create_contextual_clusters(list_of_goals)
     save_to_file(str(cgt), "test_context_integer")
 
 

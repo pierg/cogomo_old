@@ -1,16 +1,24 @@
 from copy import deepcopy
 from itertools import product, combinations
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from components.components import ComponentsLibrary
-from src.contracts.contract import Contract
+from src.contracts.contract import Contract, InconsistentContracts, IncompatibleContracts
 from src.contracts.operations import compose_contracts
 from src.goals.cgtgoal import CGTGoal
 from typescogomo.assumption import Context
-from typescogomo.formula import IconsistentException
+from typescogomo.formula import InconsistentException
 from typescogomo.formulae import Guarantees, Assumptions
 from src.goals.helpers import extract_ltl_rules, map_goals_to_contexts, filter_and_simplify_contexts, \
     extract_unique_contexts_from_goals, extract_all_combinations_and_negations_from_contexts, \
     add_constraints_to_all_contexts, merge_contexes, context_based_specification_clustering
+
+
+class CGTFailException(Exception):
+    def __init__(self, failed_operation: "str", faild_motivation: "str", goals_involved_a: List[CGTGoal], goals_involved_b: List[CGTGoal]):
+        self.failed_operation = failed_operation
+        self.faild_motivation = faild_motivation
+        self.goals_involved_a = goals_involved_a
+        self.goals_involved_b = goals_involved_b
 
 
 def composition(goals: List[CGTGoal],
@@ -50,7 +58,38 @@ def composition(goals: List[CGTGoal],
 
     for c in composition_contracts:
         contracts: List[Contract] = list(c.values())
-        composed_contract = compose_contracts(contracts)
+        try:
+            composed_contract = compose_contracts(contracts)
+
+        except InconsistentContracts as e:
+            goals_involved = []
+            goals_failed = []
+            for goal in goals:
+                for contract in goal.contracts:
+                    if e.guarantee_1 <= contract.guarantees.formula:
+                        goals_involved.append(goal)
+                    if e.guarantee_2 >= contract.guarantees.formula:
+                        goals_failed.append(goal)
+            raise CGTFailException(failed_operation="composition",
+                                   faild_motivation="inconsistent",
+                                   goals_involved_a=goals_involved,
+                                   goals_involved_b=goals_failed)
+
+        except IncompatibleContracts as e:
+
+            goals_involved = []
+            goals_failed = []
+            for goal in goals:
+                for contract in goal.contracts:
+                    if e.assumptions_1 <= contract.assumptions.formula:
+                        goals_involved.append(goal)
+                    if e.assumptions_2 <= contract.assumptions.formula:
+                        goals_failed.append(goal)
+            raise CGTFailException(failed_operation="composition",
+                                   faild_motivation="incompatible",
+                                   goals_involved_a=goals_involved,
+                                   goals_involved_b=goals_failed)
+
         composed_contracts.append(composed_contract)
 
     """Crate a new goal that is linked to the other goals by composition"""
@@ -114,7 +153,7 @@ def conjunction(goals: List[CGTGoal],
                     try:
                         Guarantees(guarantees_set)
 
-                    except IconsistentException:
+                    except InconsistentException:
                         print("The assumptions in the conjunction of contracts "
                               "are not mutually exclusive and are inconsistent:\n" +
                               str(pair_of_goals[0]) + "\nCONJOINED WITH\n" + str(pair_of_goals[1])
@@ -234,7 +273,7 @@ def mapping(component_library: ComponentsLibrary,
     specification_goal.refine_by([composition_goal])
 
 
-def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict = None) -> CGTGoal:
+def create_contextual_clusters(goals: List[CGTGoal], type: str, context_rules: Dict = None) -> Dict:
     """Returns all combinations that are consistent"""
 
     if type == "MINIMAL":
@@ -278,11 +317,7 @@ def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict =
 
     print("\n\n\n\n" + str(len(goals)) + " GOALS\nCONTEXTS:" + str([str(c) for c in contexts]))
 
-    """If it's only one context return the CGT"""
-    if len(contexts) == 1:
-        cgt = composition(goals)
-        cgt.context = list(contexts)[0]
-        return cgt
+    print("\n\n")
 
     """Extract the combinations of all contextes and the combination with the negations of all the other contexts"""
     combs_all_contexts, combs_all_contexts_neg = extract_all_combinations_and_negations_from_contexts(contexts)
@@ -307,6 +342,10 @@ def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict =
             g_name = "||".join(g.name for g in goals)
             generate_buchi(ctx, "buchi/" + g_name)
 
+    return context_goals
+
+
+def create_cgt(context_goals: Dict):
     """Compose all the set of goals in identified context"""
     composed_goals = []
     for ctx, goals in context_goals.items():
@@ -316,4 +355,31 @@ def create_contextual_cgt(goals: List[CGTGoal], type: str, context_rules: Dict =
     """Conjoin the goals across all the mutually exclusive contexts"""
     cgt = conjunction(composed_goals)
 
-    return cgt, context_goals
+    return cgt
+
+
+def pretty_cgt_exception(e: CGTFailException) -> str:
+    ret = "---------CGT-FAIL---------\n"
+    ret += "\n\tOPERATION:\t\t" + e.failed_operation
+    ret += "\n\tMOTIVATION:\t\t" + e.faild_motivation
+    ret += "\n\tGOALS_OK:\t\t\t" + str([g.name for g in e.goals_involved_a])
+    ret += "\n\tGOALS_FAILED:\t\t" + str([g.name for g in e.goals_involved_b])
+
+    ret += "\n\n"
+
+    for g in e.goals_involved_a:
+        ret += str(g)
+
+    for g in e.goals_involved_b:
+        ret += str(g)
+
+    ret += "\n---------CGT-FAIL---------\n"
+    return ret
+
+
+def pretty_contexts_goals(context_goals: Dict) -> str:
+    ret = ""
+    for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
+        ret += "\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+            [c.name for c in ctx_goals]) + "\n"
+    return ret

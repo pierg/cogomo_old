@@ -1,14 +1,16 @@
 from typing import Union, List
 
-from typescogomo.formula import LTL
+from checks.tools import And
+from typescogomo.formula import LTL, InconsistentException
 from typescogomo.assumption import Assumption
 from typescogomo.guarantee import Guarantee
+from typescogomo.variables import Variables
 
 
 class LTLs:
     """List of LTL formulae in conjunction with each other"""
 
-    def __init__(self, formulae: List['LTL']):
+    def __init__(self, formulae: List['LTL'], simplify=True):
 
         if len(formulae) == 0:
             self.__formula: LTL = LTL("TRUE")
@@ -18,12 +20,25 @@ class LTLs:
             if formulae[0].formula == "TRUE":
                 self.__formula: LTL = LTL("TRUE")
             else:
-                self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
+                if simplify:
+                    self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
 
-                if len(formulae) > 1:
+                    if len(formulae) > 1:
+                        try:
+                            self.__formula.conjoin_with(formulae[1:])
+                        except InconsistentException as e:
+                            raise e
+                else:
+
+                    variables = Variables()
+                    formulae_str = []
+
+                    for formula in formulae:
+                        variables.extend(formula.variables)
+                        formulae_str.append(formula.formula)
                     try:
-                        self.__formula.conjoin_with(formulae[1:])
-                    except Exception as e:
+                        self.__formula: LTL = LTL(And(formulae_str), variables)
+                    except InconsistentException as e:
                         raise e
 
             self.__list: List[LTL] = formulae

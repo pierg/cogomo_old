@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import List
 
 from contracts.contract import Contract

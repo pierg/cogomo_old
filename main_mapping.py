@@ -1,15 +1,24 @@
 import sys
 import os
+import shutil
+
 
 from components.components import ComponentsLibrary, Component, SimpleComponent
-from goals.operations import create_contextual_cgt, mapping
+from goals.operations import create_contextual_clusters, mapping, pretty_contexts_goals, create_cgt, CGTFailException, \
+    pretty_cgt_exception
 from helper.tools import save_to_file
 from src.goals.cgtgoal import *
-from src.typescogomo.contexts import *
+from src.typescogomo.assumption import *
 from src.contracts.patterns import *
+from typescogomo.scopes import *
 from typescogomo.variables import BoundedNat
 
-file_path = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/mapping"
+try:
+    shutil.rmtree(file_path)
+except:
+    pass
+
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
 if __name__ == "__main__":
@@ -46,8 +55,23 @@ if __name__ == "__main__":
         )
     ]
 
+    context_rules = {
+        "mutex": [
+        ],
+        "inclusion": [
+        ],
+    }
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt, dict = create_contextual_cgt(list_of_goals, type="MUTEX")
+    context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
+
+    save_to_file(pretty_contexts_goals(context_goals), file_path + "/context-goals")
+
+    try:
+        cgt = create_cgt(context_goals)
+    except CGTFailException as e:
+        print(pretty_cgt_exception(e))
+        sys.exit()
+
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 

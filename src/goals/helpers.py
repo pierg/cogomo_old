@@ -5,7 +5,7 @@ from checks.tools import Not, Or, And, Implies
 from helper.tools import traslate_boolean
 from typescogomo.assumption import Context
 from typescogomo.formulae import LTLs, Assumptions
-from typescogomo.formula import LTL, IconsistentException
+from typescogomo.formula import LTL, InconsistentException
 from typescogomo.variables import Type, Variables
 from goals.cgtgoal import CGTGoal
 
@@ -19,7 +19,7 @@ def context_based_specification_clustering(combinations: List[List[Context]],
                                            SAVE_SMALLER_CONTEXT):
     """Add constaints to the context combinations"""
     if rules is not None:
-        combinations = add_constraints_to_all_contexts(combinations, rules)
+        add_constraints_to_all_contexts(combinations, rules, add_to_all=True)
 
     print("\n\n__ALL_COMBINATIONS_(" + str(
         len(combinations)) + ")___________________________________________________________")
@@ -32,8 +32,8 @@ def context_based_specification_clustering(combinations: List[List[Context]],
     print("\n\n__MERGED_____________________________________________________________________")
     print(*merged, sep='\n')
 
-    print("\n\n__MERGED_AND_GROUPED_________________________________________________________")
-    print(*merged_simplified, sep='\n')
+    # print("\n\n__MERGED_AND_GROUPED_________________________________________________________")
+    # print(*merged_simplified, sep='\n')
 
     contexts_list = merged_simplified
 
@@ -66,7 +66,7 @@ def filter_and_simplify_contexts(contexts: List[List[Context]], KEEP_SMALLER_CON
         """Extract formulas and check satisfiability"""
         try:
             LTLs(c_list)
-        except IconsistentException:
+        except InconsistentException:
             continue
 
         """Simplify"""
@@ -158,28 +158,24 @@ def extract_unique_contexts_from_goals(goals: List[CGTGoal]) -> List[Context]:
     return contexts
 
 
-def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], context_variables_rules: List[LTL]):
-    copy_list = list(comb_contexts)
-    print(*context_variables_rules, sep="\n")
-    for c_list in copy_list:
-        rules_added = []
-        cvars: Variables = Variables()
-        for c in c_list:
-            cvars.extend(c.variables)
-        rules_to_add = []
-        variables_to_add: Variables = Variables()
-        rules_to_add_ltl = []
-        for rule in context_variables_rules:
-            if cvars.n_shared_variables_with(rule.variables) > 0:
-                if rule.formula not in rules_added:
-                    rules_added.append(rule.formula)
-                    rules_to_add.append(rule.formula)
-                    variables_to_add.extend(rule.variables)
-                    rules_to_add_ltl.append(LTL(rule.formula, rule.variables))
-        if len(variables_to_add.list) > 0:
-            rules_to_add_LTLs = LTLs(rules_to_add_ltl)
-            c_list.append(Context(formula=rules_to_add_LTLs.formula.formula, variables=variables_to_add))
-    return copy_list
+def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], rules: List[LTL], add_to_all=False):
+
+    if add_to_all:
+        """Add all rules to all the combinations"""
+        for comb in comb_contexts:
+            for rule in rules:
+                comb.append(rule)
+    else:
+        """Add rules only to the combinations that predicate on the rule"""
+        for comb in comb_contexts:
+            rules_added = []
+            for c in comb:
+                for rule in rules:
+                    if rule in rules_added:
+                        continue
+                    if c.variables.n_shared_variables_with(rule.variables) > 0:
+                        comb.append(rule)
+                        rules_added.append(rule)
 
 
 def add_constraints_to_goal(goals: List[CGTGoal], context_variables_rules: Dict[LTL, List[Type]]):
@@ -233,17 +229,18 @@ def merge_contexes(contexts: List[List[Context]], KEEP_SMALLER_COMBINATION) -> T
         if len(group) > 0:
             """Extract formulas and check satisfiability, it also filters and simplify each context"""
             try:
-                conj = LTLs(group)
-            except IconsistentException:
+                conj = LTLs(group, simplify=False)
+            except InconsistentException:
                 continue
             new_ctx = Context()
             new_ctx.formula = str(conj.formula)
             new_ctx.variables = conj.variables
             already_there = False
             """"Check if newly created context is not equivalent to an existing previously created context"""
-            for c in contexts_merged:
-                if c == new_ctx:
-                    already_there = True
+            """Not really needed because we will simplify context later"""
+            # for c in contexts_merged:
+            #     if c == new_ctx:
+            #         already_there = True
             if not already_there:
                 contexts_merged.append(new_ctx)
 

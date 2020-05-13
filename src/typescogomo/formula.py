@@ -6,10 +6,6 @@ from checks.tools import And, Implies
 from typescogomo.variables import Variables, extract_variable
 
 
-class IconsistentException(Exception):
-    pass
-
-
 class LTL:
 
     def __init__(self, formula: str, variables: Variables = None):
@@ -18,14 +14,16 @@ class LTL:
             self.__variables: Variables = Variables()
             return
 
-        if variables is None:
-            variables = extract_variable(str(formula))
+        if formula is not None:
 
-        self.__formula: str = formula
-        self.__variables: Variables = variables
+            if variables is None:
+                variables = extract_variable(str(formula))
 
-        if not self.is_satisfiable:
-            raise IconsistentException("The formula is not satisfiable:\n" + self.formula)
+            self.__formula: str = formula
+            self.__variables: Variables = variables
+
+            if not self.is_satisfiable():
+                raise InconsistentException(self, self)
 
     @property
     def formula(self) -> str:
@@ -51,6 +49,8 @@ class LTL:
         return self.formula == "TRUE"
 
     def is_satisfiable(self):
+        if self.formula is None:
+            print("wattt")
         return check_satisfiability(self.variables.get_nusmv_names(), self.formula)
 
     def conjoin_with(self, others: Union['LTL', List['LTL']]):
@@ -88,7 +88,8 @@ class LTL:
                         self.formula = deepcopy(new_formula.formula)
                         self.variables = deepcopy(new_formula.variables)
             else:
-                raise IconsistentException("Conjunction not satisfiable:\n" + str(self) + "\nWITH\n" + str(other))
+                print(self.formula +"\nINCONSISTENT WITH\n" + other.formula)
+                raise InconsistentException(self, other)
 
         return False
 
@@ -150,6 +151,15 @@ class LTL:
 
     def __hash__(self):
         return hash(self.__formula)
+
+
+class InconsistentException(Exception):
+
+    def __init__(self, conj_a: LTL, conj_b: LTL):
+
+        self.conj_a = conj_a
+        self.conj_b = conj_b
+
 
 
 def AndLTL(formulas: List[LTL]) -> LTL:

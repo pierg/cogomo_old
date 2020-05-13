@@ -1,3 +1,4 @@
+import os
 import re
 from typing import List, Tuple
 
@@ -20,7 +21,6 @@ def extract_variables_name(expression: str) -> List[str]:
 
 
 def traslate_boolean(expression: str) -> Tuple[str, List[str], List[str]]:
-
     expression = re.sub(r"(\s>\s?)", "_M_", expression)
     expression = re.sub(r"(\s?<\s?)", "_L_", expression)
     expression = re.sub(r"(\s?>=\s?)", "_ME_", expression)
@@ -33,9 +33,7 @@ def traslate_boolean(expression: str) -> Tuple[str, List[str], List[str]]:
     for s in new_vars:
         old_vars.add(s.split("_")[0])
 
-
     return expression, new_vars, list(old_vars)
-
 
 
 def extract_terms(expression: str) -> List[str]:
@@ -64,7 +62,13 @@ def extract_terms(expression: str) -> List[str]:
     return list_terms
 
 
+
 def save_to_file(text: str, file_path: str):
+
+    dirname = os.path.dirname(file_path)
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+
     with open(file_path + ".txt", 'w') as f:
         f.write(text)
 

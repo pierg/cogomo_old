@@ -1,10 +1,12 @@
 import os
+import shutil
 import sys
 
 from checks.tools import Implies
 from goals.helpers import extract_saturated_guarantees_from, extract_ltl_rules, extract_variables_name_from_dics, \
     generate_controller_inputs_from, generate_controller_input_text
-from goals.operations import create_contextual_cgt
+from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
+    pretty_contexts_goals
 from helper.tools import save_to_file, traslate_boolean
 from planner.planner import get_planner
 from src.goals.cgtgoal import *
@@ -13,7 +15,12 @@ from src.typescogomo.patterns import *
 from typescogomo.formula import OrLTL, AndLTL
 from typescogomo.scopes import *
 
-file_path = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.dirname(os.path.abspath(__file__)) + "/clustering"
+try:
+    shutil.rmtree(file_path)
+except:
+    pass
+
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
 if __name__ == "__main__":
@@ -46,6 +53,7 @@ if __name__ == "__main__":
     act = {
         "contact_station": LTL("contact_station")
     }
+
 
     """List of specifications / goals"""
     list_of_goals = [
@@ -114,6 +122,75 @@ if __name__ == "__main__":
         )
     ]
 
+    list_of_goals_with_integers = [
+        CGTGoal(
+            name="always-avoid-humans",
+            contracts=[PContract([
+                GlobalAvoidance(LTL("human"))
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                OrLTL([
+                    AndLTL([
+                        P_global(LTL("time > 20")),
+                        P_global(LTL("time < 24")),
+                    ]),
+                    AndLTL([
+                        P_global(LTL("time > 0")),
+                        P_global(LTL("time < 8")),
+                    ])
+                ])
+            )),
+            name="night-time-patroling",
+            contracts=[PContract([
+                Patroling([LTL("wlocA"), LTL("wlocB"), LTL("slocA"), LTL("slocB")])
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(P_global(LTL("battery < 20")))),
+            name="charge-on-low-battery",
+            contracts=[PContract([
+                Visit([LTL("charge_station")]),
+                PromptReaction(LTL("low_battery"), LTL("contact_station"))
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndLTL([
+                    P_global(LTL("entrance")),
+                    P_global(LTL("time > 9")),
+                    P_global(LTL("time < 17")),
+                ])
+            )),
+            name="welcome-visitors",
+            contracts=[PContract([
+                Visit([LTL("slocA")]),
+                PromptReaction(LTL("get_med"), LTL("wlocA")),
+                PromptReaction(LTL("wlocA"), LTL("slocA"))
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndLTL([
+                    P_global(LTL("shop")),
+                    P_global(LTL("time > 9")),
+                    P_global(LTL("time < 17"))
+                ])
+            )),
+            name="shop-day-visitors",
+            contracts=[PContract([
+                Visit([LTL("slocA")]),
+                PromptReaction(
+                    trigger=LTL("get_med"),
+                    reaction=AndLTL([
+                        Visit([LTL("wlocA")]),
+                        PromptReaction(LTL("wlocA"), LTL("slocA"))
+                    ])),
+            ])]
+        )
+    ]
+
     context_rules = {
         "mutex": [
             [sns["shop"], sns["warehouse"]],
@@ -121,7 +198,7 @@ if __name__ == "__main__":
         ],
         "inclusion": [
             [sns["entrance"], sns["shop"]]
-        ]
+        ],
     }
 
     domain_rules = {
@@ -143,22 +220,28 @@ if __name__ == "__main__":
 
     ctx, dom, gs, unc, cont = generate_controller_inputs_from(list_of_goals, list(sns.keys()), context_rules,
                                                               domain_rules)
-    save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_path + "/output/controller-input")
+    save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_path + "/controller-input")
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    cgt, context_goals = create_contextual_cgt(list_of_goals, "MUTEX", context_rules)
+    context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
 
-    contexts_goals_str = ""
+    save_to_file(pretty_contexts_goals(context_goals), file_path + "/context-goals")
+
+
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
-        contexts_goals_str += "\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
-            [c.name for c in ctx_goals]) + "\n"
-
         ctx, dom, gs, unc, cont = generate_controller_inputs_from(ctx_goals, list(sns.keys()), context_rules,
                                                                   domain_rules, ctx)
-        save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_path + "/output/controller-input_" + str(i))
+        save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont),
+                     file_path + "/controller-input_" + str(i))
 
-    save_to_file(str(cgt), file_path + "/output/context-based-clustering", )
-    save_to_file(contexts_goals_str, file_path + "/output/context-goals")
+
+    try:
+        cgt = create_cgt(context_goals)
+    except CGTFailException as e:
+        print(pretty_cgt_exception(e))
+        sys.exit()
+
+    save_to_file(str(cgt), file_path + "/context-based-clustering", )
 
     # assumptions_guarantee_pairs = []
     #
@@ -168,5 +251,5 @@ if __name__ == "__main__":
     # assumptions_overall = " | ".join(act for (act, g) in assumptions_guarantee_pairs)
     # guarantees_overall = " & ".join(Implies(act, g) for (act, g) in assumptions_guarantee_pairs)
     #
-    # save_to_file(assumptions_overall, file_path + "/output/assumptions.txt", )
-    # save_to_file(guarantees_overall, file_path + "/output/guarantees.txt", )
+    # save_to_file(assumptions_overall, file_path + "/assumptions.txt", )
+    # save_to_file(guarantees_overall, file_path + "/guarantees.txt", )

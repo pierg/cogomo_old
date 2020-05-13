@@ -1,7 +1,7 @@
 from typing import List, Union, Pattern
 
 from typescogomo.assumption import Assumption
-from typescogomo.formula import LTL
+from typescogomo.formula import LTL, InconsistentException
 from typescogomo.guarantee import Guarantee
 from typescogomo.variables import Variables, Boolean
 from typescogomo.formulae import Assumptions, Guarantees
@@ -54,18 +54,23 @@ class Contract:
         self.assumptions.remove_kind("context")
 
     def merge_with(self, other):
-
         self.add_guarantees(other.guarantees.list)
         self.add_assumptions(other.assumptions.list)
 
     def add_assumptions(self, assumptions: Union[List[Assumption], Assumption]):
 
-        self.assumptions.add(assumptions)
+        try:
+            self.assumptions.add(assumptions)
+        except InconsistentException as e:
+            raise IncompatibleContracts(e.conj_a, e.conj_b)
+
         self.guarantees.saturate_with(self.assumptions)
 
     def add_guarantees(self, guarantees: Union[List[Guarantee], Guarantee]):
-
-        self.guarantees.add(guarantees)
+        try:
+            self.guarantees.add(guarantees)
+        except InconsistentException as e:
+            raise InconsistentContracts(e.conj_a, e.conj_b)
 
     def propagate_assumptions_from(self, c: 'Contract'):
 
@@ -108,6 +113,16 @@ class Contract:
             astr += guarantee.unsaturated + ', '
         return astr[:-2] + ' ]\n'
 
+
+class IncompatibleContracts(Exception):
+    def __init__(self, assumptions_1: Assumption, assumptions_2: Assumption):
+        self.assumptions_1 = assumptions_1
+        self.assumptions_2 = assumptions_2
+
+class InconsistentContracts(Exception):
+    def __init__(self, guarantee_1: Guarantee, guarantee_2: Guarantee):
+        self.guarantee_1 = guarantee_1
+        self.guarantee_2 = guarantee_2
 
 class BooleanContract(Contract):
 
