@@ -33,24 +33,7 @@ RUN apt update && \
 
 RUN apt --allow-releaseinfo-change update
 RUN apt update
-
-RUN add-apt-repository --allow-unauthenticated ppa:webupd8team/java
-
-## Install strix dependencies
-#RUN \
-#    apt -y update && \
-#    apt install -y \
-#        g++ \
-#        cmake \
-#        make\
-#        libboost-dev \
-#        libboost-program-options-dev \
-#        libboost-filesystem-dev \
-#        libboost-iostreams-dev \
-#        zlib1g-dev \
-#        openjdk-12-jdk
-
-# Install strix dependencies
+RUN add-apt-repository ppa:webupd8team/java
 RUN \
     apt install -y --allow-unauthenticated \
         cmake \
