@@ -39,7 +39,8 @@ RUN \
         libboost-filesystem-dev \
         libboost-iostreams-dev \
         zlib1g-dev \
-        openjdk-13-jdk
+        openjdk-12-jdk
+
 
 # Install CoGoMo dependencies
 RUN \
