@@ -159,7 +159,6 @@ def extract_unique_contexts_from_goals(goals: List[CGTGoal]) -> List[Context]:
 
 
 def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], rules: List[LTL], add_to_all=False):
-
     if add_to_all:
         """Add all rules to all the combinations"""
         for comb in comb_contexts:
@@ -405,7 +404,8 @@ def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
                                     uncontrollable_vars: List[str],
                                     context_rules: Dict,
                                     domain_rules: Dict,
-                                    new_assumptions: LTL = None) -> Tuple[List[str], List[str], List[str], List[str], List[str]]:
+                                    new_assumptions: LTL = None) -> Tuple[
+    List[str], List[str], List[str], List[str], List[str]]:
     """Goal gaurantees will be saturated with their assumptions or in case of new_assumptions,
     the entire list of goals will be saturated with new_assumptions
     Returns: context_rules, domain_rules, guarantees, uncontrollable, controllable"""
@@ -434,7 +434,6 @@ def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
             variables.extend(ltl.variables)
             guarantees.append(Implies(new_assumptions.formula, And(guarantees_list)))
 
-
     for v in variables.list:
         if v.name in uncontrollable_vars:
             uncontrollable.append(v.name)
@@ -461,27 +460,26 @@ def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
     return ctx_rules, dom_rules, guarantees, uncontrollable, controllable
 
 
-
 def generate_controller_input_text(ctx_rules, dom_rules, guarantees, uncontrollable, controllable):
-
     ret = "CONSTRAINTS:\n\n"
     for p in ctx_rules:
-        ret += p + "\n"
+        ret += "\t" + p + "\n"
     ret += "\n"
     for p in dom_rules:
-        ret += p + "\n"
+        ret += "\t" + p + "\n"
 
     ret += "\n\nGUARANTEES:\n\n"
     for p in guarantees:
-        ret += p + "\n"
+        ret += "\t" + p + "\n"
 
     ret += "\n\nUNCONTROLLABLE:\n\n"
-    ret += ", ".join(uncontrollable)
+    ret += "\t" + ", ".join(uncontrollable)
 
     ret += "\n\nCONTROLLABLE:\n\n"
-    ret += ", ".join(controllable)
+    ret += "\t" + ", ".join(controllable)
 
     return ret
+
 
 def extract_saturated_guarantees_from(goals: Union[CGTGoal, List[CGTGoal]]) -> List[str]:
     if isinstance(goals, CGTGoal):

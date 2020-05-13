@@ -1,5 +1,13 @@
 FROM ubuntu:19.04
 
+# Istall binary files
+COPY bin/linux/strix /usr/local/bin
+RUN chmod +x /usr/local/bin/strix
+
+COPY bin/linux/nuXmv /usr/local/bin
+RUN chmod +x /usr/local/bin/nuXmv
+
+
 # Install keyboard-configuration separately to avoid travis hanging waiting for keyboard selection
 RUN \
     apt -y update && \
@@ -43,6 +51,7 @@ RUN git clone -b master --single-branch https://github.com/pierg/cogomo.git
 RUN python3 -m pip install --user --upgrade pip
 
 WORKDIR /home/cogomo
+
 
 RUN pip3 install -r requirements.txt
 
