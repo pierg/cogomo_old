@@ -478,10 +478,10 @@ def generate_controller_input_text(ctx_rules, dom_rules, guarantees, uncontrolla
     for p in guarantees:
         ret += "\t" + syntax_fix(p) + "\n"
 
-    ret += "\n\nUNCONTROLLABLE\n\n"
+    ret += "\n\nINPUTS\n\n"
     ret += "\t" + ", ".join(uncontrollable)
 
-    ret += "\n\nCONTROLLABLE\n\n"
+    ret += "\n\nOUTPUTS\n\n"
     ret += "\t" + ", ".join(controllable)
 
     ret += "\n\nEND\n\n"

@@ -5,8 +5,8 @@ from checks.tools import And
 ASSUMPTIONS_HEADER = 'ASSUMPTIONS'
 CONSTRAINTS_HEADER = 'CONSTRAINTS'
 GUARANTEES_HEADER = 'GUARANTEES'
-INS_HEADER = 'UNCONTROLLABLE'
-OUTS_HEADER = 'CONTROLLABLE'
+INS_HEADER = 'INPUTS'
+OUTS_HEADER = 'OUTPUTS'
 END_HEADER = 'END'
 COMMENT_CHAR = '#'
 FILE_HEADER_INDENT = 0
@@ -68,7 +68,7 @@ def parse_controller(file_path: str) -> Tuple[str, str, str, str]:
                 elif END_HEADER in line:
                     if file_header == OUTS_HEADER:
                         if len(assumptions) == 0:
-                            assumptions.append("TRUE")
+                            assumptions.append("true")
                         return And(assumptions), And(guarantees), ",".join(inputs), ",".join(outputs)
                     else:
                         Exception("File format not supported")

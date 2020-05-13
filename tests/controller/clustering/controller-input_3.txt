@@ -15,11 +15,11 @@ GUARANTEES
 	(((G(night_time) & G(low_battery) & ! ((G(entrance) & G(day_time))) & ! ((G(shop) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop))) -> ((((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))) & G((wlocA & ! wlocB & ! slocA & ! slocB) | (wlocB & ! wlocA & ! slocA & ! slocB) | (slocA & ! wlocA & ! wlocB & ! slocB) | (slocB & ! wlocA & ! wlocB & ! slocA))) & ((F(charge_station) & G((charge_station))) & G((low_battery) -> X(contact_station))))))
 
 
-UNCONTROLLABLE
+INPUTS
 
 	low_battery, shop, warehouse, day_time, night_time, entrance
 
-CONTROLLABLE
+OUTPUTS
 
 	wlocA, wlocB, slocA, slocB, charge_station, contact_station
 

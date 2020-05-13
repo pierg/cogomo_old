@@ -2,4 +2,4 @@ MODULE main
 VAR
 	time: 0..24;
 
-LTLSPEC !(time < 8)
+LTLSPEC !(time > 20)
