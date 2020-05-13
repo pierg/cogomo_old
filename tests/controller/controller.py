@@ -20,46 +20,46 @@ if __name__ == "__main__":
         controller = get_controller(a, g, i, o)
         print(controller)
     except Exception as e:
-        "Exception"
+        "Exception0"
 
     try:
         a, g, i, o = parse_controller(file_path + "/controller-input_1.txt")
         controller = get_controller(a, g, i, o)
         print(controller)
     except Exception as e:
-        "Exception"
+        "Exception1"
 
     try:
         a, g, i, o = parse_controller(file_path + "/controller-input_2.txt")
         controller = get_controller(a, g, i, o)
         print(controller)
     except Exception as e:
-        "Exception"
+        "Exception2"
 
     try:
         a, g, i, o = parse_controller(file_path + "/controller-input_3.txt")
         controller = get_controller(a, g, i, o)
         print(controller)
     except Exception as e:
-        "Exception"
+        "Exception3"
 
     try:
         a, g, i, o = parse_controller(file_path + "/controller-input_4.txt")
         controller = get_controller(a, g, i, o)
         print(controller)
     except Exception as e:
-        "Exception"
+        "Exception4"
 
     try:
         a, g, i, o = parse_controller(file_path + "/controller-input_5.txt")
         controller = get_controller(a, g, i, o)
         print(controller)
     except Exception as e:
-        "Exception"
+        "Exception5"
 
     try:
         a, g, i, o = parse_controller(file_path + "/controller-input_6.txt")
         controller = get_controller(a, g, i, o)
         print(controller)
     except Exception as e:
-        "Exception"
+        "Exception6"
