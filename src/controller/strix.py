@@ -10,4 +10,5 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
         output = subprocess.check_output(['strix', params], encoding='UTF-8', stderr=subprocess.DEVNULL)
     except Exception as e:
         raise e
+    print("\n\nOUTPUT\n\n" + output)
     return output
