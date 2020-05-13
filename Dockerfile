@@ -33,7 +33,6 @@ RUN apt update && \
 
 RUN apt --allow-releaseinfo-change update
 RUN apt update
-RUN add-apt-repository ppa:webupd8team/java
 RUN \
     apt install -y --allow-unauthenticated \
         cmake \
