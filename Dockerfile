@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM ubuntu:latest
 
 # Istall binary files of strix and nuXmv
 COPY bin/linux/strix /usr/local/bin
