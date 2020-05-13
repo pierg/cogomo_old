@@ -64,6 +64,11 @@ if __name__ == "__main__":
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
 
+    for ctx, goals in context_goals.items():
+        from helper.buchi import generate_buchi
+        g_name = "||".join(g.name for g in goals)
+        generate_buchi(ctx, file_path + "/buchi/" + g_name)
+
     save_to_file(pretty_contexts_goals(context_goals), file_path + "/context-goals")
 
     try:

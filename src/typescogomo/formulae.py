@@ -74,7 +74,10 @@ class LTLs:
         return self.formula.is_satisfiable_with(other.formula)
 
     def extend(self, other: 'LTLs'):
-        self.__formula = LTL(other.list[0].formula, other.list[0].variables)
+        try:
+            self.__formula = LTL(other.list[0].formula, other.list[0].variables)
+        except:
+            print("WHT")
         self.__formula.conjoin_with(other.list[1:])
         self.list.extend(other.list)
 

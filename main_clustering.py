@@ -15,7 +15,7 @@ from src.typescogomo.patterns import *
 from typescogomo.formula import OrLTL, AndLTL
 from typescogomo.scopes import *
 
-file_path = os.path.dirname(os.path.abspath(__file__)) + "/clustering"
+file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/clustering"
 try:
     shutil.rmtree(file_path)
 except:
@@ -227,6 +227,10 @@ if __name__ == "__main__":
 
     save_to_file(pretty_contexts_goals(context_goals), file_path + "/context-goals")
 
+    for ctx, goals in context_goals.items():
+        from helper.buchi import generate_buchi
+        g_name = "||".join(g.name for g in goals)
+        generate_buchi(ctx, file_path + "/buchi/" + g_name)
 
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ctx, dom, gs, unc, cont = generate_controller_inputs_from(ctx_goals, list(sns.keys()), context_rules,

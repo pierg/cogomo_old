@@ -337,10 +337,6 @@ def create_contextual_clusters(goals: List[CGTGoal], type: str, context_rules: D
                                                                GOAL_CTX_SAT,
                                                                GOAL_CTX_SMALLER,
                                                                SAVE_SMALLER_CONTEXT)
-        for ctx, goals in context_goals.items():
-            from helper.buchi import generate_buchi
-            g_name = "||".join(g.name for g in goals)
-            generate_buchi(ctx, "buchi/" + g_name)
 
     return context_goals
 
