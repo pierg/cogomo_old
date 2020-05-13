@@ -76,8 +76,9 @@ class LTLs:
     def extend(self, other: 'LTLs'):
         try:
             self.__formula = LTL(other.list[0].formula, other.list[0].variables)
-        except:
+        except Exception as e:
             print("WHT")
+            raise e
         self.__formula.conjoin_with(other.list[1:])
         self.list.extend(other.list)
 
