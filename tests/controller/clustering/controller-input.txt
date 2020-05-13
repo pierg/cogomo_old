@@ -23,5 +23,7 @@ UNCONTROLLABLE
 
 CONTROLLABLE
 
-	wlocA, wlocB, slocA, slocB, charge_station, contact_station, welcomeEND
+	wlocA, wlocB, slocA, slocB, charge_station, contact_station, welcome
+
+END
 

@@ -484,7 +484,7 @@ def generate_controller_input_text(ctx_rules, dom_rules, guarantees, uncontrolla
     ret += "\n\nCONTROLLABLE\n\n"
     ret += "\t" + ", ".join(controllable)
 
-    ret += "END\n\n"
+    ret += "\n\nEND\n\n"
 
 
     return ret
