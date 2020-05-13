@@ -12,6 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Istall binary files of strix and nuXmv
 COPY bin/linux/strix /usr/local/bin
+COPY bin/linux/owl.jar /usr/local/bin
 RUN chmod +x /usr/local/bin/strix
 
 COPY bin/linux/nuXmv /usr/local/bin
