@@ -27,10 +27,10 @@ RUN \
         tzdata
 
 
-# Install strix
+# Install strix dependencies
 RUN \
     apt -y update && \
-        install -y \
+    apt install -y \
         g++ \
         cmake \
         make\
