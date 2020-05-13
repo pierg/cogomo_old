@@ -27,11 +27,23 @@ RUN \
         tzdata
 
 
+## Install strix dependencies
+#RUN \
+#    apt -y update && \
+#    apt install -y \
+#        g++ \
+#        cmake \
+#        make\
+#        libboost-dev \
+#        libboost-program-options-dev \
+#        libboost-filesystem-dev \
+#        libboost-iostreams-dev \
+#        zlib1g-dev \
+#        openjdk-12-jdk
+
 # Install strix dependencies
 RUN \
-    apt -y update && \
     apt install -y \
-        g++ \
         cmake \
         make\
         libboost-dev \
