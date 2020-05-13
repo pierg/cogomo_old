@@ -1,13 +1,5 @@
 FROM ubuntu:latest
 
-## Sudo privileges
-#RUN \
-#    apt update && \
-#    apt -y install sudo
-#RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
-#
-#USER docker
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Istall binary files of strix and nuXmv
@@ -44,9 +36,7 @@ RUN \
         libboost-program-options-dev \
         libboost-filesystem-dev \
         libboost-iostreams-dev \
-        zlib1g-dev \
-        openjdk-12-jdk
-
+        zlib1g-dev
 
 # Install CoGoMo dependencies
 RUN \
