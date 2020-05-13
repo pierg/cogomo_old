@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM ubuntu:19.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -10,6 +10,7 @@ RUN chmod +x /usr/local/bin/strix
 COPY bin/linux/nuXmv /usr/local/bin
 RUN chmod +x /usr/local/bin/nuXmv
 
+RUN sed -i -e 's|disco|eoan|g' /etc/apt/sources.list
 
 # Install keyboard-configuration separately to avoid travis hanging waiting for keyboard selection
 RUN \
