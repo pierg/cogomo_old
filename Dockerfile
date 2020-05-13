@@ -10,16 +10,16 @@ RUN chmod +x /usr/local/bin/strix
 COPY bin/linux/nuXmv /usr/local/bin
 RUN chmod +x /usr/local/bin/nuXmv
 
-RUN sed -i -e 's|disco|eoan|g' /etc/apt/sources.list
+#RUN sed -i -e 's|disco|eoan|g' /etc/apt/sources.list
 
 # Install keyboard-configuration separately to avoid travis hanging waiting for keyboard selection
 RUN \
     apt -y update && \
-    apt install -y --allow-unauthenticated keyboard-configuration
+    apt install -y keyboard-configuration
 
 # Install general things
 RUN \
-    apt install -y --allow-unauthenticated \
+    apt install -y \
         git \
         unzip \
         nano \
@@ -27,14 +27,20 @@ RUN \
         gnupg2 \
         tzdata
 
-RUN apt update && \
-    apt install -y --allow-unauthenticated software-properties-common && \
-    rm -rf /var/lib/apt/lists/*
+#RUN apt update && \
+#    apt install -y software-properties-common && \
+#    rm -rf /var/lib/apt/lists/*
+#
+#RUN apt --allow-releaseinfo-change update
 
-RUN apt --allow-releaseinfo-change update
+## Install strix dependencies
+#RUN apt --allow-releaseinfo-change update
+#RUN apt update
+#RUN add-apt-repository ppa:webupd8team/java
+
 RUN apt update
 RUN \
-    apt install -y --allow-unauthenticated \
+    apt install -y \
         cmake \
         make\
         libboost-dev \
@@ -42,12 +48,13 @@ RUN \
         libboost-filesystem-dev \
         libboost-iostreams-dev \
         zlib1g-dev \
-        openjdk-12-jdk
 
+RUN apt update
+RUN apt install openjdk-12-jdk
 
 # Install CoGoMo dependencies
 RUN \
-    apt install -y --allow-unauthenticated \
+    apt install -y \
         python3-pip \
         python3-dev
 
@@ -57,7 +64,7 @@ RUN wget -q -O - https://www.lrde.epita.fr/repo/debian.gpg | apt-key add -
 RUN echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' >> /etc/apt/sources.list
 
 RUN apt -y update && DEBIAN_FRONTEND=noninteractive && \
-    apt install -y --allow-unauthenticated \
+    apt install -y \
     spot \
     libspot-dev \
     spot-doc
