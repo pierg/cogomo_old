@@ -9,7 +9,6 @@ FROM ubuntu:latest
 #USER docker
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get -y install tzdata
 
 # Istall binary files of strix and nuXmv
 COPY bin/linux/strix /usr/local/bin
@@ -31,7 +30,8 @@ RUN \
         unzip \
         nano \
         wget \
-        gnupg2
+        gnupg2 \
+        tzdata
 
 
 # Install CoGoMo dependencies
