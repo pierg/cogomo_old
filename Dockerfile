@@ -47,10 +47,11 @@ RUN \
         libboost-program-options-dev \
         libboost-filesystem-dev \
         libboost-iostreams-dev \
-        zlib1g-dev
+        zlib1g-dev \
+        default-jre
 
-RUN apt update
-RUN apt install openjdk-12-jdk
+#RUN apt update
+#RUN apt install openjdk-12-jdk
 
 # Install CoGoMo dependencies
 RUN \
