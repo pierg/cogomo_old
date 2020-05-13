@@ -17,16 +17,14 @@ from typescogomo.formula import OrLTL, AndLTL
 from typescogomo.scopes import *
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/clustering"
-# try:
-#     shutil.rmtree(file_path)
-# except:
-#     pass
+try:
+    shutil.rmtree(file_path)
+except:
+    pass
 
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
 if __name__ == "__main__":
-    a, g, i, o = parse_controller(file_path + "/controller-input.txt")
-
 
 
     """The designer specifies a mission using the predefined catalogue of patterns 
