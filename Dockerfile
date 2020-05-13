@@ -1,6 +1,6 @@
 FROM ubuntu:19.04
 
-# Istall binary files
+# Istall binary files of strix and nuXmv
 COPY bin/linux/strix /usr/local/bin
 RUN chmod +x /usr/local/bin/strix
 
@@ -18,19 +18,21 @@ RUN \
     apt install -y \
         git \
         unzip \
-        nano
+        nano \
+        wget
 
-# Install strix dependencies
+
+# Install spot
 RUN \
-    apt install -y \
-        cmake \
-        make\
-        libboost-dev \
-        libboost-program-options-dev \
-        libboost-filesystem-dev \
-        libboost-iostreams-dev \
-        zlib1g-dev \
-        openjdk-12-jdk
+    wget -q -O - https://www.lrde.epita.fr/repo/debian.gpg | apt-key add - \
+    echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' >> /etc/apt/sources.list \
+    apt-get update \
+    apt-get install -y \
+    spot \
+    libspot-dev \
+    spot-doc \
+    python3-spot
+
 
 # Install CoGoMo dependencies
 RUN \
