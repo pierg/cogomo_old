@@ -24,11 +24,12 @@ RUN \
         nano \
         wget \
         gnupg2 \
-        tzdata \
-        software-properties-common
+        tzdata
 
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt -y update
 RUN add-apt-repository ppa:webupd8team/java
 
 ## Install strix dependencies
