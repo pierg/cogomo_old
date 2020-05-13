@@ -14,11 +14,11 @@ RUN chmod +x /usr/local/bin/nuXmv
 # Install keyboard-configuration separately to avoid travis hanging waiting for keyboard selection
 RUN \
     apt -y update && \
-    apt install -y keyboard-configuration
+    apt install -y --allow-unauthenticated keyboard-configuration
 
 # Install general things
 RUN \
-    apt install -y \
+    apt install -y --allow-unauthenticated \
         git \
         unzip \
         nano \
@@ -27,7 +27,7 @@ RUN \
         tzdata
 
 RUN apt update && \
-    apt install -y software-properties-common && \
+    apt install -y --allow-unauthenticated software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt --allow-releaseinfo-change update
@@ -51,7 +51,7 @@ RUN add-apt-repository ppa:webupd8team/java
 
 # Install strix dependencies
 RUN \
-    apt install -y \
+    apt install -y --allow-unauthenticated \
         cmake \
         make\
         libboost-dev \
@@ -64,7 +64,7 @@ RUN \
 
 # Install CoGoMo dependencies
 RUN \
-    apt install -y \
+    apt install -y --allow-unauthenticated \
         python3-pip \
         python3-dev
 
@@ -74,7 +74,7 @@ RUN wget -q -O - https://www.lrde.epita.fr/repo/debian.gpg | apt-key add -
 RUN echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' >> /etc/apt/sources.list
 
 RUN apt -y update && DEBIAN_FRONTEND=noninteractive && \
-    apt install -y \
+    apt install -y --allow-unauthenticated \
     spot \
     libspot-dev \
     spot-doc
