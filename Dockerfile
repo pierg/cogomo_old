@@ -3,8 +3,8 @@ FROM ubuntu:19.10
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Istall binary files of strix and nuXmv
-COPY bin/ubuntu_19.10/strix /usr/local/bin
-COPY bin/ubuntu_19/owl.jar /usr/local/bin
+COPY bin/ubuntu_19_10/strix /usr/local/bin
+COPY bin/ubuntu_19_10/owl.jar /usr/local/bin
 RUN chmod +x /usr/local/bin/strix
 
 COPY bin/linux/nuXmv /usr/local/bin
