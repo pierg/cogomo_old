@@ -1,5 +1,13 @@
 FROM ubuntu:latest
 
+# Sudo privileges
+RUN \
+    apt update && \
+    apt -y install sudo
+RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
+
+USER docker
+
 # Istall binary files of strix and nuXmv
 COPY bin/linux/strix /usr/local/bin
 RUN chmod +x /usr/local/bin/strix
@@ -23,23 +31,25 @@ RUN \
         gnupg2
 
 
-# Install spot
-RUN \
-    wget -q -O - https://www.lrde.epita.fr/repo/debian.gpg | apt-key add - \
-    echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' >> /etc/apt/sources.list \
-    apt-get update \
-    apt-get install -y \
-    spot \
-    libspot-dev \
-    spot-doc \
-    python3-spot
-
-
 # Install CoGoMo dependencies
 RUN \
     apt install -y \
         python3-pip \
         python3-dev
+
+
+# Install spot
+RUN \
+    wget -q -O - https://www.lrde.epita.fr/repo/debian.gpg | apt-key add - \
+    echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' >> /etc/apt/sources.list \
+
+RUN apt -y update \
+    apt install -y \
+    spot \
+    libspot-dev \
+    spot-doc \
+    python3-spot
+
 
 
 RUN \
