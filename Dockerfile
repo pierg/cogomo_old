@@ -46,8 +46,7 @@ RUN apt -y update && \
     apt install -y \
     spot \
     libspot-dev \
-    spot-doc \
-    python3-spot
+    spot-doc
 
 
 
