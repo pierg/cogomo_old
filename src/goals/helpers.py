@@ -1,4 +1,5 @@
 import itertools
+import re
 from copy import deepcopy
 from typing import Union, Dict, List, Tuple
 from checks.tools import Not, Or, And, Implies
@@ -459,24 +460,32 @@ def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
 
     return ctx_rules, dom_rules, guarantees, uncontrollable, controllable
 
+def syntax_fix(text: str):
+
+    return re.sub(r'(!)', '! ', text)
 
 def generate_controller_input_text(ctx_rules, dom_rules, guarantees, uncontrollable, controllable):
-    ret = "CONSTRAINTS:\n\n"
+    ret = "ASSUMPTIONS\n\n"
+
+    ret += "CONSTRAINTS\n\n"
     for p in ctx_rules:
-        ret += "\t" + p + "\n"
+        ret += "\t" + syntax_fix(p) + "\n"
     ret += "\n"
     for p in dom_rules:
-        ret += "\t" + p + "\n"
+        ret += "\t" + syntax_fix(p) + "\n"
 
-    ret += "\n\nGUARANTEES:\n\n"
+    ret += "\n\nGUARANTEES\n\n"
     for p in guarantees:
-        ret += "\t" + p + "\n"
+        ret += "\t" + syntax_fix(p) + "\n"
 
-    ret += "\n\nUNCONTROLLABLE:\n\n"
+    ret += "\n\nUNCONTROLLABLE\n\n"
     ret += "\t" + ", ".join(uncontrollable)
 
-    ret += "\n\nCONTROLLABLE:\n\n"
+    ret += "\n\nCONTROLLABLE\n\n"
     ret += "\t" + ", ".join(controllable)
+
+    ret += "END\n\n"
+
 
     return ret
 
