@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:19.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -27,16 +27,19 @@ RUN \
         tzdata
 
 
-# Install strix dependencies
+# Install strix
 RUN \
-    apt install -y \
+    apt -y update && \
+        install -y \
+        g++ \
         cmake \
         make\
         libboost-dev \
         libboost-program-options-dev \
         libboost-filesystem-dev \
         libboost-iostreams-dev \
-        zlib1g-dev
+        zlib1g-dev \
+        openjdk-13-jdk
 
 # Install CoGoMo dependencies
 RUN \
