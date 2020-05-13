@@ -13,7 +13,7 @@ if __name__ == "__main__":
         controller = get_controller(a, g, i, o)
         print(controller)
     except Exception as e:
-        "Exception"
+        print("Exception")
 
     try:
         a, g, i, o = parse_controller(file_path + "/controller-input_0.txt")
