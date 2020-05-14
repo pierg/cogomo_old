@@ -10,7 +10,7 @@ from helper.tools import save_to_file
 from output.input_clustering import get_inputs
 
 
-file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/clustering"
+file_path = os.path.dirname(os.path.abspath(__file__)) + "/output"
 try:
     shutil.rmtree(file_path)
 except:
