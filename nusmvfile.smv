@@ -1,12 +1,12 @@
 MODULE main
 VAR
-	welcome: boolean;
-	wlocA: boolean;
 	contact_station: boolean;
-	slocA: boolean;
 	charge_station: boolean;
-	low_battery: boolean;
 	get_med: boolean;
+	low_battery: boolean;
+	slocA: boolean;
+	welcome: boolean;
 	human_entered: boolean;
+	wlocA: boolean;
 
 LTLSPEC ((((G((human_entered) -> X(welcome)) & (F(charge_station) & G((charge_station)))) & G((low_battery) -> X(contact_station)))) -> ((G((human_entered) -> X(welcome)) & (F(charge_station) & G((charge_station))))))

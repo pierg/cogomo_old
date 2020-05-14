@@ -470,7 +470,7 @@ def generate_controller_input_text(ctx_rules, dom_rules, guarantees, uncontrolla
     for p in ctx_rules:
         ret += "\t" + syntax_fix(p) + "\n"
 
-    ret += "CONSTRAINTS\n\n"
+    ret += "\n\nCONSTRAINTS\n\n"
     ret += "\n"
     for p in dom_rules:
         ret += "\t" + syntax_fix(p) + "\n"
