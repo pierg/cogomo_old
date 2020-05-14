@@ -221,16 +221,17 @@ if __name__ == "__main__":
 
     ctx, dom, gs, unc, cont = generate_controller_inputs_from(list_of_goals, list(sns.keys()), context_rules,
                                                               domain_rules)
-    save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_path + "/controller-input")
 
     controller_file_name = file_path + "/controller-input.txt"
+
+    save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), controller_file_name)
 
     create_controller_if_exists(controller_file_name)
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
 
-    save_to_file(pretty_contexts_goals(context_goals), file_path + "/context-goals")
+    save_to_file(pretty_contexts_goals(context_goals), file_path + "/context-goals.txt")
 
     for ctx, goals in context_goals.items():
         from helper.buchi import generate_buchi
@@ -239,8 +240,7 @@ if __name__ == "__main__":
         generate_buchi(ctx, file_path + "/buchi/" + g_name)
 
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
-
-        controller_file_name = file_path + "/controller-input_" + str(i)
+        controller_file_name = file_path + "/controller-input_" + str(i) + ".txt"
 
         ctx, dom, gs, unc, cont = generate_controller_inputs_from(ctx_goals, list(sns.keys()), context_rules,
                                                                   domain_rules, ctx)
@@ -254,7 +254,7 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "/context-based-clustering", )
+    save_to_file(str(cgt), file_path + "/context-based-clustering.txt")
 
     # assumptions_guarantee_pairs = []
     #

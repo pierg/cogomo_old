@@ -69,7 +69,7 @@ def save_to_file(text: str, file_path: str):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
-    with open(file_path + ".txt", 'w') as f:
+    with open(file_path, 'w') as f:
         f.write(text)
 
     f.close()
