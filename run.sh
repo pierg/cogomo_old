@@ -17,11 +17,11 @@ else
           ;;
         -c)
           echo "Launching clustering..."
-          python3 ./clustering_run.py
+          python3 ./run_clustering.py
           ;;
         -m)
           echo "Launching mapping..."
-          python3 ./mapping_run.py
+          python3 ./run_mapping.py
           ;;
         *)
           break
