@@ -13,16 +13,9 @@ output_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'
 def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> str:
     try:
         params = ' -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
-        # # output = subprocess.check_output([strix_path, params])
-        # result = subprocess.run([strix_path, params], stdout=subprocess.PIPE)
-        # print(result)
-
         command = strix_path + params
-        print("\n\nCOMMAND:\n\n" + command + "\n\n")
-
+        print("\n\nRUNNING COMMAND:\n\n" + command + "\n\n")
         stdoutdata = subprocess.getoutput(command)
-        print("stdoutdata:\n" + stdoutdata)
-
         return stdoutdata
 
     except Exception as e:
@@ -34,4 +27,4 @@ if __name__ == '__main__':
     file_path = output_path + "/" + sys.argv[1]
     a, g, i, o = parse_controller(file_path)
     controller_output = get_controller(a, g, i, o)
-    print(controller_output)
+    print("\n\nCONTROLLER_RESPONSE:\n\n" + controller_output)
