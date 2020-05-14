@@ -10,7 +10,6 @@ from goals.helpers import extract_saturated_guarantees_from, extract_ltl_rules, 
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
     pretty_contexts_goals
 from helper.tools import save_to_file, traslate_boolean
-from planner.planner import get_planner
 from src.goals.cgtgoal import *
 from src.typescogomo.assumption import *
 from src.typescogomo.patterns import *
