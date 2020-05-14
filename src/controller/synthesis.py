@@ -6,6 +6,7 @@ from graphviz import Source
 
 from checks.tools import Implies
 from controller.parser import parse_controller
+from helper.tools import save_to_file
 
 strix_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'bin', 'ubuntu_19.10', 'strix'))
 
@@ -66,6 +67,8 @@ def create_controller_if_exists(controller_input_file: str):
     print(controller_input_file + " IS REALIZABLE")
     dot_file_path = os.path.dirname(controller_input_file)
     dot_file_name = os.path.splitext(controller_input_file)[0]
+
+    save_to_file(result, dot_file_name + "_dot.txt")
 
     src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
     src.render(cleanup=True)
