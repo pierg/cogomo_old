@@ -16,7 +16,7 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
         print("\n\nCOMMAND:\n\n" + strix_path + params + "\n\n")
         # output = subprocess.check_output([strix_path, params])
         result = subprocess.run([strix_path, params], stdout=subprocess.PIPE)
-        print("RES\n" + result)
+        print(result)
         output = result.stdout.decode('utf-8')
         print("\n\nOUTPUT\n\n" + output)
         return output
