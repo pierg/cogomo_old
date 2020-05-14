@@ -91,7 +91,7 @@ class LTL:
                 print(self.formula +"\nINCONSISTENT WITH\n" + other.formula)
                 raise InconsistentException(self, other)
 
-        return False
+        return True
 
     def is_satisfiable_with(self, other):
         if self.formula == "TRUE" or other.formula == "TRUE":

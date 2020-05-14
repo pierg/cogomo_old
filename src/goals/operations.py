@@ -346,6 +346,11 @@ def create_cgt(context_goals: Dict):
     composed_goals = []
     for ctx, goals in context_goals.items():
         ctx_goals = composition(goals)
+        print("REFINING ASSUMPTIONS:\n" + ctx_goals.contracts[0].assumptions.formula.formula)
+        ctx_goals.contracts[0].assumptions.remove_kind("context")
+        ctx_goals.contracts[0].assumptions.add(ctx)
+        # TODO: Better add LTL to LTLs
+        print("\nWITH ASSUMPTIONS:\n" + ctx_goals.contracts[0].assumptions.formula.formula)
         composed_goals.append(ctx_goals)
 
     """Conjoin the goals across all the mutually exclusive contexts"""
