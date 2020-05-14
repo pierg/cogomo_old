@@ -10,14 +10,30 @@ strix_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..',
 output_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'output', 'clustering'))
 
 
+def is_realizable(assumptions: str, guarantees: str, ins: str, outs: str) -> bool:
+    try:
+        params = ' --realizability -f "' + Implies(assumptions,
+                                                   guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
+        command = strix_path + params
+        print("\n\nRUNNING COMMAND:\n\n" + command + "\n\n")
+        stdoutdata = subprocess.getoutput(command).splitlines()
+        if stdoutdata[0] == "REALIZABLE":
+            return True
+        if stdoutdata[0] == "UNREALIZABLE":
+            return False
+        else:
+            raise Exception("Unknown strix response: " + stdoutdata[0])
+    except Exception as e:
+        raise e
+
+
 def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> str:
     try:
-        params = ' -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
+        params = ' --dot -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
         command = strix_path + params
         print("\n\nRUNNING COMMAND:\n\n" + command + "\n\n")
         stdoutdata = subprocess.getoutput(command)
         return stdoutdata
-
     except Exception as e:
         raise e
 
