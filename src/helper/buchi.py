@@ -1,18 +1,11 @@
 import os
 import subprocess
+
 from graphviz import Source
+
 from helper.tools import traslate_boolean
 from typescogomo.formula import AndLTL
 from typescogomo.scopes import *
-
-
-def clean_up():
-    curr_dir = os.path.dirname(os.path.realpath(__file__))
-    ouput_dir = os.path.join(curr_dir, "output")
-    items = os.listdir(ouput_dir)
-    for item in items:
-        if not item.endswith(".eps"):
-            os.remove(os.path.join(ouput_dir, item))
 
 
 def generate_buchi(formula: LTL, name: str, path: str = ""):
@@ -189,11 +182,8 @@ def composition_scopes():
             )
         ), "robot-release-alarm-after-composot")
 
-    clean_up()
-
 
 if __name__ == '__main__':
-
     generate_buchi(
         AndLTL([
             P_eventually(LTL("alarm")),
@@ -211,7 +201,6 @@ if __name__ == '__main__':
                 p=LTL("warehouse"),
                 r=LTL("!alarm"))
         ]), "strong-after-alarm2")
-
 
     generate_buchi(
         AndLTL([

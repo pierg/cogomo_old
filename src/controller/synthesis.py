@@ -1,8 +1,10 @@
 import os
 import subprocess
 import sys
-from typing import Tuple, List, Union
-from checks.tools import And, Not, Implies
+
+from graphviz import Source
+
+from checks.tools import Implies
 from controller.parser import parse_controller
 
 strix_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'bin', 'ubuntu_19.10', 'strix'))
@@ -32,10 +34,34 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
         params = ' --dot -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
         command = strix_path + params
         print("\n\nRUNNING COMMAND:\n\n" + command + "\n\n")
-        stdoutdata = subprocess.getoutput(command)
-        return stdoutdata
+        result = subprocess.getoutput(command).splitlines()
+        if result[0] == "REALIZABLE":
+            dot_format = ""
+            for i, line in enumerate(result):
+                if "diagraph" not in line:
+                    continue
+                else:
+                    dot_format = "".join(result[i:])
+                    break
+            return dot_format
+        if result[0] == "UNREALIZABLE":
+            return "UNREALIZABLE"
+        else:
+            raise Exception("Unknown strix response: " + result[0])
     except Exception as e:
         raise e
+
+
+def create_controller_if_exists(assumptions: str, guarantees: str, ins: str, outs: str, controller_input_file: str):
+    result = get_controller(assumptions, guarantees, ins, outs)
+    if result.startswith("UNREALIZABLE"):
+        return
+
+    dot_file_path = os.path.dirname(controller_input_file)
+    dot_file_name = os.path.splitext(controller_input_file)[0]
+
+    src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
+    src.render(cleanup=True)
 
 
 if __name__ == '__main__':
@@ -44,3 +70,5 @@ if __name__ == '__main__':
     a, g, i, o = parse_controller(file_path)
     controller_output = get_controller(a, g, i, o)
     print("\n\nCONTROLLER_RESPONSE:\n\n" + controller_output)
+    create_controller_if_exists(a, g, i, o, file_path)
+    print("\n\nCONTROLLER_CREATED_SUCCESSFULLY\n\n")

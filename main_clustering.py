@@ -4,6 +4,7 @@ import sys
 
 from checks.tools import Implies
 from controller.parser import parse_controller
+from controller.synthesis import create_controller_if_exists
 from goals.helpers import extract_saturated_guarantees_from, extract_ltl_rules, extract_variables_name_from_dics, \
     generate_controller_inputs_from, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
@@ -223,7 +224,9 @@ if __name__ == "__main__":
                                                               domain_rules)
     save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_path + "/controller-input")
 
-    # a, g, i, o = parse_controller(file_path + "/controller-input.txt")
+    controller_file_name = file_path + "/controller-input.txt"
+    a, g, i, o = parse_controller(controller_file_name)
+    create_controller_if_exists(a, g, i, o, controller_file_name)
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
@@ -237,10 +240,15 @@ if __name__ == "__main__":
         generate_buchi(ctx, file_path + "/buchi/" + g_name)
 
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
+
+        controller_file_name = file_path + "/controller-input_" + str(i)
+
         ctx, dom, gs, unc, cont = generate_controller_inputs_from(ctx_goals, list(sns.keys()), context_rules,
                                                                   domain_rules, ctx)
-        save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont),
-                     file_path + "/controller-input_" + str(i))
+        save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), controller_file_name)
+
+        a, g, i, o = parse_controller(controller_file_name)
+        create_controller_if_exists(a, g, i, o, controller_file_name)
 
     try:
         cgt = create_cgt(context_goals)
