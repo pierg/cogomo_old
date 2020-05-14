@@ -69,7 +69,9 @@ def create_controller_if_exists(controller_input_file: str):
     dot_file_path = os.path.dirname(controller_input_file)
     dot_file_name = os.path.splitext(controller_input_file)[0]
 
-    save_to_file(result, dot_file_name + "_dot.txt")
+    dot_file_name = dot_file_name.replace("specification", "controller")
+
+    save_to_file(result, dot_file_name + ".dot")
 
     src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
     src.render(cleanup=True)

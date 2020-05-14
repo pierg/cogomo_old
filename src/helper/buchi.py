@@ -3,25 +3,28 @@ import subprocess
 
 from graphviz import Source
 
-from helper.tools import traslate_boolean
+from helper.tools import traslate_boolean, save_to_file
 from typescogomo.formula import AndLTL
 from typescogomo.scopes import *
 
 
-def generate_buchi(formula: LTL, name: str, path: str = ""):
+def generate_buchi(formula: LTL, file_path: str):
     try:
         print(formula)
         b_formula, new_vars, old_vars = traslate_boolean(formula.formula)
         print(b_formula)
-        output = subprocess.check_output(["ltl2tgba", "-B", b_formula, "-d"], encoding='UTF-8',
+        result = subprocess.check_output(["ltl2tgba", "-B", b_formula, "-d"], encoding='UTF-8',
                                          stderr=subprocess.DEVNULL).splitlines()
-        output = [x for x in output if not ('[Büchi]' in x)]
+        result = [x for x in result if not ('[Büchi]' in x)]
+        result = "".join(result)
 
-        output = "".join(output)
+        dot_file_path = os.path.dirname(file_path)
+        dot_file_name = os.path.splitext(file_path)[0]
 
-        src = Source(output, directory="output", filename=name, format="eps")
-
+        save_to_file(result, dot_file_name + ".dot")
+        src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
         src.render(cleanup=True)
+        print(dot_file_name + ".eps  ->   buchi generated")
 
     except Exception as e:
         raise e
