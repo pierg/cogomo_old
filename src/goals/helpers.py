@@ -434,6 +434,7 @@ def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
             guarantees_list.append(ltl.formula)
             variables.extend(ltl.variables)
             guarantees.append(Implies(new_assumptions.formula, And(guarantees_list)))
+            variables.extend(new_assumptions.variables)
 
     for v in variables.list:
         if v.name in uncontrollable_vars:
@@ -466,10 +467,10 @@ def syntax_fix(text: str):
 
 def generate_controller_input_text(ctx_rules, dom_rules, guarantees, uncontrollable, controllable):
     ret = "ASSUMPTIONS\n\n"
-
-    ret += "CONSTRAINTS\n\n"
     for p in ctx_rules:
         ret += "\t" + syntax_fix(p) + "\n"
+
+    ret += "CONSTRAINTS\n\n"
     ret += "\n"
     for p in dom_rules:
         ret += "\t" + syntax_fix(p) + "\n"

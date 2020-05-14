@@ -26,7 +26,6 @@ sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
 if __name__ == "__main__":
 
-
     """The designer specifies a mission using the predefined catalogue of patterns 
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
@@ -56,7 +55,6 @@ if __name__ == "__main__":
     act = {
         "contact_station": LTL("contact_station")
     }
-
 
     """List of specifications / goals"""
     list_of_goals = [
@@ -234,6 +232,7 @@ if __name__ == "__main__":
 
     for ctx, goals in context_goals.items():
         from helper.buchi import generate_buchi
+
         g_name = "||".join(g.name for g in goals)
         generate_buchi(ctx, file_path + "/buchi/" + g_name)
 
@@ -242,7 +241,6 @@ if __name__ == "__main__":
                                                                   domain_rules, ctx)
         save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont),
                      file_path + "/controller-input_" + str(i))
-
 
     try:
         cgt = create_cgt(context_goals)

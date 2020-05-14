@@ -1,5 +1,12 @@
 MODULE main
 VAR
-	time: 0..24;
+	welcome: boolean;
+	wlocA: boolean;
+	contact_station: boolean;
+	slocA: boolean;
+	charge_station: boolean;
+	low_battery: boolean;
+	get_med: boolean;
+	human_entered: boolean;
 
-LTLSPEC !(time > 0)
+LTLSPEC ((((G((human_entered) -> X(welcome)) & (F(charge_station) & G((charge_station)))) & G((low_battery) -> X(contact_station)))) -> ((G((human_entered) -> X(welcome)) & (F(charge_station) & G((charge_station))))))

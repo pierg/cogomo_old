@@ -35,37 +35,37 @@ def parse_controller(file_path: str) -> Tuple[str, str, str, str]:
             # parse file header line
             elif ntabs == FILE_HEADER_INDENT:
 
-                if ASSUMPTIONS_HEADER in line:
+                if ASSUMPTIONS_HEADER == line:
                     if file_header == "":
                         file_header = line
                     else:
                         Exception("File format not supported")
 
-                elif CONSTRAINTS_HEADER in line:
+                elif CONSTRAINTS_HEADER == line:
                     if file_header == ASSUMPTIONS_HEADER:
                         file_header = line
                     else:
                         Exception("File format not supported")
 
-                elif GUARANTEES_HEADER in line:
+                elif GUARANTEES_HEADER == line:
                     if file_header == CONSTRAINTS_HEADER:
                         file_header = line
                     else:
                         Exception("File format not supported")
 
-                elif INS_HEADER in line:
+                elif INS_HEADER == line:
                     if file_header == GUARANTEES_HEADER:
                         file_header = line
                     else:
                         Exception("File format not supported")
 
-                elif OUTS_HEADER in line:
+                elif OUTS_HEADER == line:
                     if file_header == INS_HEADER:
                         file_header = line
                     else:
                         Exception("File format not supported")
 
-                elif END_HEADER in line:
+                elif END_HEADER == line:
                     if file_header == OUTS_HEADER:
                         if len(assumptions) == 0:
                             assumptions.append("true")
@@ -77,23 +77,23 @@ def parse_controller(file_path: str) -> Tuple[str, str, str, str]:
 
             else:
 
-                if ASSUMPTIONS_HEADER in file_header:
+                if ASSUMPTIONS_HEADER == file_header:
                     if ntabs == DATA_INDENT:
                         assumptions.append(line.strip())
 
-                if CONSTRAINTS_HEADER in file_header:
+                if CONSTRAINTS_HEADER == file_header:
                     if ntabs == DATA_INDENT:
                         guarantees.append(line.strip())
 
-                if GUARANTEES_HEADER in file_header:
+                if GUARANTEES_HEADER == file_header:
                     if ntabs == DATA_INDENT:
                         guarantees.append(line.strip())
 
-                if INS_HEADER in file_header:
+                if INS_HEADER == file_header:
                     if ntabs == DATA_INDENT:
                         inputs.append(line.strip())
 
-                if OUTS_HEADER in file_header:
+                if OUTS_HEADER == file_header:
                     if ntabs == DATA_INDENT:
                         outputs.append(line.strip())
 
