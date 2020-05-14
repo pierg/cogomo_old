@@ -2,20 +2,13 @@ import os
 import shutil
 import sys
 
-from checks.tools import Implies
-from controller.parser import parse_controller
 from controller.synthesis import create_controller_if_exists
-from goals.helpers import extract_saturated_guarantees_from, extract_ltl_rules, extract_variables_name_from_dics, \
-    generate_controller_inputs_from, generate_controller_input_text
+from goals.helpers import generate_controller_inputs_from, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
     pretty_contexts_goals
-from helper.tools import save_to_file, traslate_boolean
-from input_mission import get_inputs
-from src.goals.cgtgoal import *
-from src.typescogomo.assumption import *
-from src.typescogomo.patterns import *
-from typescogomo.formula import OrLTL, AndLTL
-from typescogomo.scopes import *
+from helper.tools import save_to_file
+from clustering_input import get_inputs
+
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/clustering"
 try:
