@@ -53,6 +53,9 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
 
 
 def create_controller_if_exists(assumptions: str, guarantees: str, ins: str, outs: str, controller_input_file: str):
+    if sys.platform.system() != "Linux":
+        print(sys.platform.system() + " is not supported for synthesis")
+        return
     result = get_controller(assumptions, guarantees, ins, outs)
     if result.startswith("UNREALIZABLE"):
         return
