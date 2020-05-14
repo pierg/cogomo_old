@@ -222,7 +222,7 @@ if __name__ == "__main__":
     ctx, dom, gs, unc, cont = generate_controller_inputs_from(list_of_goals, list(sns.keys()), context_rules,
                                                               domain_rules)
 
-    controller_file_name = file_path + "/controller-input.txt"
+    controller_file_name = file_path + "/controller-general.txt"
 
     save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), controller_file_name)
 
@@ -240,7 +240,7 @@ if __name__ == "__main__":
         generate_buchi(ctx, file_path + "/buchi/" + g_name)
 
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
-        controller_file_name = file_path + "/controller-input_" + str(i) + ".txt"
+        controller_file_name = file_path + "/controller-context_" + str(i) + ".txt"
 
         ctx, dom, gs, unc, cont = generate_controller_inputs_from(ctx_goals, list(sns.keys()), context_rules,
                                                                   domain_rules, ctx)
@@ -254,7 +254,7 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "/context-based-clustering.txt")
+    save_to_file(str(cgt), file_path + "/context-based-cgt.txt")
 
     # assumptions_guarantee_pairs = []
     #
