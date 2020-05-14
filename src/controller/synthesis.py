@@ -52,11 +52,13 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
         raise e
 
 
-def create_controller_if_exists(assumptions: str, guarantees: str, ins: str, outs: str, controller_input_file: str):
+def create_controller_if_exists(controller_input_file: str):
     if platform.system() != "Linux":
         print(platform.system() + " is not supported for synthesis")
         return
-    result = get_controller(assumptions, guarantees, ins, outs)
+
+    result = get_controller(parse_controller(controller_input_file))
+
     if result.startswith("UNREALIZABLE"):
         return
 
@@ -73,5 +75,5 @@ if __name__ == '__main__':
     a, g, i, o = parse_controller(file_path)
     controller_output = get_controller(a, g, i, o)
     print("\n\nCONTROLLER_RESPONSE:\n\n" + controller_output)
-    create_controller_if_exists(a, g, i, o, file_path)
+    create_controller_if_exists(file_path)
     print("\n\nCONTROLLER_CREATED_SUCCESSFULLY\n\n")

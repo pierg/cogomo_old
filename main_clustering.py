@@ -225,8 +225,8 @@ if __name__ == "__main__":
     save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_path + "/controller-input")
 
     controller_file_name = file_path + "/controller-input.txt"
-    a, g, i, o = parse_controller(controller_file_name)
-    create_controller_if_exists(a, g, i, o, controller_file_name)
+
+    create_controller_if_exists(controller_file_name)
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
@@ -247,8 +247,7 @@ if __name__ == "__main__":
                                                                   domain_rules, ctx)
         save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), controller_file_name)
 
-        a, g, i, o = parse_controller(controller_file_name)
-        create_controller_if_exists(a, g, i, o, controller_file_name)
+        create_controller_if_exists(controller_file_name)
 
     try:
         cgt = create_cgt(context_goals)
