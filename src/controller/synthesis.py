@@ -21,19 +21,10 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
         print("\n\nCOMMAND:\n\n" + command + "\n\n")
 
         stdoutdata = subprocess.getoutput(command)
-        print("stdoutdata: " + stdoutdata.split()[0])
+        print("stdoutdata:\n" + stdoutdata)
 
-        # cmd = [strix_path, params]
-        # result = subprocess.run(cmd, stdout=subprocess.PIPE)
-        #
-        # output = result.stdout.decode('utf-8')
-        # print("\n\nOUTPUT\n\n" + output)
-        #
-        #
-        #
-        # output = subprocess.check_output(cmd, encoding='UTF-8', stderr=subprocess.DEVNULL).splitlines()
-        # print("\n\nOUTPUT2\n\n" + output)
-        return output
+        return stdoutdata
+
     except Exception as e:
         raise e
 
