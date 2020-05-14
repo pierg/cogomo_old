@@ -376,6 +376,7 @@ def pretty_cgt_exception(e: CGTFailException) -> str:
 def pretty_contexts_goals(context_goals: Dict) -> str:
     ret = ""
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
+        ret += "\nCONTEXT " + str(i) + "\n"
         ret += "\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
             [c.name for c in ctx_goals]) + "\n"
     return ret
