@@ -69,7 +69,7 @@ def create_controller_if_exists(controller_input_file: str):
 
     src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
     src.render(cleanup=True)
-    print(controller_input_file + ".eps  ->   mealy machine generated")
+    print(dot_file_name + ".eps  ->   mealy machine generated")
 
 
 if __name__ == '__main__':
