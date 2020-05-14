@@ -39,11 +39,9 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
         if result[0] == "REALIZABLE":
             dot_format = ""
             for i, line in enumerate(result):
-                print("LINE\t" + line)
                 if "digraph" not in line:
                     continue
                 else:
-                    print("GOOD LINE\t" + line)
                     dot_format = "".join(result[i:])
                     break
             return dot_format
@@ -62,7 +60,6 @@ def create_controller_if_exists(controller_input_file: str):
 
     a, g, i, o = parse_controller(controller_input_file)
     result = get_controller(a, g, i, o)
-    print("RESULT:" + result)
 
     if result.startswith("UNREALIZABLE"):
         print("UNREALIZABLE")
