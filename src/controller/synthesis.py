@@ -14,7 +14,9 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
     try:
         params = ' -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
         print("\n\nCOMMAND:\n\n" + strix_path + params + "\n\n")
-        output = subprocess.check_output([strix_path, params])
+        # output = subprocess.check_output([strix_path, params])
+        result = subprocess.run([strix_path, params], stdout=subprocess.PIPE)
+        output = result.stdout.decode('utf-8')
         print("\n\nOUTPUT\n\n" + output)
         return output
     except Exception as e:
