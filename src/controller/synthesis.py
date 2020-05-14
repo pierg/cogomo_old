@@ -57,23 +57,22 @@ def create_controller_if_exists(controller_input_file: str):
         print(platform.system() + " is not supported for synthesis")
         return
 
-    result = get_controller(parse_controller(controller_input_file))
+    a, g, i, o = parse_controller(controller_input_file)
+    result = get_controller(a, g, i, o)
 
     if result.startswith("UNREALIZABLE"):
         return
 
+    print(controller_input_file + " IS REALIZABLE")
     dot_file_path = os.path.dirname(controller_input_file)
     dot_file_name = os.path.splitext(controller_input_file)[0]
 
     src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
     src.render(cleanup=True)
+    print(controller_input_file + " mealy machine generated")
 
 
 if __name__ == '__main__':
     controller_file = sys.argv[1]
     file_path = output_path + "/" + sys.argv[1]
-    a, g, i, o = parse_controller(file_path)
-    controller_output = get_controller(a, g, i, o)
-    print("\n\nCONTROLLER_RESPONSE:\n\n" + controller_output)
-    create_controller_if_exists(file_path)
-    print("\n\nCONTROLLER_CREATED_SUCCESSFULLY\n\n")
+    controller_output = create_controller_if_exists(file_path)
