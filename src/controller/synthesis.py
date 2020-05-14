@@ -60,8 +60,10 @@ def create_controller_if_exists(controller_input_file: str):
 
     a, g, i, o = parse_controller(controller_input_file)
     result = get_controller(a, g, i, o)
+    print("RESULT:" + result)
 
     if result.startswith("UNREALIZABLE"):
+        print("UNREALIZABLE")
         return
 
     print(controller_input_file + " IS REALIZABLE")
