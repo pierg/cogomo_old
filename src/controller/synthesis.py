@@ -13,10 +13,11 @@ output_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'
 def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> str:
     try:
         params = ' -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
-        # print("\n\nCOMMAND:\n\n" + strix_path + params + "\n\n")
         # # output = subprocess.check_output([strix_path, params])
         # result = subprocess.run([strix_path, params], stdout=subprocess.PIPE)
         # print(result)
+
+        print("\n\nCOMMAND:\n\n" + strix_path + params + "\n\n")
 
         cmd = [strix_path, params]
         result = subprocess.run(cmd, stdout=subprocess.PIPE)
