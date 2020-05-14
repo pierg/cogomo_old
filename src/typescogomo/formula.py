@@ -2,7 +2,7 @@ from copy import deepcopy
 from typing import Tuple, Union, List
 
 from checks.nusmv import check_satisfiability, check_validity
-from checks.tools import And, Implies
+from checks.tools import And, Implies, Not
 from typescogomo.variables import Variables, extract_variable
 
 
@@ -175,6 +175,11 @@ def AndLTL(formulas: List[LTL]) -> LTL:
     else:
         raise Exception("List of formulas is empty")
 
+def NotLTL(element: LTL) -> LTL:
+    """Returns an str formula representing the logical AND of list_propoositions"""
+    vars = element.variables
+    formula = Not(element.formula)
+    return LTL(formula, vars)
 
 def OrLTL(formulas: List[LTL]) -> LTL:
     """Returns an str formula representing the logical OR of list_propoositions"""

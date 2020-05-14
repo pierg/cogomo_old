@@ -1,5 +1,12 @@
 MODULE main
 VAR
-	day_time: boolean;
+	contact_station: boolean;
+	low_battery: boolean;
+	wlocA: boolean;
+	get_med: boolean;
+	slocA: boolean;
+	welcome_client: boolean;
+	charge_station: boolean;
+	human_entered: boolean;
 
-LTLSPEC !(G(day_time))
+LTLSPEC ((((G((human_entered) -> X(welcome_client)) & (F(charge_station) & G((charge_station)))) & G((low_battery) -> X(contact_station)))) -> ((G((human_entered) -> X(welcome_client)) & (F(charge_station) & G((charge_station))))))

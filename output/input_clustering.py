@@ -1,7 +1,7 @@
 from src.goals.cgtgoal import *
 from src.typescogomo.assumption import *
 from src.typescogomo.patterns import *
-from typescogomo.formula import OrLTL, AndLTL
+from typescogomo.formula import OrLTL, AndLTL, NotLTL
 from typescogomo.scopes import *
 
 
@@ -18,24 +18,27 @@ def get_inputs():
         "shop": LTL("shop"),
         "get_med": LTL("get_med"),
         "warehouse": LTL("warehouse"),
-        "human_entered": LTL("human_entered")
+        "human_entered": LTL("human_entered"),
+        "alarm": LTL("alarm")
     }
 
-    """List of location propositions"""
+    """List of location propositions (controllable e.g. goto)"""
     loc = {
         "wlocA": LTL("wlocA"),
         "wlocB": LTL("wlocB"),
         "slocA": LTL("slocA"),
         "slocB": LTL("slocB"),
-        "welcome": LTL("welcome"),
+        "safe_loc": LTL("safe_loc"),
         "charge_station": LTL("charge_station")
     }
 
-    """List of action propositions"""
+    """List of action propositions (controllable)"""
     act = {
-        "contact_station": LTL("contact_station")
+        "contact_station": LTL("contact_station"),
+        "welcome_client": LTL("welcome_client")
     }
 
+    """Contexts rules, e.g. shop xor warehouse etc.."""
     context_rules = {
         "mutex": [
             [sns["shop"], sns["warehouse"]],
@@ -49,15 +52,15 @@ def get_inputs():
         ]
     }
 
+    """Domain rules, e.g. different locations"""
     domain_rules = {
         "mutex": [[
             loc["wlocA"],
             loc["wlocB"],
             loc["slocA"],
             loc["slocB"],
+            loc["safe_loc"],
             loc["charge_station"],
-            loc["wlocA"],
-            loc["slocA"]
         ]],
         "inclusion": [
         ]
@@ -107,25 +110,44 @@ def get_inputs():
             )),
             name="welcome-visitors",
             contracts=[PContract([
-                PromptReaction(LTL("human_entered"), LTL("welcome")),
+                PromptReaction(
+                    trigger=sns["human_entered"],
+                    reaction=act["welcome_client"]),
             ])]
         ),
         CGTGoal(
             context=(Context(
                 AndLTL([
-                    P_global(LTL("shop")),
-                    P_global(LTL("day_time"))
+                    P_global(sns["shop"]),
+                    P_global(sns["day_time"])
                 ])
             )),
             name="shop-day-visitors",
             contracts=[PContract([
-                Visit([LTL("slocA")]),
+                Visit([loc["slocA"]]),
                 PromptReaction(
-                    trigger=LTL("get_med"),
+                    trigger=sns["get_med"],
                     reaction=AndLTL([
-                        Visit([LTL("wlocA")]),
-                        PromptReaction(LTL("wlocA"), LTL("slocA"))
+                        Visit([loc["wlocA"]]),
+                        PromptReaction(
+                            trigger=loc["wlocA"],
+                            reaction=loc["slocA"])
                     ])),
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndLTL([
+                    P_global(sns["night_time"])
+                ])
+            )),
+            name="go-to-safe-zone-during-alarm",
+            contracts=[PContract([
+                P_after_Q(
+                    p=P_until_R(
+                        p=Visit([loc["safe_loc"]]),
+                        r=NotLTL(sns["alarm"])),
+                    q=sns["alarm"])
             ])]
         )
     ]
