@@ -57,13 +57,13 @@ if __name__ == "__main__":
         controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
         realizables.append(controller_generated)
 
+    save_to_file(pretty_print_summary_clustering(list_of_goals, controller_general, context_goals, realizables), file_path + "/SUMMARY.txt")
+
     try:
         cgt = create_cgt(context_goals)
     except CGTFailException as e:
         print(pretty_cgt_exception(e))
         sys.exit()
-
-    save_to_file(pretty_print_summary_clustering(list_of_goals, controller_general, context_goals, realizables), file_path + "/SUMMARY.txt")
 
     save_to_file(str(cgt), file_path + "/CGT.txt")
 
