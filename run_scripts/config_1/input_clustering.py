@@ -6,7 +6,7 @@ from typescogomo.scopes import *
 
 
 def get_inputs():
-    print("\n\n\n\n\t\t\t\t~~~~~++++~~+++~~~CUSTOMFILE!!!!!\n\n\n\n\n\n\n\n\n")
+    print("CUSTOMFILE IN USE")
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
     """List of sensor propositions (uncontrollable)"""
@@ -51,6 +51,7 @@ def get_inputs():
             [sns["low_battery"]]
         ]
     }
+    """TODO: dependent is not used at the moment"""
 
     """Domain rules, e.g. different locations"""
     domain_rules = {

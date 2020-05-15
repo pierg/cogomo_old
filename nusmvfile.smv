@@ -1,13 +1,13 @@
 MODULE main
 VAR
-	wlocA: boolean;
-	warehouse: boolean;
-	shop: boolean;
+	low_battery: boolean;
 	night_time: boolean;
-	slocA: boolean;
 	day_time: boolean;
 	get_med: boolean;
+	slocA: boolean;
+	warehouse: boolean;
+	wlocA: boolean;
+	shop: boolean;
 	entrance: boolean;
-	low_battery: boolean;
 
 LTLSPEC ((G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA)))))) -> ((G(low_battery) & (G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & !(G(night_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))))

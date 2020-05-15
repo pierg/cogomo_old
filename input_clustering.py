@@ -50,6 +50,8 @@ def get_inputs():
             [sns["low_battery"]]
         ]
     }
+    """TODO: dependent is not used at the moment"""
+
 
     """Domain rules, e.g. different locations"""
     domain_rules = {
