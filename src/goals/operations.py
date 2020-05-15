@@ -14,11 +14,93 @@ from src.goals.helpers import extract_ltl_rules, map_goals_to_contexts, filter_a
 
 
 class CGTFailException(Exception):
-    def __init__(self, failed_operation: "str", faild_motivation: "str", goals_involved_a: List[CGTGoal], goals_involved_b: List[CGTGoal]):
+    def __init__(self, failed_operation: "str", faild_motivation: "str", goals_involved_a: List[CGTGoal],
+                 goals_involved_b: List[CGTGoal]):
         self.failed_operation = failed_operation
         self.faild_motivation = faild_motivation
         self.goals_involved_a = goals_involved_a
         self.goals_involved_b = goals_involved_b
+
+
+def conjunction(goals: List[CGTGoal],
+                name: str = None,
+                description: str = None,
+                connect_to: CGTGoal = None,
+                check_consistency = True) -> CGTGoal:
+    """Conjunction Operations among the goals in 'goals'.
+       It returns a new goal"""
+
+    for n, goal in enumerate(goals):
+        if goal.connected_to is not None and connect_to is not None:
+            if connect_to != goal.connected_to:
+                print(goal.name + " is already part of another CGT. Making a copy of it...")
+                goals[n] = deepcopy(goal)
+                goals[n].name = goals[n].name
+
+    if name is None:
+        names = []
+        for goal in goals:
+            names.append(goal.name)
+        names.sort()
+        conj_name = ""
+        for name in names:
+            conj_name += name + "^^"
+        name = conj_name[:-2]
+
+    if check_consistency:
+        """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
+        for pair_of_goals in combinations(goals, r=2):
+
+            assumptions_set = []
+            guarantees_set = []
+
+            for contract_1 in pair_of_goals[0].contracts:
+
+                assumptions_set.extend(contract_1.assumptions.list)
+                guarantees_set.extend(contract_1.guarantees.list)
+
+                for contract_2 in pair_of_goals[1].contracts:
+
+                    assumptions_set.extend(contract_2.assumptions.list)
+                    guarantees_set.extend(contract_2.guarantees.list)
+
+                    try:
+                        Assumptions(assumptions_set)
+
+                        try:
+                            Guarantees(guarantees_set)
+                        except InconsistentException:
+                            raise CGTFailException(failed_operation="conjunction",
+                                                   faild_motivation="inconsistent",
+                                                   goals_involved_a=[pair_of_goals[0]],
+                                                   goals_involved_b=[pair_of_goals[1]])
+                    except:
+                        """If the assumptions are mutually exclusive it's ok"""
+                        pass
+
+    print("The conjunction satisfiable.")
+
+    # Creating new list of contracts
+    list_of_new_contracts = []
+
+    for goal in goals:
+        contracts = goal.contracts
+        for contract in contracts:
+            new_contract = deepcopy(contract)
+            list_of_new_contracts.append(new_contract)
+
+    conjoined_goal = CGTGoal(name=name,
+                             description=description,
+                             contracts=list_of_new_contracts,
+                             refined_by=goals,
+                             refined_with="CONJUNCTION")
+
+    """Or connect to existing goal"""
+    if connect_to is None:
+        """Crate a new goal that is linked to the other goals by conjunction"""
+        return conjoined_goal
+    else:
+        connect_to.update_with(conjoined_goal, consolidate=False)
 
 
 def composition(goals: List[CGTGoal],
@@ -105,86 +187,6 @@ def composition(goals: List[CGTGoal],
         return composed_goal
     else:
         connect_to.update_with(composed_goal, consolidate=False)
-
-
-def conjunction(goals: List[CGTGoal],
-                name: str = None,
-                description: str = None,
-                connect_to: CGTGoal = None) -> CGTGoal:
-    """Conjunction Operations among the goals in 'goals'.
-       It returns a new goal"""
-
-    for n, goal in enumerate(goals):
-        if goal.connected_to is not None and connect_to is not None:
-            if connect_to != goal.connected_to:
-                print(goal.name + " is already part of another CGT. Making a copy of it...")
-                goals[n] = deepcopy(goal)
-                goals[n].name = goals[n].name
-
-    if name is None:
-        names = []
-        for goal in goals:
-            names.append(goal.name)
-        names.sort()
-        conj_name = ""
-        for name in names:
-            conj_name += name + "^^"
-        name = conj_name[:-2]
-
-    """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
-    for pair_of_goals in combinations(goals, r=2):
-
-        assumptions_set = []
-        guarantees_set = []
-
-        for contract_1 in pair_of_goals[0].contracts:
-
-            assumptions_set.extend(contract_1.assumptions.list)
-            guarantees_set.extend(contract_1.guarantees.list)
-
-            for contract_2 in pair_of_goals[1].contracts:
-
-                assumptions_set.extend(contract_2.assumptions.list)
-                guarantees_set.extend(contract_2.guarantees.list)
-
-                try:
-                    Assumptions(assumptions_set)
-
-                    try:
-                        Guarantees(guarantees_set)
-
-                    except InconsistentException:
-                        print("The assumptions in the conjunction of contracts "
-                              "are not mutually exclusive and are inconsistent:\n" +
-                              str(pair_of_goals[0]) + "\nCONJOINED WITH\n" + str(pair_of_goals[1])
-                              + "\n\n" + str(list(set(guarantees_set))))
-                        raise Exception("Conjunction Failed")
-                except:
-                    pass
-
-    print("The conjunction satisfiable.")
-
-    # Creating new list of contracts
-    list_of_new_contracts = []
-
-    for goal in goals:
-        contracts = goal.contracts
-        for contract in contracts:
-            new_contract = deepcopy(contract)
-            list_of_new_contracts.append(new_contract)
-
-    conjoined_goal = CGTGoal(name=name,
-                             description=description,
-                             contracts=list_of_new_contracts,
-                             refined_by=goals,
-                             refined_with="CONJUNCTION")
-
-    """Or connect to existing goal"""
-    if connect_to is None:
-        """Crate a new goal that is linked to the other goals by conjunction"""
-        return conjoined_goal
-    else:
-        connect_to.update_with(conjoined_goal, consolidate=False)
 
 
 def mapping(component_library: ComponentsLibrary,
@@ -344,13 +346,13 @@ def create_contextual_clusters(goals: List[CGTGoal], type: str, context_rules: D
 def create_cgt(context_goals: Dict):
     """Compose all the set of goals in identified context"""
     composed_goals = []
-    for ctx, goals in context_goals.items():
+    for i, (ctx, goals) in enumerate(context_goals.items()):
+        # Creating new context goal so its composition refined the assumptions:
+        ctx_goal = CGTGoal(
+            name="ctx_" + str(i),
+            contracts=[Contract(assumptions=Assumptions(ctx))])
+        goals.append(ctx_goal)
         ctx_goals = composition(goals)
-        print("REFINING ASSUMPTIONS:\n" + ctx_goals.contracts[0].assumptions.formula.formula)
-        ctx_goals.contracts[0].assumptions.remove_kind("context")
-        ctx_goals.contracts[0].assumptions.add(ctx)
-        # TODO: Better add LTL to LTLs
-        print("\nWITH ASSUMPTIONS:\n" + ctx_goals.contracts[0].assumptions.formula.formula)
         composed_goals.append(ctx_goals)
 
     """Conjoin the goals across all the mutually exclusive contexts"""

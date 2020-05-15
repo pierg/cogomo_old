@@ -25,7 +25,8 @@ class LTLs:
 
                     if len(formulae) > 1:
                         try:
-                            self.__formula.conjoin_with(formulae[1:])
+                            added_formulae = self.__formula.conjoin_with(formulae[1:])
+                            self.list = added_formulae
                         except InconsistentException as e:
                             raise e
                 else:
@@ -53,9 +54,9 @@ class LTLs:
 
             self.__formula = LTL(value[0].formula, value[0].variables)
 
-            self.__formula.conjoin_with(value[1:])
+            added_formulae = self.__formula.conjoin_with(value[1:])
 
-            self.__list: List[LTL] = value
+            self.__list: List[LTL] = added_formulae
         else:
             self.__list = []
 
@@ -79,21 +80,13 @@ class LTLs:
         except Exception as e:
             print("WHT")
             raise e
-        self.__formula.conjoin_with(other.list[1:])
-        self.list.extend(other.list)
+        added_formulae = self.__formula.conjoin_with(other.list[1:])
+        self.list.extend(added_formulae)
 
     def add(self, formulae: Union['LTL', List['LTL']]):
 
-        res = self.formula.conjoin_with(formulae)
-
-        if res:
-            for e in list(self.list):
-                if e.formula == "TRUE":
-                    self.list.remove(e)
-            if isinstance(formulae, list):
-                self.list.extend(formulae)
-            else:
-                self.list.append(formulae)
+        added_formulae = self.formula.conjoin_with(formulae)
+        self.list.extend(added_formulae)
 
     def remove(self, formulae: Union['LTL', List['LTL']]):
 
@@ -110,6 +103,7 @@ class LTLs:
             self.__formula = LTL(self.list[0].formula, self.list[0].variables)
             if len(self.list) > 1:
                 self.__formula.conjoin_with(self.list[1:])
+
         else:
             self.list = None
 

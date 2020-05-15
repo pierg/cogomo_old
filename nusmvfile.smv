@@ -1,10 +1,10 @@
 MODULE main
 VAR
+	night_time: boolean;
 	entrance: boolean;
-	day_time: boolean;
 	warehouse: boolean;
 	low_battery: boolean;
 	shop: boolean;
-	night_time: boolean;
+	day_time: boolean;
 
-LTLSPEC (((G(low_battery) & !(G(night_time)) & !((G(entrance) & G(day_time))) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))) -> (G(night_time)))
+LTLSPEC !((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & !(G(night_time)) & !(G(low_battery)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop)) & G(low_battery)))

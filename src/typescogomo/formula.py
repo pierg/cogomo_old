@@ -49,49 +49,60 @@ class LTL:
         return self.formula == "TRUE"
 
     def is_satisfiable(self):
-        if self.formula is None:
-            print("wattt")
         return check_satisfiability(self.variables.get_nusmv_names(), self.formula)
 
-    def conjoin_with(self, others: Union['LTL', List['LTL']]):
+    def conjoin_with(self, others: Union['LTL', List['LTL']]) -> List['LTL']:
+        """Returns list of LTL that have been successfully conjoined"""
+        ret = []
+        if isinstance(others, list):
+            for other in others:
+                if self.conjoin_with_formula(other):
+                    ret.append(other)
+        elif isinstance(others, LTL):
+            if self.conjoin_with_formula(others):
+                ret.append(others)
+        else:
+            Exception("Type error when conjoining formulas")
+
+        return ret
+
+    def conjoin_with_formula(self, other: 'LTL') -> bool:
+        """Returns True if other has been conjoined"""
+
         if self.formula == "FALSE":
+            print("The conjunction has no effects since the current formula is FALSE")
             return False
-        if isinstance(others, LTL):
-            if others.formula == "TRUE":
-                return True
-            if others.formula == "FALSE":
-                self.formula = "FALSE"
-                self.variables = None
-                return True
-            if self.formula == "TRUE":
-                self.__init__(others.formula, others.variables)
-                return True
-            others = [others]
-        for other in others:
-            if self.is_satisfiable_with(other):
-                if self.formula == "TRUE":
-                    self.formula = deepcopy(other.formula)
-                    self.variables = deepcopy(other.variables)
-                else:
-                    if other.formula == "TRUE":
-                        continue
-                    if other.formula == "FALSE":
-                        self.formula = "FALSE"
-                        self.variables = None
-                        return True
-                    new_formula = deepcopy(self)
-                    new_formula.variables.extend(other.variables)
-                    new_formula.formula = And([new_formula.formula, other.formula])
+        if self.formula == "TRUE":
+            self.formula = deepcopy(other.formula)
+            self.variables = deepcopy(other.variables)
+            return True
 
-                    """If by conjoining other, the result should be a refinement of the existing formula"""
-                    if new_formula <= self:
-                        self.formula = deepcopy(new_formula.formula)
-                        self.variables = deepcopy(new_formula.variables)
-            else:
-                print(self.formula +"\nINCONSISTENT WITH\n" + other.formula)
-                raise InconsistentException(self, other)
+        if other.formula == "FALSE":
+            self.formula = "FALSE"
+            return True
+        if other.formula == "TRUE":
+            print("The conjunction has no effects since the other formula is FALSE")
+            return False
 
-        return True
+        if other <= self:
+            """the other formula is a refinement of the current formula"""
+            self.formula = deepcopy(other.formula)
+            self.variables = deepcopy(other.variables)
+            return True
+
+        if self.is_satisfiable_with(other):
+
+            new_formula = deepcopy(self)
+            new_formula.variables.extend(other.variables)
+            new_formula.formula = And([new_formula.formula, other.formula])
+
+            """If by conjoining other, the result should be a refinement of the existing formula"""
+            if new_formula <= self:
+                self.formula = deepcopy(new_formula.formula)
+                self.variables = deepcopy(new_formula.variables)
+                return True
+        else:
+            raise InconsistentException(self, other)
 
     def is_satisfiable_with(self, other):
         if self.formula == "TRUE" or other.formula == "TRUE":
@@ -156,10 +167,8 @@ class LTL:
 class InconsistentException(Exception):
 
     def __init__(self, conj_a: LTL, conj_b: LTL):
-
         self.conj_a = conj_a
         self.conj_b = conj_b
-
 
 
 def AndLTL(formulas: List[LTL]) -> LTL:
@@ -175,11 +184,13 @@ def AndLTL(formulas: List[LTL]) -> LTL:
     else:
         raise Exception("List of formulas is empty")
 
+
 def NotLTL(element: LTL) -> LTL:
     """Returns an str formula representing the logical AND of list_propoositions"""
     vars = element.variables
     formula = Not(element.formula)
     return LTL(formula, vars)
+
 
 def OrLTL(formulas: List[LTL]) -> LTL:
     """Returns an str formula representing the logical OR of list_propoositions"""
