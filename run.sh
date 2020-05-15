@@ -18,10 +18,12 @@ else
         -c)
           echo "Launching clustering..."
           python3 ./run_clustering.py
+          exit 0
           ;;
         -m)
           echo "Launching mapping..."
           python3 ./run_mapping.py
+          exit 0
           ;;
         *)
           break
