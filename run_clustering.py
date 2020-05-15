@@ -8,13 +8,7 @@ from goals.operations import create_contextual_clusters, create_cgt, CGTFailExce
     pretty_print_summary_clustering
 from helper.tools import save_to_file
 
-try:
-    """Check if there is a custom file first"""
-    from input_clustering_custom import get_inputs
-    print("CUSTOM CONFIGURATION LOADED")
-except:
-    from input_clustering import get_inputs
-    print("DEFAULT CONFIGURATION LOADED")
+from input_clustering import get_inputs
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
 try:
@@ -60,7 +54,8 @@ if __name__ == "__main__":
         controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
         realizables.append(controller_generated)
 
-    save_to_file(pretty_print_summary_clustering(list_of_goals, controller_general, context_goals, realizables), file_path + "/SUMMARY.txt")
+    save_to_file(pretty_print_summary_clustering(list_of_goals, controller_general, context_goals, realizables),
+                 file_path + "/SUMMARY.txt")
 
     try:
         cgt = create_cgt(context_goals)

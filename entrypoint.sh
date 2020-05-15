@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-echo "...updating repository - git pull..."
+echo "...updating repository from server..."
+pwd
+git reset --hard HEAD
+git clean -f
 git pull
 
 echo "...evaluation launch_script..."

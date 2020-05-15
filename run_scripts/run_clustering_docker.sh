@@ -8,7 +8,7 @@ docker pull pmallozzi/cogomo:latest
 docker create -it --name cogomo_clustering -v "$(pwd)/$1/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
 
 # Copy the input file
-docker cp "$(pwd)/$1/input_clustering_custom.py" cogomo_clustering:/home/cogomo/
+docker cp "$(pwd)/$1/input_clustering.py" cogomo_clustering:/home/
 
 # Start the container in clustering mode
 docker start -i cogomo_clustering
