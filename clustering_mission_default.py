@@ -8,7 +8,7 @@ from typescogomo.scopes import *
 def get_inputs():
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
-
+    print("\n\n\nCUSTOMFILE\n\n\n")
     """List of sensor propositions (uncontrollable)"""
     sns = {
         "night_time": LTL("night_time"),
@@ -41,14 +41,14 @@ def get_inputs():
     """Contexts rules, e.g. shop xor warehouse etc.."""
     context_rules = {
         "mutex": [
-            [sns["shop"], sns["warehouse"]],
-            [sns["day_time"], sns["night_time"]]
+            # [sns["shop"], sns["warehouse"]],
+            # [sns["day_time"], sns["night_time"]]
         ],
         "inclusion": [
-            [sns["entrance"], sns["shop"]]
+            # [sns["entrance"], sns["shop"]]
         ],
         "dependent": [
-            [sns["low_battery"]]
+            # [sns["low_battery"]]
         ]
     }
 

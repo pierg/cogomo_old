@@ -75,6 +75,6 @@ WORKDIR /home/cogomo
 
 RUN pip3 install -r requirements.txt
 
-ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo:/home/cogomo/src:/home/cogomo:/home/cogomo/output:/home/cogomo/src/z3"
+ENV PYTHONPATH "${PYTHONPATH}:/home/cogomo:/home/cogomo/src:/home/cogomo:/home/cogomo/output:/home/cogomo/input_files:/home/cogomo/src/z3"
 
 ENTRYPOINT ["./entrypoint.sh"]
