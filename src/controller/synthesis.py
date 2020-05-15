@@ -56,14 +56,14 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
 def create_controller_if_exists(controller_input_file: str):
     if platform.system() != "Linux":
         print(platform.system() + " is not supported for synthesis")
-        return
+        return False
 
     a, g, i, o = parse_controller(controller_input_file)
     result = get_controller(a, g, i, o)
 
     if result.startswith("UNREALIZABLE"):
         print("UNREALIZABLE")
-        return
+        return False
 
     print(controller_input_file + " IS REALIZABLE")
     dot_file_path = os.path.dirname(controller_input_file)
@@ -76,6 +76,7 @@ def create_controller_if_exists(controller_input_file: str):
     src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
     src.render(cleanup=True)
     print(dot_file_name + ".eps  ->   mealy machine generated")
+    return True
 
 
 if __name__ == '__main__':

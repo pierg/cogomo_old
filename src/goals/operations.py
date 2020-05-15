@@ -380,10 +380,14 @@ def pretty_cgt_exception(e: CGTFailException) -> str:
     return ret
 
 
-def pretty_contexts_goals(context_goals: Dict) -> str:
+def pretty_contexts_goals(context_goals: Dict, realizables: List) -> str:
     ret = ""
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
-        ret += "\nCONTEXT " + str(i) + "\n"
-        ret += "\n" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+        ret += "\nCLUSTER " + str(i) + "\n"
+        ret += "\nSCENARIO" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
             [c.name for c in ctx_goals]) + "\n"
+        if realizables[i]:
+            ret += "REALIZABLE\n"
+        else:
+            ret += "UNREALIZABLE\n"
     return ret

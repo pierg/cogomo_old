@@ -38,8 +38,7 @@ if __name__ == "__main__":
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
-
-    save_to_file(pretty_contexts_goals(context_goals), file_path + "/MAP-clusters-to-goals.txt")
+    realizables = []
 
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         from helper.buchi import generate_buchi
@@ -52,7 +51,8 @@ if __name__ == "__main__":
                                                                   domain_rules, ctx)
         save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_name_base + "specification.txt")
 
-        create_controller_if_exists(file_name_base + "specification.txt")
+        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
+        realizables.append(controller_generated)
 
     try:
         cgt = create_cgt(context_goals)
@@ -60,6 +60,8 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "/context-based-cgt.txt")
+    save_to_file(pretty_contexts_goals(context_goals, realizables), file_path + "/SUMMARY.txt")
+
+    save_to_file(str(cgt), file_path + "/CGT.txt")
 
     print("\nClustering process finished. Results generated.")
