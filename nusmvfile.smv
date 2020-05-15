@@ -1,10 +1,13 @@
 MODULE main
 VAR
-	slocB: boolean;
-	safe_loc: boolean;
+	contact_station: boolean;
 	slocA: boolean;
-	charge_station: boolean;
-	wlocB: boolean;
+	alarm: boolean;
+	safe_loc: boolean;
 	wlocA: boolean;
+	low_battery: boolean;
+	wlocB: boolean;
+	slocB: boolean;
+	charge_station: boolean;
 
-LTLSPEC !(G(((wlocA & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc) & !(charge_station)) | (wlocB & !(wlocA) & !(slocA) & !(slocB) & !(safe_loc) & !(charge_station)) | (slocA & !(wlocA) & !(wlocB) & !(slocB) & !(safe_loc) & !(charge_station)) | (slocB & !(wlocA) & !(wlocB) & !(slocA) & !(safe_loc) & !(charge_station)) | (safe_loc & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(charge_station)) | (charge_station & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc)))))
+LTLSPEC (((G(alarm -> G(((F(safe_loc) & G((safe_loc))) U !(alarm)))))) -> (((((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))) & G((wlocA & !wlocB & !slocA & !slocB) | (wlocB & !wlocA & !slocA & !slocB) | (slocA & !wlocA & !wlocB & !slocB) | (slocB & !wlocA & !wlocB & !slocA))) & (F(charge_station) & G((charge_station)))) & G((low_battery) -> X(contact_station)))))

@@ -104,35 +104,37 @@ def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
     ltl_list: List[LTL] = []
 
     for cvars in context_rules["mutex"]:
-        variables_list: Variables = Variables()
-        ltl = "G("
-        for vs in cvars:
-            variables_list.extend(vs.variables)
-        cvars_str = [n.formula for n in cvars]
-        clauses = []
-        for vs_a in cvars_str:
-            clause = []
-            clause.append(deepcopy(vs_a))
-            for vs_b in cvars_str:
-                if vs_a is not vs_b:
-                    clause.append(Not(deepcopy(vs_b)))
-            clauses.append(And(clause))
+        if len(cvars) > 0:
+            variables_list: Variables = Variables()
+            ltl = "G("
+            for vs in cvars:
+                variables_list.extend(vs.variables)
+            cvars_str = [n.formula for n in cvars]
+            clauses = []
+            for vs_a in cvars_str:
+                clause = []
+                clause.append(deepcopy(vs_a))
+                for vs_b in cvars_str:
+                    if vs_a is not vs_b:
+                        clause.append(Not(deepcopy(vs_b)))
+                clauses.append(And(clause))
 
-        ltl += Or(clauses)
-        ltl += ")"
-        ltl_list.append(LTL(formula=ltl, variables=variables_list))
+            ltl += Or(clauses)
+            ltl += ")"
+            ltl_list.append(LTL(formula=ltl, variables=variables_list))
 
     for cvars in context_rules["inclusion"]:
-        variables_list_inclusion: Variables = Variables()
-        ltl = "G("
-        for i, vs in enumerate(cvars):
-            variables_list_inclusion.extend(vs.variables)
-            ltl += str(vs)
-            if i < (len(cvars) - 1):
-                ltl += " -> "
-        ltl += ")"
+        if len(cvars) > 0:
+            variables_list_inclusion: Variables = Variables()
+            ltl = "G("
+            for i, vs in enumerate(cvars):
+                variables_list_inclusion.extend(vs.variables)
+                ltl += str(vs)
+                if i < (len(cvars) - 1):
+                    ltl += " -> "
+            ltl += ")"
 
-        ltl_list.append(LTL(formula=ltl, variables=variables_list_inclusion))
+            ltl_list.append(LTL(formula=ltl, variables=variables_list_inclusion))
 
     return ltl_list
 
