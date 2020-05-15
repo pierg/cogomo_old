@@ -356,7 +356,7 @@ def create_cgt(context_goals: Dict):
         composed_goals.append(ctx_goals)
 
     """Conjoin the goals across all the mutually exclusive contexts"""
-    cgt = conjunction(composed_goals)
+    cgt = conjunction(composed_goals, check_consistency=False)
 
     return cgt
 
