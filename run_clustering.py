@@ -10,8 +10,10 @@ from helper.tools import save_to_file
 
 try:
     from input_clustering_custom import get_inputs
+    print("CUSTOM CONFIGURATION LOADED")
 except:
     from input_clustering import get_inputs
+    print("DEFAULT CONFIGURATION LOADED")
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
 try:

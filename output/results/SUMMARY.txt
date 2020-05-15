@@ -2,39 +2,39 @@ GENERAL SPECIFICATION (ALL GAOLS)
 -->	5 goals: ['night-time-patroling', 'charge-on-low-battery', 'welcome-visitors', 'shop-day-visitors', 'go-to-safe-zone-during-alarm']
 UNREALIZABLE
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 CLUSTER 0
 SCENARIO:	(G(night_time) & !(G(low_battery)) & !((G(entrance) & G(day_time))) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
--->	3 goals: ['night-time-patroling', 'go-to-safe-zone-during-alarm', 'ctx_0']
+-->	2 goals: ['night-time-patroling', 'go-to-safe-zone-during-alarm']
 UNREALIZABLE
 
 CLUSTER 1
 SCENARIO:	(G(low_battery) & !(G(night_time)) & !((G(entrance) & G(day_time))) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
--->	2 goals: ['charge-on-low-battery', 'ctx_1']
-REALIZABLE
+-->	1 goals: ['charge-on-low-battery']
+UNREALIZABLE
 
 CLUSTER 2
 SCENARIO:	((G(shop) & G(day_time)) & !(G(night_time)) & !(G(low_battery)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
--->	2 goals: ['shop-day-visitors', 'ctx_2']
+-->	1 goals: ['shop-day-visitors']
 UNREALIZABLE
 
 CLUSTER 3
 SCENARIO:	(G(night_time) & G(low_battery) & !((G(entrance) & G(day_time))) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
--->	4 goals: ['night-time-patroling', 'charge-on-low-battery', 'go-to-safe-zone-during-alarm', 'ctx_3']
+-->	3 goals: ['night-time-patroling', 'charge-on-low-battery', 'go-to-safe-zone-during-alarm']
 UNREALIZABLE
 
 CLUSTER 4
 SCENARIO:	(G(low_battery) & (G(shop) & G(day_time)) & !(G(night_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
--->	3 goals: ['charge-on-low-battery', 'shop-day-visitors', 'ctx_4']
+-->	2 goals: ['charge-on-low-battery', 'shop-day-visitors']
 UNREALIZABLE
 
 CLUSTER 5
 SCENARIO:	((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & !(G(night_time)) & !(G(low_battery)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
--->	3 goals: ['welcome-visitors', 'shop-day-visitors', 'ctx_5']
+-->	2 goals: ['welcome-visitors', 'shop-day-visitors']
 UNREALIZABLE
 
 CLUSTER 6
 SCENARIO:	(G(low_battery) & (G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & !(G(night_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
--->	4 goals: ['charge-on-low-battery', 'welcome-visitors', 'shop-day-visitors', 'ctx_6']
+-->	3 goals: ['charge-on-low-battery', 'welcome-visitors', 'shop-day-visitors']
 UNREALIZABLE

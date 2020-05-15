@@ -40,14 +40,14 @@ def get_inputs():
     """Contexts rules, e.g. shop xor warehouse etc.."""
     context_rules = {
         "mutex": [
-            # [sns["shop"], sns["warehouse"]],
-            # [sns["day_time"], sns["night_time"]]
+            [sns["shop"], sns["warehouse"]],
+            [sns["day_time"], sns["night_time"]]
         ],
         "inclusion": [
-            # [sns["entrance"], sns["shop"]]
+            [sns["entrance"], sns["shop"]]
         ],
         "dependent": [
-            # [sns["low_battery"]]
+            [sns["low_battery"]]
         ]
     }
 
