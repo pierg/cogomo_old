@@ -7,7 +7,7 @@ from goals.helpers import generate_controller_inputs_from, generate_controller_i
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
     pretty_print_summary_clustering
 from helper.tools import save_to_file
-from output.input_clustering import get_inputs
+from output.input_mission_clustering import get_inputs
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
 try:

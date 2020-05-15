@@ -388,7 +388,7 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal], general_realiz
         ret += "REALIZABLE\n"
     else:
         ret += "UNREALIZABLE\n"
-    ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+    ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ret += "\nCLUSTER " + str(i) + "\n"
         ret += "SCENARIO:\t" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
