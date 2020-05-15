@@ -1,29 +1,26 @@
 ASSUMPTIONS
 
-	G(((shop & ! (warehouse)) | (warehouse & ! (shop))))
-	G(((day_time & ! (night_time)) | (night_time & ! (day_time))))
-	G(entrance -> shop)
+	((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & ! (G(night_time)) & ! (G(low_battery)) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop))
 
 
 CONSTRAINTS
 
-
-	G(((wlocA & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (wlocB & ! (wlocA) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocA & ! (wlocA) & ! (wlocB) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocB & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (safe_loc) & ! (charge_station)) | (safe_loc & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (charge_station)) | (charge_station & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc))))
+# constraints are included in the gurantees
 
 
 GUARANTEES
 
-	((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & ! (G(night_time)) & ! (G(low_battery)) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop))) -> (G((human_entered) -> X(welcome_client))))
-	((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & ! (G(night_time)) & ! (G(low_battery)) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop))) -> ((G((human_entered) -> X(welcome_client)) & G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+	((F(slocA) & G((slocA))) & G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))
+	G(((wlocA & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (wlocB & ! (wlocA) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocA & ! (wlocA) & ! (wlocB) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocB & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (safe_loc) & ! (charge_station)) | (safe_loc & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (charge_station)) | (charge_station & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc))))
 
 
 INPUTS
 
-	human_entered, entrance, day_time, shop, night_time, low_battery, warehouse, get_med
+	get_med, entrance, day_time, shop, night_time, low_battery, warehouse
 
 OUTPUTS
 
-	welcome_client, wlocA, slocA, wlocB, slocB, safe_loc, charge_station
+	slocA, wlocA, wlocB, slocB, safe_loc, charge_station
 
 END
 

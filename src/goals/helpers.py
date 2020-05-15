@@ -411,7 +411,7 @@ def generate_general_controller_from_goals(goals: Union[CGTGoal, List[CGTGoal]],
     the entire list of goals will be saturated with new_assumptions
     Returns: context_rules, domain_rules, guarantees, uncontrollable, controllable"""
 
-    if isinstance(goals, CGTGoal):
+    if not isinstance(goals, list):
         goals = [goals]
 
     variables = Variables()
@@ -453,14 +453,19 @@ def generate_general_controller_from_goals(goals: Union[CGTGoal, List[CGTGoal]],
         dom_rules.append(e.formula)
 
     assumptions.extend(ctx_rules)
-    guarantees.extend(domain_rules)
+    guarantees.extend(dom_rules)
 
     return assumptions, guarantees, uncontrollable, controllable
 
 
 def syntax_fix(text: str):
+    try:
+        res = re.sub(r'(!)', '! ', text)
+    except Exception as e:
+        print(e)
+        print(e)
 
-    return re.sub(r'(!)', '! ', text)
+    return res
 
 def generate_controller_input_text(assum, guaran, ins, outs):
     ret = "ASSUMPTIONS\n\n"

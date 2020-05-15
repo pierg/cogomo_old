@@ -9,6 +9,7 @@ from goals.operations import create_contextual_clusters, create_cgt, CGTFailExce
 from helper.tools import save_to_file
 
 from input_clustering import get_inputs
+from typescogomo.formula import OrLTL
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
 try:
@@ -58,7 +59,7 @@ if __name__ == "__main__":
 
         file_name_base = file_path + "/cluster_" + str(i) + "_"
 
-        generate_buchi(goal.context, file_name_base + "context")
+        generate_buchi(OrLTL(goal.context), file_name_base + "context")
 
         assum, guaran, ins, outs = generate_general_controller_from_goals(goal,
                                                                           list(sns.keys()),
