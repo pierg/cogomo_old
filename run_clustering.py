@@ -61,3 +61,5 @@ if __name__ == "__main__":
         sys.exit()
 
     save_to_file(str(cgt), file_path + "/context-based-cgt.txt")
+
+    print("\nClustering process finished. Results generated.")
