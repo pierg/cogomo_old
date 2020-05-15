@@ -9,6 +9,7 @@ from goals.operations import create_contextual_clusters, create_cgt, CGTFailExce
 from helper.tools import save_to_file
 
 try:
+    """Check if there is a custom file first"""
     from input_clustering_custom import get_inputs
     print("CUSTOM CONFIGURATION LOADED")
 except:
