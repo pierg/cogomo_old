@@ -2,6 +2,8 @@
 
 docker stop cogomo_clustering || true && docker rm cogomo_clustering || true
 
+docker pull pmallozzi/cogomo:latest
+
 # Create docker container
 docker create -it --name cogomo_clustering -v "$(pwd)/$1/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
 
