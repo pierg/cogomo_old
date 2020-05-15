@@ -6,7 +6,7 @@ from typescogomo.scopes import *
 
 
 def get_inputs():
-    print("\n\n\n\nCUSTOMFILE!!!!!\n\n\n\n\n\n\n\n\n")
+    print("\n\n\n\n\t\t\t\t~~~~~++++~~+++~~~CUSTOMFILE!!!!!\n\n\n\n\n\n\n\n\n")
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
     print("\n\n\nCUSTOMFILE\n\n\n")
