@@ -55,10 +55,10 @@ def get_inputs():
     """Domain rules, e.g. different locations"""
     domain_rules = {
         "mutex": [[
-            # loc["wlocA"],
-            # loc["wlocB"],
-            # loc["slocA"],
-            # loc["slocB"],
+            loc["wlocA"],
+            loc["wlocB"],
+            loc["slocA"],
+            loc["slocB"],
             loc["safe_loc"],
             loc["charge_station"]
         ]],
@@ -66,8 +66,39 @@ def get_inputs():
         ]
     }
 
-    """List of specifications / goals"""
     list_of_goals = [
+        CGTGoal(
+            context=(Context(
+                P_global(
+                    sns["night_time"]
+                )
+            )),
+            name="night-time-patroling",
+            contracts=[PContract([
+                Patroling([
+                    loc["wlocA"], loc["wlocB"], loc["slocA"], loc["slocB"]
+                ])
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndLTL([
+                    P_global(sns["night_time"])
+                ])
+            )),
+            name="go-to-safe-zone-during-alarm",
+            contracts=[PContract([
+                P_after_Q(
+                    p=P_until_R(
+                        p=Visit([loc["safe_loc"]]),
+                        r=NotLTL(sns["alarm"])),
+                    q=sns["alarm"])
+            ])]
+        )
+    ]
+
+    """List of specifications / goals"""
+    list_of_goals_2 = [
         CGTGoal(
             context=(Context(
                 P_global(

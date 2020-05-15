@@ -1,10 +1,6 @@
 MODULE main
 VAR
-	contact_station: boolean;
-	slocA: boolean;
-	get_med: boolean;
-	wlocA: boolean;
-	low_battery: boolean;
+	safe_loc: boolean;
 	charge_station: boolean;
 
-LTLSPEC !(((F(charge_station) & G((charge_station))) & G((low_battery) -> X(contact_station))))
+LTLSPEC !(G(((safe_loc & !(charge_station)) | (charge_station & !(safe_loc)))))
