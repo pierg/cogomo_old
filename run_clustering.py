@@ -8,7 +8,10 @@ from goals.operations import create_contextual_clusters, create_cgt, CGTFailExce
     pretty_print_summary_clustering
 from helper.tools import save_to_file
 
-from input_clustering import get_inputs
+try:
+    from input_clustering_custom import get_inputs
+except:
+    from input_clustering import get_inputs
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
 try:
