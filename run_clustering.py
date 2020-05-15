@@ -5,7 +5,7 @@ import sys
 from controller.synthesis import create_controller_if_exists
 from goals.helpers import generate_controller_inputs_from, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
-    pretty_contexts_goals
+    pretty_print_summary_clustering
 from helper.tools import save_to_file
 from output.input_clustering import get_inputs
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
     save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), controller_file_name)
 
-    create_controller_if_exists(controller_file_name)
+    controller_general = create_controller_if_exists(controller_file_name)
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(pretty_contexts_goals(context_goals, realizables), file_path + "/SUMMARY.txt")
+    save_to_file(pretty_print_summary_clustering(list_of_goals, controller_general, context_goals, realizables), file_path + "/SUMMARY.txt")
 
     save_to_file(str(cgt), file_path + "/CGT.txt")
 

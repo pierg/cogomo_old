@@ -26,7 +26,7 @@ def conjunction(goals: List[CGTGoal],
                 name: str = None,
                 description: str = None,
                 connect_to: CGTGoal = None,
-                check_consistency = True) -> CGTGoal:
+                check_consistency=True) -> CGTGoal:
     """Conjunction Operations among the goals in 'goals'.
        It returns a new goal"""
 
@@ -380,11 +380,18 @@ def pretty_cgt_exception(e: CGTFailException) -> str:
     return ret
 
 
-def pretty_contexts_goals(context_goals: Dict, realizables: List) -> str:
-    ret = ""
+def pretty_print_summary_clustering(list_of_goals: List[CGTGoal], general_realizable: bool,
+                                    context_goals: Dict, realizables: List) -> str:
+    ret = "GENERAL SPECIFICATION (ALL GAOLS)\n"
+    ret += "-->\t" + str(len(list_of_goals)) + " goals: " + str([c.name for c in list_of_goals]) + "\n"
+    if general_realizable:
+        ret += "REALIZABLE\n"
+    else:
+        ret += "UNREALIZABLE\n"
+    ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ret += "\nCLUSTER " + str(i) + "\n"
-        ret += "\nSCENARIO" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
+        ret += "SCENARIO:\t" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
             [c.name for c in ctx_goals]) + "\n"
         if realizables[i]:
             ret += "REALIZABLE\n"

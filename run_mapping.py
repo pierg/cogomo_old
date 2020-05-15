@@ -4,7 +4,7 @@ import shutil
 
 
 from components.components import ComponentsLibrary, Component, SimpleComponent
-from goals.operations import create_contextual_clusters, mapping, pretty_contexts_goals, create_cgt, CGTFailException, \
+from goals.operations import create_contextual_clusters, mapping, pretty_print_summary_clustering, create_cgt, CGTFailException, \
     pretty_cgt_exception
 from helper.tools import save_to_file
 from src.goals.cgtgoal import *
@@ -69,7 +69,7 @@ if __name__ == "__main__":
         g_name = "||".join(g.name for g in goals)
         generate_buchi(ctx, file_path + "/buchi/" + g_name)
 
-    save_to_file(pretty_contexts_goals(context_goals), file_path + "/context-goals")
+    save_to_file(pretty_print_summary_clustering(context_goals), file_path + "/context-goals")
 
     try:
         cgt = create_cgt(context_goals)

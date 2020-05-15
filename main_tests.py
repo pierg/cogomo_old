@@ -8,7 +8,7 @@ from controller.synthesis import create_controller_if_exists
 from goals.helpers import extract_saturated_guarantees_from, extract_ltl_rules, extract_variables_name_from_dics, \
     generate_controller_inputs_from, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
-    pretty_contexts_goals
+    pretty_print_summary_clustering
 from helper.tools import save_to_file, traslate_boolean
 from src.goals.cgtgoal import *
 from src.typescogomo.assumption import *
@@ -231,7 +231,7 @@ if __name__ == "__main__":
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
 
-    save_to_file(pretty_contexts_goals(context_goals), file_path + "/context-goals.txt")
+    save_to_file(pretty_print_summary_clustering(context_goals), file_path + "/context-goals.txt")
 
     for ctx, goals in context_goals.items():
         from helper.buchi import generate_buchi
