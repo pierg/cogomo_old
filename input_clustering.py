@@ -52,16 +52,15 @@ def get_inputs():
     }
     """TODO: dependent is not used at the moment"""
 
-
     """Domain rules, e.g. different locations"""
     domain_rules = {
         "mutex": [[
-            loc["wlocA"],
-            loc["wlocB"],
-            loc["slocA"],
-            loc["slocB"],
-            loc["safe_loc"],
-            loc["charge_station"],
+            # loc["wlocA"],
+            # loc["wlocB"],
+            # loc["slocA"],
+            # loc["slocB"],
+            # loc["safe_loc"],
+            # loc["charge_station"]
         ]],
         "inclusion": [
         ]

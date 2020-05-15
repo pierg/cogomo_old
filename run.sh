@@ -18,7 +18,7 @@ else
         -c)
           echo "Copying custom input file if exists..."
           if [ -f /home/input_clustering.py ]; then
-            mv /home/input_clustering.py /home/cogomo/input_clustering.py
+            mv /home/cogomo/input_clustering.py /home/cogomo/input_clustering.py
             echo "Custom input file loaded"
           fi
           echo "Launching clustering..."
