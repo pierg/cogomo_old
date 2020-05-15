@@ -329,6 +329,14 @@ class CGTGoal:
         new_formula = And(g_list)
         return LTL(new_formula, vars)
 
+
+    def get_variables(self) -> Variables:
+        vars = Variables()
+        for c in self.contracts:
+            vars.extend(c.guarantees.formula.variables)
+            vars.extend(c.assumptions.formula.variables)
+        return vars
+
     def get_ltl_saturated_guarantees(self) -> LTL:
         assumptions_guarantee_pairs = []
         vars = Variables()

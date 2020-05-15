@@ -3,7 +3,7 @@ import shutil
 import sys
 
 from controller.synthesis import create_controller_if_exists
-from goals.helpers import generate_controller_inputs_from, generate_controller_input_text
+from goals.helpers import generate_general_controller_from_goals, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
     pretty_print_summary_clustering
 from helper.tools import save_to_file
@@ -25,14 +25,17 @@ if __name__ == "__main__":
     for g in list_of_goals:
         print(g)
 
-    ctx, dom, gs, unc, cont = generate_controller_inputs_from(list_of_goals, list(sns.keys()), context_rules,
-                                                              domain_rules)
+    assum, guaran, ins, outs = generate_general_controller_from_goals(list_of_goals,
+                                                                      list(sns.keys()),
+                                                                      context_rules,
+                                                                      domain_rules,
+                                                                      include_context=True)
 
     file_name_base = file_path + "/general_"
 
     controller_file_name = file_name_base + "specification.txt"
 
-    save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), controller_file_name)
+    save_to_file(generate_controller_input_text(assum, guaran, ins, outs), controller_file_name)
 
     controller_general = create_controller_if_exists(controller_file_name)
 
@@ -40,23 +43,7 @@ if __name__ == "__main__":
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
     realizables = []
 
-    for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
-        from helper.buchi import generate_buchi
-
-        file_name_base = file_path + "/cluster_" + str(i) + "_"
-
-        generate_buchi(ctx, file_name_base + "context")
-
-        ctx, dom, gs, unc, cont = generate_controller_inputs_from(ctx_goals, list(sns.keys()), context_rules,
-                                                                  domain_rules, ctx)
-        save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), file_name_base + "specification.txt")
-
-        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
-        realizables.append(controller_generated)
-
-    save_to_file(pretty_print_summary_clustering(list_of_goals, controller_general, context_goals, realizables),
-                 file_path + "/SUMMARY.txt")
-
+    """Create the CGT"""
     try:
         cgt = create_cgt(context_goals)
     except CGTFailException as e:
@@ -64,5 +51,27 @@ if __name__ == "__main__":
         sys.exit()
 
     save_to_file(str(cgt), file_path + "/CGT.txt")
+
+    """Synthetize the controller for the branches of the CGT"""
+    for i, goal in enumerate(cgt.refined_by):
+        from helper.buchi import generate_buchi
+
+        file_name_base = file_path + "/cluster_" + str(i) + "_"
+
+        generate_buchi(goal.context, file_name_base + "context")
+
+        assum, guaran, ins, outs = generate_general_controller_from_goals(goal,
+                                                                          list(sns.keys()),
+                                                                          context_rules,
+                                                                          domain_rules,
+                                                                          include_context=False)
+
+        save_to_file(generate_controller_input_text(assum, guaran, ins, outs), file_name_base + "specification.txt")
+
+        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
+        realizables.append(controller_generated)
+
+    save_to_file(pretty_print_summary_clustering(list_of_goals, controller_general, context_goals, realizables),
+                 file_path + "/SUMMARY.txt")
 
     print("\nClustering process finished. Results generated.")

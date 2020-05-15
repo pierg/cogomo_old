@@ -6,7 +6,7 @@ from checks.tools import Implies
 from controller.parser import parse_controller
 from controller.synthesis import create_controller_if_exists
 from goals.helpers import extract_saturated_guarantees_from, extract_ltl_rules, extract_variables_name_from_dics, \
-    generate_controller_inputs_from, generate_controller_input_text
+    generate_general_controller_from_goals, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
     pretty_print_summary_clustering
 from helper.tools import save_to_file, traslate_boolean
@@ -219,8 +219,8 @@ if __name__ == "__main__":
     for g in list_of_goals:
         print(g)
 
-    ctx, dom, gs, unc, cont = generate_controller_inputs_from(list_of_goals, list(sns.keys()), context_rules,
-                                                              domain_rules)
+    ctx, dom, gs, unc, cont = generate_general_controller_from_goals(list_of_goals, list(sns.keys()), context_rules,
+                                                                     domain_rules)
 
     controller_file_name = file_path + "/controller-general.txt"
 
@@ -242,8 +242,8 @@ if __name__ == "__main__":
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         controller_file_name = file_path + "/controller-context_" + str(i) + ".txt"
 
-        ctx, dom, gs, unc, cont = generate_controller_inputs_from(ctx_goals, list(sns.keys()), context_rules,
-                                                                  domain_rules, ctx)
+        ctx, dom, gs, unc, cont = generate_general_controller_from_goals(ctx_goals, list(sns.keys()), context_rules,
+                                                                         domain_rules, ctx)
         save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), controller_file_name)
 
         create_controller_if_exists(controller_file_name)

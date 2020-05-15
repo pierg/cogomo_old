@@ -401,15 +401,16 @@ def extract_variables_name_from_dics(dics: List[Dict]) -> List[str]:
     return vars_name
 
 
-def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
-                                    uncontrollable_vars: List[str],
-                                    context_rules: Dict,
-                                    domain_rules: Dict,
-                                    new_assumptions: LTL = None) -> Tuple[
-    List[str], List[str], List[str], List[str], List[str]]:
+def generate_general_controller_from_goals(goals: Union[CGTGoal, List[CGTGoal]],
+                                           uncontrollable_vars: List[str],
+                                           context_rules: Dict,
+                                           domain_rules: Dict,
+                                           include_context = False) -> Tuple[
+    List[str], List[str], List[str], List[str]]:
     """Goal gaurantees will be saturated with their assumptions or in case of new_assumptions,
     the entire list of goals will be saturated with new_assumptions
     Returns: context_rules, domain_rules, guarantees, uncontrollable, controllable"""
+
     if isinstance(goals, CGTGoal):
         goals = [goals]
 
@@ -417,24 +418,15 @@ def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
 
     ctx_rules = []
     dom_rules = []
+    assumptions = []
     guarantees = []
     uncontrollable = []
     controllable = []
 
-    if new_assumptions is None:
-
-        for goal in goals:
-            ltl = goal.get_ltl_saturated_guarantees()
-            guarantees.append(ltl.formula)
-            variables.extend(ltl.variables)
-    else:
-        guarantees_list = []
-        for goal in goals:
-            ltl = goal.get_ltl_guarantees()
-            guarantees_list.append(ltl.formula)
-            variables.extend(ltl.variables)
-            guarantees.append(Implies(new_assumptions.formula, And(guarantees_list)))
-            variables.extend(new_assumptions.variables)
+    for goal in goals:
+        assumptions.append(goal.get_ltl_assumptions().formula)
+        guarantees.append(goal.get_ltl_guarantees().formula)
+        variables.extend(goal.get_variables())
 
     for v in variables.list:
         if v.name in uncontrollable_vars:
@@ -445,12 +437,13 @@ def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
     environment_rules = extract_ltl_rules(context_rules)
     domain_rules = extract_ltl_rules(domain_rules)
 
-    for e in environment_rules:
-        for v in e.variables.list:
-            if v.name not in uncontrollable:
-                uncontrollable.append(v.name)
-                # raise Exception("variable missing")
-        ctx_rules.append(e.formula)
+    if include_context:
+        for e in environment_rules:
+            for v in e.variables.list:
+                if v.name not in uncontrollable:
+                    uncontrollable.append(v.name)
+                    # raise Exception("variable missing")
+            ctx_rules.append(e.formula)
 
     for e in domain_rules:
         for v in e.variables.list:
@@ -459,34 +452,35 @@ def generate_controller_inputs_from(goals: Union[CGTGoal, List[CGTGoal]],
                 # raise Exception("variable missing")
         dom_rules.append(e.formula)
 
-    return ctx_rules, dom_rules, guarantees, uncontrollable, controllable
+    assumptions.extend(ctx_rules)
+    guarantees.extend(domain_rules)
+
+    return assumptions, guarantees, uncontrollable, controllable
+
 
 def syntax_fix(text: str):
 
     return re.sub(r'(!)', '! ', text)
 
-def generate_controller_input_text(ctx_rules, dom_rules, guarantees, uncontrollable, controllable):
+def generate_controller_input_text(assum, guaran, ins, outs):
     ret = "ASSUMPTIONS\n\n"
-    for p in ctx_rules:
+    for p in assum:
         ret += "\t" + syntax_fix(p) + "\n"
 
     ret += "\n\nCONSTRAINTS\n\n"
-    ret += "\n"
-    for p in dom_rules:
-        ret += "\t" + syntax_fix(p) + "\n"
+    ret += "# constraints are included in the gurantees\n"
 
     ret += "\n\nGUARANTEES\n\n"
-    for p in guarantees:
+    for p in guaran:
         ret += "\t" + syntax_fix(p) + "\n"
 
     ret += "\n\nINPUTS\n\n"
-    ret += "\t" + ", ".join(uncontrollable)
+    ret += "\t" + ", ".join(ins)
 
     ret += "\n\nOUTPUTS\n\n"
-    ret += "\t" + ", ".join(controllable)
+    ret += "\t" + ", ".join(outs)
 
     ret += "\n\nEND\n\n"
-
 
     return ret
 
