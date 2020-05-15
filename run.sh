@@ -18,6 +18,7 @@ else
         -c)
           echo "Launching clustering..."
           python3 ./run_clustering.py
+          echo "Process finished, results avilable"
           exit 0
           ;;
         -m)
