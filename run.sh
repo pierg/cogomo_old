@@ -17,6 +17,9 @@ else
           ;;
         -c)
           echo "Launching clustering..."
+          echo "Copying custom input file if exists..."
+          cp /home/input_clustering.py /home/cogomo/
+          echo "Launching clustering..."
           python3 ./run_clustering.py
           echo "Process finished, results avilable"
           echo "Clustering finished, exiting..."
