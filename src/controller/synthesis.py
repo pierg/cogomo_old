@@ -74,7 +74,7 @@ def create_controller_if_exists(controller_input_file: str) -> bool:
     """Return true if controller has been synthesized"""
     if platform.system() != "Linux":
         print(platform.system() + " is not supported for synthesis")
-        SynthesisException("os_not_supported")
+        raise SynthesisException("os_not_supported")
 
     a, g, i, o = parse_controller(controller_input_file)
 
@@ -82,7 +82,7 @@ def create_controller_if_exists(controller_input_file: str) -> bool:
     assumptions_satisfiable = check_satisfiability(variables, a)
 
     if not assumptions_satisfiable:
-        SynthesisException("trivial")
+        raise SynthesisException("trivial")
 
     result = get_controller(a, g, i, o)
 
