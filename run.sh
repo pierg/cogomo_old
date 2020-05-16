@@ -29,8 +29,7 @@ else
           exit 0
           ;;
         -e)
-          echo "Image created"
-          break
+          echo "Waiting for commands..."
           ;;
         *)
           break
