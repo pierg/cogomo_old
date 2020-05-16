@@ -32,7 +32,7 @@ if __name__ == "__main__":
                                                                       domain_rules,
                                                                       include_context=True)
 
-    controller_file_name = file_path + "general_specification.txt"
+    controller_file_name = file_path + "/general_specification.txt"
 
     save_to_file(generate_controller_input_text(assum, guaran, ins, outs), controller_file_name)
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "CGT_clustered.txt")
+    save_to_file(str(cgt), file_path + "/CGT_clustered.txt")
 
     folder_path = file_path + "/clustered/"
     """Synthetize the controller for the branches of the CGT"""
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "CGT_original.txt")
+    save_to_file(str(cgt), file_path + "/CGT_original.txt")
 
     folder_path = file_path + "/original/"
     """Synthetize the controller for the branches of the CGT"""
