@@ -416,6 +416,9 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
     else:
         ret += "TRIVIAL\t   (assumptions are unsatisfiable)   \tNO\n"
     ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+
+    ret += "\nALL CLUSTERS ARE NOT TRIVIAL AS THEY ARE GENERATED FROM THE CGT\n"
+
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ret += "\nCLUSTER " + str(i) + "\n"
         ret += "SCENARIO:\t" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
