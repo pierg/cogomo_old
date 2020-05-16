@@ -103,7 +103,7 @@ if __name__ == "__main__":
                      file_name_base + "specification.txt")
 
         controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
-        realizables_clustered.append(controller_generated)
+        realizables_original.append(controller_generated)
 
     save_to_file(pretty_print_summary_clustering(list_of_goals,
                                                  controller_general,
