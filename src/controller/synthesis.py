@@ -79,7 +79,7 @@ def create_controller_if_exists(controller_input_file: str) -> bool:
     a, g, i, o = parse_controller(controller_input_file)
 
     variables = [var.strip() + ": boolean" for var in i.split(',')]
-    assumptions_satisfiable = check_satisfiability([a], variables)
+    assumptions_satisfiable = check_satisfiability(variables, a)
 
     if not assumptions_satisfiable:
         SynthesisException("trivial")
