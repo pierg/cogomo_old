@@ -23,13 +23,13 @@ if [ $# -eq 0 ]
     docker logs -f cogomo_clustering >& "$(pwd)/default/logs.txt" &
 
   else
-    echo "  custom input file provided, launching with: $1/input_clustering.py"
+    echo "  custom input file provided, launching with: $1/mission_specification.py"
 
     echo "  creating new docker container..."
     docker create -i -t  --name cogomo_clustering -v "$(pwd)/$1/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
 
-    echo "copying input file $(pwd)/$1/input_clustering.py"
-    docker cp "$(pwd)/$1/input_clustering.py" cogomo_clustering:/home/
+    echo "copying input file $(pwd)/$1/mission_specification.py"
+    docker cp "$(pwd)/$1/mission_specification.py" cogomo_clustering:/home/
 
     echo "  starting docker..."
     docker start cogomo_clustering

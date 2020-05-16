@@ -9,7 +9,7 @@ from goals.operations import create_contextual_clusters, create_cgt, CGTFailExce
     pretty_print_summary_clustering
 from helper.tools import save_to_file
 
-from input_clustering import get_inputs
+from mission_specification import get_inputs
 from typescogomo.formula import OrLTL
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
