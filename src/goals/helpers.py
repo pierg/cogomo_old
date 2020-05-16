@@ -407,7 +407,8 @@ def generate_general_controller_from_goals(goals: Union[CGTGoal, List[CGTGoal]],
                                            uncontrollable_vars: List[str],
                                            context_rules: Dict,
                                            domain_rules: Dict,
-                                           include_context = False) -> Tuple[
+                                           include_context = False,
+                                           and_assumptions = True) -> Tuple[
     List[str], List[str], List[str], List[str]]:
     """Goal gaurantees will be saturated with their assumptions or in case of new_assumptions,
     the entire list of goals will be saturated with new_assumptions
@@ -453,6 +454,9 @@ def generate_general_controller_from_goals(goals: Union[CGTGoal, List[CGTGoal]],
                 controllable.append(v.name)
                 # raise Exception("variable missing")
         dom_rules.append(e.formula)
+
+    if not and_assumptions:
+        assumptions = [Or(assumptions)]
 
     assumptions.extend(ctx_rules)
     guarantees.extend(dom_rules)

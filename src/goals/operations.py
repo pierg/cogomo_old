@@ -385,33 +385,49 @@ def pretty_cgt_exception(e: CGTFailException) -> str:
     return ret
 
 
+
 def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
-                                    general_realizable: bool,
-                                    trivial_general: bool,
+                                    controller_generated_and: bool,
+                                    trivial_and: bool,
+                                    controller_generated_or: bool,
+                                    trivial_or: bool,
                                     context_goals: Dict,
                                     realizables_clustered: List,
                                     realizables_original: List) -> str:
     ret = "GENERAL SPECIFICATION (ALL GAOLS)\n"
     ret += "-->\t" + str(len(list_of_goals)) + " goals: " + str([c.name for c in list_of_goals]) + "\n"
-    if general_realizable:
-        ret += "REALIZABLE\tIN GENERAL\tYES\n"
+    if controller_generated_and:
+        ret += "REALIZABLE\tIN GENERAL WITH AND OF ASSUMPTIONS\tYES\n"
     else:
-        ret += "REALIZABLE\tIN GENERAL\tNO\n"
-    if trivial_general:
-        ret += "TRIVIAL\tIN GENERAL\tYES (assumptions are unsatisfiable)\n"
+        ret += "REALIZABLE\tIN GENERAL WITH AND OF ASSUMPTIONS\tNO\n"
+    if trivial_and:
+        ret += "TRIVIAL\t(assumptions are unsatisfiable)\tYES\n"
     else:
-        ret += "TRIVIAL\tIN GENERAL\tNO\n"
+        ret += "TRIVIAL\tNO\n"
+
+    ret += "\n"
+
+    if controller_generated_or:
+        ret += "REALIZABLE\tIN GENERAL WITH OR OF ASSUMPTIONS\tYES\n"
+    else:
+        ret += "REALIZABLE\tIN GENERAL WITH OR OF ASSUMPTIONS\tNO\n"
+    if trivial_or:
+        ret += "TRIVIAL\t(assumptions are unsatisfiable)\tYES\n"
+    else:
+        ret += "TRIVIAL\tNO\n"
     ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ret += "\nCLUSTER " + str(i) + "\n"
         ret += "SCENARIO:\t" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
             [c.name for c in ctx_goals]) + "\n"
-        if realizables_clustered[i]:
-            ret += "REALIZABLE\tCLUSTERED\tYES\n"
-        else:
-            ret += "REALIZABLE\tCLUSTERED\tNO\n"
-        if realizables_original[i]:
-            ret += "REALIZABLE\tORIGINAL \tYES\n"
-        else:
-            ret += "REALIZABLE\tORIGINAL \tNO\n"
+        if len(realizables_clustered) > 0:
+            if realizables_clustered[i]:
+                ret += "REALIZABLE\tCLUSTERED\tYES\n"
+            else:
+                ret += "REALIZABLE\tCLUSTERED\tNO\n"
+        if len(realizables_original) > 0:
+            if realizables_original[i]:
+                ret += "REALIZABLE\tORIGINAL \tYES\n"
+            else:
+                ret += "REALIZABLE\tORIGINAL \tNO\n"
     return ret
