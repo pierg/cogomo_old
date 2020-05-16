@@ -30,6 +30,7 @@ else
           ;;
         -e)
           echo "Waiting for commands..."
+          break
           ;;
         *)
           break
