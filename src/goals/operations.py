@@ -394,7 +394,9 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
                                     context_goals: Dict,
                                     realizables_clustered: List,
                                     realizables_original: List) -> str:
-    ret = "GENERAL SPECIFICATION (ALL GAOLS)\n"
+    ret = "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+    ret += "NO CGT\n"
+    ret += "GENERAL SPECIFICATION WITH ALL GAOLS\n"
     ret += "-->\t" + str(len(list_of_goals)) + " goals: " + str([c.name for c in list_of_goals]) + "\n"
     if controller_generated_and:
         ret += "REALIZABLE\tIN GENERAL WITH AND OF ASSUMPTIONS\tYES\n"
@@ -416,7 +418,7 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
     else:
         ret += "TRIVIAL\t   (assumptions are unsatisfiable)   \tNO\n"
     ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-
+    ret += "WITH CGT\n"
     ret += "\nALL CLUSTERS ARE NOT TRIVIAL AS THEY ARE GENERATED FROM THE CGT\n"
 
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
