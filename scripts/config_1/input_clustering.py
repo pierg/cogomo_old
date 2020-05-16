@@ -6,9 +6,9 @@ from typescogomo.scopes import *
 
 
 def get_inputs():
-    print("CUSTOMFILE IN USE")
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
+    print("~~~CUSTOM FILE~~~~")
     """List of sensor propositions (uncontrollable)"""
     sns = {
         "night_time": LTL("night_time"),
@@ -56,12 +56,12 @@ def get_inputs():
     """Domain rules, e.g. different locations"""
     domain_rules = {
         "mutex": [[
-            # loc["wlocA"],
-            # loc["wlocB"],
-            # loc["slocA"],
-            # loc["slocB"],
-            # loc["safe_loc"],
-            # loc["charge_station"],
+            loc["wlocA"],
+            loc["wlocB"],
+            loc["slocA"],
+            loc["slocB"],
+            loc["safe_loc"],
+            loc["charge_station"]
         ]],
         "inclusion": [
         ]

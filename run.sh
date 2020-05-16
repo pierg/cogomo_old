@@ -11,25 +11,26 @@ else
           echo " "
           echo "options:"
           echo "-h, --help                show brief help"
-          echo "-c,                       launch clustering"
-          echo "-m,                       launch mapping"
+          echo "-c,                       launch clustering with default input"
+          echo "-m,                       launch mapping with default input"
           exit 0
           ;;
         -c)
-          echo "Copying custom input file if exists..."
-          if [ -f /home/input_clustering.py ]; then
-            mv /home/cogomo/input_clustering.py /home/cogomo/input_clustering.py
-            echo "Custom input file loaded"
-          fi
           echo "Launching clustering..."
           python3 ./run_clustering.py
           echo "Process finished, results avilable"
+          echo "Clustering finished, exiting..."
           exit 0
           ;;
         -m)
           echo "Launching mapping..."
           python3 ./run_mapping.py
+          echo "Mapping finished, exiting..."
           exit 0
+          ;;
+        -e)
+          echo "Image created"
+          break
           ;;
         *)
           break
