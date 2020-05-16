@@ -14,26 +14,29 @@ if [ $# -eq 0 ]
     echo "  creating new docker container..."
     docker create -i -t  --name cogomo_clustering -v "$(pwd)/default/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
 
-    echo "  results and logs will be saved in $(pwd)/default/logs.txt"
-    docker logs -f cogomo_clustering >& "$(pwd)/default/logs.txt" &
 
     echo "  starting docker..."
     docker start cogomo_clustering
+    echo "  process started...check the log file to see when it finishes"
+
+    echo "  results and logs will be saved in $(pwd)/default/logs.txt"
+    docker logs -f cogomo_clustering >& "$(pwd)/default/" &
 
   else
     echo "  custom input file provided, launching with: $1/input_clustering.py"
 
     echo "  creating new docker container..."
-    docker create -i -t  --name cogomo_clustering -v "$(pwd)/default/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
+    docker create -i -t  --name cogomo_clustering -v "$(pwd)/$1/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
 
     echo "copying input file $(pwd)/$1/logs.txt"
     docker cp "$(pwd)/$1/input_clustering.py" cogomo_clustering:/home/
 
-    echo "  results and logs will be saved in $(pwd)/$1/logs.txt"
-    docker logs -f cogomo_clustering >& "$(pwd)/$1/logs.txt" &
-
     echo "  starting docker..."
     docker start cogomo_clustering
+    echo "  process started...check the log file to see when it finishes"
+
+    echo "  results and logs will be saved in $(pwd)/$1/"
+    docker logs -f cogomo_clustering >& "$(pwd)/$1/logs.txt" &
 
 fi
 
