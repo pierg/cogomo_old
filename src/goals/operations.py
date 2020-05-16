@@ -343,20 +343,21 @@ def create_contextual_clusters(goals: List[CGTGoal], type: str, context_rules: D
     return context_goals
 
 
-def create_cgt(context_goals: Dict, compose_with_context: True):
+def create_cgt(context_goals: Dict, compose_with_context: True) -> CGTGoal:
     """Compose all the set of goals in identified context"""
     composed_goals = []
     for i, (ctx, goals) in enumerate(context_goals.items()):
+        new_goals = deepcopy(goals)
         if compose_with_context:
             # Creating new context goal so its composition refined the assumptions:
             ctx_goal = CGTGoal(
                 name="ctx_" + str(i),
                 contracts=[Contract(assumptions=Assumptions(ctx))])
-            goals.append(ctx_goal)
-            ctx_goals = composition(goals)
+            new_goals.append(ctx_goal)
+            ctx_goals = composition(new_goals)
             composed_goals.append(ctx_goals)
         else:
-            ctx_goals = composition(goals)
+            ctx_goals = composition(new_goals)
             composed_goals.append(ctx_goals)
 
     """Conjoin the goals across all the mutually exclusive contexts"""

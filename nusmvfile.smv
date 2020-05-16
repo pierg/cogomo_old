@@ -1,10 +1,10 @@
 MODULE main
 VAR
-	safe_loc: boolean;
-	wlocA: boolean;
 	slocA: boolean;
-	charge_station: boolean;
 	slocB: boolean;
 	wlocB: boolean;
+	safe_loc: boolean;
+	wlocA: boolean;
+	charge_station: boolean;
 
 LTLSPEC !(G(((wlocA & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc) & !(charge_station)) | (wlocB & !(wlocA) & !(slocA) & !(slocB) & !(safe_loc) & !(charge_station)) | (slocA & !(wlocA) & !(wlocB) & !(slocB) & !(safe_loc) & !(charge_station)) | (slocB & !(wlocA) & !(wlocB) & !(slocA) & !(safe_loc) & !(charge_station)) | (safe_loc & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(charge_station)) | (charge_station & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc)))))
