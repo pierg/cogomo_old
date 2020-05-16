@@ -69,9 +69,9 @@ if __name__ == "__main__":
                                                                           include_context=False)
 
         save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
-                     folder_path + "specification.txt")
+                     file_name_base + "specification.txt")
 
-        controller_generated = create_controller_if_exists(folder_path + "specification.txt")
+        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
         realizables_clustered.append(controller_generated)
 
     """Create the CGT composing the goals without the context"""
@@ -100,9 +100,9 @@ if __name__ == "__main__":
                                                                           include_context=False)
 
         save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
-                     folder_path + "specification.txt")
+                     file_name_base + "specification.txt")
 
-        controller_generated = create_controller_if_exists(folder_path + "specification.txt")
+        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
         realizables_clustered.append(controller_generated)
 
     save_to_file(pretty_print_summary_clustering(list_of_goals,
