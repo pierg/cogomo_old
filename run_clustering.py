@@ -32,9 +32,7 @@ if __name__ == "__main__":
                                                                       domain_rules,
                                                                       include_context=True)
 
-    file_name_base = file_path + "/general_"
-
-    controller_file_name = file_name_base + "specification.txt"
+    controller_file_name = file_path + "general_specification.txt"
 
     save_to_file(generate_controller_input_text(assum, guaran, ins, outs), controller_file_name)
 
@@ -52,14 +50,15 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "/clustered/CGT.txt")
+    save_to_file(str(cgt), file_path + "CGT_clustered.txt")
 
+    folder_path = file_path + "/clustered/"
     """Synthetize the controller for the branches of the CGT"""
     print("\n\nSynthetize the controller for the branches of the CGT composing it with the new context")
     for i, goal in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
 
-        file_name_base = file_path + "/clustered/cluster_" + str(i) + "_"
+        file_name_base = folder_path + "cluster_" + str(i) + "_"
 
         generate_buchi(OrLTL(goal.context), file_name_base + "context")
 
@@ -70,9 +69,9 @@ if __name__ == "__main__":
                                                                           include_context=False)
 
         save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
-                     file_name_base + "/clustered/specification.txt")
+                     folder_path + "specification.txt")
 
-        controller_generated = create_controller_if_exists(file_name_base + "/clustered/specification.txt")
+        controller_generated = create_controller_if_exists(folder_path + "specification.txt")
         realizables_clustered.append(controller_generated)
 
     """Create the CGT composing the goals without the context"""
@@ -82,14 +81,15 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "/original/CGT.txt")
+    save_to_file(str(cgt), file_path + "CGT_original.txt")
 
+    folder_path = file_path + "/original/"
     """Synthetize the controller for the branches of the CGT"""
-    print("\n\nSynthetize the controller for the branches of the CGT without composing it with the new context")
+    print("\n\nSynthetize the controller for the branches of the CGT composing it with the new context")
     for i, goal in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
 
-        file_name_base = file_path + "/original/cluster_" + str(i) + "_"
+        file_name_base = folder_path + "cluster_" + str(i) + "_"
 
         generate_buchi(OrLTL(goal.context), file_name_base + "context")
 
@@ -100,10 +100,10 @@ if __name__ == "__main__":
                                                                           include_context=False)
 
         save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
-                     file_name_base + "/original/specification.txt")
+                     folder_path + "specification.txt")
 
-        controller_generated = create_controller_if_exists(file_name_base + "/original/specification.txt")
-        realizables_original.append(controller_generated)
+        controller_generated = create_controller_if_exists(folder_path + "specification.txt")
+        realizables_clustered.append(controller_generated)
 
     save_to_file(pretty_print_summary_clustering(list_of_goals,
                                                  controller_general,
