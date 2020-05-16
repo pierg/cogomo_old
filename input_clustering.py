@@ -66,39 +66,8 @@ def get_inputs():
         ]
     }
 
-    list_of_goals = [
-        CGTGoal(
-            context=(Context(
-                P_global(
-                    sns["night_time"]
-                )
-            )),
-            name="night-time-patroling",
-            contracts=[PContract([
-                Patroling([
-                    loc["wlocA"], loc["wlocB"], loc["slocA"], loc["slocB"]
-                ])
-            ])]
-        ),
-        CGTGoal(
-            context=(Context(
-                AndLTL([
-                    P_global(sns["night_time"])
-                ])
-            )),
-            name="go-to-safe-zone-during-alarm",
-            contracts=[PContract([
-                P_after_Q(
-                    p=P_until_R(
-                        p=Visit([loc["safe_loc"]]),
-                        r=NotLTL(sns["alarm"])),
-                    q=sns["alarm"])
-            ])]
-        )
-    ]
-
     """List of specifications / goals"""
-    list_of_goals_2 = [
+    list_of_goals = [
         CGTGoal(
             context=(Context(
                 P_global(

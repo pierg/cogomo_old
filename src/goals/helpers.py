@@ -479,7 +479,7 @@ def generate_controller_input_text(assum, guaran, ins, outs):
 
     ret += "\n\nGUARANTEES\n\n"
     for p in guaran:
-        ret += "\t" + syntax_fix(p) + "\n"
+        ret += "\t" + syntax_fix(p) + "\n\n"
 
     ret += "\n\nINPUTS\n\n"
     ret += "\t" + ", ".join(ins)
