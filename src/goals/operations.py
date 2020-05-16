@@ -343,17 +343,21 @@ def create_contextual_clusters(goals: List[CGTGoal], type: str, context_rules: D
     return context_goals
 
 
-def create_cgt(context_goals: Dict):
+def create_cgt(context_goals: Dict, compose_with_context: True):
     """Compose all the set of goals in identified context"""
     composed_goals = []
     for i, (ctx, goals) in enumerate(context_goals.items()):
-        # Creating new context goal so its composition refined the assumptions:
-        ctx_goal = CGTGoal(
-            name="ctx_" + str(i),
-            contracts=[Contract(assumptions=Assumptions(ctx))])
-        goals.append(ctx_goal)
-        ctx_goals = composition(goals)
-        composed_goals.append(ctx_goals)
+        if compose_with_context:
+            # Creating new context goal so its composition refined the assumptions:
+            ctx_goal = CGTGoal(
+                name="ctx_" + str(i),
+                contracts=[Contract(assumptions=Assumptions(ctx))])
+            goals.append(ctx_goal)
+            ctx_goals = composition(goals)
+            composed_goals.append(ctx_goals)
+        else:
+            ctx_goals = composition(goals)
+            composed_goals.append(ctx_goals)
 
     """Conjoin the goals across all the mutually exclusive contexts"""
     cgt = conjunction(composed_goals, check_consistency=False)
@@ -380,21 +384,28 @@ def pretty_cgt_exception(e: CGTFailException) -> str:
     return ret
 
 
-def pretty_print_summary_clustering(list_of_goals: List[CGTGoal], general_realizable: bool,
-                                    context_goals: Dict, realizables: List) -> str:
+def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
+                                    general_realizable: bool,
+                                    context_goals: Dict,
+                                    realizables_clustered: List,
+                                    realizables_original: List) -> str:
     ret = "GENERAL SPECIFICATION (ALL GAOLS)\n"
     ret += "-->\t" + str(len(list_of_goals)) + " goals: " + str([c.name for c in list_of_goals]) + "\n"
     if general_realizable:
-        ret += "REALIZABLE\n"
+        ret += "REALIZABLE\tIN GENERAL\tYES\n"
     else:
-        ret += "UNREALIZABLE\n"
+        ret += "REALIZABLE\tIN GENERAL\tNO\n"
     ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ret += "\nCLUSTER " + str(i) + "\n"
         ret += "SCENARIO:\t" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
             [c.name for c in ctx_goals]) + "\n"
-        if realizables[i]:
-            ret += "REALIZABLE\n"
+        if realizables_clustered[i]:
+            ret += "REALIZABLE\tCLUSTERED\tYES\n"
         else:
-            ret += "UNREALIZABLE\n"
+            ret += "REALIZABLE\tCLUSTERED\tNO\n"
+        if realizables_original[i]:
+            ret += "REALIZABLE\tORIGINAL \tYES\n"
+        else:
+            ret += "REALIZABLE\tORIGINAL \tNO\n"
     return ret

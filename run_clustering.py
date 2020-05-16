@@ -42,22 +42,24 @@ if __name__ == "__main__":
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
-    realizables = []
+    realizables_clustered = []
+    realizables_original = []
 
-    """Create the CGT"""
+    """Create the CGT composing the goals with the context"""
     try:
-        cgt = create_cgt(context_goals)
+        cgt = create_cgt(context_goals, compose_with_context=True)
     except CGTFailException as e:
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "/CGT.txt")
+    save_to_file(str(cgt), file_path + "/clustered/CGT.txt")
 
     """Synthetize the controller for the branches of the CGT"""
+    print("\n\nSynthetize the controller for the branches of the CGT composing it with the new context")
     for i, goal in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
 
-        file_name_base = file_path + "/cluster_" + str(i) + "_"
+        file_name_base = file_path + "/clustered/cluster_" + str(i) + "_"
 
         generate_buchi(OrLTL(goal.context), file_name_base + "context")
 
@@ -67,12 +69,50 @@ if __name__ == "__main__":
                                                                           domain_rules,
                                                                           include_context=False)
 
-        save_to_file(generate_controller_input_text(assum, guaran, ins, outs), file_name_base + "specification.txt")
+        save_to_file(generate_controller_input_text(assum, guaran, ins, outs), file_name_base + "/clustered/specification.txt")
 
-        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
-        realizables.append(controller_generated)
+        controller_generated = create_controller_if_exists(file_name_base + "/clustered/specification.txt")
+        realizables_clustered.append(controller_generated)
 
-    save_to_file(pretty_print_summary_clustering(list_of_goals, controller_general, context_goals, realizables),
+    """Create the CGT composing the goals without the context"""
+    try:
+        cgt = create_cgt(context_goals, compose_with_context=False)
+    except CGTFailException as e:
+        print(pretty_cgt_exception(e))
+        sys.exit()
+
+    save_to_file(str(cgt), file_path + "/original/CGT.txt")
+
+    """Synthetize the controller for the branches of the CGT"""
+    print("\n\nSynthetize the controller for the branches of the CGT without composing it with the new context")
+    for i, goal in enumerate(cgt.refined_by):
+        from helper.buchi import generate_buchi
+
+        file_name_base = file_path + "/original/cluster_" + str(i) + "_"
+
+        generate_buchi(OrLTL(goal.context), file_name_base + "context")
+
+        assum, guaran, ins, outs = generate_general_controller_from_goals(goal,
+                                                                          list(sns.keys()),
+                                                                          context_rules,
+                                                                          domain_rules,
+                                                                          include_context=False)
+
+        save_to_file(generate_controller_input_text(assum, guaran, ins, outs), file_name_base + "/original/specification.txt")
+
+        controller_generated = create_controller_if_exists(file_name_base + "/original/specification.txt")
+        realizables_original.append(controller_generated)
+
+
+
+    save_to_file(pretty_print_summary_clustering(list_of_goals,
+                                                 controller_general,
+                                                 context_goals,
+                                                 realizables_clustered,
+                                                 realizables_original),
                  file_path + "/SUMMARY.txt")
 
     print("\nClustering process finished. Results generated.")
+
+
+
