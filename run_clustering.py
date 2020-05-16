@@ -2,7 +2,7 @@ import os
 import shutil
 import sys
 
-from controller.synthesis import create_controller_if_exists
+from controller.synthesis import create_controller_if_exists, SynthesisException
 from goals.helpers import generate_general_controller_from_goals, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
     pretty_print_summary_clustering
@@ -36,10 +36,20 @@ if __name__ == "__main__":
 
     save_to_file(generate_controller_input_text(assum, guaran, ins, outs), controller_file_name)
 
-    controller_general = create_controller_if_exists(controller_file_name)
+    controller_general = False
+    trivial_general = False
+    try:
+        controller_general = create_controller_if_exists(controller_file_name)
+    except SynthesisException as e:
+        if e.os_not_supported:
+            print("Os not supported for synthesis. Only linux can run strix")
+        elif e.trivial:
+            trivial_general = True
+            print("The assumptions are not satisfiable. The controller is trivial.")
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
+
     realizables_clustered = []
     realizables_original = []
 
@@ -102,11 +112,22 @@ if __name__ == "__main__":
         save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
                      file_name_base + "specification.txt")
 
-        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
-        realizables_original.append(controller_generated)
+        try:
+            controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
+            realizables_original.append(controller_generated)
+
+        except SynthesisException as e:
+            if e.os_not_supported:
+                print("Os not supported for synthesis. Only linux can run strix")
+            elif e.trivial:
+                print("The assumptions are not satisfiable. The controller is trivial.")
+                raise Exception("Assumptions unsatisfiable in a CGT is impossible.")
+
+
 
     save_to_file(pretty_print_summary_clustering(list_of_goals,
                                                  controller_general,
+                                                 trivial_general,
                                                  context_goals,
                                                  realizables_clustered,
                                                  realizables_original),

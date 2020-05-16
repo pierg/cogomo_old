@@ -2,8 +2,11 @@ import os
 import subprocess
 import sys
 import platform
+from typing import Tuple
+
 from graphviz import Source
 
+from checks.nusmv import check_satisfiability
 from checks.tools import Implies
 from controller.parser import parse_controller
 from helper.tools import save_to_file
@@ -11,6 +14,20 @@ from helper.tools import save_to_file
 strix_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'bin', 'ubuntu_19_10', 'strix'))
 
 output_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'output', 'clustering'))
+
+
+class SynthesisException(Exception):
+    def __init__(self, reason: "str"):
+
+        self.os_not_supported = False
+        self.trivial = True
+
+        if reason == "os_not_supported":
+            self.os_not_supported = True
+        elif reason == "trivial":
+            self.trivial = True
+        else:
+            raise Exception("Unknown exeption: " + reason)
 
 
 def is_realizable(assumptions: str, guarantees: str, ins: str, outs: str) -> bool:
@@ -53,12 +70,20 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
         raise e
 
 
-def create_controller_if_exists(controller_input_file: str):
+def create_controller_if_exists(controller_input_file: str) -> bool:
+    """Return true if controller has been synthesized"""
     if platform.system() != "Linux":
         print(platform.system() + " is not supported for synthesis")
-        return False
+        SynthesisException("os_not_supported")
 
     a, g, i, o = parse_controller(controller_input_file)
+
+    variables = [var.strip() + ": boolean" for var in i.split(',')]
+    assumptions_satisfiable = check_satisfiability([a], variables)
+
+    if not assumptions_satisfiable:
+        SynthesisException("trivial")
+
     result = get_controller(a, g, i, o)
 
     if result.startswith("UNREALIZABLE"):

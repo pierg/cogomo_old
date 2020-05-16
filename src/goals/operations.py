@@ -387,6 +387,7 @@ def pretty_cgt_exception(e: CGTFailException) -> str:
 
 def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
                                     general_realizable: bool,
+                                    trivial_general: bool,
                                     context_goals: Dict,
                                     realizables_clustered: List,
                                     realizables_original: List) -> str:
@@ -396,6 +397,10 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
         ret += "REALIZABLE\tIN GENERAL\tYES\n"
     else:
         ret += "REALIZABLE\tIN GENERAL\tNO\n"
+    if trivial_general:
+        ret += "TRIVIAL\tIN GENERAL\tYES (assumptions are unsatisfiable)\n"
+    else:
+        ret += "TRIVIAL\tIN GENERAL\tNO\n"
     ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ret += "\nCLUSTER " + str(i) + "\n"
