@@ -403,7 +403,7 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
     if trivial_and:
         ret += "TRIVIAL\t   (assumptions are unsatisfiable)   \tYES\n"
     else:
-        ret += "TRIVIAL\t                                     \tNO\n"
+        ret += "TRIVIAL\t   (assumptions are unsatisfiable)   \tNO\n"
 
     ret += "\n"
 
@@ -414,7 +414,7 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
     if trivial_or:
         ret += "TRIVIAL\t   (assumptions are unsatisfiable)   \tYES\n"
     else:
-        ret += "TRIVIAL\t                                     \tNO\n"
+        ret += "TRIVIAL\t   (assumptions are unsatisfiable)   \tNO\n"
     ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ret += "\nCLUSTER " + str(i) + "\n"
