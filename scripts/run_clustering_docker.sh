@@ -1,14 +1,15 @@
 #!/bin/bash
 echo "** make sure that docker running on this machine **"
+
+echo "stopping existing containers..."
+docker stop cogomo_clustering || true && docker rm cogomo_clustering || true
+
+echo "pulling latest docker image..."
+docker pull pmallozzi/cogomo:latest
+
 if [ $# -eq 0 ]
   then
     echo "  no custom input file provided, launching the default configuration"
-
-    echo "stopping existing containers..."
-    docker stop cogomo_clustering || true && docker rm cogomo_clustering || true
-
-    echo "pulling latest docker image..."
-    docker pull pmallozzi/cogomo:latest
 
     echo "  creating new docker container..."
     docker create -i -t  --name cogomo_clustering -v "$(pwd)/default/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
@@ -24,16 +25,10 @@ if [ $# -eq 0 ]
   else
     echo "  custom input file provided, launching with: $1/input_clustering.py"
 
-    echo "stopping existing containers..."
-    docker stop cogomo_clustering || true && docker rm cogomo_clustering || true
-
-    echo "pulling latest docker image..."
-    docker pull pmallozzi/cogomo:latest
-
     echo "  creating new docker container..."
-    docker create -i -t  --name cogomo_clustering -v "$(pwd)/default/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
+    docker create -i -t  --name cogomo_clustering -v "$(pwd)/$1/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
 
-    echo "copying input file $(pwd)/$1/logs.txt"
+    echo "copying input file $(pwd)/$1/input_clustering.py"
     docker cp "$(pwd)/$1/input_clustering.py" cogomo_clustering:/home/
 
     echo "  starting docker..."
