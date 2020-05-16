@@ -24,6 +24,7 @@ sns, loc, act, context_rules, domain_rules, list_of_goals = get_inputs()
 
 
 def create_general_specification(and_assumptions: bool):
+
     assum, guaran, ins, outs = generate_general_controller_from_goals(list_of_goals,
                                                                       list(sns.keys()),
                                                                       context_rules,
@@ -31,7 +32,11 @@ def create_general_specification(and_assumptions: bool):
                                                                       include_context=True,
                                                                       and_assumptions=and_assumptions)
 
-    controller_file_name = file_path + "/general_specification_AND.txt"
+    if and_assumptions:
+        controller_file_name = file_path + "/general_specification_AND.txt"
+    else:
+        controller_file_name = file_path + "/general_specification_OR.txt"
+
 
     save_to_file(generate_controller_input_text(assum, guaran, ins, outs), controller_file_name)
 
@@ -44,12 +49,14 @@ def create_general_specification(and_assumptions: bool):
             print("Os not supported for synthesis. Only linux can run strix")
         elif e.trivial:
             trivial = True
+            controller_generated = True
             print("The assumptions are not satisfiable. The controller is trivial.")
 
     return controller_generated, trivial
 
 
 def generate_controller_from_cgt(cgt: CGTGoal, folder_name):
+
     folder_path = file_path + "/" + folder_name + "/"
     realizables = []
     """Synthetize the controller for the branches of the CGT"""
@@ -57,7 +64,7 @@ def generate_controller_from_cgt(cgt: CGTGoal, folder_name):
     for i, goal in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
 
-        file_name_base = folder_path + "_" + str(i) + "_"
+        file_name_base = folder_path + "cluster_" + str(i) + "_"
 
         generate_buchi(OrLTL(goal.context), file_name_base + "context")
 
@@ -119,7 +126,7 @@ if __name__ == "__main__":
 
     save_to_file(str(cgt), file_path + "/CGT_original.txt")
 
-    realizables_original = generate_controller_from_cgt(cgt, "clustered")
+    realizables_original = generate_controller_from_cgt(cgt, "original")
 
     save_to_file(pretty_print_summary_clustering(list_of_goals,
                                                  controller_generated_and,
