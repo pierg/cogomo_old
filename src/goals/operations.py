@@ -419,9 +419,9 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
         ret += "TRIVIAL\t   (assumptions are unsatisfiable)   \tNO\n"
     ret += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
     ret += "WITH CGT\n"
-    ret += "\nALL CLUSTERS ARE NOT TRIVIAL AS THEY ARE GENERATED FROM THE CGT\n"
+    ret += "\nALL CLUSTERS ARE NOT TRIVIAL AS THEY ARE GENERATED FROM THE CGT\nALL GUARANTEES ARE SATURATED\n"
 
-    ret += "\n\n\n---CASE 1: NO CLUSTERS, CONJUNCTION OF ALL GOALS (saturated)\n"
+    ret += "\n\n\n---CASE 1: NO CLUSTERS, CONJUNCTION OF ALL GOALS\n"
     if realizables_no_clusters:
         ret += "REALIZABLE\tYES\n"
     else:
