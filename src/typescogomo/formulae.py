@@ -11,38 +11,52 @@ class LTLs:
     """List of LTL formulae in conjunction with each other"""
 
     def __init__(self, formulae: List['LTL'], simplify=True):
+        "formulae: list of formula to conjoin"
+
+        "LTL formula"
+        self.__formula: LTL = None
+
+        "List of LTL formulae in conjunction that it is formed of"
+        self.__list: List[LTL] = None
+
+        print("\n\n***\tAdding:")
+        for f in formulae:
+            print("\n\n***\t" + f.formula)
+        print("\n\n")
 
         if len(formulae) == 0:
             self.__formula: LTL = LTL("TRUE")
             self.__list: List[LTL] = []
-
         else:
-            if formulae[0].formula == "TRUE":
-                self.__formula: LTL = LTL("TRUE")
-            else:
-                if simplify:
-                    self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
-
-                    if len(formulae) > 1:
-                        try:
-                            added_formulae = self.__formula.conjoin_with(formulae[1:])
-                            self.list = added_formulae
-                        except InconsistentException as e:
-                            raise e
-                else:
-
-                    variables = Variables()
-                    formulae_str = []
-
-                    for formula in formulae:
-                        variables.extend(formula.variables)
-                        formulae_str.append(formula.formula)
+            if simplify:
+                self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
+                print("\n***\tself.__formula_before:\t" + str(self.__formula) + "\n")
+                self.__list: List[LTL] = [formulae[0]]
+                if len(formulae) > 1:
                     try:
-                        self.__formula: LTL = LTL(And(formulae_str), variables)
+                        added_formulae = self.__formula.conjoin_with(formulae[1:])
+                        print("\n***\tself.__formula_after:\t" + str(self.__formula) + "\n")
+                        for a in added_formulae:
+                            print("\n***\tadded_formulae:\t" + str(a) + "\n")
+                        self.list.extend(added_formulae)
+
                     except InconsistentException as e:
                         raise e
 
-            self.__list: List[LTL] = formulae
+            else:
+
+                variables = Variables()
+                formulae_str = []
+
+                for formula in formulae:
+                    variables.extend(formula.variables)
+                    formulae_str.append(formula.formula)
+                try:
+                    self.__formula: LTL = LTL(And(formulae_str), variables)
+                except InconsistentException as e:
+                    raise e
+
+                self.__list: List[LTL] = formulae
 
     @property
     def list(self):

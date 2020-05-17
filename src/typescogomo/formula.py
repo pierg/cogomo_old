@@ -53,18 +53,18 @@ class LTL:
 
     def conjoin_with(self, others: Union['LTL', List['LTL']]) -> List['LTL']:
         """Returns list of LTL that have been successfully conjoined"""
-        ret = []
+        conjoined_formulae = []
         if isinstance(others, list):
             for other in others:
                 if self.conjoin_with_formula(other):
-                    ret.append(other)
+                    conjoined_formulae.append(other)
         elif isinstance(others, LTL):
             if self.conjoin_with_formula(others):
-                ret.append(others)
+                conjoined_formulae.append(others)
         else:
             Exception("Type error when conjoining formulas")
 
-        return ret
+        return conjoined_formulae
 
     def conjoin_with_formula(self, other: 'LTL') -> bool:
         """Returns True if other has been conjoined"""

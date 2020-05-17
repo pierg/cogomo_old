@@ -54,8 +54,13 @@ class Contract:
         self.assumptions.remove_kind("context")
 
     def merge_with(self, other):
+        print("\n\tOLD\t" + str(self.guarantees))
         self.add_guarantees(other.guarantees.list)
+        print("\n\tNEW_1\t" + str(self.guarantees))
         self.add_assumptions(other.assumptions.list)
+        print("\n\tNEW_2\t" + str(self.guarantees))
+        print("CIAO")
+
 
     def add_assumptions(self, assumptions: Union[List[Assumption], Assumption]):
 
@@ -64,7 +69,12 @@ class Contract:
         except InconsistentException as e:
             raise IncompatibleContracts(e.conj_a, e.conj_b)
 
-        self.guarantees.saturate_with(self.assumptions)
+        print("\n\tBEF\t" + str(self.guarantees))
+        if isinstance(self.guarantees, Guarantees):
+            self.guarantees.saturate_with(self.assumptions)
+        print("\n\tAFT\t" + str(self.guarantees))
+        print("\n\tNEW_1\t" + str(self.guarantees))
+
 
     def add_guarantees(self, guarantees: Union[List[Guarantee], Guarantee]):
         try:
