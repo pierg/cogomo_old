@@ -142,7 +142,7 @@ if __name__ == "__main__":
     save_to_file(str(cgt), file_path + "/CGT_no_clusters.txt")
 
     """Generate a controller for one goal"""
-    realizables_clustered = generate_controller_from_one_goal(cgt, "no_clusters")
+    realizables_no_clusters = generate_controller_from_one_goal(cgt, "no_clusters")
 
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
@@ -174,6 +174,7 @@ if __name__ == "__main__":
                                                  trivial_and,
                                                  controller_generated_or,
                                                  trivial_or,
+                                                 realizables_no_clusters,
                                                  context_goals,
                                                  realizables_clustered,
                                                  realizables_original),

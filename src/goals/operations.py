@@ -385,12 +385,12 @@ def pretty_cgt_exception(e: CGTFailException) -> str:
     return ret
 
 
-
 def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
                                     controller_generated_and: bool,
                                     trivial_and: bool,
                                     controller_generated_or: bool,
                                     trivial_or: bool,
+                                    realizables_no_clusters: bool,
                                     context_goals: Dict,
                                     realizables_clustered: List,
                                     realizables_original: List) -> str:
@@ -421,6 +421,13 @@ def pretty_print_summary_clustering(list_of_goals: List[CGTGoal],
     ret += "WITH CGT\n"
     ret += "\nALL CLUSTERS ARE NOT TRIVIAL AS THEY ARE GENERATED FROM THE CGT\n"
 
+    ret += "\n\n\n---CASE 1: NO CLUSTERS, CONJUNCTION OF ALL GOALS (saturated)\n"
+    if realizables_no_clusters:
+        ret += "REALIZABLE\tYES\n"
+    else:
+        ret += "REALIZABLE\tNO\n"
+
+    ret += "\n\n\n---CASE 2: CLUSTERS, CONJUNCTION OF COMPOSITIONS. EACH ELEMENT IN THE CLUSTER IS COMPOSED\n"
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         ret += "\nCLUSTER " + str(i) + "\n"
         ret += "SCENARIO:\t" + str(ctx.formula) + "\n-->\t" + str(len(ctx_goals)) + " goals: " + str(
