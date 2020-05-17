@@ -1,8 +1,10 @@
+from copy import deepcopy
+
 from checks.tools import Implies
 from typescogomo.formula import LTL
 from typescogomo.variables import Variables
 
-USE_SATURATED_GUARANTEES = False
+USE_SATURATED_GUARANTEES = True
 
 
 class Guarantee(LTL):
@@ -31,5 +33,7 @@ class Guarantee(LTL):
         return self.__saturated
 
     def saturate_with(self, assumptions):
+        new_vars = deepcopy(self.variables)
+        new_vars.extend(assumptions.variables)
         saturated = Implies(str(assumptions.formula), self.unsaturated)
-        self.__init__(self.unsaturated, self.variables, saturated)
+        self.__init__(self.unsaturated, new_vars, saturated)

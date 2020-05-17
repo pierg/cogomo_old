@@ -6,7 +6,7 @@ from controller.synthesis import create_controller_if_exists, SynthesisException
 from goals.cgtgoal import CGTGoal
 from goals.helpers import generate_general_controller_from_goals, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
-    pretty_print_summary_clustering
+    pretty_print_summary_clustering, conjunction
 from helper.tools import save_to_file
 
 from mission_specification import get_inputs
@@ -53,6 +53,35 @@ def create_general_specification(and_assumptions: bool):
             print("The assumptions are not satisfiable. The controller is trivial.")
 
     return controller_generated, trivial
+
+
+def generate_controller_from_one_goal(cgt: CGTGoal, folder_name):
+    folder_path = file_path + "/" + folder_name + "/"
+    file_name_base = folder_path + "no_clusters"
+
+    realizable = False
+
+    assum, guaran, ins, outs = generate_general_controller_from_goals(cgt,
+                                                                      list(sns.keys()),
+                                                                      context_rules,
+                                                                      domain_rules,
+                                                                      include_context=False)
+    save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
+                 file_name_base + "specification.txt")
+
+    try:
+        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
+        realizable = controller_generated
+
+    except SynthesisException as e:
+        if e.os_not_supported:
+            print("Os not supported for synthesis. Only linux can run strix")
+        elif e.trivial:
+            print("The assumptions are not satisfiable. The controller is trivial.")
+            raise Exception("Assumptions unsatisfiable in a CGT is impossible.")
+
+
+    return realizable
 
 
 def generate_controller_from_cgt(cgt: CGTGoal, folder_name):
@@ -103,6 +132,18 @@ if __name__ == "__main__":
     """Generate controller from goals as is, where the assumptions are in OR"""
     controller_generated_or, trivial_or = create_general_specification(and_assumptions=False)
 
+    """No Context, Conjunction of all the goals (after saturation A->G)"""
+    """Create the CGT composing the goals with the context"""
+    try:
+        cgt = conjunction(list_of_goals)
+    except CGTFailException as e:
+        print(pretty_cgt_exception(e))
+        sys.exit()
+    save_to_file(str(cgt), file_path + "/CGT_no_clusters.txt")
+
+    """Generate a controller for one goal"""
+    realizables_clustered = generate_controller_from_one_goal(cgt, "no_clusters")
+
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
     context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
 
@@ -112,10 +153,10 @@ if __name__ == "__main__":
     except CGTFailException as e:
         print(pretty_cgt_exception(e))
         sys.exit()
-    save_to_file(str(cgt), file_path + "/CGT_clustered.txt")
+    save_to_file(str(cgt), file_path + "/CGT_clustered_new_contexts.txt")
 
     """Generate a controller for each branch of the CGT"""
-    realizables_clustered = generate_controller_from_cgt(cgt, "clustered")
+    realizables_clustered = generate_controller_from_cgt(cgt, "clustered_new_contexts")
 
     """Create the CGT composing the goals without the context"""
     try:
@@ -124,9 +165,9 @@ if __name__ == "__main__":
         print(pretty_cgt_exception(e))
         sys.exit()
 
-    save_to_file(str(cgt), file_path + "/CGT_original.txt")
+    save_to_file(str(cgt), file_path + "/CGT_clustered_original_contexts.txt")
 
-    realizables_original = generate_controller_from_cgt(cgt, "original")
+    realizables_original = generate_controller_from_cgt(cgt, "clustered_original_contexts")
 
     save_to_file(pretty_print_summary_clustering(list_of_goals,
                                                  controller_generated_and,
