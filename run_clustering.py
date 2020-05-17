@@ -61,14 +61,14 @@ def generate_controller_from_cgt(cgt: CGTGoal, folder_name):
     realizables = []
     """Synthetize the controller for the branches of the CGT"""
     print("\n\nSynthetize the controller for the branches of the CGT composing it with the new context")
-    for i, goal in enumerate(cgt.refined_by):
+    for i, goals in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
 
         file_name_base = folder_path + "cluster_" + str(i) + "_"
 
-        generate_buchi(OrLTL(goal.context), file_name_base + "context")
+        generate_buchi(OrLTL(goals.context), file_name_base + "context")
 
-        assum, guaran, ins, outs = generate_general_controller_from_goals(goal,
+        assum, guaran, ins, outs = generate_general_controller_from_goals(goals,
                                                                           list(sns.keys()),
                                                                           context_rules,
                                                                           domain_rules,
