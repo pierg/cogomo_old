@@ -18,6 +18,7 @@ if [ $# -eq 0 ]
     echo "  starting docker..."
     docker start cogomo_clustering
     echo "  process started...check the log file to see when it finishes"
+    echo "  Or run 'docker ps' to see if the process is still running"
 
     echo "  results and logs will be saved in $(pwd)/default/"
     docker logs -f cogomo_clustering >& "$(pwd)/default/logs.txt" &
@@ -33,7 +34,8 @@ if [ $# -eq 0 ]
 
     echo "  starting docker..."
     docker start cogomo_clustering
-    echo "  process started...check the log file to see when it finishes"
+    echo "  process started...check the log file to see when it finishes."
+    echo "  Or run 'docker ps' to see if the process is still running"
 
     echo "  results and logs will be saved in $(pwd)/$1/"
     docker logs -f cogomo_clustering >& "$(pwd)/$1/logs.txt" &
