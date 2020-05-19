@@ -90,6 +90,23 @@ def get_inputs():
                         r=NotLTL(sns["alarm"])),
                     q=sns["alarm"])
             ])]
+        ),
+        CGTGoal(
+            name="go-to-safe-zone-during-alarm2",
+            description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
+            context=(Context(
+                AndLTL([
+                    P_global(sns["night_time"])
+                ])
+            )),
+            contracts=[PContract([
+                PromptReaction(
+                    trigger=sns["alarm"],
+                    reaction=P_until_R(
+                        p=Visit([loc["safe_loc"]]),
+                        r=NotLTL(sns["alarm"]))
+                )
+            ])]
         )
     ]
 
