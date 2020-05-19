@@ -1,0 +1,28 @@
+ASSUMPTIONS
+
+	(G(low_battery) & (G(entrance) & G(day_time)))
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	(((((G(low_battery) & (G(entrance) & G(day_time)))) -> ((F(charge_station) & G((charge_station))))) & (((G(low_battery) & (G(entrance) & G(day_time)))) -> (G((low_battery) -> X(contact_station))))) & (((G(low_battery) & (G(entrance) & G(day_time)))) -> (G((human_entered) -> X(welcome_client)))))
+
+	G(((wlocA & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (wlocB & ! (wlocA) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocA & ! (wlocA) & ! (wlocB) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocB & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (safe_loc) & ! (charge_station)) | (safe_loc & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (charge_station)) | (charge_station & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc))))
+
+
+
+INPUTS
+
+	low_battery, entrance, day_time, human_entered, get_med, warehouse, shop, alarm, night_time
+
+OUTPUTS
+
+	charge_station, contact_station, welcome_client, slocA, wlocA, take_med, safe_loc, wlocB, slocB
+
+END
+

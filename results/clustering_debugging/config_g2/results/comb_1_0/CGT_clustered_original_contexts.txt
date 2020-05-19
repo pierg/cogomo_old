@@ -1,0 +1,17 @@
+GOAL:	'shop-day-visitors-3'
+ CTX:	(G(shop) & G(day_time))
+  A:	(G(shop) & G(day_time))
+  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(F(wlocA))))))
+
+	CONJUNCTION
+		GOAL:	'shop-day-visitors-3'
+		 CTX:	(G(shop) & G(day_time))
+		  A:	(G(shop) & G(day_time))
+		  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(F(wlocA))))))
+
+			COMPOSITION
+				GOAL:	'shop-day-visitors-3'
+				 CTX:	(G(shop) & G(day_time))
+				  A:	(G(shop) & G(day_time))
+				  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(F(wlocA))))))
+

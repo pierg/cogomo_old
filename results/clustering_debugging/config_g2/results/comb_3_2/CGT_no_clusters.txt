@@ -1,0 +1,29 @@
+GOAL:	'shop-day-visitors^^shop-day-visitors-1^^shop-day-visitors-3'
+ CTX:	(G(shop) & G(day_time))
+  A:	(G(shop) & G(day_time))
+  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(F(wlocA))))))
+	/\ 
+ CTX:	(G(shop) & G(day_time))
+  A:	(G(shop) & G(day_time))
+  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X((F(wlocA & F(slocA)) & (!slocA U wlocA)))))))
+	/\ 
+ CTX:	(G(shop) & G(day_time))
+  A:	(G(shop) & G(day_time))
+  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G( ((warehouse) -> (take_med)) & ((take_med) -> (warehouse)))))))))
+
+	CONJUNCTION
+		GOAL:	'shop-day-visitors-3'
+		 CTX:	(G(shop) & G(day_time))
+		  A:	(G(shop) & G(day_time))
+		  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(F(wlocA))))))
+
+		GOAL:	'shop-day-visitors-1'
+		 CTX:	(G(shop) & G(day_time))
+		  A:	(G(shop) & G(day_time))
+		  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X((F(wlocA & F(slocA)) & (!slocA U wlocA)))))))
+
+		GOAL:	'shop-day-visitors'
+		 CTX:	(G(shop) & G(day_time))
+		  A:	(G(shop) & G(day_time))
+		  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G( ((warehouse) -> (take_med)) & ((take_med) -> (warehouse)))))))))
+

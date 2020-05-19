@@ -1,0 +1,20 @@
+GOAL:	'charge-on-low-battery^^shop-day-visitors'
+ CTX:	G(low_battery)
+  A:	G(low_battery)
+  G:	(((G(low_battery)) -> ((F(charge_station) & G((charge_station))))) & ((G(low_battery)) -> (G((low_battery) -> X(contact_station)))))
+	/\ 
+ CTX:	(G(shop) & G(day_time))
+  A:	(G(shop) & G(day_time))
+  G:	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X((((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G((wlocA & !slocA) | (slocA & !wlocA))) & G( ((wlocA) -> (take_med)) & ((take_med) -> (wlocA)))))))))
+
+	CONJUNCTION
+		GOAL:	'charge-on-low-battery'
+		 CTX:	G(low_battery)
+		  A:	G(low_battery)
+		  G:	(((G(low_battery)) -> ((F(charge_station) & G((charge_station))))) & ((G(low_battery)) -> (G((low_battery) -> X(contact_station)))))
+
+		GOAL:	'shop-day-visitors'
+		 CTX:	(G(shop) & G(day_time))
+		  A:	(G(shop) & G(day_time))
+		  G:	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X((((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G((wlocA & !slocA) | (slocA & !wlocA))) & G( ((wlocA) -> (take_med)) & ((take_med) -> (wlocA)))))))))
+

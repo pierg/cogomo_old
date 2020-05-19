@@ -1,0 +1,11 @@
+GOAL:	'welcome-visitors'
+ CTX:	(G(entrance) & G(day_time))
+  A:	(G(entrance) & G(day_time))
+  G:	(((G(entrance) & G(day_time))) -> (G((human_entered) -> X(welcome_client))))
+
+	CONJUNCTION
+		GOAL:	'welcome-visitors'
+		 CTX:	(G(entrance) & G(day_time))
+		  A:	(G(entrance) & G(day_time))
+		  G:	(((G(entrance) & G(day_time))) -> (G((human_entered) -> X(welcome_client))))
+

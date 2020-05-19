@@ -1,0 +1,20 @@
+GOAL:	'go-to-safe-zone-during-alarm^^night-time-patroling'
+ CTX:	G(night_time)
+  A:	G(night_time)
+  G:	((G(night_time)) -> (((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))) & G((wlocA & !wlocB & !slocA & !slocB) | (wlocB & !wlocA & !slocA & !slocB) | (slocA & !wlocA & !wlocB & !slocB) | (slocB & !wlocA & !wlocB & !slocA)))))
+	/\ 
+ CTX:	G(night_time)
+  A:	G(night_time)
+  G:	((G(night_time)) -> ((G(alarm -> G(((F(safe_loc) & G((safe_loc))) U !(alarm)))))))
+
+	CONJUNCTION
+		GOAL:	'night-time-patroling'
+		 CTX:	G(night_time)
+		  A:	G(night_time)
+		  G:	((G(night_time)) -> (((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))) & G((wlocA & !wlocB & !slocA & !slocB) | (wlocB & !wlocA & !slocA & !slocB) | (slocA & !wlocA & !wlocB & !slocB) | (slocB & !wlocA & !wlocB & !slocA)))))
+
+		GOAL:	'go-to-safe-zone-during-alarm'
+		 CTX:	G(night_time)
+		  A:	G(night_time)
+		  G:	((G(night_time)) -> ((G(alarm -> G(((F(safe_loc) & G((safe_loc))) U !(alarm)))))))
+

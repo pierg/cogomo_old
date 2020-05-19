@@ -1,0 +1,55 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NO CGT
+GENERAL SPECIFICATION WITH ALL GAOLS
+-->	3 goals: ['charge-on-low-battery', 'shop-day-visitors', 'go-to-safe-zone-during-alarm']
+REALIZABLE	IN GENERAL WITH AND OF ASSUMPTIONS	NO
+TRIVIAL	   (assumptions are unsatisfiable)   	NO
+
+REALIZABLE	IN GENERAL WITH OR OF ASSUMPTIONS	NO
+TRIVIAL	   (assumptions are unsatisfiable)   	NO
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+WITH CGT
+
+ALL CLUSTERS ARE NOT TRIVIAL AS THEY ARE GENERATED FROM THE CGT
+ALL GUARANTEES ARE SATURATED
+
+
+
+---CASE 1: NO CLUSTERS, CONJUNCTION OF ALL GOALS
+REALIZABLE	NO
+
+
+
+---CASE 2: CLUSTERS, CONJUNCTION OF COMPOSITIONS. EACH ELEMENT IN THE CLUSTER IS COMPOSED
+
+CLUSTER 0
+SCENARIO:	(G(low_battery) & !((G(shop) & G(day_time))) & !(G(night_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+-->	1 goals: ['charge-on-low-battery']
+REALIZABLE	CLUSTERED	YES
+REALIZABLE	ORIGINAL 	YES
+
+CLUSTER 1
+SCENARIO:	((G(shop) & G(day_time)) & !(G(low_battery)) & !(G(night_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+-->	1 goals: ['shop-day-visitors']
+REALIZABLE	CLUSTERED	NO
+REALIZABLE	ORIGINAL 	NO
+
+CLUSTER 2
+SCENARIO:	(G(night_time) & !(G(low_battery)) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+-->	1 goals: ['go-to-safe-zone-during-alarm']
+REALIZABLE	CLUSTERED	NO
+REALIZABLE	ORIGINAL 	NO
+
+CLUSTER 3
+SCENARIO:	(G(low_battery) & (G(shop) & G(day_time)) & !(G(night_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+-->	2 goals: ['charge-on-low-battery', 'shop-day-visitors']
+REALIZABLE	CLUSTERED	NO
+REALIZABLE	ORIGINAL 	NO
+
+CLUSTER 4
+SCENARIO:	(G(low_battery) & G(night_time) & !((G(shop) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+-->	2 goals: ['charge-on-low-battery', 'go-to-safe-zone-during-alarm']
+REALIZABLE	CLUSTERED	NO
+REALIZABLE	ORIGINAL 	NO

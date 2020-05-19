@@ -1,0 +1,11 @@
+GOAL:	'shop-day-visitors-2'
+ CTX:	(G(shop) & G(day_time))
+  A:	(G(shop) & G(day_time))
+  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(welcome_client)))))
+
+	CONJUNCTION
+		GOAL:	'shop-day-visitors-2'
+		 CTX:	(G(shop) & G(day_time))
+		  A:	(G(shop) & G(day_time))
+		  G:	((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(welcome_client)))))
+

@@ -1,0 +1,37 @@
+GOAL:	'go-to-safe-zone-during-alarm||night-time-patroling^^shop-day-visitors'
+ CTX:	G(night_time), G(night_time)
+  A:	G(night_time)
+  G:	(((G(night_time)) -> (((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))) & G((wlocA & !wlocB & !slocA & !slocB) | (wlocB & !wlocA & !slocA & !slocB) | (slocA & !wlocA & !wlocB & !slocB) | (slocB & !wlocA & !wlocB & !slocA))))) & ((G(night_time)) -> ((G(alarm -> G(((F(safe_loc) & G((safe_loc))) U !(alarm))))))))
+	/\ 
+ CTX:	(G(shop) & G(day_time))
+  A:	(G(shop) & G(day_time))
+  G:	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X((((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G((wlocA & !slocA) | (slocA & !wlocA))) & G( ((warehouse) -> (take_med)) & ((take_med) -> (warehouse)))))))))
+
+	CONJUNCTION
+		GOAL:	'go-to-safe-zone-during-alarm||night-time-patroling'
+		 CTX:	G(night_time), G(night_time)
+		  A:	G(night_time)
+		  G:	(((G(night_time)) -> (((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))) & G((wlocA & !wlocB & !slocA & !slocB) | (wlocB & !wlocA & !slocA & !slocB) | (slocA & !wlocA & !wlocB & !slocB) | (slocB & !wlocA & !wlocB & !slocA))))) & ((G(night_time)) -> ((G(alarm -> G(((F(safe_loc) & G((safe_loc))) U !(alarm))))))))
+
+			COMPOSITION
+				GOAL:	'night-time-patroling'
+				 CTX:	G(night_time)
+				  A:	G(night_time)
+				  G:	((G(night_time)) -> (((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))) & G((wlocA & !wlocB & !slocA & !slocB) | (wlocB & !wlocA & !slocA & !slocB) | (slocA & !wlocA & !wlocB & !slocB) | (slocB & !wlocA & !wlocB & !slocA)))))
+
+				GOAL:	'go-to-safe-zone-during-alarm'
+				 CTX:	G(night_time)
+				  A:	G(night_time)
+				  G:	((G(night_time)) -> ((G(alarm -> G(((F(safe_loc) & G((safe_loc))) U !(alarm)))))))
+
+		GOAL:	'shop-day-visitors'
+		 CTX:	(G(shop) & G(day_time))
+		  A:	(G(shop) & G(day_time))
+		  G:	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X((((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G((wlocA & !slocA) | (slocA & !wlocA))) & G( ((warehouse) -> (take_med)) & ((take_med) -> (warehouse)))))))))
+
+			COMPOSITION
+				GOAL:	'shop-day-visitors'
+				 CTX:	(G(shop) & G(day_time))
+				  A:	(G(shop) & G(day_time))
+				  G:	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X((((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G((wlocA & !slocA) | (slocA & !wlocA))) & G( ((warehouse) -> (take_med)) & ((take_med) -> (warehouse)))))))))
+
