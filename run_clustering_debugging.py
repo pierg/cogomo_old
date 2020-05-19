@@ -194,7 +194,7 @@ if __name__ == "__main__":
     dirname = os.path.dirname(summary_file_name)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
-    with open(file_path, 'w') as f:
+    with open(summary_file_name, 'w') as f:
         f.write("SUMMARY OF COMBINATIONS \n\n")
 
     f.close()
@@ -203,13 +203,13 @@ if __name__ == "__main__":
         for j, subset in enumerate(itertools.combinations(list_of_goals, i)):
             rnc, rcc, rco = generate_results(list(subset), "comb_" + str(i) + "_" + str(j))
             f = open(summary_file_name, "a+")
-            f.write("COMBINATION " + str(i) + " - " + str(j) + "\n")
-            f.write("GOALS   :\t" + str([g.name for g in subset]) + "\n")
+            f.write("COMBINATION " + str(i) + "-" + str(j) + "\n")
+            f.write("GOALS             :\t" + str([g.name for g in subset]) + "\n")
             if rnc:
-                f.write("REAL_GEN:\tYES" + "\n")
+                f.write("REAL_GENERAL      :\tYES" + "\n")
             else:
-                f.write("REAL_GENERAL :\tYES" + "\n")
-            f.write("REAL_CLUSTERS_1:\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\n")
-            f.write("REAL_CLUSTERS_2:\t" + str(sum(rco)) + " / " + str(len(rco)) + "\n")
+                f.write("REAL_GENERAL      :\tNO" + "\n")
+            f.write("REAL_CLUSTERS_1   :\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\n")
+            f.write("REAL_CLUSTERS_2   :\t" + str(sum(rco)) + " / " + str(len(rco)) + "\n")
             f.write("\n\n")
             f.close()
