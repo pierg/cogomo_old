@@ -166,6 +166,31 @@ def get_inputs():
                     P_global(sns["day_time"])
                 ])
             )),
+            name="shop-day-visitors-6",
+            contracts=[PContract([
+                Visit([loc["slocA"]]),
+                DelayedReaction(
+                    trigger=sns["get_med"],
+                    reaction=AndLTL([
+                        OrderedVisit([loc["wlocA"], loc["slocA"]]),
+                        BoundDelay(
+                            trigger=loc["wlocA"],
+                            reaction=act["take_med"]
+                        ),
+                        PromptReaction(
+                            trigger=act["take_med"],
+                            reaction=loc["slocA"]
+                        )]
+                    ))
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndLTL([
+                    P_global(sns["shop"]),
+                    P_global(sns["day_time"])
+                ])
+            )),
             name="shop-day-visitors",
             contracts=[PContract([
                 Visit([loc["slocA"]]),
