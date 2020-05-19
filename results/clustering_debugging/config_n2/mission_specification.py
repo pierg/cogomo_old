@@ -134,7 +134,7 @@ def get_inputs():
                     reaction=AndLTL([
                         OrderedVisit([loc["wlocA"], loc["slocA"]]),
                         BoundReaction(
-                            trigger=sns["wlocA"],
+                            trigger=loc["wlocA"],
                             reaction=act["take_med"]
                         )]
                 ))
