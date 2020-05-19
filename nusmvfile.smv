@@ -1,7 +1,10 @@
 MODULE main
 VAR
-	alarm: boolean;
-	night_time: boolean;
 	safe_loc: boolean;
+	charging_point: boolean;
+	wlocA: boolean;
+	slocA: boolean;
+	slocB: boolean;
+	wlocB: boolean;
 
-LTLSPEC !(((G(night_time)) -> ((G(alarm -> G((F(safe_loc) U !(alarm))))))))
+LTLSPEC !(G(((wlocA & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc) & !(charging_point)) | (wlocB & !(wlocA) & !(slocA) & !(slocB) & !(safe_loc) & !(charging_point)) | (slocA & !(wlocA) & !(wlocB) & !(slocB) & !(safe_loc) & !(charging_point)) | (slocB & !(wlocA) & !(wlocB) & !(slocA) & !(safe_loc) & !(charging_point)) | (safe_loc & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(charging_point)) | (charging_point & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc)))))

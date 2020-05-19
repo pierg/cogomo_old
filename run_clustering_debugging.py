@@ -215,9 +215,9 @@ if __name__ == "__main__":
                 f.write("\n\n")
                 f.close()
     else:
-        rnc, rcc, rco = generate_results(list(list_of_goals[0]), "comb_1")
+        rnc, rcc, rco = generate_results(list_of_goals, "comb_1")
         f = open(summary_file_name, "a+")
-        f.write("GOAL              :\t" + str([g.name for g in list_of_goals[0]]) + "\n")
+        f.write("GOAL              :\t" + str([g.name for g in list_of_goals]) + "\n")
         if rnc:
             f.write("REAL_GENERAL      :\tYES" + "\n")
         else:
