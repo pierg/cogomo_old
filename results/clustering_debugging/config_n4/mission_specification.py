@@ -99,7 +99,7 @@ def get_inputs():
                 Visit([loc["slocA"]]),
                 PromptReaction(
                     trigger=sns["get_med"],
-                    reaction=act["welcome"])
+                    reaction=act["welcome_client"])
             ])]
         ),
     ]
