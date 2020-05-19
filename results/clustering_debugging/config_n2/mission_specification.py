@@ -133,7 +133,7 @@ def get_inputs():
                     trigger=sns["get_med"],
                     reaction=AndLTL([
                         OrderedVisit([loc["wlocA"], loc["slocA"]]),
-                        PromptReaction(
+                        BoundReaction(
                             trigger=sns["wlocA"],
                             reaction=act["take_med"]
                         )]
