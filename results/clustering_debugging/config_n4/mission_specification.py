@@ -79,6 +79,21 @@ def get_inputs():
                     P_global(sns["day_time"])
                 ])
             )),
+            name="shop-day-visitors-3",
+            contracts=[PContract([
+                Visit([loc["slocA"]]),
+                PromptReaction(
+                    trigger=sns["get_med"],
+                    reaction=Visit([loc["wlocA"]]))
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndLTL([
+                    P_global(sns["shop"]),
+                    P_global(sns["day_time"])
+                ])
+            )),
             name="shop-day-visitors-1",
             contracts=[PContract([
                 Visit([loc["slocA"]]),
@@ -101,22 +116,7 @@ def get_inputs():
                     trigger=sns["get_med"],
                     reaction=act["welcome_client"])
             ])]
-        ),
-        CGTGoal(
-            context=(Context(
-                AndLTL([
-                    P_global(sns["shop"]),
-                    P_global(sns["day_time"])
-                ])
-            )),
-            name="shop-day-visitors-3",
-            contracts=[PContract([
-                Visit([loc["slocA"]]),
-                PromptReaction(
-                    trigger=sns["get_med"],
-                    reaction=Visit([loc["wlocA"]]))
-            ])]
-        ),
+        )
     ]
 
     return sns, loc, act, context_rules, domain_rules, list_of_goals
