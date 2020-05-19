@@ -1,0 +1,28 @@
+ASSUMPTIONS
+
+	(G(low_battery) & (G(shop) & G(day_time)) & ! (G(night_time)) & ! ((G(entrance) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop))
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	((((((G(low_battery) & (G(shop) & G(day_time)) & ! (G(night_time)) & ! ((G(entrance) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop))) -> ((F(charge_station) & G((charge_station))))) & (((G(low_battery) & (G(shop) & G(day_time)) & ! (G(night_time)) & ! ((G(entrance) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop))) -> (G((low_battery) -> X(contact_station))))) & (((G(low_battery) & (G(shop) & G(day_time)) & ! (G(night_time)) & ! ((G(entrance) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop))) -> ((F(slocA) & G((slocA)))))) & (((G(low_battery) & (G(shop) & G(day_time)) & ! (G(night_time)) & ! ((G(entrance) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+	G(((wlocA & ! (wlocB) & ! (slocA) & ! (slocB)) | (wlocB & ! (wlocA) & ! (slocA) & ! (slocB)) | (slocA & ! (wlocA) & ! (wlocB) & ! (slocB)) | (slocB & ! (wlocA) & ! (wlocB) & ! (slocA))))
+
+
+
+INPUTS
+
+	low_battery, shop, day_time, night_time, entrance, warehouse, get_med
+
+OUTPUTS
+
+	charge_station, contact_station, slocA, wlocA, wlocB, slocB
+
+END
+
