@@ -194,3 +194,15 @@ class BoundReaction(Pattern):
 
         super().__init__(pattern_formula, variables)
 
+
+class BoundDelay(Pattern):
+    """A counteraction must be performed, in the next time instant, every time and only when a speciﬁc location is entered."""
+
+    def __init__(self, trigger: LTL, reaction: LTL):
+        variables = Variables()
+        variables.extend(trigger.variables)
+        variables.extend(reaction.variables)
+        pattern_formula = "G( (({t}) -> X({r})) & (X({r}) -> ({t})))".format(t=trigger.formula, r=reaction.formula)
+
+        super().__init__(pattern_formula, variables)
+
