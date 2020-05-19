@@ -74,49 +74,68 @@ def get_inputs():
     list_of_goals = [
         CGTGoal(
             context=(Context(
-                P_global(
-                    sns["night_time"]
-                )
-            )),
-            name="night-time-patroling",
-            contracts=[PContract([
-                Patroling([
-                    loc["wlocA"], loc["wlocB"], loc["slocA"], loc["slocB"]
+                AndLTL([
+                    P_global(sns["shop"]),
+                    P_global(sns["day_time"])
                 ])
-            ])]
-        ),
-        CGTGoal(
-            context=(Context(
-                P_global(
-                    sns["low_battery"]
-                )
             )),
-            name="charge-on-low-battery",
+            name="shop-day-visitors-3",
             contracts=[PContract([
-                Visit([
-                    loc["charge_station"]
-                ]),
+                Visit([loc["slocA"]]),
                 PromptReaction(
-                    trigger=sns["low_battery"],
-                    reaction=act["contact_station"])
+                    trigger=sns["get_med"],
+                    reaction=Visit([loc["wlocA"]]))
             ])]
         ),
         CGTGoal(
             context=(Context(
                 AndLTL([
-                    P_global(
-                        sns["entrance"]
-                    ),
-                    P_global(
-                        sns["day_time"]
-                    )
+                    P_global(sns["shop"]),
+                    P_global(sns["day_time"])
                 ])
             )),
-            name="welcome-visitors",
+            name="shop-day-visitors-1",
             contracts=[PContract([
+                Visit([loc["slocA"]]),
                 PromptReaction(
-                    trigger=sns["human_entered"],
-                    reaction=act["welcome_client"]),
+                    trigger=sns["get_med"],
+                    reaction=OrderedVisit([loc["wlocA"], loc["slocA"]]))
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndLTL([
+                    P_global(sns["shop"]),
+                    P_global(sns["day_time"])
+                ])
+            )),
+            name="shop-day-visitors-2",
+            contracts=[PContract([
+                Visit([loc["slocA"]]),
+                PromptReaction(
+                    trigger=sns["get_med"],
+                    reaction=act["welcome_client"])
+            ])]
+        ),
+        CGTGoal(
+            context=(Context(
+                AndLTL([
+                    P_global(sns["shop"]),
+                    P_global(sns["day_time"])
+                ])
+            )),
+            name="shop-day-visitors-4",
+            contracts=[PContract([
+                Visit([loc["slocA"]]),
+                PromptReaction(
+                    trigger=sns["get_med"],
+                    reaction=AndLTL([
+                        OrderedVisit([loc["wlocA"], loc["slocA"]]),
+                        BoundReaction(
+                            trigger=loc["wlocA"],
+                            reaction=act["take_med"]
+                        )]
+                    ))
             ])]
         ),
         CGTGoal(
@@ -134,27 +153,13 @@ def get_inputs():
                     reaction=AndLTL([
                         OrderedVisit([loc["wlocA"], loc["slocA"]]),
                         BoundReaction(
-                            trigger=loc["wlocA"],
+                            trigger=sns["warehouse"],
                             reaction=act["take_med"]
                         )]
-                ))
-            ])]
-        ),
-        CGTGoal(
-            context=(Context(
-                AndLTL([
-                    P_global(sns["night_time"])
-                ])
-            )),
-            name="go-to-safe-zone-during-alarm",
-            contracts=[PContract([
-                P_after_Q(
-                    p=P_until_R(
-                        p=Visit([loc["safe_loc"]]),
-                        r=NotLTL(sns["alarm"])),
-                    q=sns["alarm"])
+                    ))
             ])]
         )
+
     ]
 
     return sns, loc, act, context_rules, domain_rules, list_of_goals
