@@ -8,6 +8,9 @@ from typescogomo.scopes import *
 def get_inputs():
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
+
+    print("~~USING CUSTOM FILE~~")
+
     """List of sensor propositions (uncontrollable)"""
     sns = {
         "night_time": LTL("night_time"),

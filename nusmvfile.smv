@@ -1,6 +1,14 @@
 MODULE main
 VAR
-	day_time: boolean;
+	wlocA: boolean;
+	slocA: boolean;
+	shop: boolean;
+	human_entered: boolean;
 	entrance: boolean;
+	day_time: boolean;
+	night_time: boolean;
+	warehouse: boolean;
+	take_med: boolean;
+	get_med: boolean;
 
-LTLSPEC !((G(entrance) & G(day_time)))
+LTLSPEC ((((((G(shop) & G(day_time)) & !(G(night_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance))) -> (G((get_med) -> F(((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G( ((wlocA) -> X(take_med)) & (X(take_med) -> (wlocA))) & G((take_med) -> X(slocA)))))))) -> ((G(shop) & G(day_time))))

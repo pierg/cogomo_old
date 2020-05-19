@@ -1,1 +1,0 @@
-digraph "G(day_time & entrance & shop)" {  rankdir=LR  labelloc="t"  node [shape="circle"]  I [label="", style=invis, width=0]  I -> 0  0 [label="0", peripheries=2]  0 -> 0 [label="day_time & entrance & shop"]}
