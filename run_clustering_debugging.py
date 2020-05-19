@@ -199,17 +199,30 @@ if __name__ == "__main__":
 
     f.close()
 
-    for i in range(1, len(list_of_goals)):
-        for j, subset in enumerate(itertools.combinations(list_of_goals, i)):
-            rnc, rcc, rco = generate_results(list(subset), "comb_" + str(i) + "_" + str(j))
-            f = open(summary_file_name, "a+")
-            f.write("COMBINATION " + str(i) + "-" + str(j) + "\n")
-            f.write("GOALS             :\t" + str([g.name for g in subset]) + "\n")
-            if rnc:
-                f.write("REAL_GENERAL      :\tYES" + "\n")
-            else:
-                f.write("REAL_GENERAL      :\tNO" + "\n")
-            f.write("REAL_CLUSTERS_1   :\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\n")
-            f.write("REAL_CLUSTERS_2   :\t" + str(sum(rco)) + " / " + str(len(rco)) + "\n")
-            f.write("\n\n")
-            f.close()
+    if len(list_of_goals) > 1:
+        for i in range(1, len(list_of_goals)):
+            for j, subset in enumerate(itertools.combinations(list_of_goals, i)):
+                rnc, rcc, rco = generate_results(list(subset), "comb_" + str(i) + "_" + str(j))
+                f = open(summary_file_name, "a+")
+                f.write("COMBINATION " + str(i) + "-" + str(j) + "\n")
+                f.write("GOALS             :\t" + str([g.name for g in subset]) + "\n")
+                if rnc:
+                    f.write("REAL_GENERAL      :\tYES" + "\n")
+                else:
+                    f.write("REAL_GENERAL      :\tNO" + "\n")
+                f.write("REAL_CLUSTERS_1   :\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\n")
+                f.write("REAL_CLUSTERS_2   :\t" + str(sum(rco)) + " / " + str(len(rco)) + "\n")
+                f.write("\n\n")
+                f.close()
+    else:
+        rnc, rcc, rco = generate_results(list(list_of_goals[0]), "comb_1")
+        f = open(summary_file_name, "a+")
+        f.write("GOAL              :\t" + str([g.name for g in list_of_goals[0]]) + "\n")
+        if rnc:
+            f.write("REAL_GENERAL      :\tYES" + "\n")
+        else:
+            f.write("REAL_GENERAL      :\tNO" + "\n")
+        f.write("REAL_CLUSTERS_1   :\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\n")
+        f.write("REAL_CLUSTERS_2   :\t" + str(sum(rco)) + " / " + str(len(rco)) + "\n")
+        f.write("\n\n")
+        f.close()

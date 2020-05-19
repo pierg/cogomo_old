@@ -8,9 +8,6 @@ from typescogomo.scopes import *
 def get_inputs():
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
-
-    print("~~USING CUSTOM FILE~~")
-
     """List of sensor propositions (uncontrollable)"""
     sns = {
         "night_time": LTL("night_time"),
@@ -75,6 +72,82 @@ def get_inputs():
 
     """List of specifications / goals"""
     list_of_goals = [
+        CGTGoal(
+            name="night-time-patroling",
+            description="patrol warehouse and shop during the night",
+            context=(Context(
+                P_global(
+                    sns["night_time"]
+                )
+            )),
+            contracts=[PContract([
+                Patroling([
+                    loc["wlocA"], loc["wlocB"], loc["slocA"], loc["slocB"]
+                ])
+            ])]
+        ),
+        CGTGoal(
+            name="get-meds-to-clients",
+            description="if a clients request a medicine go to the warehouse, take the medicine and come back",
+            context=(Context(
+                AndLTL([
+                    P_global(sns["shop"]),
+                    P_global(sns["day_time"])
+                ])
+            )),
+            contracts=[PContract([
+                Visit([loc["slocA"]]),
+                DelayedReaction(
+                    trigger=sns["get_med"],
+                    reaction=AndLTL([
+                        OrderedVisit([loc["wlocA"], loc["slocA"]]),
+                        BoundDelay(
+                            trigger=loc["wlocA"],
+                            reaction=act["take_med"]
+                        ),
+                        PromptReaction(
+                            trigger=act["take_med"],
+                            reaction=loc["slocA"]
+                        )]
+                    ))
+            ])]
+        ),
+        CGTGoal(
+            name="charge-on-low-battery",
+            description="always go the charging point and contact the main station when the battery is low",
+            context=(Context(
+                P_global(
+                    sns["low_battery"]
+                )
+            )),
+            contracts=[PContract([
+                Visit([
+                    loc["charging_point"]
+                ]),
+                PromptReaction(
+                    trigger=sns["low_battery"],
+                    reaction=act["contact_station"])
+            ])]
+        ),
+        CGTGoal(
+            name="welcome-visitors",
+            description="welcome people at the entrance",
+            context=(Context(
+                AndLTL([
+                    P_global(
+                        sns["entrance"]
+                    ),
+                    P_global(
+                        sns["day_time"]
+                    )
+                ])
+            )),
+            contracts=[PContract([
+                PromptReaction(
+                    trigger=sns["human_entered"],
+                    reaction=act["welcome_client"]),
+            ])]
+        ),
         CGTGoal(
             name="go-to-safe-zone-during-alarm",
             description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
