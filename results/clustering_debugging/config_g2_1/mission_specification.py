@@ -72,36 +72,36 @@ def get_inputs():
 
     """List of specifications / goals"""
     list_of_goals = [
-        CGTGoal(
-            context=(Context(
-                AndLTL([
-                    P_global(sns["shop"]),
-                    P_global(sns["day_time"])
-                ])
-            )),
-            name="shop-day-visitors-3",
-            contracts=[PContract([
-                Visit([loc["slocA"]]),
-                PromptReaction(
-                    trigger=sns["get_med"],
-                    reaction=Visit([loc["wlocA"]]))
-            ])]
-        ),
-        CGTGoal(
-            context=(Context(
-                AndLTL([
-                    P_global(sns["shop"]),
-                    P_global(sns["day_time"])
-                ])
-            )),
-            name="shop-day-visitors-2",
-            contracts=[PContract([
-                Visit([loc["slocA"]]),
-                PromptReaction(
-                    trigger=sns["get_med"],
-                    reaction=act["welcome_client"])
-            ])]
-        ),
+        # CGTGoal(
+        #     context=(Context(
+        #         AndLTL([
+        #             P_global(sns["shop"]),
+        #             P_global(sns["day_time"])
+        #         ])
+        #     )),
+        #     name="shop-day-visitors-3",
+        #     contracts=[PContract([
+        #         Visit([loc["slocA"]]),
+        #         PromptReaction(
+        #             trigger=sns["get_med"],
+        #             reaction=Visit([loc["wlocA"]]))
+        #     ])]
+        # ),
+        # CGTGoal(
+        #     context=(Context(
+        #         AndLTL([
+        #             P_global(sns["shop"]),
+        #             P_global(sns["day_time"])
+        #         ])
+        #     )),
+        #     name="shop-day-visitors-2",
+        #     contracts=[PContract([
+        #         Visit([loc["slocA"]]),
+        #         PromptReaction(
+        #             trigger=sns["get_med"],
+        #             reaction=act["welcome_client"])
+        #     ])]
+        # ),
         CGTGoal(
             context=(Context(
                 AndLTL([
