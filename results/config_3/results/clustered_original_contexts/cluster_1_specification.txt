@@ -1,0 +1,26 @@
+ASSUMPTIONS
+
+	G(low_battery)
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	(((G(low_battery)) -> ((F(charge_station) & G((charge_station))))) & ((G(low_battery)) -> (G((low_battery) -> X(contact_station)))))
+
+
+
+INPUTS
+
+	low_battery
+
+OUTPUTS
+
+	charge_station, contact_station
+
+END
+
