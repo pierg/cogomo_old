@@ -1,0 +1,28 @@
+ASSUMPTIONS
+
+	(G(night_time) & G(low_battery) & ! ((G(shop) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	((((((G(night_time) & G(low_battery) & ! ((G(shop) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))))) & (((G(night_time) & G(low_battery) & ! ((G(shop) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> (F(charge_station)))) & (((G(night_time) & G(low_battery) & ! ((G(shop) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> (G((low_battery) -> X(contact_station))))) & (((G(night_time) & G(low_battery) & ! ((G(shop) & G(day_time))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> ((G(alarm -> G((F(safe_loc) U ! (alarm))))))))
+
+	G(((wlocA & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (wlocB & ! (wlocA) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocA & ! (wlocA) & ! (wlocB) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocB & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (safe_loc) & ! (charge_station)) | (safe_loc & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (charge_station)) | (charge_station & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc))))
+
+
+
+INPUTS
+
+	night_time, low_battery, human_entered, entrance, day_time, get_med, shop, alarm, warehouse
+
+OUTPUTS
+
+	wlocA, wlocB, slocA, slocB, charge_station, contact_station, welcome_client, safe_loc
+
+END
+

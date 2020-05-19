@@ -1,0 +1,52 @@
+GOAL:	'charge-on-low-battery^^charge-on-low-battery||night-time-patroling^^night-time-patroling'
+ CTX:	G(night_time)
+  A:	G(night_time)
+  G:	((G(night_time)) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB)))))
+	/\ 
+ CTX:	G(low_battery)
+  A:	G(low_battery)
+  G:	(((G(low_battery)) -> (F(charge_station))) & ((G(low_battery)) -> (G((low_battery) -> X(contact_station)))))
+	/\ 
+ CTX:	G(night_time), G(low_battery)
+  A:	(G(night_time) & G(low_battery))
+  G:	(((((G(night_time) & G(low_battery))) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))))) & (((G(night_time) & G(low_battery))) -> (F(charge_station)))) & (((G(night_time) & G(low_battery))) -> (G((low_battery) -> X(contact_station)))))
+
+	CONJUNCTION
+		GOAL:	'night-time-patroling'
+		 CTX:	G(night_time)
+		  A:	G(night_time)
+		  G:	((G(night_time)) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB)))))
+
+			COMPOSITION
+				GOAL:	'night-time-patroling'
+				 CTX:	G(night_time)
+				  A:	G(night_time)
+				  G:	((G(night_time)) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB)))))
+
+		GOAL:	'charge-on-low-battery'
+		 CTX:	G(low_battery)
+		  A:	G(low_battery)
+		  G:	(((G(low_battery)) -> (F(charge_station))) & ((G(low_battery)) -> (G((low_battery) -> X(contact_station)))))
+
+			COMPOSITION
+				GOAL:	'charge-on-low-battery'
+				 CTX:	G(low_battery)
+				  A:	G(low_battery)
+				  G:	(((G(low_battery)) -> (F(charge_station))) & ((G(low_battery)) -> (G((low_battery) -> X(contact_station)))))
+
+		GOAL:	'charge-on-low-battery||night-time-patroling'
+		 CTX:	G(night_time), G(low_battery)
+		  A:	(G(night_time) & G(low_battery))
+		  G:	(((((G(night_time) & G(low_battery))) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))))) & (((G(night_time) & G(low_battery))) -> (F(charge_station)))) & (((G(night_time) & G(low_battery))) -> (G((low_battery) -> X(contact_station)))))
+
+			COMPOSITION
+				GOAL:	'night-time-patroling'
+				 CTX:	G(night_time)
+				  A:	G(night_time)
+				  G:	((G(night_time)) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB)))))
+
+				GOAL:	'charge-on-low-battery'
+				 CTX:	G(low_battery)
+				  A:	G(low_battery)
+				  G:	(((G(low_battery)) -> (F(charge_station))) & ((G(low_battery)) -> (G((low_battery) -> X(contact_station)))))
+

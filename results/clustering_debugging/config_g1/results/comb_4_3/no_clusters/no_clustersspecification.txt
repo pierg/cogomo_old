@@ -1,0 +1,28 @@
+ASSUMPTIONS
+
+	(G(night_time) | (G(entrance) & G(day_time)) | (G(shop) & G(day_time)) | G(night_time))
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	(((G(night_time)) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB))))) & (((G(entrance) & G(day_time))) -> (G((human_entered) -> X(welcome_client)))) & ((((G(shop) & G(day_time))) -> (F(slocA))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X((F(wlocA) & G((wlocA) -> X(slocA)))))))) & ((G(night_time)) -> ((G(alarm -> G((F(safe_loc) U ! (alarm))))))))
+
+	G(((wlocA & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (wlocB & ! (wlocA) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocA & ! (wlocA) & ! (wlocB) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocB & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (safe_loc) & ! (charge_station)) | (safe_loc & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (charge_station)) | (charge_station & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc))))
+
+
+
+INPUTS
+
+	night_time, low_battery, human_entered, entrance, day_time, get_med, shop, alarm
+
+OUTPUTS
+
+	wlocA, wlocB, slocA, slocB, charge_station, contact_station, welcome_client, safe_loc
+
+END
+

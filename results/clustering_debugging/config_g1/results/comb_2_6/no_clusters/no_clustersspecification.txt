@@ -1,0 +1,28 @@
+ASSUMPTIONS
+
+	(G(low_battery) | G(night_time))
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	((((G(low_battery)) -> (F(charge_station))) & ((G(low_battery)) -> (G((low_battery) -> X(contact_station))))) & ((G(night_time)) -> ((G(alarm -> G((F(safe_loc) U ! (alarm))))))))
+
+	G(((wlocA & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (wlocB & ! (wlocA) & ! (slocA) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocA & ! (wlocA) & ! (wlocB) & ! (slocB) & ! (safe_loc) & ! (charge_station)) | (slocB & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (safe_loc) & ! (charge_station)) | (safe_loc & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (charge_station)) | (charge_station & ! (wlocA) & ! (wlocB) & ! (slocA) & ! (slocB) & ! (safe_loc))))
+
+
+
+INPUTS
+
+	low_battery, alarm, night_time
+
+OUTPUTS
+
+	charge_station, contact_station, safe_loc, wlocA, wlocB, slocA, slocB
+
+END
+

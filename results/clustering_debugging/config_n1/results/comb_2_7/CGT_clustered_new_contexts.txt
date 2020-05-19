@@ -1,0 +1,47 @@
+GOAL:	'ctx_0||shop-day-visitors^^ctx_1||shop-day-visitors||welcome-visitors'
+ CTX:	(G(shop) & G(day_time)), ((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+  A:	((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+  G:	(((((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> ((F(slocA) & G((slocA))))) & ((((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+	/\ 
+ CTX:	(G(entrance) & G(day_time)), (G(shop) & G(day_time)), ((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+  A:	((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+  G:	((((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> (G((human_entered) -> X(welcome_client)))) & ((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> ((F(slocA) & G((slocA)))))) & ((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+	CONJUNCTION
+		GOAL:	'ctx_0||shop-day-visitors'
+		 CTX:	(G(shop) & G(day_time)), ((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+		  A:	((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+		  G:	(((((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> ((F(slocA) & G((slocA))))) & ((((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+			COMPOSITION
+				GOAL:	'shop-day-visitors'
+				 CTX:	(G(shop) & G(day_time))
+				  A:	(G(shop) & G(day_time))
+				  G:	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+				GOAL:	'ctx_0'
+				 CTX:	((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+				  A:	((G(shop) & G(day_time)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+				  G:	TRUE
+
+		GOAL:	'ctx_1||shop-day-visitors||welcome-visitors'
+		 CTX:	(G(entrance) & G(day_time)), (G(shop) & G(day_time)), ((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+		  A:	((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+		  G:	((((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> (G((human_entered) -> X(welcome_client)))) & ((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> ((F(slocA) & G((slocA)))))) & ((((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+			COMPOSITION
+				GOAL:	'welcome-visitors'
+				 CTX:	(G(entrance) & G(day_time))
+				  A:	(G(entrance) & G(day_time))
+				  G:	(((G(entrance) & G(day_time))) -> (G((human_entered) -> X(welcome_client))))
+
+				GOAL:	'shop-day-visitors'
+				 CTX:	(G(shop) & G(day_time))
+				  A:	(G(shop) & G(day_time))
+				  G:	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+				GOAL:	'ctx_1'
+				 CTX:	((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+				  A:	((G(entrance) & G(day_time)) & (G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(get_med -> shop) & G(human_entered -> shop))
+				  G:	TRUE
+
