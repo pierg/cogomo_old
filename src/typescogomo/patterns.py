@@ -169,7 +169,7 @@ class InstantReaction(Pattern):
 
 
 class PromptReaction(Pattern):
-    """Prompt Reaction Pattern"""
+    """The occurrence of a stimulus triggers a counteraction promptly, i.e. in the next time instant."""
 
     def __init__(self, trigger: LTL, reaction: LTL):
         variables = Variables()
@@ -178,3 +178,16 @@ class PromptReaction(Pattern):
         pattern_formula = "G(({t}) -> X({r}))".format(t=trigger.formula, r=reaction.formula)
 
         super().__init__(pattern_formula, variables)
+
+
+class BoundReaction(Pattern):
+    """A counteraction must be performed every time and only when a speciﬁc location is entered."""
+
+    def __init__(self, trigger: LTL, reaction: LTL):
+        variables = Variables()
+        variables.extend(trigger.variables)
+        variables.extend(reaction.variables)
+        pattern_formula = "G( (({t}) -> ({r})) & (({r}) -> ({t})))".format(t=trigger.formula, r=reaction.formula)
+
+        super().__init__(pattern_formula, variables)
+
