@@ -116,7 +116,20 @@ def get_inputs():
                     trigger=sns["get_med"],
                     reaction=act["welcome_client"])
             ])]
-        )
+        ),
+
     ]
 
     return sns, loc, act, context_rules, domain_rules, list_of_goals
+
+
+
+if __name__ == '__main__':
+    sns, loc, act, context_rules, domain_rules, list_of_goals = get_inputs()
+
+    loca = Visit([loc["slocA"]])
+
+    print("\n\n\n\n" + str(loca))
+
+    # for g in list_of_goals:
+    #     print(g)

@@ -21,25 +21,28 @@ class CoreMovement(Pattern):
 
     def __init__(self, pattern_formula: str, locations: List[LTL], variables: Variables):
 
-        # Eliminating duplicates
-        list_locations = list(dict.fromkeys(locations))
+        super().__init__(pattern_formula, variables)
 
         """Domain Property: A robot cannot be in the same location at the same time"""
-        ltl_formula = "G("
-        for i, loc in enumerate(list_locations):
-            ltl_formula += "(" + loc.formula
-            for loc_other in list_locations:
-                if loc != loc_other:
-                    ltl_formula += " & !" + loc_other.formula
-            ltl_formula += ")"
-            if i < len(list_locations) - 1:
-                ltl_formula += " | "
 
-        ltl_formula += ")"
-
-        super().__init__(And([pattern_formula, ltl_formula]), variables)
-
-        self.domain_properties.append(Domain(ltl_formula, variables))
+        # # Eliminating duplicates
+        # list_locations = list(dict.fromkeys(locations))
+        #
+        # ltl_formula = "G("
+        # for i, loc in enumerate(list_locations):
+        #     ltl_formula += "(" + loc.formula
+        #     for loc_other in list_locations:
+        #         if loc != loc_other:
+        #             ltl_formula += " & !" + loc_other.formula
+        #     ltl_formula += ")"
+        #     if i < len(list_locations) - 1:
+        #         ltl_formula += " | "
+        #
+        # ltl_formula += ")"
+        #
+        # super().__init__(And([pattern_formula, ltl_formula]), variables)
+        #
+        # self.domain_properties.append(Domain(ltl_formula, variables))
 
 
 class Visit(CoreMovement):
