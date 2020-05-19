@@ -62,8 +62,8 @@ def get_inputs():
             loc["wlocB"],
             loc["slocA"],
             loc["slocB"],
-            # loc["safe_loc"],
-            # loc["charge_station"]
+            loc["safe_loc"],
+            loc["charge_station"]
         ]],
         "inclusion": [
         ]
