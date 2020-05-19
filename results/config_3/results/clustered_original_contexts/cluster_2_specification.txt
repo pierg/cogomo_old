@@ -1,0 +1,26 @@
+ASSUMPTIONS
+
+	(G(shop) & G(day_time))
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+
+
+INPUTS
+
+	get_med, shop, day_time
+
+OUTPUTS
+
+	slocA, wlocA
+
+END
+
