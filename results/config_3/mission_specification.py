@@ -45,7 +45,8 @@ def get_inputs():
             [sns["day_time"], sns["night_time"]]
         ],
         "inclusion": [
-            [sns["entrance"], sns["shop"]]
+            [sns["entrance"], sns["shop"]],
+            [sns["get_med"], sns["shop"]]
         ],
         "dependent": [
             [sns["low_battery"]]
