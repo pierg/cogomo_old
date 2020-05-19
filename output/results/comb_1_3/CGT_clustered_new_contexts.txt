@@ -1,0 +1,22 @@
+GOAL:	'ctx_0||shop-day-visitors'
+ CTX:	(G(shop) & G(day_time)), ((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+  A:	((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+  G:	(((((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))) -> ((F(slocA) & G((slocA))))) & ((((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+	CONJUNCTION
+		GOAL:	'ctx_0||shop-day-visitors'
+		 CTX:	(G(shop) & G(day_time)), ((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+		  A:	((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+		  G:	(((((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))) -> ((F(slocA) & G((slocA))))) & ((((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+			COMPOSITION
+				GOAL:	'shop-day-visitors'
+				 CTX:	(G(shop) & G(day_time))
+				  A:	(G(shop) & G(day_time))
+				  G:	((((G(shop) & G(day_time))) -> ((F(slocA) & G((slocA))))) & (((G(shop) & G(day_time))) -> (G((get_med) -> X(((F(wlocA) & G((wlocA))) & G((wlocA) -> X(slocA))))))))
+
+				GOAL:	'ctx_0'
+				 CTX:	((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+				  A:	((G(shop) & G(day_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+				  G:	TRUE
+

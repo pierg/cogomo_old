@@ -1,0 +1,29 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NO CGT
+GENERAL SPECIFICATION WITH ALL GAOLS
+-->	1 goals: ['night-time-patroling']
+REALIZABLE	IN GENERAL WITH AND OF ASSUMPTIONS	NO
+TRIVIAL	   (assumptions are unsatisfiable)   	NO
+
+REALIZABLE	IN GENERAL WITH OR OF ASSUMPTIONS	NO
+TRIVIAL	   (assumptions are unsatisfiable)   	NO
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+WITH CGT
+
+ALL CLUSTERS ARE NOT TRIVIAL AS THEY ARE GENERATED FROM THE CGT
+ALL GUARANTEES ARE SATURATED
+
+
+
+---CASE 1: NO CLUSTERS, CONJUNCTION OF ALL GOALS
+REALIZABLE	NO
+
+
+
+---CASE 2: CLUSTERS, CONJUNCTION OF COMPOSITIONS. EACH ELEMENT IN THE CLUSTER IS COMPOSED
+
+CLUSTER 0
+SCENARIO:	(G(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop))
+-->	1 goals: ['night-time-patroling']
