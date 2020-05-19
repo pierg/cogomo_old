@@ -87,7 +87,7 @@ def get_inputs():
                 P_after_Q(
                     p=P_until_R(
                         p=Visit([loc["safe_loc"]]),
-                        r=NotLTL(sns["alarm"])),
+                        r=sns["human_entered"]),
                     q=sns["alarm"])
             ])]
         ),
@@ -104,7 +104,7 @@ def get_inputs():
                     trigger=sns["alarm"],
                     reaction=P_until_R(
                         p=Visit([loc["safe_loc"]]),
-                        r=NotLTL(sns["alarm"]))
+                        r=sns["human_entered"])
                 )
             ])]
         )
