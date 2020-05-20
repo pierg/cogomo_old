@@ -43,6 +43,8 @@ def check_satisfiability(variables: List[str],
                     return False
 
     except Exception as e:
+        with open(smvfile, 'r') as fin:
+            print(fin.read())
         raise e
 
 
