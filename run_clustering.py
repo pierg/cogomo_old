@@ -119,6 +119,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
     controller_generated_or = False
     trivial_or = False
     realizable_no_clusters = False
+    no_clusters_exec_time = 0.0
     realizables_clustered = []
     exec_times_clustered = []
     realizables_original = []
@@ -252,7 +253,6 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
     f.write(ret)
     f.close()
 
-
     # save_to_file(pretty_print_summary_clustering(list_of_goals,
     #                                              controller_generated_and,
     #                                              trivial_and,
@@ -264,19 +264,17 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
     #                                              realizables_original),
     #              result_folder + "/SUMMARY.txt")
 
-
-
-
     print("\nClustering process finished. Results generated.")
 
-    return realizable_no_clusters, realizables_clustered, realizables_original
+    return realizable_no_clusters, realizables_clustered, realizables_original, no_clusters_exec_time, exec_times_clustered, exec_times_original
 
 
 if __name__ == "__main__":
-    realizable_no_clusters, realizables_clustered, realizables_original = run(list_of_goals=goals,
-                                                                              result_folder=results_path,
-                                                                              general_and=True,
-                                                                              general_or=True,
-                                                                              no_clusters=True,
-                                                                              clusters_origianl=True,
-                                                                              clusters_mutex=True)
+    realizable_no_clusters, realizables_clustered, realizables_original, no_clusters_exec_time, exec_times_clustered, exec_times_original = run(
+        list_of_goals=goals,
+        result_folder=results_path,
+        general_and=True,
+        general_or=True,
+        no_clusters=True,
+        clusters_origianl=True,
+        clusters_mutex=True)

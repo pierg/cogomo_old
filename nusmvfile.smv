@@ -1,10 +1,13 @@
 MODULE main
 VAR
-	slocB: boolean;
+	shop: boolean;
 	wlocA: boolean;
-	safe_loc: boolean;
-	charging_point: boolean;
 	slocA: boolean;
-	wlocB: boolean;
+	low_battery: boolean;
+	get_med: boolean;
+	entrance: boolean;
+	contact_station: boolean;
+	day_time: boolean;
+	take_med: boolean;
 
-LTLSPEC !(G(((wlocA & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc) & !(charging_point)) | (wlocB & !(wlocA) & !(slocA) & !(slocB) & !(safe_loc) & !(charging_point)) | (slocA & !(wlocA) & !(wlocB) & !(slocB) & !(safe_loc) & !(charging_point)) | (slocB & !(wlocA) & !(wlocB) & !(slocA) & !(safe_loc) & !(charging_point)) | (safe_loc & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(charging_point)) | (charging_point & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc)))))
+LTLSPEC (((((((G(shop) & G(day_time)) & G(low_battery)) & (G(entrance) & G(day_time)))) -> (F(slocA)))) -> ((((((G(shop) & G(day_time)) & G(low_battery)) & (G(entrance) & G(day_time)))) -> (G((low_battery) -> X(contact_station))))))
