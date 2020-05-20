@@ -41,10 +41,10 @@ if __name__ == "__main__":
         for i in range(1, len(goals)):
             for j, subset in enumerate(itertools.combinations(goals, i)):
                 rnc, rcc, rco, t1, t2, t3 = run(list(subset),
-                                    results_path + "/comb_" + str(i) + "_" + str(j),
-                                    no_clusters=True,
-                                    clusters_origianl=True,
-                                    clusters_mutex=True)
+                                                results_path + "/comb_" + str(i) + "_" + str(j),
+                                                no_clusters=True,
+                                                clusters_origianl=True,
+                                                clusters_mutex=True)
                 f = open(summary_file_name, "a+")
                 f.write("COMBINATION " + str(i) + "-" + str(j) + "\n")
                 f.write("GOALS             :\t" + str([g.name for g in subset]) + "\n")
@@ -52,23 +52,27 @@ if __name__ == "__main__":
                     f.write("RLSB_NO_CLUSTERS      :\tYES" + "\t\t" + format(t1, '.3f') + "sec\n")
                 else:
                     f.write("RLSB_NO_CLUSTERS      :\tNO" + "\t\t" + format(t1, '.3f') + "sec\n")
-                f.write("RLSB_CLUSTERS_1   :\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\t\t" + format(sum(t2), '.3f') + "sec\n")
-                f.write("RLSB_CLUSTERS_2   :\t" + str(sum(rco)) + " / " + str(len(rco)) + "\t\t" + format(sum(t3), '.3f') + "sec\n")
+                f.write("RLSB_CLUSTERS_1   :\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\t\t" + format(sum(t2),
+                                                                                                          '.3f') + "sec\n")
+                f.write("RLSB_CLUSTERS_2   :\t" + str(sum(rco)) + " / " + str(len(rco)) + "\t\t" + format(sum(t3),
+                                                                                                          '.3f') + "sec\n")
                 f.write("\n\n")
                 f.close()
     else:
         rnc, rcc, rco, t1, t2, t3 = run(goals,
-                            "comb_1",
-                            no_clusters=True,
-                            clusters_origianl=True,
-                            clusters_mutex=True)
+                                        "comb_1",
+                                        no_clusters=True,
+                                        clusters_origianl=True,
+                                        clusters_mutex=True)
         f = open(summary_file_name, "a+")
         f.write("GOAL              :\t" + str([g.name for g in goals]) + "\n")
         if rnc:
             f.write("RLSB_GENERAL      :\tYES" + "\t\t" + format(t1, '.3f') + "sec\n")
         else:
             f.write("RLSB_GENERAL      :\tNO" + "\t\t" + format(t1, '.3f') + "sec\n")
-        f.write("RLSB_CLUSTERS_1   :\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\t\t" + format(sum(t2), '.3f') + "sec\n")
-        f.write("RLSB_CLUSTERS_2   :\t" + str(sum(rco)) + " / " + str(len(rco)) + "\t\t" + format(sum(t3), '.3f') + "sec\n")
+        f.write(
+            "RLSB_CLUSTERS_1   :\t" + str(sum(rcc)) + " / " + str(len(rcc)) + "\t\t" + format(sum(t2), '.3f') + "sec\n")
+        f.write(
+            "RLSB_CLUSTERS_2   :\t" + str(sum(rco)) + " / " + str(len(rco)) + "\t\t" + format(sum(t3), '.3f') + "sec\n")
         f.write("\n\n")
         f.close()
