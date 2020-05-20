@@ -1,6 +1,10 @@
 MODULE main
 VAR
-	entrance: boolean;
-	get_med: boolean;
+	charging_point: boolean;
+	slocB: boolean;
+	safe_loc: boolean;
+	wlocA: boolean;
+	wlocB: boolean;
+	slocA: boolean;
 
-LTLSPEC !(G(get_med -> entrance))
+LTLSPEC !(G(((wlocA & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc) & !(charging_point)) | (wlocB & !(wlocA) & !(slocA) & !(slocB) & !(safe_loc) & !(charging_point)) | (slocA & !(wlocA) & !(wlocB) & !(slocB) & !(safe_loc) & !(charging_point)) | (slocB & !(wlocA) & !(wlocB) & !(slocA) & !(safe_loc) & !(charging_point)) | (safe_loc & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(charging_point)) | (charging_point & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc)))))

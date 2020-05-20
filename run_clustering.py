@@ -115,8 +115,8 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
     controller_generated_or = False
     trivial_or = False
     realizable_no_clusters = False
-    realizables_clustered = False
-    realizables_original = False
+    realizables_clustered = []
+    realizables_original = []
 
     if general_and:
         """Generate controller from goals as is, where the assumptions are in AND"""
