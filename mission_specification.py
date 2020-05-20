@@ -9,6 +9,8 @@ def get_inputs():
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
+    print("CUSTOM SPEC")
+
     """ Atomic propositions divided in
             s - sensor propositions (uncontrollable)
             l - location propositions (controllable e.g. goto)

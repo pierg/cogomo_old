@@ -75,4 +75,6 @@ def check_validity(variables: List[str],
                     return True
 
     except Exception as e:
+        with open(smvfile, 'r') as fin:
+            print(fin.read())
         raise e
