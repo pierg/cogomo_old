@@ -274,6 +274,6 @@ if __name__ == "__main__":
         result_folder=results_path,
         general_and=True,
         general_or=True,
-        no_clusters=False,
-        clusters_origianl=False,
-        clusters_mutex=False)
+        no_clusters=True,
+        clusters_origianl=True,
+        clusters_mutex=True)
