@@ -41,11 +41,11 @@ def create_general_controller_from_goals(goals: List[CGTGoal], folder_path: str,
 
     controller_file_name = folder_path + "specification.txt"
     if type == "AND":
-        save_to_file(generate_controller_input_text(And(assumptions), And(guarantees), list(inputs), list(outputs)),
+        save_to_file(generate_controller_input_text(assumptions, guarantees, list(inputs), list(outputs)),
                      controller_file_name)
 
     elif type == "OR":
-        save_to_file(generate_controller_input_text(Or(assumptions), And(guarantees), list(inputs), list(outputs)),
+        save_to_file(generate_controller_input_text([Or(assumptions)], guarantees, list(inputs), list(outputs)),
                      controller_file_name)
 
     else:
