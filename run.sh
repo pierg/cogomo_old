@@ -30,7 +30,7 @@ else
           echo "Copying custom input file if exists..."
           cp /home/mission_specification.py /home/cogomo/
           echo "Launching clustering debugging..."
-          python3 ./run_clustering_debugging.py
+          python3 ./run_clustering_combinations.py
           echo "Process finished, results avilable"
           echo "Clustering finished, exiting..."
           exit 0

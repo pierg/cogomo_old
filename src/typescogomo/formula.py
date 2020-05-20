@@ -129,6 +129,8 @@ class LTL:
         return lt and neq
 
     def __le__(self, other: 'LTL'):
+        if other.is_true():
+            return True
         """Check if the set of behaviours is smaller or equal in the other set of behaviours"""
         variables_a = set(self.variables.get_nusmv_names())
         variables_b = set(other.variables.get_nusmv_names())
@@ -154,6 +156,8 @@ class LTL:
         return gt and neq
 
     def __ge__(self, other: 'LTL'):
+        if self.is_true():
+            return True
         """Check if the set of behaviours is bigger of equal than the other set of behaviours"""
         variables_a = set(self.variables.get_nusmv_names())
         variables_b = set(other.variables.get_nusmv_names())

@@ -6,7 +6,7 @@ from checks.tools import Implies
 from controller.parser import parse_controller
 from controller.synthesis import create_controller_if_exists
 from goals.helpers import extract_saturated_guarantees_from, extract_ltl_rules, extract_variables_name_from_dics, \
-    generate_general_controller_from_goals, generate_controller_input_text
+    generate_general_controller_inputs_from_goal, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
     pretty_print_summary_clustering
 from helper.tools import save_to_file, traslate_boolean
@@ -61,40 +61,40 @@ if __name__ == "__main__":
         CGTGoal(
             context=(Context(
                 P_global(
-                    sns["night_time"]
+                    ap["s"]["night_time"]
                 )
             )),
             name="night-time-patroling",
             contracts=[PContract([
                 Patroling([
-                    loc["wlocA"], loc["wlocB"], loc["slocA"], loc["slocB"]
+                    ap["l"]["wlocA"], ap["l"]["wlocB"], ap["l"]["slocA"], ap["l"]["slocB"]
                 ])
             ])]
         ),
         CGTGoal(
             context=(Context(
                 P_global(
-                    sns["low_battery"]
+                    ap["s"]["low_battery"]
                 )
             )),
             name="charge-on-low-battery",
             contracts=[PContract([
                 Visit([
-                    loc["charge_station"]
+                    ap["l"]["charge_station"]
                 ]),
                 PromptReaction(
-                    trigger=sns["low_battery"],
-                    reaction=act["contact_station"])
+                    trigger=ap["s"]["low_battery"],
+                    reaction=ap["a"]["contact_station"])
             ])]
         ),
         CGTGoal(
             context=(Context(
                 AndLTL([
                     P_global(
-                        sns["entrance"]
+                        ap["s"]["entrance"]
                     ),
                     P_global(
-                        sns["day_time"]
+                        ap["s"]["day_time"]
                     )
                 ])
             )),
@@ -194,23 +194,23 @@ if __name__ == "__main__":
 
     context_rules = {
         "mutex": [
-            [sns["shop"], sns["warehouse"]],
-            [sns["day_time"], sns["night_time"]]
+            [ap["s"]["shop"], ap["s"]["warehouse"]],
+            [ap["s"]["day_time"], ap["s"]["night_time"]]
         ],
         "inclusion": [
-            [sns["entrance"], sns["shop"]]
+            [ap["s"]["entrance"], ap["s"]["shop"]]
         ],
     }
 
     domain_rules = {
         "mutex": [[
-            loc["wlocA"],
-            loc["wlocB"],
-            loc["slocA"],
-            loc["slocB"],
-            loc["charge_station"],
-            loc["wlocA"],
-            loc["slocA"]
+            ap["l"]["wlocA"],
+            ap["l"]["wlocB"],
+            ap["l"]["slocA"],
+            ap["l"]["slocB"],
+            ap["l"]["charge_station"],
+            ap["l"]["wlocA"],
+            ap["l"]["slocA"]
         ]],
         "inclusion": [
         ]
@@ -219,8 +219,8 @@ if __name__ == "__main__":
     for g in list_of_goals:
         print(g)
 
-    ctx, dom, gs, unc, cont = generate_general_controller_from_goals(list_of_goals, list(sns.keys()), context_rules,
-                                                                     domain_rules)
+    ctx, dom, gs, unc, cont = generate_general_controller_inputs_from_goal(list_of_goals, list(sns.keys()), context_rules,
+                                                                           domain_rules)
 
     controller_file_name = file_path + "/controller-general.txt"
 
@@ -242,8 +242,8 @@ if __name__ == "__main__":
     for i, (ctx, ctx_goals) in enumerate(context_goals.items()):
         controller_file_name = file_path + "/controller-context_" + str(i) + ".txt"
 
-        ctx, dom, gs, unc, cont = generate_general_controller_from_goals(ctx_goals, list(sns.keys()), context_rules,
-                                                                         domain_rules, ctx)
+        ctx, dom, gs, unc, cont = generate_general_controller_inputs_from_goal(ctx_goals, list(sns.keys()), context_rules,
+                                                                               domain_rules, ctx)
         save_to_file(generate_controller_input_text(ctx, dom, gs, unc, cont), controller_file_name)
 
         create_controller_if_exists(controller_file_name)

@@ -19,10 +19,6 @@ class LTLs:
         "List of LTL formulae in conjunction that it is formed of"
         self.__list: List[LTL] = None
 
-        print("\n\n***\tAdding:")
-        for f in formulae:
-            print("\n\n***\t" + f.formula)
-        print("\n\n")
 
         if len(formulae) == 0:
             self.__formula: LTL = LTL("TRUE")
@@ -30,14 +26,10 @@ class LTLs:
         else:
             if simplify:
                 self.__formula: LTL = LTL(formulae[0].formula, formulae[0].variables)
-                print("\n***\tself.__formula_before:\t" + str(self.__formula) + "\n")
                 self.__list: List[LTL] = [formulae[0]]
                 if len(formulae) > 1:
                     try:
                         added_formulae = self.__formula.conjoin_with(formulae[1:])
-                        print("\n***\tself.__formula_after:\t" + str(self.__formula) + "\n")
-                        for a in added_formulae:
-                            print("\n***\tadded_formulae:\t" + str(a) + "\n")
                         self.list.extend(added_formulae)
 
                     except InconsistentException as e:

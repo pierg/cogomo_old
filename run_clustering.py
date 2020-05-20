@@ -1,10 +1,12 @@
 import os
 import shutil
 import sys
+from typing import List
 
+from checks.tools import And, Or
 from controller.synthesis import create_controller_if_exists, SynthesisException
 from goals.cgtgoal import CGTGoal
-from goals.helpers import generate_general_controller_from_goals, generate_controller_input_text
+from goals.helpers import generate_general_controller_inputs_from_goal, generate_controller_input_text
 from goals.operations import create_contextual_clusters, create_cgt, CGTFailException, pretty_cgt_exception, \
     pretty_print_summary_clustering, conjunction
 from helper.tools import save_to_file
@@ -12,33 +14,42 @@ from helper.tools import save_to_file
 from mission_specification import get_inputs
 from typescogomo.formula import OrLTL
 
-file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
+results_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
 try:
-    shutil.rmtree(file_path)
+    shutil.rmtree(results_path)
 except:
     pass
 
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
-sns, loc, act, context_rules, domain_rules, list_of_goals = get_inputs()
+ap, rules, goals = get_inputs()
 
 
-def create_general_specification(and_assumptions: bool):
+def create_general_controller_from_goals(goals: List[CGTGoal], folder_path: str, type: str):
+    assumptions = []
+    guarantees = []
+    inputs = set()
+    outputs = set()
 
-    assum, guaran, ins, outs = generate_general_controller_from_goals(list_of_goals,
-                                                                      list(sns.keys()),
-                                                                      context_rules,
-                                                                      domain_rules,
-                                                                      include_context=True,
-                                                                      and_assumptions=and_assumptions)
+    for goal in goals:
+        assum, guaran, ins, outs = generate_general_controller_inputs_from_goal(ap, rules, goal,
+                                                                                context_rules_included=False)
+        assumptions.extend(assum)
+        guarantees.extend(guaran)
+        inputs.update(set(ins))
+        outputs.update(set(outs))
 
-    if and_assumptions:
-        controller_file_name = file_path + "/general_specification_AND.txt"
+    controller_file_name = folder_path + "specification.txt"
+    if type == "AND":
+        save_to_file(generate_controller_input_text(And(assumptions), And(guarantees), list(inputs), list(outputs)),
+                     controller_file_name)
+
+    elif type == "OR":
+        save_to_file(generate_controller_input_text(Or(assumptions), And(guarantees), list(inputs), list(outputs)),
+                     controller_file_name)
+
     else:
-        controller_file_name = file_path + "/general_specification_OR.txt"
-
-
-    save_to_file(generate_controller_input_text(assum, guaran, ins, outs), controller_file_name)
+        raise Exception("type error, either AND or OR")
 
     controller_generated = False
     trivial = False
@@ -55,22 +66,14 @@ def create_general_specification(and_assumptions: bool):
     return controller_generated, trivial
 
 
-def generate_controller_from_one_goal(cgt: CGTGoal, folder_name):
-    folder_path = file_path + "/" + folder_name + "/"
-    file_name_base = folder_path + "no_clusters"
+def generate_controller_from_cgt(cgt: CGTGoal, folder_path):
+    assum, guaran, ins, outs = generate_general_controller_inputs_from_goal(ap, rules, cgt)
+    save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
+                 folder_path + "specification.txt")
 
     realizable = False
-
-    assum, guaran, ins, outs = generate_general_controller_from_goals(cgt,
-                                                                      list(sns.keys()),
-                                                                      context_rules,
-                                                                      domain_rules,
-                                                                      include_context=False)
-    save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
-                 file_name_base + "specification.txt")
-
     try:
-        controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
+        controller_generated = create_controller_if_exists(folder_path + "specification.txt")
         realizable = controller_generated
 
     except SynthesisException as e:
@@ -80,104 +83,114 @@ def generate_controller_from_one_goal(cgt: CGTGoal, folder_name):
             print("The assumptions are not satisfiable. The controller is trivial.")
             raise Exception("Assumptions unsatisfiable in a CGT is impossible.")
 
-
     return realizable
 
 
-def generate_controller_from_cgt(cgt: CGTGoal, folder_name):
-
-    folder_path = file_path + "/" + folder_name + "/"
+def generate_controllers_from_cgt_clustered(cgt: CGTGoal, folder_path):
     realizables = []
     """Synthetize the controller for the branches of the CGT"""
     print("\n\nSynthetize the controller for the branches of the CGT composing it with the new context")
-    for i, goals in enumerate(cgt.refined_by):
+    for i, goal in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
-
-        file_name_base = folder_path + "cluster_" + str(i) + "_"
-
-        generate_buchi(OrLTL(goals.context), file_name_base + "context")
-
-        assum, guaran, ins, outs = generate_general_controller_from_goals(goals,
-                                                                          list(sns.keys()),
-                                                                          context_rules,
-                                                                          domain_rules,
-                                                                          include_context=False)
-
-        save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
-                     file_name_base + "specification.txt")
-
-        try:
-            controller_generated = create_controller_if_exists(file_name_base + "specification.txt")
-            realizables.append(controller_generated)
-
-        except SynthesisException as e:
-            if e.os_not_supported:
-                print("Os not supported for synthesis. Only linux can run strix")
-            elif e.trivial:
-                print("The assumptions are not satisfiable. The controller is trivial.")
-                raise Exception("Assumptions unsatisfiable in a CGT is impossible.")
+        sub_folder_path = folder_path + "cluster_" + str(i) + "/"
+        generate_buchi(OrLTL(goal.context), sub_folder_path + "context")
+        realizable = generate_controller_from_cgt(goal, sub_folder_path)
+        realizables.append(realizable)
 
     return realizables
 
 
-if __name__ == "__main__":
-
+def run(list_of_goals: List[CGTGoal], result_folder: str,
+        general_and=False,
+        general_or=False,
+        no_clusters=False,
+        clusters_origianl=False,
+        clusters_mutex=False):
     """Print List of Goals"""
     for g in list_of_goals:
         print(g)
 
-    """Generate controller from goals as is, where the assumptions are in AND"""
-    controller_generated_and, trivial_and = create_general_specification(and_assumptions=True)
+    controller_generated_and = False
+    trivial_and = False
+    controller_generated_or = False
+    trivial_or = False
+    realizable_no_clusters = False
+    realizables_clustered = False
+    realizables_original = False
 
-    """Generate controller from goals as is, where the assumptions are in OR"""
-    controller_generated_or, trivial_or = create_general_specification(and_assumptions=False)
+    if general_and:
+        """Generate controller from goals as is, where the assumptions are in AND"""
+        controller_generated_and, trivial_and = create_general_controller_from_goals(list_of_goals,
+                                                                                     result_folder + "/general_with_and/",
+                                                                                     "AND")
 
-    """No Context, Conjunction of all the goals (after saturation A->G)"""
-    """Create the CGT composing the goals with the context"""
-    try:
-        cgt = conjunction(list_of_goals)
-    except CGTFailException as e:
-        print(pretty_cgt_exception(e))
-        sys.exit()
-    save_to_file(str(cgt), file_path + "/CGT_no_clusters.txt")
+    if general_or:
+        """Generate controller from goals as is, where the assumptions are in OR"""
+        controller_generated_or, trivial_or = create_general_controller_from_goals(list_of_goals,
+                                                                                   result_folder + "/general_with_or/",
+                                                                                   "OR")
 
-    """Generate a controller for one goal"""
-    realizables_no_clusters = generate_controller_from_one_goal(cgt, "no_clusters")
+    if no_clusters:
+        """No Clustering, Conjunction of all the goals (with saturated G = A->G)"""
+        try:
+            cgt = conjunction(list_of_goals)
+        except CGTFailException as e:
+            print(pretty_cgt_exception(e))
+            sys.exit()
+        save_to_file(str(cgt), result_folder + "/cgt_no_clusters/CGT.txt")
 
+        """Generate a controller from cgt root"""
+        realizable_no_clusters = generate_controller_from_cgt(cgt, result_folder + "/cgt_no_clusters/")
+
+    """Clustering"""
     """Create cgt with the goals, it will automatically compose/conjoin them based on the context"""
-    context_goals = create_contextual_clusters(list_of_goals, "MUTEX", context_rules)
+    context_goals = create_contextual_clusters(list_of_goals, "MUTEX", rules["context"])
 
-    """Create the CGT composing the goals with the context"""
-    try:
-        cgt = create_cgt(context_goals, compose_with_context=True)
-    except CGTFailException as e:
-        print(pretty_cgt_exception(e))
-        sys.exit()
-    save_to_file(str(cgt), file_path + "/CGT_clustered_new_contexts.txt")
+    if clusters_mutex:
+        """Create the CGT composing the goals with the context"""
+        try:
+            cgt = create_cgt(context_goals, compose_with_context=True)
+        except CGTFailException as e:
+            print(pretty_cgt_exception(e))
+            sys.exit()
+        save_to_file(str(cgt), result_folder + "/cgt_clusters_mutex/CGT.txt")
 
-    """Generate a controller for each branch of the CGT"""
-    realizables_clustered = generate_controller_from_cgt(cgt, "clustered_new_contexts")
+        """Generate a controller for each branch of the CGT"""
+        realizables_clustered = generate_controllers_from_cgt_clustered(cgt, result_folder + "/cgt_clusters_mutex/")
 
-    """Create the CGT composing the goals without the context"""
-    try:
-        cgt = create_cgt(context_goals, compose_with_context=False)
-    except CGTFailException as e:
-        print(pretty_cgt_exception(e))
-        sys.exit()
+    if clusters_origianl:
+        """Create the CGT composing the goals without the context"""
+        try:
+            cgt = create_cgt(context_goals, compose_with_context=False)
+        except CGTFailException as e:
+            print(pretty_cgt_exception(e))
+            sys.exit()
 
-    save_to_file(str(cgt), file_path + "/CGT_clustered_original_contexts.txt")
+        save_to_file(str(cgt), result_folder + "/cgt_clusters_original/CGT.txt")
 
-    realizables_original = generate_controller_from_cgt(cgt, "clustered_original_contexts")
+        realizables_original = generate_controllers_from_cgt_clustered(cgt, result_folder + "/cgt_clusters_original/")
 
     save_to_file(pretty_print_summary_clustering(list_of_goals,
                                                  controller_generated_and,
                                                  trivial_and,
                                                  controller_generated_or,
                                                  trivial_or,
-                                                 realizables_no_clusters,
+                                                 realizable_no_clusters,
                                                  context_goals,
                                                  realizables_clustered,
                                                  realizables_original),
-                 file_path + "/SUMMARY.txt")
+                 result_folder + "/SUMMARY.txt")
 
     print("\nClustering process finished. Results generated.")
+
+    return realizable_no_clusters, realizables_clustered, realizables_original
+
+
+if __name__ == "__main__":
+    realizable_no_clusters, realizables_clustered, realizables_original = run(list_of_goals=goals,
+                                                                              result_folder=results_path,
+                                                                              general_and=True,
+                                                                              general_or=True,
+                                                                              no_clusters=True,
+                                                                              clusters_origianl=True,
+                                                                              clusters_mutex=True)

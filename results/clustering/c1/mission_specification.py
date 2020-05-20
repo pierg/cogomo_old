@@ -44,17 +44,17 @@ def get_inputs():
     """Contexts rules, e.g. shop xor warehouse etc.."""
     context_rules = {
         "mutex": [
-            [sns["shop"], sns["warehouse"]],
-            [sns["day_time"], sns["night_time"]]
+            [ap["s"]["shop"], ap["s"]["warehouse"]],
+            [ap["s"]["day_time"], ap["s"]["night_time"]]
         ],
         "inclusion": [
-            [sns["entrance"], sns["shop"]],
-            [sns["human_entered"], sns["shop"]],
-            [sns["get_med"], sns["entrance"]],
+            [ap["s"]["entrance"], ap["s"]["shop"]],
+            [ap["s"]["human_entered"], ap["s"]["shop"]],
+            [ap["s"]["get_med"], ap["s"]["entrance"]],
 
         ],
         "dependent": [
-            [sns["low_battery"]]
+            [ap["s"]["low_battery"]]
         ]
     }
     """TODO: dependent is not used at the moment"""
@@ -62,12 +62,12 @@ def get_inputs():
     """Domain rules, e.g. different locations"""
     domain_rules = {
         "mutex": [[
-            loc["wlocA"],
-            loc["wlocB"],
-            loc["slocA"],
-            loc["slocB"],
-            loc["safe_loc"],
-            loc["charging_point"]
+            ap["l"]["wlocA"],
+            ap["l"]["wlocB"],
+            ap["l"]["slocA"],
+            ap["l"]["slocB"],
+            ap["l"]["safe_loc"],
+            ap["l"]["charging_point"]
         ]],
         "inclusion": [
         ]
@@ -80,12 +80,12 @@ def get_inputs():
             description="patrol warehouse and shop during the night",
             context=(Context(
                 P_global(
-                    sns["night_time"]
+                    ap["s"]["night_time"]
                 )
             )),
             contracts=[PContract([
                 Patroling([
-                    loc["wlocA"], loc["wlocB"], loc["slocA"], loc["slocB"]
+                    ap["l"]["wlocA"], ap["l"]["wlocB"], ap["l"]["slocA"], ap["l"]["slocB"]
                 ])
             ])]
         ),
@@ -94,23 +94,23 @@ def get_inputs():
             description="if a clients request a medicine go to the warehouse, take the medicine and come back",
             context=(Context(
                 AndLTL([
-                    P_global(sns["shop"]),
-                    P_global(sns["day_time"])
+                    P_global(ap["s"]["shop"]),
+                    P_global(ap["s"]["day_time"])
                 ])
             )),
             contracts=[PContract([
-                Visit([loc["slocA"]]),
+                Visit([ap["l"]["slocA"]]),
                 DelayedReaction(
-                    trigger=sns["get_med"],
+                    trigger=ap["s"]["get_med"],
                     reaction=AndLTL([
-                        OrderedVisit([loc["wlocA"], loc["slocA"]]),
+                        OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
                         BoundDelay(
-                            trigger=loc["wlocA"],
-                            reaction=act["take_med"]
+                            trigger=ap["l"]["wlocA"],
+                            reaction=ap["a"]["take_med"]
                         ),
                         PromptReaction(
-                            trigger=act["take_med"],
-                            reaction=loc["slocA"]
+                            trigger=ap["a"]["take_med"],
+                            reaction=ap["l"]["slocA"]
                         )]
                     ))
             ])]
@@ -120,16 +120,16 @@ def get_inputs():
             description="always go the charging point and contact the main station when the battery is low",
             context=(Context(
                 P_global(
-                    sns["low_battery"]
+                    ap["s"]["low_battery"]
                 )
             )),
             contracts=[PContract([
                 Visit([
-                    loc["charging_point"]
+                    ap["l"]["charging_point"]
                 ]),
                 PromptReaction(
-                    trigger=sns["low_battery"],
-                    reaction=act["contact_station"])
+                    trigger=ap["s"]["low_battery"],
+                    reaction=ap["a"]["contact_station"])
             ])]
         ),
         CGTGoal(
@@ -138,17 +138,17 @@ def get_inputs():
             context=(Context(
                 AndLTL([
                     P_global(
-                        sns["entrance"]
+                        ap["s"]["entrance"]
                     ),
                     P_global(
-                        sns["day_time"]
+                        ap["s"]["day_time"]
                     )
                 ])
             )),
             contracts=[PContract([
                 PromptReaction(
-                    trigger=sns["human_entered"],
-                    reaction=act["welcome_client"]),
+                    trigger=ap["s"]["human_entered"],
+                    reaction=ap["a"]["welcome_client"]),
             ])]
         ),
         CGTGoal(
@@ -156,17 +156,17 @@ def get_inputs():
             description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
             context=(Context(
                 AndLTL([
-                    P_global(sns["night_time"])
+                    P_global(ap["s"]["night_time"])
                 ])
             )),
             contracts=[PContract([
                 P_after_Q(
                     p=P_until_R(
-                        p=Visit([loc["safe_loc"]]),
-                        r=NotLTL(sns["alarm"])),
-                    q=sns["alarm"])
+                        p=Visit([ap["l"]["safe_loc"]]),
+                        r=NotLTL(ap["s"]["alarm"])),
+                    q=ap["s"]["alarm"])
             ])]
         )
     ]
 
-    return sns, loc, act, context_rules, domain_rules, list_of_goals
+    return sns, loc, act, context_rules, domain_rules, liveness_rules, list_of_goals

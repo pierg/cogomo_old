@@ -44,17 +44,17 @@ def get_inputs():
     """Contexts rules, e.g. shop xor warehouse etc.."""
     context_rules = {
         "mutex": [
-            [sns["shop"], sns["warehouse"]],
-            [sns["day_time"], sns["night_time"]]
+            [ap["s"]["shop"], ap["s"]["warehouse"]],
+            [ap["s"]["day_time"], ap["s"]["night_time"]]
         ],
         "inclusion": [
-            [sns["entrance"], sns["shop"]],
-            [sns["human_entered"], sns["shop"]],
-            [sns["get_med"], sns["entrance"]],
+            [ap["s"]["entrance"], ap["s"]["shop"]],
+            [ap["s"]["human_entered"], ap["s"]["shop"]],
+            [ap["s"]["get_med"], ap["s"]["entrance"]],
 
         ],
         "dependent": [
-            [sns["low_battery"]]
+            [ap["s"]["low_battery"]]
         ]
     }
     """TODO: dependent is not used at the moment"""
@@ -62,15 +62,20 @@ def get_inputs():
     """Domain rules, e.g. different locations"""
     domain_rules = {
         "mutex": [[
-            loc["wlocA"],
-            loc["wlocB"],
-            loc["slocA"],
-            loc["slocB"],
-            loc["safe_loc"],
-            loc["charging_point"]
+            ap["l"]["wlocA"],
+            ap["l"]["wlocB"],
+            ap["l"]["slocA"],
+            ap["l"]["slocB"],
+            ap["l"]["safe_loc"],
+            ap["l"]["charging_point"]
         ]],
         "inclusion": [
         ]
+    }
+
+    liveness_rules = {
+        ap["s"]["alarm"],
+        NotLTL(ap["s"]["alarm"])
     }
 
     """List of specifications / goals"""
@@ -80,15 +85,15 @@ def get_inputs():
             description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
             context=(Context(
                 AndLTL([
-                    P_global(sns["night_time"])
+                    P_global(ap["s"]["night_time"])
                 ])
             )),
             contracts=[PContract([
                 P_after_Q(
                     p=P_until_R(
-                        p=Visit([loc["safe_loc"]]),
-                        r=sns["human_entered"]),
-                    q=sns["alarm"])
+                        p=Visit([ap["l"]["safe_loc"]]),
+                        r=ap["s"]["human_entered"]),
+                    q=ap["s"]["alarm"])
             ])]
         ),
         CGTGoal(
@@ -96,15 +101,15 @@ def get_inputs():
             description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
             context=(Context(
                 AndLTL([
-                    P_global(sns["night_time"])
+                    P_global(ap["s"]["night_time"])
                 ])
             )),
             contracts=[PContract([
                 PromptReaction(
-                    trigger=sns["alarm"],
+                    trigger=ap["s"]["alarm"],
                     reaction=P_until_R(
-                        p=Visit([loc["safe_loc"]]),
-                        r=sns["human_entered"])
+                        p=Visit([ap["l"]["safe_loc"]]),
+                        r=ap["s"]["human_entered"])
                 )
             ])]
         ),
@@ -113,17 +118,17 @@ def get_inputs():
             description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
             context=(Context(
                 AndLTL([
-                    P_global(sns["night_time"])
+                    P_global(ap["s"]["night_time"])
                 ])
             )),
             contracts=[PContract([
                 P_after_Q(
                     p=P_until_R(
-                        p=Visit([loc["safe_loc"]]),
-                        r=NotLTL(sns["alarm"])),
-                    q=sns["alarm"])
+                        p=Visit([ap["l"]["safe_loc"]]),
+                        r=NotLTL(ap["s"]["alarm"])),
+                    q=ap["s"]["alarm"])
             ])]
         )
     ]
 
-    return sns, loc, act, context_rules, domain_rules, list_of_goals
+    return sns, loc, act, context_rules, domain_rules, liveness_rules, list_of_goals

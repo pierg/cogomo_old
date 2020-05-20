@@ -103,38 +103,50 @@ def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
 
     ltl_list: List[LTL] = []
 
-    for cvars in context_rules["mutex"]:
-        if len(cvars) > 0:
-            variables_list: Variables = Variables()
-            ltl = "G("
-            for vs in cvars:
-                variables_list.extend(vs.variables)
-            cvars_str = [n.formula for n in cvars]
-            clauses = []
-            for vs_a in cvars_str:
-                clause = []
-                clause.append(deepcopy(vs_a))
-                for vs_b in cvars_str:
-                    if vs_a is not vs_b:
-                        clause.append(Not(deepcopy(vs_b)))
-                clauses.append(And(clause))
+    if "mutex" in context_rules:
+        for cvars in context_rules["mutex"]:
+            if len(cvars) > 0:
+                variables: Variables = Variables()
+                ltl = "G("
+                for vs in cvars:
+                    variables.extend(vs.variables)
+                cvars_str = [n.formula for n in cvars]
+                clauses = []
+                for vs_a in cvars_str:
+                    clause = []
+                    clause.append(deepcopy(vs_a))
+                    for vs_b in cvars_str:
+                        if vs_a is not vs_b:
+                            clause.append(Not(deepcopy(vs_b)))
+                    clauses.append(And(clause))
 
-            ltl += Or(clauses)
-            ltl += ")"
-            ltl_list.append(LTL(formula=ltl, variables=variables_list))
+                ltl += Or(clauses)
+                ltl += ")"
+                ltl_list.append(LTL(formula=ltl, variables=variables))
 
-    for cvars in context_rules["inclusion"]:
-        if len(cvars) > 0:
-            variables_list_inclusion: Variables = Variables()
-            ltl = "G("
-            for i, vs in enumerate(cvars):
-                variables_list_inclusion.extend(vs.variables)
-                ltl += str(vs)
-                if i < (len(cvars) - 1):
-                    ltl += " -> "
-            ltl += ")"
+    if "inclusion" in context_rules:
+        for cvars in context_rules["inclusion"]:
+            if len(cvars) > 0:
+                variables: Variables = Variables()
+                ltl = "G("
+                for i, vs in enumerate(cvars):
+                    variables.extend(vs.variables)
+                    ltl += str(vs)
+                    if i < (len(cvars) - 1):
+                        ltl += " -> "
+                ltl += ")"
 
-            ltl_list.append(LTL(formula=ltl, variables=variables_list_inclusion))
+                ltl_list.append(LTL(formula=ltl, variables=variables))
+
+    if "liveness" in context_rules:
+        for cvars in context_rules["liveness"]:
+            variables: Variables = Variables()
+            ltl = "G( F("
+            variables.extend(cvars.variables)
+            ltl += str(cvars)
+            ltl += "))"
+            ltl_list.append(LTL(formula=ltl, variables=variables))
+
 
     return ltl_list
 
@@ -403,12 +415,57 @@ def extract_variables_name_from_dics(dics: List[Dict]) -> List[str]:
     return vars_name
 
 
-def generate_general_controller_from_goals(goals: Union[CGTGoal, List[CGTGoal]],
-                                           uncontrollable_vars: List[str],
-                                           context_rules: Dict,
-                                           domain_rules: Dict,
-                                           include_context = False,
-                                           and_assumptions = True) -> Tuple[
+def generate_general_controller_inputs_from_goal(ap: dict,
+                                                 rules: dict,
+                                                 goal: CGTGoal,
+                                                 context_rules_included=True) -> Tuple[
+    List[str], List[str], List[str], List[str]]:
+    variables = Variables()
+    assumptions = []
+    guarantees = []
+
+    """Adding A/G from the goal"""
+    assumptions.append(goal.get_ltl_assumptions().formula)
+    guarantees.append(goal.get_ltl_guarantees().formula)
+    variables.extend(goal.get_variables())
+
+    """Adding liveness rules of the environemnt as assumptions"""
+    liveness_rules = extract_ltl_rules(rules["environment"])
+    for r in liveness_rules:
+        variables.extend(r.variables)
+        guarantees.append(r.formula)
+
+    """Adding domain rules of the robot as guarantees"""
+    domain_rules = extract_ltl_rules(rules["domain"])
+    for r in domain_rules:
+        variables.extend(r.variables)
+        guarantees.append(r.formula)
+
+    """Adding context rules as assumptions if not already included (cgt includes them)"""
+    if not context_rules_included:
+        context_rules = extract_ltl_rules(rules["context"])
+        for r in context_rules:
+            variables.extend(r.variables)
+            assumptions.append(r.formula)
+
+    uncontrollable = []
+    controllable = []
+
+    """Splitting the variables between uncontrollable and controllable"""
+    for v in variables.list:
+        if v.name in ap["s"]:
+            uncontrollable.append(v.name)
+        else:
+            controllable.append(v.name)
+
+    return assumptions, guarantees, uncontrollable, controllable
+
+
+def generate_general_controller_inputs_from_goal_old(ap: dict,
+                                                     rules: dict,
+                                                     goals: Union[CGTGoal, List[CGTGoal]],
+                                                     include_context=False,
+                                                     and_assumptions=True) -> Tuple[
     List[str], List[str], List[str], List[str]]:
     """Goal gaurantees will be saturated with their assumptions or in case of new_assumptions,
     the entire list of goals will be saturated with new_assumptions
@@ -417,7 +474,7 @@ def generate_general_controller_from_goals(goals: Union[CGTGoal, List[CGTGoal]],
     if not isinstance(goals, list):
         goals = [goals]
 
-    variables = Variables()
+    all_variables = Variables()
 
     ctx_rules = []
     dom_rules = []
@@ -426,10 +483,13 @@ def generate_general_controller_from_goals(goals: Union[CGTGoal, List[CGTGoal]],
     uncontrollable = []
     controllable = []
 
+    """Adding A/G from the goal"""
     for goal in goals:
         assumptions.append(goal.get_ltl_assumptions().formula)
         guarantees.append(goal.get_ltl_guarantees().formula)
         variables.extend(goal.get_variables())
+
+    """Adding liveness rules of the environemnt as assumptions"""
 
     for v in variables.list:
         if v.name in uncontrollable_vars:
@@ -472,6 +532,7 @@ def syntax_fix(text: str):
         print(e)
 
     return res
+
 
 def generate_controller_input_text(assum, guaran, ins, outs):
     ret = "ASSUMPTIONS\n\n"
