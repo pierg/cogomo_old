@@ -433,7 +433,7 @@ def generate_general_controller_inputs_from_goal(ap: dict,
     liveness_rules = extract_ltl_rules(rules["environment"])
     for r in liveness_rules:
         variables.extend(r.variables)
-        guarantees.append(r.formula)
+        assumptions.append(r.formula)
 
     """Adding domain rules of the robot as guarantees"""
     domain_rules = extract_ltl_rules(rules["domain"])
@@ -457,69 +457,6 @@ def generate_general_controller_inputs_from_goal(ap: dict,
             uncontrollable.append(v.name)
         else:
             controllable.append(v.name)
-
-    return assumptions, guarantees, uncontrollable, controllable
-
-
-def generate_general_controller_inputs_from_goal_old(ap: dict,
-                                                     rules: dict,
-                                                     goals: Union[CGTGoal, List[CGTGoal]],
-                                                     include_context=False,
-                                                     and_assumptions=True) -> Tuple[
-    List[str], List[str], List[str], List[str]]:
-    """Goal gaurantees will be saturated with their assumptions or in case of new_assumptions,
-    the entire list of goals will be saturated with new_assumptions
-    Returns: context_rules, domain_rules, guarantees, uncontrollable, controllable"""
-
-    if not isinstance(goals, list):
-        goals = [goals]
-
-    all_variables = Variables()
-
-    ctx_rules = []
-    dom_rules = []
-    assumptions = []
-    guarantees = []
-    uncontrollable = []
-    controllable = []
-
-    """Adding A/G from the goal"""
-    for goal in goals:
-        assumptions.append(goal.get_ltl_assumptions().formula)
-        guarantees.append(goal.get_ltl_guarantees().formula)
-        variables.extend(goal.get_variables())
-
-    """Adding liveness rules of the environemnt as assumptions"""
-
-    for v in variables.list:
-        if v.name in uncontrollable_vars:
-            uncontrollable.append(v.name)
-        else:
-            controllable.append(v.name)
-
-    environment_rules = extract_ltl_rules(context_rules)
-    domain_rules = extract_ltl_rules(domain_rules)
-
-    if include_context:
-        for e in environment_rules:
-            for v in e.variables.list:
-                if v.name not in uncontrollable:
-                    uncontrollable.append(v.name)
-                    # raise Exception("variable missing")
-            ctx_rules.append(e.formula)
-
-    for e in domain_rules:
-        for v in e.variables.list:
-            if v.name not in controllable:
-                controllable.append(v.name)
-                # raise Exception("variable missing")
-        dom_rules.append(e.formula)
-
-    if not and_assumptions:
-        assumptions = [Or(assumptions)]
-
-    assumptions.extend(ctx_rules)
-    guarantees.extend(dom_rules)
 
     return assumptions, guarantees, uncontrollable, controllable
 
