@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 import platform
+import time
 from typing import Tuple
 
 from graphviz import Source
@@ -47,12 +48,14 @@ def is_realizable(assumptions: str, guarantees: str, ins: str, outs: str) -> boo
         raise e
 
 
-def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> str:
+def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> Tuple[str, float]:
     try:
-        params = ' --dot -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
+        params = ' -k -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
         command = strix_path + params
         print("\n\nRUNNING COMMAND:\n\n" + command + "\n\n")
+        start_time = time.time()
         result = subprocess.getoutput(command).splitlines()
+        exec_time = time.time() - start_time
         if result[0] == "REALIZABLE":
             dot_format = ""
             for i, line in enumerate(result):
@@ -61,17 +64,18 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> st
                 else:
                     dot_format = "".join(result[i:])
                     break
-            return dot_format
+            return dot_format, exec_time
         if result[0] == "UNREALIZABLE":
-            return "UNREALIZABLE"
+            return "UNREALIZABLE", exec_time
         else:
             raise Exception("Unknown strix response: " + result[0])
     except Exception as e:
         raise e
 
 
-def create_controller_if_exists(controller_input_file: str) -> bool:
-    """Return true if controller has been synthesized"""
+def create_controller_if_exists(controller_input_file: str) -> Tuple[bool, float]:
+    """Return true if controller has been synthesized False otherwise.
+    It also return the time needed"""
     if platform.system() != "Linux":
         print(platform.system() + " is not supported for synthesis")
         raise SynthesisException("os_not_supported")
@@ -84,11 +88,11 @@ def create_controller_if_exists(controller_input_file: str) -> bool:
     if not assumptions_satisfiable:
         raise SynthesisException("trivial")
 
-    result = get_controller(a, g, i, o)
+    result, exec_time = get_controller(a, g, i, o)
 
     if result.startswith("UNREALIZABLE"):
         print("UNREALIZABLE")
-        return False
+        return False, exec_time
 
     print(controller_input_file + " IS REALIZABLE")
     dot_file_path = os.path.dirname(controller_input_file)
@@ -101,7 +105,7 @@ def create_controller_if_exists(controller_input_file: str) -> bool:
     src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
     src.render(cleanup=True)
     print(dot_file_name + ".eps  ->   mealy machine generated")
-    return True
+    return True, exec_time
 
 
 if __name__ == '__main__':
