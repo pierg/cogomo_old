@@ -107,6 +107,22 @@ def get_inputs():
                         r=sns["human_entered"])
                 )
             ])]
+        ),
+        CGTGoal(
+            name="go-to-safe-until-not-alarm",
+            description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
+            context=(Context(
+                AndLTL([
+                    P_global(sns["night_time"])
+                ])
+            )),
+            contracts=[PContract([
+                P_after_Q(
+                    p=P_until_R(
+                        p=Visit([loc["safe_loc"]]),
+                        r=NotLTL(sns["alarm"])),
+                    q=sns["alarm"])
+            ])]
         )
     ]
 
