@@ -272,8 +272,8 @@ if __name__ == "__main__":
     realizable_no_clusters, realizables_clustered, realizables_original, no_clusters_exec_time, exec_times_clustered, exec_times_original = run(
         list_of_goals=goals,
         result_folder=results_path,
-        general_and=False,
-        general_or=False,
-        no_clusters=True,
-        clusters_origianl=True,
-        clusters_mutex=True)
+        general_and=True,
+        general_or=True,
+        no_clusters=False,
+        clusters_origianl=False,
+        clusters_mutex=False)

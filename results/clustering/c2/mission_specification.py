@@ -25,7 +25,8 @@ def get_inputs():
             "get_med": LTL("get_med"),
             "warehouse": LTL("warehouse"),
             "human_entered": LTL("human_entered"),
-            "alarm": LTL("alarm")
+            "alarm": LTL("alarm"),
+            "cashier": LTL("cashier")
         },
         "l": {
             "wlocA": LTL("wlocA"),
