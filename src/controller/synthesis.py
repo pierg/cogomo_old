@@ -50,7 +50,7 @@ def is_realizable(assumptions: str, guarantees: str, ins: str, outs: str) -> boo
 
 def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> Tuple[str, float]:
     try:
-        params = ' -k -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
+        params = ' -k --dot -f "' + Implies(assumptions, guarantees) + '" --ins="' + ins + '" --outs="' + outs + '"'
         command = strix_path + params
         print("\n\nRUNNING COMMAND:\n\n" + command + "\n\n")
         start_time = time.time()
