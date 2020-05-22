@@ -47,7 +47,7 @@ if [ $# -eq 0 ]
     echo "  Or run 'docker ps' to see if the process is still running"
 
     echo "  results and logs will be saved in $(pwd)/$1/"
-    sudo docker logs -f cogomo_clustering >& "$(pwd)/$1/logs.txt" &
+    docker logs -f cogomo_clustering >& "$(pwd)/$1/logs.txt" &
 
 fi
 
