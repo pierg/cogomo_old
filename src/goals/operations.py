@@ -2,7 +2,7 @@ from copy import deepcopy
 from itertools import product, combinations
 from typing import List, Dict, Tuple
 from components.components import ComponentsLibrary
-from src.contracts.contract import Contract, InconsistentContracts, IncompatibleContracts
+from src.contracts.contract import Contract, InconsistentContracts, IncompatibleContracts, UnfeasibleContracts
 from src.contracts.operations import compose_contracts
 from src.goals.cgtgoal import CGTGoal
 from typescogomo.assumption import Context
@@ -169,6 +169,21 @@ def composition(goals: List[CGTGoal],
                         goals_failed.append(goal)
             raise CGTFailException(failed_operation="composition",
                                    faild_motivation="incompatible",
+                                   goals_involved_a=goals_involved,
+                                   goals_involved_b=goals_failed)
+
+        except UnfeasibleContracts as e:
+
+            goals_involved = []
+            goals_failed = []
+            for goal in goals:
+                for contract in goal.contracts:
+                    if e.assumptions.formula <= contract.assumptions.formula:
+                        goals_involved.append(goal)
+                    if e.guarantees.formula <= contract.assumptions.formula:
+                        goals_failed.append(goal)
+            raise CGTFailException(failed_operation="composition",
+                                   faild_motivation="unfeasible",
                                    goals_involved_a=goals_involved,
                                    goals_involved_b=goals_failed)
 
@@ -354,8 +369,14 @@ def create_cgt(context_goals: Dict, compose_with_context: True) -> CGTGoal:
                 name="ctx_" + str(i),
                 contracts=[Contract(assumptions=Assumptions(ctx))])
             new_goals.append(ctx_goal)
-            ctx_goals = composition(new_goals)
-            composed_goals.append(ctx_goals)
+            try:
+                ctx_goals = composition(new_goals)
+                composed_goals.append(ctx_goals)
+            except CGTFailException as e:
+                print("FAILED OPE:\t" + e.failed_operation)
+                print("FAILED MOT:\t" + e.failed_operation)
+                print("GOALS_1:\t" + str([g.name for g in e.goals_involved_a]))
+                print("GOALS_2:\t" + str([g.name for g in e.goals_involved_a]))
         else:
             ctx_goals = composition(new_goals)
             composed_goals.append(ctx_goals)

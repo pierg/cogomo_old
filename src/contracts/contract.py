@@ -57,6 +57,9 @@ class Contract:
         self.add_guarantees(other.guarantees.list)
         self.add_assumptions(other.assumptions.list)
 
+    def check_feasibility(self):
+        if not self.assumptions.are_satisfiable_with(self.guarantees):
+            raise UnfeasibleContracts(self.assumptions, self.guarantees)
 
     def add_assumptions(self, assumptions: Union[List[Assumption], Assumption]):
 
@@ -67,7 +70,6 @@ class Contract:
 
         if isinstance(self.guarantees, Guarantees):
             self.guarantees.saturate_with(self.assumptions)
-
 
     def add_guarantees(self, guarantees: Union[List[Guarantee], Guarantee]):
         try:
@@ -122,10 +124,18 @@ class IncompatibleContracts(Exception):
         self.assumptions_1 = assumptions_1
         self.assumptions_2 = assumptions_2
 
+
 class InconsistentContracts(Exception):
     def __init__(self, guarantee_1: Guarantee, guarantee_2: Guarantee):
         self.guarantee_1 = guarantee_1
         self.guarantee_2 = guarantee_2
+
+
+class UnfeasibleContracts(Exception):
+    def __init__(self, assumptions: Assumptions, guarantees: Guarantees):
+        self.assumptions = assumptions
+        self.guarantees = guarantees
+
 
 class BooleanContract(Contract):
 

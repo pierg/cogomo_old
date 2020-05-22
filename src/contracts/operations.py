@@ -1,6 +1,6 @@
 from copy import deepcopy
 from typing import List
-from src.contracts.contract import Contract, InconsistentContracts, IncompatibleContracts
+from src.contracts.contract import Contract, InconsistentContracts, IncompatibleContracts, UnfeasibleContracts
 from typescogomo.formula import InconsistentException
 
 
@@ -24,6 +24,10 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
         except IncompatibleContracts as e:
             print("Contracts incompatible")
             raise e
+        except UnfeasibleContracts as e:
+            print("Contracts unfeasible")
+            raise e
+
 
     print("The composition is compatible, consistent and feasible")
 

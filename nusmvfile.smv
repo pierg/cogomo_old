@@ -1,22 +1,18 @@
 MODULE main
 VAR
-	contact_station: boolean;
-	get_med: boolean;
-	take_med: boolean;
-	charging_point: boolean;
-	shop: boolean;
-	slocB: boolean;
-	slocA: boolean;
-	night_time: boolean;
-	day_time: boolean;
-	safe_loc: boolean;
-	wlocA: boolean;
-	alarm: boolean;
-	wlocB: boolean;
-	low_battery: boolean;
-	welcome_client: boolean;
-	entrance: boolean;
-	warehouse: boolean;
-	human_entered: boolean;
+	c: boolean;
+	a: boolean;
 
-LTLSPEC (((((G(night_time) & G(low_battery) & !((G(shop) & G(day_time))) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance))) -> ((G(F(wlocA)) & G(F(wlocB)) & G(F(slocA)) & G(F(slocB)))))) -> ((((G(night_time) & G(low_battery) & !((G(shop) & G(day_time))) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance))) -> ((G(alarm -> G((F(safe_loc) U !(alarm)))))))))
+
+
+
+LTLSPEC !(( G(!a) ) & ( G(F(a)) ))
+LTLSPEC !(( G(c) -> G(!a) ) & ( G(c) -> G(F(a)) ))
+
+
+1) ( G(!a) ) & ( G(F(a)) )
+2) ( G(c) -> G(!a) ) & ( G(c) -> G(F(a)) )
+
+
+
+
