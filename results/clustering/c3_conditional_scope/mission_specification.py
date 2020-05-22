@@ -25,8 +25,7 @@ def get_inputs():
             "get_med": LTL("get_med"),
             "warehouse": LTL("warehouse"),
             "human_entered": LTL("human_entered"),
-            "alarm": LTL("alarm"),
-            "cashier": LTL("cashier")
+            "alarm": LTL("alarm")
         },
         "l": {
             "wlocA": LTL("wlocA"),
@@ -122,20 +121,26 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="charge-on-low-battery",
+            name="always-charge-on-low-battery",
             description="always go the charging point and contact the main station when the battery is low",
-            context=(Context(
-                P_global(
-                    ap["s"]["low_battery"]
-                )
-            )),
+            # context=(Context(
+            #     P_global(
+            #         ap["s"]["low_battery"]
+            #     )
+            # )),
             contracts=[PContract([
-                Visit([
-                    ap["l"]["charging_point"]
-                ]),
                 PromptReaction(
                     trigger=ap["s"]["low_battery"],
-                    reaction=ap["a"]["contact_station"])
+                    reaction=AndLTL([
+                        Visit([
+                            ap["l"]["charging_point"]
+                        ]),
+                        PromptReaction(
+                            trigger=LTL("TRUE"),
+                            reaction=ap["a"]["contact_station"]
+                        )
+                    ])
+                )
             ])]
         ),
         CGTGoal(

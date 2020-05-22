@@ -12,7 +12,7 @@ p5 = Bool('p5')
 
 c0 = Component(id="c0", assumptions=[p0 == True], guarantees=[p3 == True])
 c1 = Component(id="c1", assumptions=[p3 == True], guarantees=[p2 == True])
-c2 = Component(id="c2", assumptions=[p4 == True], guarantees=[p5 == True])
+c2 = Component(id="c2_conditional_scope", assumptions=[p4 == True], guarantees=[p5 == True])
 c3 = Component(id="c3", assumptions=[p5 == True], guarantees=[p2 == True])
 
 list_of_candidates = [[c0, c1], [c2, c3]]

@@ -20,7 +20,7 @@ def test_component_selection():
             SimpleComponent(component_id="c1",
                             assumptions=["a", "p"],
                             guarantees=["b", "x > 5"]),
-            SimpleComponent(component_id="c2",
+            SimpleComponent(component_id="c2_conditional_scope",
                             assumptions=["b", "x > 10"],
                             guarantees=["y > 20"]),
             SimpleComponent(component_id="c3",
