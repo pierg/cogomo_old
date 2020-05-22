@@ -11,6 +11,10 @@ if [ $# -eq 0 ]
   then
     echo "  no custom input file provided, launching the default configuration"
 
+    echo "  cleaning up folder"
+    sudo rm -r "$(pwd)/default/results"
+
+
     echo "  creating new docker container..."
     docker create -i -t  --name cogomo_clustering -v "$(pwd)/default/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
 
@@ -25,6 +29,9 @@ if [ $# -eq 0 ]
 
   else
     echo "  custom input file provided, launching with: $1/mission_specification.py"
+
+    echo "  cleaning up folder"
+    sudo rm -r "$(pwd)/$1/results"
 
     echo "  creating new docker container..."
     docker create -i -t  --name cogomo_clustering -v "$(pwd)/$1/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
