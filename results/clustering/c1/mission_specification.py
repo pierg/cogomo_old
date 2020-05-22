@@ -1,3 +1,5 @@
+import os
+
 from src.goals.cgtgoal import *
 from src.typescogomo.assumption import *
 from src.typescogomo.patterns import *
@@ -10,6 +12,7 @@ def get_inputs():
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
     print("CUSTOM SPEC")
+    print(os.path.dirname(os.path.abspath(__file__)))
 
     """ Atomic propositions divided in
             s - sensor propositions (uncontrollable)
