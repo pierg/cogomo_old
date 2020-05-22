@@ -11,7 +11,7 @@ def get_inputs():
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
-    print("CUSTOM SPEC:")
+    print("CUSTOM SPEC c2:")
     print(os.path.dirname(os.path.abspath(__file__)))
 
     """ Atomic propositions divided in
