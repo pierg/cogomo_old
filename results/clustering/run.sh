@@ -13,6 +13,7 @@ if [ $# -eq 0 ]
 
     echo "  cleaning up folder"
     sudo rm -r "$(pwd)/default/results"
+    mkdir "$(pwd)/default/results"
 
 
     echo "  creating new docker container..."
@@ -32,6 +33,7 @@ if [ $# -eq 0 ]
 
     echo "  cleaning up folder"
     sudo rm -r "$(pwd)/$1/results"
+    mkdir "$(pwd)/$1/results"
 
     echo "  creating new docker container..."
     docker create -i -t  --name cogomo_clustering -v "$(pwd)/$1/results":/home/cogomo/output/results pmallozzi/cogomo:latest -c
@@ -45,7 +47,7 @@ if [ $# -eq 0 ]
     echo "  Or run 'docker ps' to see if the process is still running"
 
     echo "  results and logs will be saved in $(pwd)/$1/"
-    docker logs -f cogomo_clustering >& "$(pwd)/$1/logs.txt" &
+    sudo docker logs -f cogomo_clustering >& "$(pwd)/$1/logs.txt" &
 
 fi
 
