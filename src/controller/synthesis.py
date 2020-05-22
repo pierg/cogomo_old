@@ -68,6 +68,9 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> Tu
         if result[0] == "UNREALIZABLE":
             return "UNREALIZABLE", exec_time
         else:
+            print("\n\nSTRIX RESPONSE:\n\n")
+            for l in result:
+                print(l)
             raise Exception("Unknown strix response: " + result[0])
     except Exception as e:
         raise e
