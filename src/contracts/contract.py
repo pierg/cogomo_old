@@ -25,8 +25,7 @@ class Contract:
         else:
             self.__guarantees = guarantees
 
-        if not self.assumptions.are_satisfiable_with(self.guarantees):
-            raise Exception("The contract is unfeasible")
+        self.check_feasibility()
 
     @property
     def variables(self):
@@ -56,6 +55,7 @@ class Contract:
     def merge_with(self, other):
         self.add_guarantees(other.guarantees.list)
         self.add_assumptions(other.assumptions.list)
+        self.check_feasibility()
 
     def check_feasibility(self):
         if not self.assumptions.are_satisfiable_with(self.guarantees):
