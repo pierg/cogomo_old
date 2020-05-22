@@ -100,6 +100,7 @@ def get_inputs():
             context=(Context(
                 AndLTL([
                     P_global(ap["s"]["shop"]),
+                    P_global(ap["s"]["day_time"])
                 ])
             )),
             contracts=[PContract([
@@ -116,25 +117,30 @@ def get_inputs():
                             trigger=ap["a"]["take_med"],
                             reaction=ap["l"]["slocA"]
                         )]
-                    )),
-                GlobalAvoidance(ap["l"]["wlocA"])
+                    ))
             ])]
         ),
         CGTGoal(
-            name="charge-on-low-battery",
+            name="always-charge-on-low-battery",
             description="always go the charging point and contact the main station when the battery is low",
-            context=(Context(
-                P_global(
-                    ap["s"]["low_battery"]
-                )
-            )),
+            # context=(Context(
+            #     P_global(
+            #         ap["s"]["low_battery"]
+            #     )
+            # )),
             contracts=[PContract([
-                Visit([
-                    ap["l"]["charging_point"]
-                ]),
                 PromptReaction(
                     trigger=ap["s"]["low_battery"],
-                    reaction=ap["a"]["contact_station"])
+                    reaction=AndLTL([
+                        Visit([
+                            ap["l"]["charging_point"]
+                        ]),
+                        PromptReaction(
+                            trigger=LTL("TRUE"),
+                            reaction=ap["a"]["contact_station"]
+                        )
+                    ])
+                )
             ])]
         ),
         CGTGoal(
@@ -172,7 +178,6 @@ def get_inputs():
                     q=ap["s"]["alarm"])
             ])]
         )
-
     ]
 
     return ap, rules, list_of_goals
