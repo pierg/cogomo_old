@@ -1,5 +1,6 @@
 import os
 import subprocess
+import platform
 
 from graphviz import Source
 
@@ -9,6 +10,9 @@ from typescogomo.scopes import *
 
 
 def generate_buchi(formula: LTL, file_path: str):
+    if platform.system() != "Linux":
+        print(platform.system() + " is not supported for buchi generation")
+        return
     try:
         print(formula)
         b_formula, new_vars, old_vars = traslate_boolean(formula.formula)

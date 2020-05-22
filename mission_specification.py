@@ -1,3 +1,5 @@
+import os
+
 from src.goals.cgtgoal import *
 from src.typescogomo.assumption import *
 from src.typescogomo.patterns import *
@@ -9,7 +11,9 @@ def get_inputs():
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
-    print("CUSTOM SPEC")
+    print("CUSTOM SPEC:")
+    print(os.path.dirname(os.path.abspath(__file__)))
+
 
     """ Atomic propositions divided in
             s - sensor propositions (uncontrollable)
@@ -90,7 +94,7 @@ def get_inputs():
             )),
             contracts=[PContract([
                 Patroling([
-                    ap["l"]["wlocA"], ap["l"]["wlocB"], ap["l"]["slocA"], ap["l"]["slocB"]
+                    ap["l"]["wlocA"]
                 ])
             ])]
         ),
@@ -100,78 +104,13 @@ def get_inputs():
             context=(Context(
                 AndLTL([
                     P_global(ap["s"]["shop"]),
-                    P_global(ap["s"]["day_time"])
                 ])
             )),
             contracts=[PContract([
-                Visit([ap["l"]["slocA"]]),
-                DelayedReaction(
-                    trigger=ap["s"]["get_med"],
-                    reaction=AndLTL([
-                        OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
-                        BoundDelay(
-                            trigger=ap["l"]["wlocA"],
-                            reaction=ap["a"]["take_med"]
-                        ),
-                        PromptReaction(
-                            trigger=ap["a"]["take_med"],
-                            reaction=ap["l"]["slocA"]
-                        )]
-                    ))
-            ])]
-        ),
-        CGTGoal(
-            name="charge-on-low-battery",
-            description="always go the charging point and contact the main station when the battery is low",
-            context=(Context(
-                P_global(
-                    ap["s"]["low_battery"]
-                )
-            )),
-            contracts=[PContract([
-                Visit([
-                    ap["l"]["charging_point"]
-                ]),
-                PromptReaction(
-                    trigger=ap["s"]["low_battery"],
-                    reaction=ap["a"]["contact_station"])
-            ])]
-        ),
-        CGTGoal(
-            name="welcome-visitors",
-            description="welcome people at the entrance",
-            context=(Context(
-                AndLTL([
-                    P_global(
-                        ap["s"]["entrance"]
-                    ),
-                    P_global(
-                        ap["s"]["day_time"]
-                    )
-                ])
-            )),
-            contracts=[PContract([
-                PromptReaction(
-                    trigger=ap["s"]["human_entered"],
-                    reaction=ap["a"]["welcome_client"]),
-            ])]
-        ),
-        CGTGoal(
-            name="go-to-safe-zone-during-alarm",
-            description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
-            context=(Context(
-                AndLTL([
-                    P_global(ap["s"]["night_time"])
-                ])
-            )),
-            contracts=[PContract([
-                P_after_Q(
-                    p=P_until_R(
-                        p=Visit([ap["l"]["safe_loc"]]),
-                        r=NotLTL(ap["s"]["alarm"])),
-                    q=ap["s"]["alarm"])
+                GlobalAvoidance(ap["l"]["wlocA"])
             ])]
         )
+
     ]
 
     return ap, rules, list_of_goals
