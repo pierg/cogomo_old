@@ -1,18 +1,12 @@
 MODULE main
 VAR
-	c: boolean;
-	a: boolean;
+	get_med: boolean;
+	low_battery: boolean;
+	day_time: boolean;
+	human_entered: boolean;
+	night_time: boolean;
+	entrance: boolean;
+	warehouse: boolean;
+	shop: boolean;
 
-
-
-
-LTLSPEC !(( G(!a) ) & ( G(F(a)) ))
-LTLSPEC !(( G(c) -> G(!a) ) & ( G(c) -> G(F(a)) ))
-
-
-1) ( G(!a) ) & ( G(F(a)) )
-2) ( G(c) -> G(!a) ) & ( G(c) -> G(F(a)) )
-
-
-
-
+LTLSPEC !((G(night_time) & G(night_time) & (G(night_time) & !((G(shop) & G(day_time))) & !(G(low_battery)) & !((G(entrance) & G(day_time))) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance))))

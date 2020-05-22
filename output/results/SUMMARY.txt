@@ -3,24 +3,6 @@ SUMMARY
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GENERAL SPECIFICATION WITH ALL GAOLS: **AND** OF ASSUMPTIONS **AND** OF GUARANTEES
--->	5 goals: ['night-time-patroling', 'get-meds-to-clients', 'charge-on-low-battery', 'welcome-visitors', 'go-to-safe-zone-during-alarm']
-REALIZABLE	NO		0.000sec
-TRIVIAL	NO		
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GENERAL SPECIFICATION WITH ALL GAOLS: **OR** OF ASSUMPTIONS **AND** OF GUARANTEES
--->	5 goals: ['night-time-patroling', 'get-meds-to-clients', 'charge-on-low-battery', 'welcome-visitors', 'go-to-safe-zone-during-alarm']
-REALIZABLE	NO		0.000sec
-TRIVIAL	NO		
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CGT WITH CONJUNCTION OF GOALS
 -->	5 goals: ['night-time-patroling', 'get-meds-to-clients', 'charge-on-low-battery', 'welcome-visitors', 'go-to-safe-zone-during-alarm']
 REALIZABLE	NO		0.000sec
