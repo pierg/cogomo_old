@@ -12,7 +12,7 @@ if [ $# -eq 0 ]
     echo "  no custom input file provided, launching the default configuration"
 
     echo "  cleaning up folder"
-    sudo rm -r "$(pwd)/default/results"
+    rm -r "$(pwd)/default/results"
     mkdir "$(pwd)/default/results"
 
 
@@ -32,7 +32,7 @@ if [ $# -eq 0 ]
     echo "  custom input file provided, launching with: $1/mission_specification.py"
 
     echo "  cleaning up folder"
-    sudo rm -r "$(pwd)/$1/results"
+    rm -r "$(pwd)/$1/results"
     mkdir "$(pwd)/$1/results"
 
     echo "  creating new docker container..."
