@@ -448,11 +448,11 @@ def generate_general_controller_inputs_from_goal(ap: dict,
             variables.extend(r.variables)
             assumptions.append(r.formula)
 
-    """Replacing TRUE with true, for strix"""
-    for a in assumptions:
-        a.replace("TRUE", "true")
-    for g in guarantees:
-        g.replace("TRUE", "true")
+    # """Replacing TRUE with true, for strix"""
+    # for a in assumptions:
+    #     a.replace("TRUE", "true")
+    # for g in guarantees:
+    #     g.replace("TRUE", "true")
 
     uncontrollable = []
     controllable = []
