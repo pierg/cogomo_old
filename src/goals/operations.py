@@ -369,17 +369,14 @@ def create_cgt(context_goals: Dict, compose_with_context: True) -> CGTGoal:
                 name="ctx_" + str(i),
                 contracts=[Contract(assumptions=Assumptions(ctx))])
             new_goals.append(ctx_goal)
-            try:
-                ctx_goals = composition(new_goals)
-                composed_goals.append(ctx_goals)
-            except CGTFailException as e:
-                print("FAILED OPE:\t" + e.failed_operation)
-                print("FAILED MOT:\t" + e.failed_operation)
-                print("GOALS_1:\t" + str([g.name for g in e.goals_involved_a]))
-                print("GOALS_2:\t" + str([g.name for g in e.goals_involved_a]))
-        else:
+        try:
             ctx_goals = composition(new_goals)
             composed_goals.append(ctx_goals)
+        except CGTFailException as e:
+            print("FAILED OPE:\t" + e.failed_operation)
+            print("FAILED MOT:\t" + e.failed_operation)
+            print("GOALS_1:\t" + str([g.name for g in e.goals_involved_a]))
+            print("GOALS_2:\t" + str([g.name for g in e.goals_involved_a]))
 
     """Conjoin the goals across all the mutually exclusive contexts"""
     cgt = conjunction(composed_goals, check_consistency=False)
