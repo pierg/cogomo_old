@@ -67,7 +67,7 @@
 #     #                   variables={"a": "boolean", "b": "boolean"},
 #     #                   assumptions=["a"],
 #     #                   guarantees=["b"]),
-#     #         Component(component_id="c1",
+#     #         Component(component_id="c1-default",
 #     #                   variables={"a": "boolean", "b": "boolean", "x": "0..100", "l": "boolean", "k": "boolean"},
 #     #                   assumptions=["a", "l", "k"],
 #     #                   guarantees=["b", "x > 5"]),

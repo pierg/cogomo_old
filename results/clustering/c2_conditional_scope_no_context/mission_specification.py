@@ -138,10 +138,7 @@ def get_inputs():
                         Visit([
                             ap["l"]["charging_point"]
                         ]),
-                        InstantReaction(
-                            trigger=LTL("TRUE"),
-                            reaction=ap["a"]["contact_station"]
-                        )
+                        ap["a"]["contact_station"]
                     ])
                 )
             ])]

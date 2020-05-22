@@ -17,7 +17,7 @@ def test_component_selection():
             SimpleComponent(component_id="c10",
                             assumptions=["o"],
                             guarantees=["a"]),
-            SimpleComponent(component_id="c1",
+            SimpleComponent(component_id="c1-default",
                             assumptions=["a", "p"],
                             guarantees=["b", "x > 5"]),
             SimpleComponent(component_id="c2_conditional_scope_no_context",
@@ -40,7 +40,7 @@ def test_component_selection():
         ids.append(c.id)
     print(ids)
 
-    assert all(cid in ids for cid in ['c3', 'c9', 'c10', 'c1'])
+    assert all(cid in ids for cid in ['c3', 'c9', 'c10', 'c1-default'])
 
     # assert all(g in composition.guarantees.list for g in [LTL("(a & p -> b)"),
     #                                                       LTL("(a & p -> x > 5)"),

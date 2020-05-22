@@ -25,7 +25,7 @@ def test_port():
             guarantees=["a_name1 >= 8", "a_name2 >= 8"],
         ),
         Component(
-            component_id="c1",
+            component_id="c1-default",
             variables=[BoundedInt(port_type="a", name="a1"),
                        BoundedInt(port_type="a", name="a2"),
                        Boolean("b")],
