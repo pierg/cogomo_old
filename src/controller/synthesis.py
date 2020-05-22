@@ -54,7 +54,12 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> Tu
         command = strix_path + params
         print("\n\nRUNNING COMMAND:\n\n" + command + "\n\n")
         start_time = time.time()
-        result = subprocess.getoutput(command).splitlines()
+        result = []
+        try:
+            result = subprocess.getoutput(command).splitlines()
+        except Exception as e:
+            print("EXEPTION OCCURRED:\n" + str(e))
+            print("FINISH EXEPTION\n\n")
         exec_time = time.time() - start_time
         if result[0] == "REALIZABLE":
             dot_format = ""
