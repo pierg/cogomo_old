@@ -232,8 +232,9 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
                                                                                             result_folder + "/cgt_clusters_original/")
 
     ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-    ret += "CGT WITH CLUSTERS WITH ORIGINAL CONTEXTS \n"
+    ret += "CGT WITH CLUSTERS WITH ORIGINAL CONTEXTS \t" + str(sum(realizables_original)) + "/" + str(len(realizables_original)) +" REALIZABLE\n"
     original_goals = cgt_2.refined_by
+    ret += "FEASIBLE CLUSTERS:\t " + str(len(original_goals)) + "/" + str(len(context_goals.keys()))
     for i, goal in enumerate(original_goals):
         ret += "\nCLUSTER " + str(i) + "\n"
         ret += "SCENARIO:\t" + str(OrLTL(goal.context).formula) + "\n-->\t" + str(len(goal.refined_by)) + " goals: " + str(
@@ -246,8 +247,9 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
     ret += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
 
     ret += "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-    ret += "CGT WITH CLUSTERS WITH NEW MUTEX CONTEXT\n"
+    ret += "CGT WITH CLUSTERS WITH MUTEX CONTEXTS \t  " + str(sum(realizables_clustered)) + "/" + str(len(realizables_clustered)) +" REALIZABLE \n"
     cluster_goals = cgt_1.refined_by
+    ret += "FEASIBLE CLUSTERS:\t " + str(len(cluster_goals)) + "/" + str(len(context_goals.keys()))
     for i, goal in enumerate(cluster_goals):
         ret += "\nCLUSTER " + str(i) + "\n"
         ret += "SCENARIO:\t" + str(OrLTL(goal.context).formula) + "\n-->\t" + str(len(goal.refined_by)) + " goals: " + str(
