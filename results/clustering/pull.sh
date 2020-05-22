@@ -1,4 +1,4 @@
 #!/bin/bash
-git reset --hard HEAD
-git clean -f -x -d -n
-git pull
+git fetch --prune origin
+git reset --hard origin/master
+git clean -f -d
