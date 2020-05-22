@@ -126,11 +126,11 @@ def get_inputs():
         CGTGoal(
             name="always-charge-on-low-battery",
             description="always go the charging point and contact the main station when the battery is low",
-            context=(Context(
-                P_global(
-                    ap["s"]["low_battery"]
-                )
-            )),
+            # context=(Context(
+            #     P_global(
+            #         ap["s"]["low_battery"]
+            #     )
+            # )),
             contracts=[PContract([
                 P_after_Q(
                     q=ap["s"]["low_battery"],
