@@ -60,7 +60,7 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> Tu
         start_time = time.time()
         result = []
         try:
-            result = subprocess.check_output([strix_path, params], timeout=5, encoding='UTF-8').split()
+            result = subprocess.check_output([strix_path, params], timeout=5)
             # result = subprocess.run([strix_path, params], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5)
             print("RESULTS: \n" + result[0])
             # result = subprocess.getoutput(command).splitlines()
