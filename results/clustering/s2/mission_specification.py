@@ -142,14 +142,11 @@ def get_inputs():
             name="welcome-visitors",
             description="welcome people at the entrance",
             context=(Context(
-                AndLTL([
-                    P_global(
-                        ap["s"]["entrance"]
-                    ),
-                    P_global(
-                        ap["s"]["day_time"]
-                    )
-                ])
+                P_between_Q_and_R(
+                    q = ap["s"]["day_time"],
+                    r = ap["s"]["night_time"],
+                    p = ap["s"]["entrance"]
+                )
             )),
             contracts=[PContract([
                 PromptReaction(
@@ -159,7 +156,7 @@ def get_inputs():
         ),
         CGTGoal(
             name="go-to-safe-zone-during-alarm",
-            description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
+            description="if the alarm goes off at ny time go to safety location and stay there until there is no more alarm",
             context=(Context(
                 AndLTL([
                     P_global(ap["s"]["night_time"])
