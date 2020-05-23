@@ -60,7 +60,7 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> Tu
         result = []
         try:
             # result = subprocess.run(command, timeout=5).splitlines()
-            result = subprocess.run([command], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5)
+            result = subprocess.run([strix_path, params], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5)
             print("RESULTS: \n" + result)
             # result = subprocess.getoutput(command).splitlines()
         except TimeoutError as e:
