@@ -25,6 +25,18 @@ sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 ap, rules, goals = get_inputs()
 
 
+def pretty_print_goals(ap: dict, rules: dict, goals: List[CGTGoal]) -> str:
+    ret = ""
+    for g in goals:
+        ret += "name:    \t" + g.name + "\n"
+        ret += "context: \t" + str(OrLTL(g.context)) + "\n"
+        ret += "patterns:\t" + str(g.contracts[0].guarantees.formula) + "\n"
+        ret += "\n"
+    return ret
+
+
+
+
 def create_general_controller_from_goals(goals: List[CGTGoal], folder_path: str, type: str):
     assumptions = []
     guarantees = []
@@ -130,7 +142,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     with open(summary_file_name, 'w') as f:
-        f.write("")
+        f.write(pretty_print_goals(ap, rules, goals))
     f.close()
 
     if general_and:
