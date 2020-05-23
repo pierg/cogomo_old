@@ -1,11 +1,11 @@
 MODULE main
 VAR
 	night_time: boolean;
-	get_med: boolean;
-	warehouse: boolean;
-	human_entered: boolean;
 	day_time: boolean;
-	entrance: boolean;
+	human_entered: boolean;
+	get_med: boolean;
 	shop: boolean;
+	warehouse: boolean;
+	entrance: boolean;
 
-LTLSPEC !((G(shop) & (G(shop) & !(G(night_time)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance))))
+LTLSPEC !((G(night_time) & (G(night_time) & !(G(shop)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance))))

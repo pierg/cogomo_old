@@ -10,11 +10,21 @@ from typescogomo.scopes import *
 from typescogomo.variables import Boolean
 
 
+results_folder = results_path = os.path.dirname(os.path.abspath(__file__)) + "/output/"
+
+
+
 def generate_buchi(formula: LTL, file_path: str):
     # if platform.system() != "Linux":
     #     print(platform.system() + " is not supported for buchi generation")
     #     return
     try:
+
+        dot_file_path = os.path.dirname(file_path)
+        if dot_file_path == "":
+            file_path = results_folder + file_path
+
+
         print(formula)
         b_formula, new_vars, old_vars = traslate_boolean(formula.formula)
         print(b_formula)
