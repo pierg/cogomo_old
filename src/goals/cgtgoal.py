@@ -112,7 +112,7 @@ class CGTGoal:
                 contexts.append(c)
         if len(contexts) > 0:
             return contexts
-        return ["TRUE"]
+        return [LTL("TRUE")]
 
     @context.setter
     def context(self, value: Context):
