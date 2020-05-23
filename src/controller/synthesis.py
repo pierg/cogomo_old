@@ -59,7 +59,11 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> Tu
         start_time = time.time()
         result = []
         try:
-            result = subprocess.getoutput(command).splitlines()
+            result = subprocess.check_output(command, timeout=5).splitlines()
+            # result = subprocess.getoutput(command).splitlines()
+        except TimeoutError as e:
+            print("TIMEOUT for synthesis")
+            return "UNREALIZABLE", -1
         except Exception as e:
             print("EXEPTION OCCURRED:\n" + str(e))
             print("FINISH EXEPTION\n\n")
