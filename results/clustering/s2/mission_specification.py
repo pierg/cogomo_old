@@ -143,9 +143,9 @@ def get_inputs():
             description="welcome people at the entrance",
             context=(Context(
                 P_between_Q_and_R(
-                    q = ap["s"]["day_time"],
-                    r = ap["s"]["night_time"],
-                    p = ap["s"]["entrance"]
+                    q=ap["s"]["day_time"],
+                    r=ap["s"]["night_time"],
+                    p=ap["s"]["entrance"]
                 )
             )),
             contracts=[PContract([

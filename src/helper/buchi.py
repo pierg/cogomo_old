@@ -7,12 +7,13 @@ from graphviz import Source
 from helper.tools import traslate_boolean, save_to_file
 from typescogomo.formula import AndLTL
 from typescogomo.scopes import *
+from typescogomo.variables import Boolean
 
 
 def generate_buchi(formula: LTL, file_path: str):
-    if platform.system() != "Linux":
-        print(platform.system() + " is not supported for buchi generation")
-        return
+    # if platform.system() != "Linux":
+    #     print(platform.system() + " is not supported for buchi generation")
+    #     return
     try:
         print(formula)
         b_formula, new_vars, old_vars = traslate_boolean(formula.formula)
@@ -47,6 +48,32 @@ def basic_scopes():
     generate_buchi(P_weakuntil_R(p=LTL("p"), r=LTL("r")), "P_weakuntil_R")
     generate_buchi(P_release_R(p=LTL("p"), r=LTL("r")), "P_release_R")
     generate_buchi(P_strongrelease_R(p=LTL("p"), r=LTL("r")), "P_strongrelease_R")
+
+
+def examples():
+    generate_buchi(
+        AndLTL([
+            P_between_Q_and_R(
+                q=LTL("day"),
+                r=LTL("night"),
+                p=LTL("entrance")
+            ),
+            LTL("((day & !night) | (!day & night))", Variables([Boolean("day"), Boolean("night")]))
+        ]),
+        "context_with_scope"
+    )
+    generate_buchi(
+        AndLTL([
+            P_global(
+                p=LTL("entrance")
+            ),
+            P_global(
+                p=LTL("day")
+            ),
+            LTL("((day & !night) | (!day & night))", Variables([Boolean("day"), Boolean("night")]))
+        ]),
+        "context_without_scope"
+    )
 
 
 def composition_scopes():
@@ -191,31 +218,32 @@ def composition_scopes():
 
 
 if __name__ == '__main__':
-    generate_buchi(
-        AndLTL([
-            P_eventually(LTL("alarm")),
-            P_after_Q(
-                p=P_until_R(
-                    p=LTL("warehouse"),
-                    r=LTL("!alarm")),
-                q=LTL("alarm"))
-        ]), "strong-after-alarm")
-
-    generate_buchi(
-        AndLTL([
-            P_eventually(LTL("alarm")),
-            P_until_R(
-                p=LTL("warehouse"),
-                r=LTL("!alarm"))
-        ]), "strong-after-alarm2")
-
-    generate_buchi(
-        AndLTL([
-            P_eventually(LTL("alarm")),
-            P_after_Q(
-                p=LTL("warehouse"),
-                q=LTL("alarm"))
-        ]), "strong-after-alarm2")
+    examples()
+    # generate_buchi(
+    #     AndLTL([
+    #         P_eventually(LTL("alarm")),
+    #         P_after_Q(
+    #             p=P_until_R(
+    #                 p=LTL("warehouse"),
+    #                 r=LTL("!alarm")),
+    #             q=LTL("alarm"))
+    #     ]), "strong-after-alarm")
+    #
+    # generate_buchi(
+    #     AndLTL([
+    #         P_eventually(LTL("alarm")),
+    #         P_until_R(
+    #             p=LTL("warehouse"),
+    #             r=LTL("!alarm"))
+    #     ]), "strong-after-alarm2")
+    #
+    # generate_buchi(
+    #     AndLTL([
+    #         P_eventually(LTL("alarm")),
+    #         P_after_Q(
+    #             p=LTL("warehouse"),
+    #             q=LTL("alarm"))
+    #     ]), "strong-after-alarm2")
 
     # basic_scopes()
     # composition_scopes()
