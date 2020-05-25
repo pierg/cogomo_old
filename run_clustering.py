@@ -135,26 +135,27 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
     realizables_original = []
     exec_times_original = []
 
+    goals_res = ""
+    for g in list_of_goals:
+        """Generate controller from goals as is, where the assumptions are in AND"""
+        controller, trivial, exec_time = create_general_controller_from_goals([g],
+                                                                              result_folder + "/goal_list/" + g.name + "/",
+                                                                              "AND")
+        if controller:
+            goals_res += g.name + "\t" + "YES\t" + format(exec_time, '.3f') + "sec\n"
+        else:
+            goals_res += g.name + "\t" + "NO\t" + format(exec_time, '.3f') + "sec\n"
+
+
     summary_file_name = result_folder + "/SUMMARY.txt"
     dirname = os.path.dirname(summary_file_name)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     with open(summary_file_name, 'w') as f:
         f.write(pretty_print_goals(ap, rules, goals))
-        f.write("\nREALIZABILITY OF INDIVIDUAL GOALS\n")
+        f.write("\nREALIZABILITY OF INDIVIDUAL GOALS\n" + goals_res)
     f.close()
 
-    with open(summary_file_name, 'a+') as f:
-        for g in list_of_goals:
-            """Generate controller from goals as is, where the assumptions are in AND"""
-            controller, trivial, exec_time = create_general_controller_from_goals([g],
-                                                                                  result_folder + "/goal_list/" + g.name + "/",
-                                                                                  "AND")
-            if controller:
-                f.write(g.name + "\t" + "YES\t" + format(exec_time, '.3f') + "sec")
-            else:
-                f.write(g.name + "\t" + "NO\t" + format(exec_time, '.3f') + "sec")
-    f.close()
 
     if general_and:
         """Generate controller from goals as is, where the assumptions are in AND"""
