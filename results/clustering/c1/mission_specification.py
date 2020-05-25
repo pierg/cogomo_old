@@ -108,7 +108,7 @@ def get_inputs():
                 ])
             )),
             contracts=[PContract([
-                PromptReaction(
+                DelayedReaction(
                     trigger=ap["s"]["get_med"],
                     reaction=AndLTL([
                         OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
