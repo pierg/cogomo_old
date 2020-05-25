@@ -144,16 +144,17 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         f.write("\nREALIZABILITY OF INDIVIDUAL GOALS\n")
     f.close()
 
-    with open(summary_file_name, 'w') as f:
+    with open(summary_file_name, 'a+') as f:
         for g in list_of_goals:
             """Generate controller from goals as is, where the assumptions are in AND"""
             controller, trivial, exec_time = create_general_controller_from_goals([g],
                                                                                   result_folder + "/goal_list/" + g.name + "/",
                                                                                   "AND")
             if controller:
-                f.write(g.name + "\t" + "YES\t" + str(exec_time) + "sec")
+                f.write(g.name + "\t" + "YES\t" + format(exec_time, '.3f') + "sec")
             else:
-                f.write(g.name + "\t" + "NO\t" + str(exec_time) + "sec")
+                f.write(g.name + "\t" + "NO\t" + format(exec_time, '.3f') + "sec")
+    f.close()
 
     if general_and:
         """Generate controller from goals as is, where the assumptions are in AND"""
