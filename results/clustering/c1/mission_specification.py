@@ -41,7 +41,8 @@ def get_inputs():
         "a": {
             "contact_station": LTL("contact_station"),
             "welcome_client": LTL("welcome_client"),
-            "take_med": LTL("take_med")
+            "take_med": LTL("take_med"),
+            "give_med": LTL("give_med")
         }
     }
 
@@ -107,20 +108,20 @@ def get_inputs():
                 ])
             )),
             contracts=[PContract([
-                Visit([ap["l"]["slocA"]]),
-                DelayedReaction(
+                PromptReaction(
                     trigger=ap["s"]["get_med"],
                     reaction=AndLTL([
                         OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
-                        BoundDelay(
+                        InstantReaction(
                             trigger=ap["l"]["wlocA"],
                             reaction=ap["a"]["take_med"]
                         ),
-                        PromptReaction(
-                            trigger=ap["a"]["take_med"],
-                            reaction=ap["l"]["slocA"]
-                        )]
-                    ))
+                        InstantReaction(
+                            trigger=ap["l"]["slocA"],
+                            reaction=ap["a"]["give_med"]
+                        )
+                    ])
+                )
             ])]
         ),
         CGTGoal(
