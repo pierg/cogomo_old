@@ -99,7 +99,7 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="get-meds-to-clients",
+            name="get-meds-to-clients-pattern",
             description="if a clients request a medicine go to the warehouse, take the medicine and come back",
             context=(Context(
                 AndLTL([
@@ -111,6 +111,32 @@ def get_inputs():
                 DelayedReaction(
                     trigger=ap["s"]["get_med"],
                     reaction=AndLTL([
+                        OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
+                        InstantReaction(
+                            trigger=ap["l"]["wlocA"],
+                            reaction=ap["a"]["take_med"]
+                        ),
+                        InstantReaction(
+                            trigger=ap["l"]["slocA"],
+                            reaction=ap["a"]["give_med"]
+                        )
+                    ])
+                )
+            ])]
+        ),
+        CGTGoal(
+            name="get-meds-to-clients-scope",
+            description="if a clients request a medicine go to the warehouse, take the medicine and come back",
+            context=(Context(
+                AndLTL([
+                    P_global(ap["s"]["shop"]),
+                    P_global(ap["s"]["day_time"])
+                ])
+            )),
+            contracts=[PContract([
+                P_after_Q(
+                    q=ap["s"]["get_med"],
+                    p=AndLTL([
                         OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
                         InstantReaction(
                             trigger=ap["l"]["wlocA"],
