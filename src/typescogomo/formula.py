@@ -189,6 +189,14 @@ def AndLTL(formulas: List[LTL]) -> LTL:
         raise Exception("List of formulas is empty")
 
 
+def ImpliesLTL(one: LTL, two: LTL) -> LTL:
+    """Returns an LTL formula representing the logical implication of list_propoositions"""
+    vars =  one.variables
+    vars += two.variables
+    formula = "(" + one.formula + ") -> (" + two.formula + ")"
+    return LTL(formula, vars)
+
+
 def NotLTL(element: LTL) -> LTL:
     """Returns an str formula representing the logical AND of list_propoositions"""
     vars = element.variables

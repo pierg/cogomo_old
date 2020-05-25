@@ -92,3 +92,44 @@ class P_strongrelease_R(Scope):
     def __init__(self, p: LTL, r: LTL):
         formula = "({r} U ({p} & {r}))".format(r=r.formula, p=p.formula)
         super().__init__(formula)
+
+
+
+"""Other pattern found"""
+
+class P_exist_before_R(Scope):
+    """	!r W (p & !r) = (!r U (p & !r)) | G (!r) """
+
+    def __init__(self, p: LTL, r: LTL):
+        formula = "((!{r} U ({p} & !{r})) | G (!{r}))".format(r=r.formula, p=p.formula)
+        super().__init__(formula)
+
+class Absense_P_between_Q_and_R(Scope):
+    """ G((q & !r & F r) -> (!p U r))"""
+    def __init__(self, p: LTL, r: LTL, q: LTL):
+        formula = "(G(({q} & !{r} & F {r}) -> (!{p} U {r})))".format(q=q.formula, r=r.formula, p=p.formula)
+        super().__init__(formula)
+
+
+class Existence_P_between_Q_and_R(Scope):
+    """ G(q & !r -> (!r W (p & !r))) = G(q & !r -> ((!r U (p & !r)) | G(!r)))"""
+
+    def __init__(self, p: LTL, r: LTL, q: LTL):
+        formula = "(G({q} & !{r} -> ((!{r} U ({p} & !{r})) | G(!{r}))))".format(q=q.formula, r=r.formula, p=p.formula)
+        super().__init__(formula)
+
+
+class S_responds_to_P_before_R(Scope):
+    """F r -> (p -> (!r U (s & !r))) U r"""
+
+    def __init__(self, p: LTL, r: LTL, s: LTL):
+        formula = "(F {r} -> ({p} -> (!{r} U ({s} & !{r}))) U {r})".format(s=s.formula, r=r.formula, p=p.formula)
+        super().__init__(formula)
+
+
+class S_precedes_P(Scope):
+    """!p W s = (!p U s) | G (!p) """
+
+    def __init__(self, p: LTL, s: LTL):
+        formula = "((!{p} U {s}) | G (!{p}))".format(s=s.formula, p=p.formula)
+        super().__init__(formula)

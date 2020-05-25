@@ -5,13 +5,12 @@ import platform
 from graphviz import Source
 
 from helper.tools import traslate_boolean, save_to_file
-from typescogomo.formula import AndLTL
+from typescogomo.formula import AndLTL, NotLTL, ImpliesLTL
+from typescogomo.patterns import *
 from typescogomo.scopes import *
 from typescogomo.variables import Boolean
 
-
 results_folder = results_path = os.path.dirname(os.path.abspath(__file__)) + "/output/"
-
 
 
 def generate_buchi(formula: LTL, file_path: str):
@@ -23,7 +22,6 @@ def generate_buchi(formula: LTL, file_path: str):
         dot_file_path = os.path.dirname(file_path)
         if dot_file_path == "":
             file_path = results_folder + file_path
-
 
         print(formula)
         b_formula, new_vars, old_vars = traslate_boolean(formula.formula)
@@ -60,30 +58,136 @@ def basic_scopes():
     generate_buchi(P_strongrelease_R(p=LTL("p"), r=LTL("r")), "P_strongrelease_R")
 
 
+
+def other_pattern_found():
+    generate_buchi(P_exist_before_R(p=LTL("p"), r=LTL("r")), "P_exist_before_R")
+    generate_buchi(Absense_P_between_Q_and_R(p=LTL("p"), r=LTL("r"), q=LTL("q")), "Absense_P_between_Q_and_R")
+    generate_buchi(Existence_P_between_Q_and_R(p=LTL("p"), r=LTL("r"), q=LTL("q")), "Existence_P_between_Q_and_R")
+    generate_buchi(S_responds_to_P_before_R(s=LTL("s"), p=LTL("p"), r=LTL("r")), "S_responds_to_P_before_R")
+    generate_buchi(S_precedes_P(s=LTL("s"), p=LTL("p")), "S_precedes_P")
+
+
 def examples():
+    # generate_buchi(
+    #     P_after_Q(
+    #         q=LTL("low_battery"),
+    #         p=AndLTL([
+    #             Visit([
+    #                 LTL("charging_point")
+    #             ]),
+    #             LTL("contact_station")
+    #         ])
+    #     ),
+    #     "pattern_with_scope_case_1"
+    # )
+    #
+    # generate_buchi(
+    #     DelayedReaction(
+    #         trigger=LTL("low_battery"),
+    #         reaction=AndLTL([
+    #             Visit([
+    #                 LTL("charging_point")
+    #             ]),
+    #             LTL("contact_station")
+    #         ])
+    #     ),
+    #     "pattern_without_scope_case_2"
+    # )
+
+    #
+    # generate_buchi(
+    #     AndLTL([
+    #         P_between_Q_and_R(
+    #             q=LTL("day"),
+    #             r=LTL("night"),
+    #             p=LTL("entrance")
+    #         ),
+    #         LTL("((day & !night) | (!day & night))", Variables([Boolean("day"), Boolean("night")]))
+    #     ]),
+    #     "context_with_scope"
+    # )
+    #
+    # generate_buchi(
+    #     AndLTL([
+    #         P_after_Q_until_R(
+    #             q=LTL("day"),
+    #             r=LTL("night"),
+    #             p=LTL("entrance")
+    #         ),
+    #         LTL("((day & !night) | (!day & night))", Variables([Boolean("day"), Boolean("night")]))
+    #     ]),
+    #     "context_with_scope_after_until"
+    # )
+    #
+    # generate_buchi(
+    #     AndLTL([
+    #         P_global(
+    #             p=LTL("entrance")
+    #         ),
+    #         P_global(
+    #             p=LTL("day")
+    #         ),
+    #         LTL("((day & !night) | (!day & night))", Variables([Boolean("day"), Boolean("night")]))
+    #     ]),
+    #     "context_without_scope"
+    # )
+    #
+    # generate_buchi(
+    #     ImpliesLTL(
+    #         LTL("G(F( alarm )) & G(F( !alarm ))", Variables([Boolean("alarm")])),
+    #         P_after_Q(
+    #             p=P_until_R(
+    #                 p=Visit([LTL("safe_loc")]),
+    #                 r=NotLTL(LTL("alarm"))),
+    #             q=LTL("alarm")
+    #         )
+    #     ),
+    #     "pattern_with_scope")
+    #
+    # generate_buchi(
+    #     ImpliesLTL(
+    #         LTL("G(F( alarm )) & G(F( !alarm ))", Variables([Boolean("alarm")])),
+    #         InstantReaction(
+    #             trigger=LTL("alarm"),
+    #             reaction=LTL("safe_loc")
+    #         )
+    #     ),
+    #     "pattern_without_scope")
+
+
+    # generate_buchi(
+    #         P_after_Q(
+    #             p=P_until_R(
+    #                 p=Visit([LTL("safe_loc")]),
+    #                 r=NotLTL(LTL("alarm"))),
+    #             q=LTL("alarm")
+    #         ),
+    #     "pattern_with_scope-visit")
+
     generate_buchi(
-        AndLTL([
-            P_between_Q_and_R(
-                q=LTL("day"),
-                r=LTL("night"),
-                p=LTL("entrance")
+            P_after_Q(
+                p=P_until_R(
+                    p=LTL("safe_loc"),
+                    r=NotLTL(LTL("alarm"))),
+                q=LTL("alarm")
             ),
-            LTL("((day & !night) | (!day & night))", Variables([Boolean("day"), Boolean("night")]))
-        ]),
-        "context_with_scope"
-    )
+        "pattern_with_scope-new")
+
+
     generate_buchi(
-        AndLTL([
-            P_global(
-                p=LTL("entrance")
-            ),
-            P_global(
-                p=LTL("day")
-            ),
-            LTL("((day & !night) | (!day & night))", Variables([Boolean("day"), Boolean("night")]))
-        ]),
-        "context_without_scope"
-    )
+        P_after_Q_until_R(
+            p=LTL("safe_loc"),
+            q=LTL("alarm"),
+            r=NotLTL(LTL("alarm"))
+        ),
+    "pattern_with_scope-dwer")
+
+    # generate_buchi(
+    #         InstantReaction(
+    #             trigger=LTL("alarm"),
+    #             reaction=LTL("safe_loc")
+    #         ),
+    #     "pattern_without_scope")
 
 
 def composition_scopes():
@@ -229,32 +333,11 @@ def composition_scopes():
 
 if __name__ == '__main__':
     examples()
+    # other_pattern_found()
     # generate_buchi(
-    #     AndLTL([
-    #         P_eventually(LTL("alarm")),
-    #         P_after_Q(
-    #             p=P_until_R(
-    #                 p=LTL("warehouse"),
-    #                 r=LTL("!alarm")),
-    #             q=LTL("alarm"))
-    #     ]), "strong-after-alarm")
-    #
-    # generate_buchi(
-    #     AndLTL([
-    #         P_eventually(LTL("alarm")),
-    #         P_until_R(
+    #     P_after_Q(
+    #         p=P_until_R(
     #             p=LTL("warehouse"),
-    #             r=LTL("!alarm"))
-    #     ]), "strong-after-alarm2")
-    #
-    # generate_buchi(
-    #     AndLTL([
-    #         P_eventually(LTL("alarm")),
-    #         P_after_Q(
-    #             p=LTL("warehouse"),
-    #             q=LTL("alarm"))
-    #     ]), "strong-after-alarm2")
-
-    # basic_scopes()
-    # composition_scopes()
-    # clean_up()
+    #             r=LTL("!alarm")),
+    #         q=LTL("alarm")
+    #     ), "test_after_until_alarm")

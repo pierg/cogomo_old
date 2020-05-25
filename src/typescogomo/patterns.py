@@ -20,7 +20,6 @@ class CoreMovement(Pattern):
     All the variables are locations where there robot can be at a certain time"""
 
     def __init__(self, pattern_formula: str, locations: List[LTL], variables: Variables):
-
         super().__init__(pattern_formula, variables)
 
         """Domain Property: A robot cannot be in the same location at the same time"""
@@ -96,6 +95,48 @@ class Patroling(CoreMovement):
 
         super().__init__(pattern_formula, locations, variables)
 
+
+class StrictOrderPatroling(CoreMovement):
+    """Keep visiting a set of locations, but not in a particular order"""
+
+    def __init__(self, locations: List[LTL] = None):
+        variables = Variables()
+        pattern_formula = []
+
+        formula = "G("
+        for i, location in enumerate(locations):
+            variables.extend(location.variables)
+            formula += "F(" + location.formula
+            if i < len(locations) - 1:
+                formula += " & "
+        for i in range(0, len(locations)):
+            formula += ")"
+        formula += ")"
+        pattern_formula.append(formula)
+
+        for n, location in enumerate(locations):
+            if n < len(locations) - 1:
+                pattern_formula.append("(!" + locations[n + 1].formula + " U " + locations[n].formula + ")")
+
+        for n, location in enumerate(locations):
+            if n < len(locations):
+                pattern_formula.append("G(" + locations[(n + 1) % len(locations)].formula + " ->  " +
+                                       "X((!" + locations[(n + 1) % len(locations)].formula + ") U " + locations[n].formula + "))")
+
+        for n, location in enumerate(locations):
+            if n < len(locations) - 1:
+                pattern_formula.append("G(" + locations[n].formula + " ->  " +
+                                       "X((!" + locations[n].formula + ") U " + locations[(n + 1) % len(locations)].formula + "))")
+
+        pattern_formula = And(pattern_formula)
+
+        super().__init__(pattern_formula, locations, variables)
+
+
+
+# if __name__ == '__main__':
+#     so = StrictOrderPatroling([LTL("l1"), LTL("l2"), LTL("l3")])
+#     print(so)
 
 class OrderedVisit(CoreMovement):
     """Sequence visit does not forbid to visit a successor location before its predecessor, but only that after the
@@ -205,4 +246,3 @@ class BoundDelay(Pattern):
         pattern_formula = "G( (({t}) -> X({r})) & (X({r}) -> ({t})))".format(t=trigger.formula, r=reaction.formula)
 
         super().__init__(pattern_formula, variables)
-

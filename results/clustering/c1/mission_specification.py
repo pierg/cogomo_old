@@ -1,15 +1,17 @@
+import os
+
 from src.goals.cgtgoal import *
 from src.typescogomo.assumption import *
 from src.typescogomo.patterns import *
 from typescogomo.formula import OrLTL, AndLTL, NotLTL
 from typescogomo.scopes import *
-import os
+
 
 def get_inputs():
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
-    print("CUSTOM SPEC:")
+    print("CUSTOM SPEC c2:")
     print(os.path.dirname(os.path.abspath(__file__)))
 
     """ Atomic propositions divided in
@@ -90,7 +92,7 @@ def get_inputs():
                 )
             )),
             contracts=[PContract([
-                Patroling([
+                StrictOrderPatroling([
                     ap["l"]["wlocA"], ap["l"]["wlocB"], ap["l"]["slocA"], ap["l"]["slocB"]
                 ])
             ])]
@@ -122,20 +124,18 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="charge-on-low-battery",
+            name="always-charge-on-low-battery",
             description="always go the charging point and contact the main station when the battery is low",
-            context=(Context(
-                P_global(
-                    ap["s"]["low_battery"]
-                )
-            )),
             contracts=[PContract([
-                Visit([
-                    ap["l"]["charging_point"]
-                ]),
-                PromptReaction(
-                    trigger=ap["s"]["low_battery"],
-                    reaction=ap["a"]["contact_station"])
+                P_after_Q(
+                    q=ap["s"]["low_battery"],
+                    p=AndLTL([
+                        Visit([
+                            ap["l"]["charging_point"]
+                        ]),
+                        ap["a"]["contact_station"]
+                    ])
+                )
             ])]
         ),
         CGTGoal(
@@ -143,12 +143,8 @@ def get_inputs():
             description="welcome people at the entrance",
             context=(Context(
                 AndLTL([
-                    P_global(
-                        ap["s"]["entrance"]
-                    ),
-                    P_global(
-                        ap["s"]["day_time"]
-                    )
+                    P_global(ap["s"]["day_time"]),
+                    P_global(ap["s"]["entrance"])
                 ])
             )),
             contracts=[PContract([
@@ -159,16 +155,11 @@ def get_inputs():
         ),
         CGTGoal(
             name="go-to-safe-zone-during-alarm",
-            description="if the alarm goes off during the night go to safety location and stay there until there is no more alarm",
-            context=(Context(
-                AndLTL([
-                    P_global(ap["s"]["night_time"])
-                ])
-            )),
+            description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
                 P_after_Q(
                     p=P_until_R(
-                        p=Visit([ap["l"]["safe_loc"]]),
+                        p=ap["l"]["safe_loc"],
                         r=NotLTL(ap["s"]["alarm"])),
                     q=ap["s"]["alarm"])
             ])]
