@@ -141,9 +141,9 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         os.makedirs(dirname)
     with open(summary_file_name, 'w') as f:
         f.write(pretty_print_goals(ap, rules, goals))
+        f.write("\nREALIZABILITY OF INDIVIDUAL GOALS\n")
     f.close()
 
-    f.write("\nREALIZABILITY OF INDIVIDUAL GOALS\n")
     with open(summary_file_name, 'w') as f:
         for g in list_of_goals:
             """Generate controller from goals as is, where the assumptions are in AND"""

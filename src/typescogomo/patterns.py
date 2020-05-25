@@ -169,6 +169,37 @@ class OrderedVisit(CoreMovement):
         super().__init__(pattern_formula, locations, variables)
 
 
+class OrderedVisit(CoreMovement):
+    """Sequence visit does not forbid to visit a successor location before its predecessor, but only that after the
+    predecessor is visited the successor is also visited. Ordered visit forbids a successor to be visited
+    before its predecessor."""
+
+    def __init__(self, locations: List[LTL]):
+
+        variables = Variables()
+        pattern_formula = []
+
+        guarantee = "F("
+        for n, location in enumerate(locations):
+            variables.extend(location.variables)
+            guarantee += location.formula
+            if n == len(locations) - 1:
+                for _ in range(len(locations)):
+                    guarantee += ")"
+            else:
+                guarantee += " & F("
+
+        pattern_formula.append(guarantee)
+
+        for n, location in enumerate(locations):
+            if n < len(locations) - 1:
+                pattern_formula.append("(!" + locations[n + 1].formula + " U " + locations[n].formula + ")")
+
+        pattern_formula = And(pattern_formula)
+
+        super().__init__(pattern_formula, locations, variables)
+
+
 class GlobalAvoidance(Pattern):
     """Always avoid"""
 
