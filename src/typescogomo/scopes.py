@@ -72,7 +72,7 @@ class FP_after_Q(Scope):
     """	G(!q) | F((q) & F (p))) """
 
     def __init__(self, p: LTL, q: LTL):
-        formula = "(G(!{q}) | F(({q}) & F ({p}))))".format(p=p.formula, q=q.formula)
+        formula = "(G(!{q}) | F(({q}) & F ({p})))".format(p=p.formula, q=q.formula)
         super().__init__(formula)
 
 

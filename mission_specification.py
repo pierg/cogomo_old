@@ -11,9 +11,8 @@ def get_inputs():
     """The designer specifies a mission using the predefined catalogue of patterns
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
-    print("CUSTOM SPEC:")
+    print("CUSTOM SPEC c2:")
     print(os.path.dirname(os.path.abspath(__file__)))
-
 
     """ Atomic propositions divided in
             s - sensor propositions (uncontrollable)
@@ -42,7 +41,8 @@ def get_inputs():
         "a": {
             "contact_station": LTL("contact_station"),
             "welcome_client": LTL("welcome_client"),
-            "take_med": LTL("take_med")
+            "take_med": LTL("take_med"),
+            "give_med": LTL("give_med")
         }
     }
 
@@ -93,24 +93,104 @@ def get_inputs():
                 )
             )),
             contracts=[PContract([
-                Patroling([
-                    ap["l"]["wlocA"]
+                StrictOrderPatroling([
+                    ap["l"]["wlocA"], ap["l"]["wlocB"], ap["l"]["slocA"], ap["l"]["slocB"]
                 ])
             ])]
         ),
         CGTGoal(
-            name="get-meds-to-clients",
+            name="get-meds-to-clients-pattern",
             description="if a clients request a medicine go to the warehouse, take the medicine and come back",
             context=(Context(
                 AndLTL([
                     P_global(ap["s"]["shop"]),
+                    P_global(ap["s"]["day_time"])
                 ])
             )),
             contracts=[PContract([
-                GlobalAvoidance(ap["l"]["wlocA"])
+                DelayedReaction(
+                    trigger=ap["s"]["get_med"],
+                    reaction=AndLTL([
+                        OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
+                        InstantReaction(
+                            trigger=ap["l"]["wlocA"],
+                            reaction=ap["a"]["take_med"]
+                        ),
+                        InstantReaction(
+                            trigger=ap["l"]["slocA"],
+                            reaction=ap["a"]["give_med"]
+                        )
+                    ])
+                )
+            ])]
+        ),
+        CGTGoal(
+            name="get-meds-to-clients-Fscope",
+            description="if a clients request a medicine go to the warehouse, take the medicine and come back",
+            context=(Context(
+                AndLTL([
+                    P_global(ap["s"]["shop"]),
+                    P_global(ap["s"]["day_time"])
+                ])
+            )),
+            contracts=[PContract([
+                FP_after_Q(
+                    q=ap["s"]["get_med"],
+                    p=AndLTL([
+                        OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
+                        InstantReaction(
+                            trigger=ap["l"]["wlocA"],
+                            reaction=ap["a"]["take_med"]
+                        ),
+                        InstantReaction(
+                            trigger=ap["l"]["slocA"],
+                            reaction=ap["a"]["give_med"]
+                        )
+                    ])
+                )
+            ])]
+        ),
+        CGTGoal(
+            name="always-charge-on-low-battery",
+            description="always go the charging point and contact the main station when the battery is low",
+            contracts=[PContract([
+                P_after_Q(
+                    q=ap["s"]["low_battery"],
+                    p=AndLTL([
+                        Visit([
+                            ap["l"]["charging_point"]
+                        ]),
+                        ap["a"]["contact_station"]
+                    ])
+                )
+            ])]
+        ),
+        CGTGoal(
+            name="welcome-visitors",
+            description="welcome people at the entrance",
+            context=(Context(
+                AndLTL([
+                    P_global(ap["s"]["day_time"]),
+                    P_global(ap["s"]["entrance"])
+                ])
+            )),
+            contracts=[PContract([
+                PromptReaction(
+                    trigger=ap["s"]["human_entered"],
+                    reaction=ap["a"]["welcome_client"]),
+            ])]
+        ),
+        CGTGoal(
+            name="go-to-safe-zone-during-alarm",
+            description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
+            contracts=[PContract([
+                P_after_Q(
+                    p=P_until_R(
+                        p=ap["l"]["safe_loc"],
+                        r=NotLTL(ap["s"]["alarm"])),
+                    q=ap["s"]["alarm"])
             ])]
         )
-
     ]
 
     return ap, rules, list_of_goals

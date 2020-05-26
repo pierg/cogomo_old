@@ -1,13 +1,9 @@
 MODULE main
 VAR
-	slocA: boolean;
-	safe_loc: boolean;
-	charging_point: boolean;
-	slocB: boolean;
+	give_med: boolean;
 	wlocA: boolean;
-	wlocB: boolean;
+	slocA: boolean;
+	take_med: boolean;
+	get_med: boolean;
 
-LTLSPEC !(G(((wlocA & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc) & !(charging_point)) | (wlocB & !(wlocA) & !(slocA) & !(slocB) & !(safe_loc) & !(charging_point)) | (slocA & !(wlocA) & !(wlocB) & !(slocB) & !(safe_loc) & !(charging_point)) | (slocB & !(wlocA) & !(wlocB) & !(slocA) & !(safe_loc) & !(charging_point)) | (safe_loc & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(charging_point)) | (charging_point & !(wlocA) & !(wlocB) & !(slocA) & !(slocB) & !(safe_loc)))))
-
-
-(G(F(l1 & F(l2 & F(l3))) & (!l2 U l1) & (!l3 U l2) & G(l2 ->  X((!l2) U l1)) & G(l3 ->  X((!l3) U l2)) & G(l1 ->  X((!l1) U l3)) & G(l1 ->  X((!l1) U l2)) & G(l2 ->  X((!l2) U l3)))
+LTLSPEC !((G(!get_med) | F((get_med) & F (((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G((wlocA) -> (take_med)) & G((slocA) -> (give_med))))))))
