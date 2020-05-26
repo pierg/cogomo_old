@@ -85,80 +85,10 @@ def get_inputs():
     """List of specifications / goals"""
     list_of_goals = [
         CGTGoal(
-            name="night-time-patroling",
-            description="patrol warehouse and shop during the night",
-            context=(Context(
-                P_global(
-                    ap["s"]["night_time"]
-                )
-            )),
-            contracts=[PContract([
-                StrictOrderPatroling([
-                    ap["l"]["wlocA"], ap["l"]["wlocB"], ap["l"]["slocA"], ap["l"]["slocB"]
-                ])
-            ])]
-        ),
-        CGTGoal(
-            name="get-meds-to-clients-Fscope",
-            description="if a clients request a medicine go to the warehouse, take the medicine and come back",
-            context=(Context(
-                AndLTL([
-                    P_global(ap["s"]["shop"]),
-                    P_global(ap["s"]["day_time"])
-                ])
-            )),
-            contracts=[PContract([
-                FP_after_Q(
-                    q=ap["s"]["get_med"],
-                    p=AndLTL([
-                        OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
-                        InstantReaction(
-                            trigger=ap["l"]["wlocA"],
-                            reaction=ap["a"]["take_med"]
-                        ),
-                        InstantReaction(
-                            trigger=ap["l"]["slocA"],
-                            reaction=ap["a"]["give_med"]
-                        )
-                    ])
-                )
-            ])]
-        ),
-        CGTGoal(
-            name="always-charge-on-low-battery",
-            description="always go the charging point and contact the main station when the battery is low",
-            contracts=[PContract([
-                P_after_Q(
-                    q=ap["s"]["low_battery"],
-                    p=AndLTL([
-                        Visit([
-                            ap["l"]["charging_point"]
-                        ]),
-                        ap["a"]["contact_station"]
-                    ])
-                )
-            ])]
-        ),
-        CGTGoal(
-            name="welcome-visitors",
-            description="welcome people at the entrance",
-            context=(Context(
-                AndLTL([
-                    P_global(ap["s"]["day_time"]),
-                    P_global(ap["s"]["entrance"])
-                ])
-            )),
-            contracts=[PContract([
-                PromptReaction(
-                    trigger=ap["s"]["human_entered"],
-                    reaction=ap["a"]["welcome_client"]),
-            ])]
-        ),
-        CGTGoal(
             name="go-to-safe-zone-during-alarm",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
-                P_after_Q(
+                FP_after_Q(
                     p=P_until_R(
                         p=ap["l"]["safe_loc"],
                         r=NotLTL(ap["s"]["alarm"])),
@@ -169,7 +99,7 @@ def get_inputs():
             name="go-to-safe-zone-during-alarm-afteruntilscope",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
-                P_after_Q_until_R(
+                FP_after_Q_until_R(
                     p=ap["l"]["safe_loc"],
                     q=ap["s"]["alarm"],
                     r=NotLTL(ap["s"]["alarm"])
@@ -180,7 +110,40 @@ def get_inputs():
             name="go-to-safe-zone-during-alarm-betweenscope",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
-                P_between_Q_and_R(
+                FP_between_Q_and_R(
+                    p=ap["l"]["safe_loc"],
+                    q=ap["s"]["alarm"],
+                    r=NotLTL(ap["s"]["alarm"])
+                )
+            ])]
+        ),
+        CGTGoal(
+            name="go-to-safe-zone-during-alarm",
+            description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
+            contracts=[PContract([
+                FP_after_Q(
+                    p=P_until_R(
+                        p=ap["l"]["safe_loc"],
+                        r=NotLTL(ap["s"]["alarm"])),
+                    q=ap["s"]["alarm"])
+            ])]
+        ),
+        CGTGoal(
+            name="go-to-safe-zone-during-alarm-afteruntilscope",
+            description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
+            contracts=[PContract([
+                FP_after_Q_until_R(
+                    p=ap["l"]["safe_loc"],
+                    q=ap["s"]["alarm"],
+                    r=NotLTL(ap["s"]["alarm"])
+                )
+            ])]
+        ),
+        CGTGoal(
+            name="go-to-safe-zone-during-alarm-betweenscope",
+            description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
+            contracts=[PContract([
+                FP_between_Q_and_R(
                     p=ap["l"]["safe_loc"],
                     q=ap["s"]["alarm"],
                     r=NotLTL(ap["s"]["alarm"])
