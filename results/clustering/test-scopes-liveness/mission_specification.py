@@ -20,29 +20,29 @@ def get_inputs():
             a - action propositions (controllable)"""
     ap = {
         "s": {
-            "night_time": LTL("night_time"),
-            "day_time": LTL("day_time"),
-            "low_battery": LTL("low_battery"),
-            "entrance": LTL("entrance"),
-            "shop": LTL("shop"),
-            "get_med": LTL("get_med"),
-            "warehouse": LTL("warehouse"),
-            "human_entered": LTL("human_entered"),
+            # "night_time": LTL("night_time"),
+            # "day_time": LTL("day_time"),
+            # "low_battery": LTL("low_battery"),
+            # "entrance": LTL("entrance"),
+            # "shop": LTL("shop"),
+            # "get_med": LTL("get_med"),
+            # "warehouse": LTL("warehouse"),
+            # "human_entered": LTL("human_entered"),
             "alarm": LTL("alarm")
         },
         "l": {
-            "wlocA": LTL("wlocA"),
-            "wlocB": LTL("wlocB"),
-            "slocA": LTL("slocA"),
-            "slocB": LTL("slocB"),
+            # "wlocA": LTL("wlocA"),
+            # "wlocB": LTL("wlocB"),
+            # "slocA": LTL("slocA"),
+            # "slocB": LTL("slocB"),
             "safe_loc": LTL("safe_loc"),
-            "charging_point": LTL("charging_point")
+            # "charging_point": LTL("charging_point")
         },
         "a": {
-            "contact_station": LTL("contact_station"),
-            "welcome_client": LTL("welcome_client"),
-            "take_med": LTL("take_med"),
-            "give_med": LTL("give_med")
+            # "contact_station": LTL("contact_station"),
+            # "welcome_client": LTL("welcome_client"),
+            # "take_med": LTL("take_med"),
+            # "give_med": LTL("give_med")
         }
     }
 
@@ -51,28 +51,28 @@ def get_inputs():
         Liveness rules, i.e. assumptions when generating the controller e.g. GF alarm, GF !alarm"""
     rules = {
         "context": {
-            "mutex": [
-                [ap["s"]["shop"], ap["s"]["warehouse"]],
-                [ap["s"]["day_time"], ap["s"]["night_time"]]
-            ],
-            "inclusion": [
-                [ap["s"]["entrance"], ap["s"]["shop"]],
-                [ap["s"]["human_entered"], ap["s"]["shop"]],
-                [ap["s"]["get_med"], ap["s"]["entrance"]],
-
-            ]
+            # "mutex": [
+            #     [ap["s"]["shop"], ap["s"]["warehouse"]],
+            #     [ap["s"]["day_time"], ap["s"]["night_time"]]
+            # ],
+            # "inclusion": [
+            #     [ap["s"]["entrance"], ap["s"]["shop"]],
+            #     [ap["s"]["human_entered"], ap["s"]["shop"]],
+            #     [ap["s"]["get_med"], ap["s"]["entrance"]],
+            #
+            # ]
         },
         "domain": {
-            "mutex": [[
-                ap["l"]["wlocA"],
-                ap["l"]["wlocB"],
-                ap["l"]["slocA"],
-                ap["l"]["slocB"],
-                ap["l"]["safe_loc"],
-                ap["l"]["charging_point"]
-            ]],
-            "inclusion": [
-            ]
+            # "mutex": [[
+            #     ap["l"]["wlocA"],
+            #     ap["l"]["wlocB"],
+            #     ap["l"]["slocA"],
+            #     ap["l"]["slocB"],
+            #     ap["l"]["safe_loc"],
+            #     ap["l"]["charging_point"]
+            # ]],
+            # "inclusion": [
+            # ]
         },
         "environment": {
             "liveness": [
