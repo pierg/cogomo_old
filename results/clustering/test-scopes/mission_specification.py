@@ -85,7 +85,7 @@ def get_inputs():
     """List of specifications / goals"""
     list_of_goals = [
         CGTGoal(
-            name="go-to-safe-zone-during-alarm",
+            name="FP_after_Q(P_until_R),
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
                 FP_after_Q(
@@ -96,7 +96,7 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="go-to-safe-zone-during-alarm-afteruntilscope",
+            name="FP_after_Q_until_R",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
                 FP_after_Q_until_R(
@@ -107,7 +107,7 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="go-to-safe-zone-during-alarm-betweenscope",
+            name="FP_between_Q_and_R",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
                 FP_between_Q_and_R(
@@ -118,10 +118,10 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="go-to-safe-zone-during-alarm",
+            name="P_after_Q(P_until_R)",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
-                FP_after_Q(
+                P_after_Q(
                     p=P_until_R(
                         p=ap["l"]["safe_loc"],
                         r=NotLTL(ap["s"]["alarm"])),
@@ -129,10 +129,10 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="go-to-safe-zone-during-alarm-afteruntilscope",
+            name="P_after_Q_until_R",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
-                FP_after_Q_until_R(
+                P_after_Q_until_R(
                     p=ap["l"]["safe_loc"],
                     q=ap["s"]["alarm"],
                     r=NotLTL(ap["s"]["alarm"])
@@ -140,10 +140,10 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="go-to-safe-zone-during-alarm-betweenscope",
+            name="P_between_Q_and_R",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
-                FP_between_Q_and_R(
+                P_between_Q_and_R(
                     p=ap["l"]["safe_loc"],
                     q=ap["s"]["alarm"],
                     r=NotLTL(ap["s"]["alarm"])
