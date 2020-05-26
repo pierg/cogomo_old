@@ -1,9 +1,17 @@
 MODULE main
 VAR
-	give_med: boolean;
-	wlocA: boolean;
 	slocA: boolean;
+	human_entered: boolean;
+	wlocA: boolean;
 	take_med: boolean;
+	give_med: boolean;
+	entrance: boolean;
+	night_time: boolean;
+	slocB: boolean;
 	get_med: boolean;
+	day_time: boolean;
+	wlocB: boolean;
+	shop: boolean;
+	welcome_client: boolean;
 
-LTLSPEC !((G(!get_med) | F((get_med) & F (((F(wlocA & F(slocA)) & (!slocA U wlocA)) & G((wlocA) -> (take_med)) & G((slocA) -> (give_med))))))))
+LTLSPEC !(((G(night_time)) -> ((G(F(wlocA & F(wlocB & F(slocA & F(slocB))))) & (!wlocB U wlocA) & (!slocA U wlocB) & (!slocB U slocA) & G(wlocB ->  X((!wlocB) U wlocA)) & G(slocA ->  X((!slocA) U wlocB)) & G(slocB ->  X((!slocB) U slocA)) & G(wlocA ->  X((!wlocA) U slocB)) & G(wlocA ->  X((!wlocA) U wlocB)) & G(wlocB ->  X((!wlocB) U slocA)) & G(slocA ->  X((!slocA) U slocB))))))
