@@ -164,6 +164,28 @@ def get_inputs():
                         r=NotLTL(ap["s"]["alarm"])),
                     q=ap["s"]["alarm"])
             ])]
+        ),
+        CGTGoal(
+            name="go-to-safe-zone-during-alarm-afteruntilscope",
+            description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
+            contracts=[PContract([
+                P_after_Q_until_R(
+                    p=ap["l"]["safe_loc"],
+                    q=ap["s"]["alarm"],
+                    r=NotLTL(ap["s"]["alarm"])
+                )
+            ])]
+        ),
+        CGTGoal(
+            name="go-to-safe-zone-during-alarm-betweenscope",
+            description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
+            contracts=[PContract([
+                P_between_Q_and_R(
+                    p=ap["l"]["safe_loc"],
+                    q=ap["s"]["alarm"],
+                    r=NotLTL(ap["s"]["alarm"])
+                )
+            ])]
         )
     ]
 
