@@ -75,10 +75,10 @@ def get_inputs():
             ]
         },
         "environment": {
-            # "liveness": [
-            #     ap["s"]["alarm"],
-            #     NotLTL(ap["s"]["alarm"])
-            # ]
+            "liveness": [
+                ap["s"]["alarm"],
+                NotLTL(ap["s"]["alarm"])
+            ]
         }
     }
 
