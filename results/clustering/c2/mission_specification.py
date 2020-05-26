@@ -99,32 +99,6 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="get-meds-to-clients-pattern",
-            description="if a clients request a medicine go to the warehouse, take the medicine and come back",
-            context=(Context(
-                AndLTL([
-                    P_global(ap["s"]["shop"]),
-                    P_global(ap["s"]["day_time"])
-                ])
-            )),
-            contracts=[PContract([
-                DelayedReaction(
-                    trigger=ap["s"]["get_med"],
-                    reaction=AndLTL([
-                        OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
-                        InstantReaction(
-                            trigger=ap["l"]["wlocA"],
-                            reaction=ap["a"]["take_med"]
-                        ),
-                        InstantReaction(
-                            trigger=ap["l"]["slocA"],
-                            reaction=ap["a"]["give_med"]
-                        )
-                    ])
-                )
-            ])]
-        ),
-        CGTGoal(
             name="get-meds-to-clients-Fscope",
             description="if a clients request a medicine go to the warehouse, take the medicine and come back",
             context=(Context(
