@@ -10,20 +10,11 @@ class Scope(LTL):
 
 """Scopes for the property 'P is true' defined by Dwyer"""
 
-
 class P_global(Scope):
     """G p"""
 
     def __init__(self, p: LTL):
         formula = "G({p})".format(p=p.formula)
-        super().__init__(formula)
-
-
-class P_eventually(Scope):
-    """F p"""
-
-    def __init__(self, p: LTL):
-        formula = "F({p})".format(p=p.formula)
         super().__init__(formula)
 
 
@@ -56,6 +47,48 @@ class P_after_Q_until_R(Scope):
 
     def __init__(self, p: LTL, q: LTL, r: LTL):
         formula = "(G({q} & !{r} -> (({p} U {r}) | G {p})))".format(p=p.formula, q=q.formula, r=r.formula)
+        super().__init__(formula)
+
+
+"""Scopes for the property 'P becomes true' defined by Dwyer"""
+
+class FP_global(Scope):
+    """F p"""
+
+    def __init__(self, p: LTL):
+        formula = "F({p})".format(p=p.formula)
+        super().__init__(formula)
+
+
+class FP_before_R(Scope):
+    """	F (r) -> (!r U p) """
+
+    def __init__(self, p: LTL, r: LTL):
+        formula = "(F({r}) -> (!{r} U {p}))".format(p=p.formula, r=r.formula)
+        super().__init__(formula)
+
+
+class FP_after_Q(Scope):
+    """	G(!q) | F((q) & F (p))) """
+
+    def __init__(self, p: LTL, q: LTL):
+        formula = "(G(!{q}) | F(({q}) & F ({p}))))".format(p=p.formula, q=q.formula)
+        super().__init__(formula)
+
+
+class FP_between_Q_and_R(Scope):
+    """	G((q & F(r)) -> (!(r) U (p))) """
+
+    def __init__(self, p: LTL, q: LTL, r: LTL):
+        formula = "(G(({q} & F({r})) -> (!({r}) U ({p}))))".format(p=p.formula, q=q.formula, r=r.formula)
+        super().__init__(formula)
+
+
+class FP_after_Q_until_R(Scope):
+    """	G((q) -> (!(r) U (p))) """
+
+    def __init__(self, p: LTL, q: LTL, r: LTL):
+        formula = "(G(({q}) -> (!({r}) U ({p}))))".format(p=p.formula, q=q.formula, r=r.formula)
         super().__init__(formula)
 
 
