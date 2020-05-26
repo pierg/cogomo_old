@@ -85,7 +85,7 @@ def get_inputs():
     """List of specifications / goals"""
     list_of_goals = [
         CGTGoal(
-            name="FP_after_Q(P_until_R),
+            name="FP_after_Q(P_until_R)",
             description="if the alarm goes off at any time go to safety location and stay there until there is no more alarm",
             contracts=[PContract([
                 FP_after_Q(
