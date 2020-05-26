@@ -99,7 +99,7 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="get-meds-to-clients-Fscope",
+            name="get-meds-to-clients",
             description="if a clients request a medicine go to the warehouse, take the medicine and come back",
             context=(Context(
                 AndLTL([
