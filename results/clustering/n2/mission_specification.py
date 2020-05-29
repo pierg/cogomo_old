@@ -163,6 +163,17 @@ def get_inputs():
                     r=ap["s"]["guard_entered"]
                 )
             ])]
+        ),
+        CGTGoal(
+            name="fire_alarm_avoid_warehouse",
+            description="if the door_alarm goes off at any time go to safety "
+                        "location and stay there until there is no more door_alarm",
+            contracts=[PContract([
+                InstantReaction(
+                    trigger=ap["s"]["fire_alarm"],
+                    reaction=GlobalAvoidance(ap["l"]["go_warehouse"])
+                )
+            ])]
         )
     ]
 
