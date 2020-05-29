@@ -158,7 +158,7 @@ def get_inputs():
             description="if the alarm goes off at any time go to safety "
                         "location and stay there until there is no more alarm",
             contracts=[PContract([
-                P_after_Q_until_R(
+                P_between_Q_and_R(
                     p=ap["l"]["go_safeloc"],
                     q=ap["s"]["alarm"],
                     r=ap["s"]["guard_entered"]
