@@ -134,6 +134,37 @@ class StrictOrderPatroling(CoreMovement):
 
 
 
+class StrictOrderVisit(CoreMovement):
+    """Given a set of locations the robot should visit all the locations following a strict order"""
+
+    def __init__(self, locations: List[LTL] = None):
+        variables = Variables()
+        pattern_formula = []
+
+        formula = ""
+        for i, location in enumerate(locations):
+            variables.extend(location.variables)
+            formula += "F(" + location.formula
+            if i < len(locations) - 1:
+                formula += " & "
+        for i in range(0, len(locations)):
+            formula += ")"
+        pattern_formula.append(formula)
+
+        for n, location in enumerate(locations):
+            if n < len(locations) - 1:
+                pattern_formula.append("(!" + locations[n + 1].formula + " U " + locations[n].formula + ")")
+
+        for n, location in enumerate(locations):
+            if n < len(locations) - 1:
+                pattern_formula.append("(!" + locations[n].formula + " U (" + locations[n].formula + " & X(!" + locations[n].formula + " U(" + locations[n+1].formula + "))))")
+
+        pattern_formula = And(pattern_formula)
+
+        super().__init__(pattern_formula, locations, variables)
+
+
+
 # if __name__ == '__main__':
 #     so = StrictOrderPatroling([LTL("l1"), LTL("l2"), LTL("l3")])
 #     print(so)
