@@ -95,7 +95,7 @@ def get_inputs():
                 )
             )),
             contracts=[PContract([
-                OrderPatroling([
+                Patroling([
                     ap["l"]["go_entrace"], ap["l"]["go_counter"], ap["l"]["go_back"], ap["l"]["go_warehouse"]
                 ])
             ])]
