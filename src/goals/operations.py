@@ -74,7 +74,7 @@ def conjunction(goals: List[CGTGoal],
                                                    faild_motivation="inconsistent",
                                                    goals_involved_a=[pair_of_goals[0]],
                                                    goals_involved_b=[pair_of_goals[1]])
-                    except:
+                    except :
                         """If the assumptions are mutually exclusive it's ok"""
                         pass
 
