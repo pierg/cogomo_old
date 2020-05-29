@@ -29,7 +29,8 @@ def get_inputs():
             "warehouse": LTL("warehouse"),
             "human_entered": LTL("human_entered"),
             "guard_entered": LTL("guard_entered"),
-            "alarm": LTL("alarm")
+            "door_alarm": LTL("door_alarm"),
+            "fire_alarm": LTL("fire_alarm")
         },
         "l": {
             "go_entrace": LTL("go_entrace"),
@@ -74,10 +75,10 @@ def get_inputs():
             ]
         },
         "environment": {
-            "liveness": [
-                ap["s"]["alarm"],
-                NotLTL(ap["s"]["alarm"])
-            ]
+            # "liveness": [
+            #     ap["s"]["alarm"],
+            #     NotLTL(ap["s"]["alarm"])
+            # ]
         }
     }
 
@@ -153,12 +154,12 @@ def get_inputs():
         ),
         CGTGoal(
             name="P_between_Q_and_R",
-            description="if the alarm goes off at any time go to safety "
-                        "location and stay there until there is no more alarm",
+            description="if the door_alarm goes off at any time go to safety "
+                        "location and stay there until there is no more door_alarm",
             contracts=[PContract([
                 P_between_Q_and_R(
                     p=ap["l"]["go_warehouse"],
-                    q=ap["s"]["alarm"],
+                    q=ap["s"]["door_alarm"],
                     r=ap["s"]["guard_entered"]
                 )
             ])]
