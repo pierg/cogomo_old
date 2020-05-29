@@ -4,7 +4,7 @@ from checks.tools import Implies
 from typescogomo.formula import LTL
 from typescogomo.variables import Variables
 
-USE_SATURATED_GUARANTEES = True
+USE_SATURATED_GUARANTEES = False
 
 
 class Guarantee(LTL):
