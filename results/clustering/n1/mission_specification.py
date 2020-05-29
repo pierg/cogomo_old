@@ -28,15 +28,16 @@ def get_inputs():
             "get_med": LTL("get_med"),
             "warehouse": LTL("warehouse"),
             "human_entered": LTL("human_entered"),
+            "guard_entered": LTL("guard_entered"),
             "alarm": LTL("alarm")
         },
         "l": {
-            "wlocA": LTL("wlocA"),
-            "wlocB": LTL("wlocB"),
-            "slocA": LTL("slocA"),
-            "slocB": LTL("slocB"),
-            "safe_loc": LTL("safe_loc"),
-            "charging_point": LTL("charging_point")
+            "go_entrace": LTL("go_entrace"),
+            "go_counter": LTL("go_counter"),
+            "go_back": LTL("go_back"),
+            "go_warehouse": LTL("go_warehouse"),
+            "go_safeloc": LTL("go_safeloc"),
+            "go_charging_point": LTL("go_charging_point")
         },
         "a": {
             "contact_station": LTL("contact_station"),
@@ -64,12 +65,12 @@ def get_inputs():
         },
         "domain": {
             "mutex": [[
-                ap["l"]["wlocA"],
-                ap["l"]["wlocB"],
-                ap["l"]["slocA"],
-                ap["l"]["slocB"],
-                ap["l"]["safe_loc"],
-                ap["l"]["charging_point"]
+                ap["l"]["go_entrace"],
+                ap["l"]["go_counter"],
+                ap["l"]["go_back"],
+                ap["l"]["go_warehouse"],
+                ap["l"]["go_safeloc"],
+                ap["l"]["go_charging_point"]
             ]],
             "inclusion": [
             ]
@@ -94,7 +95,7 @@ def get_inputs():
             )),
             contracts=[PContract([
                 StrictOrderPatroling([
-                    ap["l"]["wlocA"], ap["l"]["wlocB"], ap["l"]["slocA"], ap["l"]["slocB"]
+                    ap["l"]["go_entrace"], ap["l"]["go_counter"], ap["l"]["go_back"], ap["l"]["go_warehouse"]
                 ])
             ])]
         ),
@@ -108,16 +109,16 @@ def get_inputs():
                 ])
             )),
             contracts=[PContract([
-                FP_after_Q(
-                    q=ap["s"]["get_med"],
-                    p=AndLTL([
-                        OrderedVisit([ap["l"]["wlocA"], ap["l"]["slocA"]]),
+                PromptReaction(
+                    trigger=ap["s"]["get_med"],
+                    reaction=AndLTL([
+                        StrictOrderVisit([ap["l"]["go_back"], ap["l"]["go_warehouse"], ap["l"]["go_entrace"]]),
                         InstantReaction(
-                            trigger=ap["l"]["wlocA"],
+                            trigger=ap["l"]["go_warehouse"],
                             reaction=ap["a"]["take_med"]
                         ),
                         InstantReaction(
-                            trigger=ap["l"]["slocA"],
+                            trigger=ap["l"]["go_entrace"],
                             reaction=ap["a"]["give_med"]
                         )
                     ])
@@ -125,15 +126,13 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="always-charge-on-low-battery",
+            name="charge-and-contact-after-low-battery",
             description="always go the charging point and contact the main station when the battery is low",
             contracts=[PContract([
-                P_after_Q(
-                    q=ap["s"]["low_battery"],
-                    p=AndLTL([
-                        Visit([
-                            ap["l"]["charging_point"]
-                        ]),
+                PromptReaction(
+                    trigger=ap["s"]["low_battery"],
+                    reaction=AndLTL([
+                        Visit([ap["l"]["go_charging_point"]]),
                         ap["a"]["contact_station"]
                     ])
                 )
@@ -159,10 +158,10 @@ def get_inputs():
             description="if the alarm goes off at any time go to safety "
                         "location and stay there until there is no more alarm",
             contracts=[PContract([
-                P_between_Q_and_R(
-                    p=ap["l"]["safe_loc"],
+                P_after_Q_until_R(
+                    p=ap["l"]["go_safeloc"],
                     q=ap["s"]["alarm"],
-                    r=NotLTL(ap["s"]["alarm"])
+                    r=ap["s"]["guard_entered"]
                 )
             ])]
         )
