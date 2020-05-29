@@ -242,6 +242,27 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         realizables_clustered, exec_times_clustered = generate_controllers_from_cgt_clustered(cgt_1,
                                                                                               result_folder + "/cgt_clusters_mutex/")
 
+        ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+        ret += "CGT WITH CLUSTERS WITH MUTEX CONTEXTS \t  " + str(sum(realizables_clustered)) + "/" + str(
+            len(realizables_clustered)) + " REALIZABLE \n"
+        cluster_goals = cgt_1.refined_by
+        ret += "FEASIBLE CLUSTERS:\t " + str(len(cluster_goals)) + "/" + str(len(context_goals.keys()))
+        for i, goal in enumerate(cluster_goals):
+            ret += "\nCLUSTER " + str(i) + "\n"
+            ret += "SCENARIO:\t" + str(OrLTL(goal.context).formula) + "\n-->\t" + str(
+                len(goal.refined_by)) + " goals: " + str(
+                [g.name for g in goal.refined_by]) + "\n"
+            if len(realizables_clustered) > 0:
+                if realizables_clustered[i]:
+                    ret += "REALIZABLE\tMUTEX    \tYES\t\t" + format(exec_times_clustered[i], '.3f') + "sec\n"
+                else:
+                    ret += "REALIZABLE\tMUTEX    \tNO\t\t" + format(exec_times_clustered[i], '.3f') + "sec\n"
+        ret += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+
+        f = open(summary_file_name, "a+")
+        f.write(ret)
+        f.close()
+
     if clusters_origianl:
         """Create the CGT composing the goals without the context"""
         try:
@@ -255,42 +276,28 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         realizables_original, exec_times_original = generate_controllers_from_cgt_clustered(cgt_2,
                                                                                             result_folder + "/cgt_clusters_original/")
 
-    ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-    ret += "CGT WITH CLUSTERS WITH ORIGINAL CONTEXTS \t" + str(sum(realizables_original)) + "/" + str(
-        len(realizables_original)) + " REALIZABLE\n"
-    original_goals = cgt_2.refined_by
-    ret += "FEASIBLE CLUSTERS:\t " + str(len(original_goals)) + "/" + str(len(context_goals.keys()))
-    for i, goal in enumerate(original_goals):
-        ret += "\nCLUSTER " + str(i) + "\n"
-        ret += "SCENARIO:\t" + str(OrLTL(goal.context).formula) + "\n-->\t" + str(
-            len(goal.refined_by)) + " goals: " + str(
-            [g.name for g in goal.refined_by]) + "\n"
-        if len(realizables_original) > 0:
-            if realizables_original[i]:
-                ret += "REALIZABLE\tORIGINAL \tYES\t\t" + format(exec_times_original[i], '.3f') + "sec\n"
-            else:
-                ret += "REALIZABLE\tORIGINAL \tNO\t\t" + format(exec_times_original[i], '.3f') + "sec\n"
-    ret += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+        ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+        ret += "CGT WITH CLUSTERS WITH ORIGINAL CONTEXTS \t" + str(sum(realizables_original)) + "/" + str(
+            len(realizables_original)) + " REALIZABLE\n"
+        original_goals = cgt_2.refined_by
+        ret += "FEASIBLE CLUSTERS:\t " + str(len(original_goals)) + "/" + str(len(context_goals.keys()))
+        for i, goal in enumerate(original_goals):
+            ret += "\nCLUSTER " + str(i) + "\n"
+            ret += "SCENARIO:\t" + str(OrLTL(goal.context).formula) + "\n-->\t" + str(
+                len(goal.refined_by)) + " goals: " + str(
+                [g.name for g in goal.refined_by]) + "\n"
+            if len(realizables_original) > 0:
+                if realizables_original[i]:
+                    ret += "REALIZABLE\tORIGINAL \tYES\t\t" + format(exec_times_original[i], '.3f') + "sec\n"
+                else:
+                    ret += "REALIZABLE\tORIGINAL \tNO\t\t" + format(exec_times_original[i], '.3f') + "sec\n"
+        ret += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
 
-    ret += "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-    ret += "CGT WITH CLUSTERS WITH MUTEX CONTEXTS \t  " + str(sum(realizables_clustered)) + "/" + str(
-        len(realizables_clustered)) + " REALIZABLE \n"
-    cluster_goals = cgt_1.refined_by
-    ret += "FEASIBLE CLUSTERS:\t " + str(len(cluster_goals)) + "/" + str(len(context_goals.keys()))
-    for i, goal in enumerate(cluster_goals):
-        ret += "\nCLUSTER " + str(i) + "\n"
-        ret += "SCENARIO:\t" + str(OrLTL(goal.context).formula) + "\n-->\t" + str(
-            len(goal.refined_by)) + " goals: " + str(
-            [g.name for g in goal.refined_by]) + "\n"
-        if len(realizables_clustered) > 0:
-            if realizables_clustered[i]:
-                ret += "REALIZABLE\tMUTEX    \tYES\t\t" + format(exec_times_clustered[i], '.3f') + "sec\n"
-            else:
-                ret += "REALIZABLE\tMUTEX    \tNO\t\t" + format(exec_times_clustered[i], '.3f') + "sec\n"
-    ret += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
-    f = open(summary_file_name, "a+")
-    f.write(ret)
-    f.close()
+        f = open(summary_file_name, "a+")
+        f.write(ret)
+        f.close()
+
+
 
     # save_to_file(pretty_print_summary_clustering(list_of_goals,
     #                                              controller_generated_and,
