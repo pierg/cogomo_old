@@ -132,7 +132,7 @@ def get_inputs():
                 PromptReaction(
                     trigger=ap["s"]["low_battery"],
                     reaction=AndLTL([
-                        Visit([ap["l"]["go_charging_point"]]),
+                        ap["l"]["go_charging_point"],
                         ap["a"]["contact_station"]
                     ])
                 )
