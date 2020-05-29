@@ -68,7 +68,6 @@ def get_inputs():
                 ap["l"]["go_counter"],
                 ap["l"]["go_back"],
                 ap["l"]["go_warehouse"],
-                ap["l"]["go_safeloc"],
                 ap["l"]["go_charging_point"]
             ]],
             "inclusion": [
