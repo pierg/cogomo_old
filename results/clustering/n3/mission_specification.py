@@ -125,7 +125,7 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="charge-and-contact-after-low-battery",
+            name="low-battery",
             description="always go the charging point and contact the main station when the battery is low",
             context=(Context(
                 ap["s"]["low_battery"]
