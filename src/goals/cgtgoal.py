@@ -49,8 +49,10 @@ class CGTGoal:
         else:
             raise AttributeError
 
+        self.goal_context = []
         if context is not None:
             self.set_context(context)
+
 
     @property
     def name(self):
@@ -98,21 +100,25 @@ class CGTGoal:
     @property
     def context(self):
         """Return a list of contexts, each is in OR with each other"""
-        contexts = []
-        for contract in self.contracts:
-            cs = contract.assumptions.get_kind("context")
-            if cs is not None:
-                f = []
-                v = []
-                for c in cs:
-                    f.append(c.formula)
-                    v.extend(c.variables.list)
-                from typescogomo.variables import Variables
-                c = Context(formula=And(f), variables=Variables(v))
-                contexts.append(c)
-        if len(contexts) > 0:
-            return contexts
-        return [LTL("TRUE")]
+        if len(self.goal_context) > 0:
+            return self.goal_context
+        else:
+            return [LTL("TRUE")]
+        # contexts = []
+        # for contract in self.contracts:
+        #     cs = contract.assumptions.get_kind("context")
+        #     if cs is not None:
+        #         f = []
+        #         v = []
+        #         for c in cs:
+        #             f.append(c.formula)
+        #             v.extend(c.variables.list)
+        #         from typescogomo.variables import Variables
+        #         c = Context(formula=And(f), variables=Variables(v))
+        #         contexts.append(c)
+        # if len(contexts) > 0:
+        #     return contexts
+        # return [LTL("TRUE")]
 
     @context.setter
     def context(self, value: Context):
@@ -179,11 +185,14 @@ class CGTGoal:
         goal.connected_to = self
 
     def set_context(self, context: Context):
-        """Set the context as assumptions of all the contracts in the node"""
+        """Add context to guarantees as G(context -> guarantee)"""
         for contract in self.contracts:
-            contract.remove_contextual_assumptions()
-            contract.add_assumptions(context)
-        self.consolidate_bottom_up()
+            contract.set_context(context)
+
+        self.goal_context.append(context)
+            # contract.remove_contextual_assumptions()
+            # contract.add_assumptions(context)
+        # self.consolidate_bottom_up()
 
     def add_context(self, context: Context):
         """Add the context as assumptions of all the contracts in the node"""

@@ -153,3 +153,9 @@ class Guarantees(LTLs):
         for guarantee in self.list:
             guarantee.saturate_with(assumptions)
         super().__init__(self.list)
+
+    def set_context(self, context):
+        for g in self.list:
+            g.formula = "G(" + And(context.formula) + " -> " + g.formula
+            g.variables.extend(context.variables)
+        pass

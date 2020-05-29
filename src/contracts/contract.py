@@ -1,6 +1,6 @@
 from typing import List, Union, Pattern
 
-from typescogomo.assumption import Assumption
+from typescogomo.assumption import Assumption, Context
 from typescogomo.formula import LTL, InconsistentException
 from typescogomo.guarantee import Guarantee
 from typescogomo.variables import Variables, Boolean
@@ -48,6 +48,10 @@ class Contract:
     @guarantees.setter
     def guarantees(self, values: Guarantees):
         self.__guarantees = values
+
+
+    def set_context(self, context: Context):
+        self.guarantees.set_context(context)
 
     def remove_contextual_assumptions(self):
         self.assumptions.remove_kind("context")
@@ -117,6 +121,7 @@ class Contract:
         for guarantee in self.guarantees.list:
             astr += guarantee.unsaturated + ', '
         return astr[:-2] + ' ]\n'
+
 
 
 class IncompatibleContracts(Exception):
