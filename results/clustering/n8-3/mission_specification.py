@@ -37,7 +37,8 @@ def get_inputs():
             "go_counter": LTL("go_counter"),
             "go_back": LTL("go_back"),
             "go_warehouse": LTL("go_warehouse"),
-            "go_charging_point": LTL("go_charging_point")
+            "go_charging_point": LTL("go_charging_point"),
+            "go_safe_loc": LTL("go_safe_loc")
         },
         "a": {
             "contact_station": LTL("contact_station"),
