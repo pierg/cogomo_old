@@ -276,6 +276,8 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         realizables_original, exec_times_original = generate_controllers_from_cgt_clustered(cgt_2,
                                                                                             result_folder + "/cgt_clusters_original/")
 
+        unrealizable_goals = {}
+
         ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
         ret += "CGT WITH CLUSTERS \t" + str(sum(realizables_original)) + "/" + str(
             len(realizables_original)) + " REALIZABLE\n"
@@ -288,11 +290,21 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
                 [g.name for g in goal.refined_by]) + "\n"
             if len(realizables_original) > 0:
                 if realizables_original[i]:
-                    ret += "REALIZABLE\tORIGINAL \tYES\t\t" + format(exec_times_original[i], '.3f') + "sec\n"
+                    ret += "REALIZABLE \tYES\t\t" + format(exec_times_original[i], '.3f') + "sec\n"
                 else:
-                    ret += "REALIZABLE\tORIGINAL \tNO\t\t" + format(exec_times_original[i], '.3f') + "sec\n"
+                    ret += "REALIZABLE \tNO\t\t" + format(exec_times_original[i], '.3f') + "sec\n"
+                    for g_name in [g.name for g in goal.refined_by]:
+                        if g_name in unrealizable_goals.keys():
+                            unrealizable_goals[g_name] += 1
+                        else:
+                            unrealizable_goals[g_name] = 1
         ret += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
 
+        ret += "\n~~~~~~~~~~'UNSAT-CORE' -  UNREALIZABLE GOALS~~~~~~~~~~~~~~~~\n"
+        sorted_unrealizable_goals = sorted(unrealizable_goals.items(), key=lambda x: x[1], reverse=True)
+        for (g, v) in sorted_unrealizable_goals:
+            ret += g + "\t" + v + "\n"
+        ret += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
         f = open(summary_file_name, "a+")
         f.write(ret)
         f.close()
