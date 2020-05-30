@@ -303,7 +303,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         ret += "\n~~~~~~~~~~'UNSAT-CORE' -  UNREALIZABLE GOALS~~~~~~~~~~~~~~~~\n"
         sorted_unrealizable_goals = sorted(unrealizable_goals.items(), key=lambda x: x[1], reverse=True)
         for (g, v) in sorted_unrealizable_goals:
-            ret += g + "\t" + v + "\n"
+            ret += g + "\t" + str(v) + "\n"
         ret += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
         f = open(summary_file_name, "a+")
         f.write(ret)
