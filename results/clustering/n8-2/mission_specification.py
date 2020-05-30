@@ -154,22 +154,22 @@ def get_inputs():
                     reaction=ap["a"]["welcome_client"]),
             ])]
         ),
-        CGTGoal(
-            name="door-alarm",
-            description="if the door_alarm goes off at any time go to safety "
-                        "location and stay there until there is no more door_alarm",
-            context=(Context(
-                AndLTL([
-                    ap["s"]["door_alarm"]
-                ])
-            )),
-            contracts=[PContract([
-                P_until_R(
-                    p=ap["l"]["go_warehouse"],
-                    r=ap["s"]["guard_entered"]
-                )
-            ])]
-        ),
+        # CGTGoal(
+        #     name="door-alarm",
+        #     description="if the door_alarm goes off at any time go to safety "
+        #                 "location and stay there until there is no more door_alarm",
+        #     context=(Context(
+        #         AndLTL([
+        #             ap["s"]["door_alarm"]
+        #         ])
+        #     )),
+        #     contracts=[PContract([
+        #         P_until_R(
+        #             p=ap["l"]["go_warehouse"],
+        #             r=ap["s"]["guard_entered"]
+        #         )
+        #     ])]
+        # ),
         CGTGoal(
             name="fire-alarm",
             description="if the door_alarm goes off at any time go to safety "
