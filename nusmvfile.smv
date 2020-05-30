@@ -1,10 +1,10 @@
 MODULE main
 VAR
+	fire_alarm: boolean;
+	go_entrace: boolean;
+	go_charging_point: boolean;
+	go_counter: boolean;
 	go_warehouse: boolean;
 	go_back: boolean;
-	go_entrace: boolean;
-	go_counter: boolean;
-	fire_alarm: boolean;
-	go_charging_point: boolean;
 
 LTLSPEC !(G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse)))))
