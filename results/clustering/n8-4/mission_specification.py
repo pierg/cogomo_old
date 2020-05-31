@@ -182,7 +182,7 @@ def get_inputs():
                 ])
             )),
             contracts=[PContract([
-                Visit(ap["l"]["go_safe_loc"])
+                Visit([ap["l"]["go_safe_loc"]])
             ])]
         )
     ]
