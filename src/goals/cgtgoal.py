@@ -248,9 +248,8 @@ class CGTGoal:
                 if child == self:
                     parent.refined_by[n] = goal
 
-            # TODO: putback
-            # if consolidate:
-            #     self.consolidate_bottom_up()
+            if consolidate:
+                self.consolidate_bottom_up()
         else:
             """Update Parameters"""
             self.name = goal.name
