@@ -88,7 +88,7 @@ def get_inputs():
             ],
             "liveness": [
                 # ap["s"]["full_battery"],
-                NotLTL(ap["s"]["fire_alarm"])
+                # NotLTL(ap["s"]["fire_alarm"])
             ]
         }
     }
