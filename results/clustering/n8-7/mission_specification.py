@@ -127,6 +127,20 @@ def get_inputs():
                 )
             ])]
         ),
+        # CGTGoal(
+        #     name="low-battery",
+        #     description="always go the charging point and contact the main station when the battery is low",
+        #     context=(Context(
+        #         ap["s"]["low_battery"]
+        #     )),
+        #     contracts=[PContract([
+        #         P_until_R(
+        #             p=ap["l"]["go_charging_point"],
+        #             r=NotLTL(ap["s"]["low_battery"])
+        #         ),
+        #         ap["a"]["contact_station"]
+        #     ])]
+        # ),
         CGTGoal(
             name="low-battery",
             description="always go the charging point and contact the main station when the battery is low",
@@ -134,11 +148,11 @@ def get_inputs():
                 ap["s"]["low_battery"]
             )),
             contracts=[PContract([
-                P_until_R(
+                P_between_Q_and_R(
                     p=ap["l"]["go_charging_point"],
+                    q=ap["s"]["low_battery"],
                     r=NotLTL(ap["s"]["low_battery"])
-                ),
-                ap["a"]["contact_station"]
+                )
             ])]
         ),
         CGTGoal(
