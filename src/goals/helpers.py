@@ -425,8 +425,12 @@ def generate_general_controller_inputs_from_goal(ap: dict,
     guarantees = []
 
     """Adding A/G from the goal"""
-    assumptions.append(goal.get_ltl_assumptions().formula)
-    guarantees.append(goal.get_ltl_guarantees().formula)
+    a = goal.get_ltl_assumptions().formula
+    if a != "TRUE":
+        assumptions.append(a)
+    g = goal.get_ltl_guarantees().formula
+    if g != "TRUE":
+        guarantees.append(g)
     variables.extend(goal.get_variables())
 
     """Adding liveness rules of the environemnt as assumptions"""
@@ -442,11 +446,11 @@ def generate_general_controller_inputs_from_goal(ap: dict,
         guarantees.append(r.formula)
 
     """Adding context rules as assumptions if not already included (cgt includes them)"""
-    if not context_rules_included:
-        context_rules = extract_ltl_rules(rules["context"])
-        for r in context_rules:
-            variables.extend(r.variables)
-            assumptions.append(r.formula)
+    # if not context_rules_included:
+    context_rules = extract_ltl_rules(rules["context"])
+    for r in context_rules:
+        variables.extend(r.variables)
+        assumptions.append(r.formula)
 
     # """Replacing TRUE with true, for strix"""
     # for a in assumptions:

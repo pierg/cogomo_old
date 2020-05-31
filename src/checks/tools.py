@@ -25,6 +25,8 @@ def Not(prop: str) -> str:
 def Or(propositions: List[str]) -> str:
     """Returns an LTL formula representing the logical OR of list_propoositions"""
     if len(propositions) > 1:
+        if "TRUE" in propositions:
+            return "TRUE"
         ret = "("
         for i, elem in enumerate(propositions):
             ret += elem

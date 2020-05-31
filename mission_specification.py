@@ -99,7 +99,7 @@ def get_inputs():
                     ap["s"]["night_time"]
             )),
             contracts=[PContract([
-                StrictOrderPatroling([
+                SequencedPatroling([
                     ap["l"]["go_entrace"], ap["l"]["go_counter"], ap["l"]["go_back"], ap["l"]["go_warehouse"]
                 ])
             ])]
@@ -164,9 +164,10 @@ def get_inputs():
                 ap["s"]["night_time"]
             )),
             contracts=[PContract([
-                InstantReaction(
-                    trigger=ap["s"]["door_alarm"],
-                    reaction=ap["l"]["go_entrace"]
+                Recurrence_P_after_Q_until_R(
+                    q=ap["s"]["door_alarm"],
+                    p=ap["l"]["go_entrace"],
+                    r=ap["s"]["guard_entered"]
                 )
             ])]
         ),
