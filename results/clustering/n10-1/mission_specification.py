@@ -135,8 +135,8 @@ def get_inputs():
             description="always go the charging point and contact the main station when the battery is low",
             contracts=[PContract([
                 P_between_Q_and_R(
-                    p=ap["l"]["go_charging_point"],
                     q=ap["s"]["low_battery"],
+                    p=ap["l"]["go_charging_point"],
                     r=ap["s"]["full_battery"]
                 )
             ])]
