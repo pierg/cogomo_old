@@ -23,6 +23,7 @@ def get_inputs():
             "night_time": LTL("night_time"),
             "day_time": LTL("day_time"),
             "low_battery": LTL("low_battery"),
+            "full_battery": LTL("full_battery"),
             "entrance": LTL("entrance"),
             "shop": LTL("shop"),
             "get_med": LTL("get_med"),
@@ -55,7 +56,8 @@ def get_inputs():
         "context": {
             "mutex": [
                 [ap["s"]["shop"], ap["s"]["warehouse"]],
-                [ap["s"]["day_time"], ap["s"]["night_time"]]
+                [ap["s"]["day_time"], ap["s"]["night_time"]],
+                [ap["s"]["full_battery"], ap["s"]["low_battery"]]
             ],
             "inclusion": [
                 [ap["s"]["entrance"], ap["s"]["shop"]],
@@ -82,7 +84,8 @@ def get_inputs():
             "liveness": [
                 # ap["s"]["guard_entered"],
                 # NotLTL(ap["s"]["guard_entered"]),
-                NotLTL(ap["s"]["low_battery"])
+                ap["s"]["full_battery"]
+                # NotLTL(ap["s"]["low_battery"])
             ]
         }
     }
@@ -134,7 +137,7 @@ def get_inputs():
                 P_between_Q_and_R(
                     p=ap["l"]["go_charging_point"],
                     q=ap["s"]["low_battery"],
-                    r=NotLTL(ap["s"]["low_battery"])
+                    r=ap["s"]["full_battery"]
                 )
             ])]
         ),
