@@ -164,7 +164,7 @@ def get_inputs():
                 ap["s"]["night_time"]
             )),
             contracts=[PContract([
-                P_after_Q_until_R(
+                P_between_Q_and_R(
                     q=ap["s"]["door_alarm"],
                     p=ap["l"]["go_entrace"],
                     r=ap["s"]["guard_entered"]
