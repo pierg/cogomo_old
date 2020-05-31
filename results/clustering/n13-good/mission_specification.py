@@ -99,7 +99,7 @@ def get_inputs():
                     ap["s"]["night_time"]
             )),
             contracts=[PContract([
-                OrderPatroling([
+                SequencedPatroling([
                     ap["l"]["go_entrace"], ap["l"]["go_counter"], ap["l"]["go_back"], ap["l"]["go_warehouse"]
                 ])
             ])]
