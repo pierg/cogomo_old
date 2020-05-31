@@ -333,6 +333,6 @@ if __name__ == "__main__":
         result_folder=results_path,
         general_and=False,
         general_or=False,
-        no_clusters=False,
+        no_clusters=True,
         clusters_origianl=True,
         clusters_mutex=False)
