@@ -133,17 +133,17 @@ def get_inputs():
                 )
             ])]
         ),
-        # CGTGoal(
-        #     name="low-battery",
-        #     description="always go the charging point and contact the main station when the battery is low",
-        #     contracts=[PContract([
-        #         P_between_Q_and_R(
-        #             q=ap["s"]["low_battery"],
-        #             p=ap["l"]["go_charging_point"],
-        #             r=ap["s"]["full_battery"]
-        #         )
-        #     ])]
-        # ),
+        CGTGoal(
+            name="low-battery",
+            description="always go the charging point and contact the main station when the battery is low",
+            contracts=[PContract([
+                P_between_Q_and_R(
+                    q=ap["s"]["low_battery"],
+                    p=ap["l"]["go_charging_point"],
+                    r=ap["s"]["full_battery"]
+                )
+            ])]
+        ),
         CGTGoal(
             name="welcome-visitors",
             description="welcome people at the entrance",
