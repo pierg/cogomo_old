@@ -102,7 +102,7 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="get-meds-to-clients",
+            name="shop-get-meds",
             description="if a clients request a medicine go to the warehouse, take the medicine and come back",
             context=(Context(
                 AndLTL([
@@ -141,7 +141,7 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="low-battery",
+            name="fire-alarm",
             description="always go the charging point and contact the main station when the battery is low",
             # context=(Context(
             #     ap["s"]["low_battery"]
@@ -154,7 +154,7 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="welcome-visitors",
+            name="shop-welcome-visitors",
             description="welcome people at the entrance",
             context=(Context(
                 AndLTL([
