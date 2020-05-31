@@ -179,7 +179,7 @@ def get_inputs():
             contracts=[PContract([
                 InstantReaction(
                     trigger=ap["s"]["fire_alarm"],
-                    reaction=ap["l"]["go_warehouse"]
+                    reaction=ap["l"]["go_safe_loc"]
                 )
             ])]
         )
