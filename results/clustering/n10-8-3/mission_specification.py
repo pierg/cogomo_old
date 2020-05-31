@@ -85,10 +85,11 @@ def get_inputs():
             ],
             "inclusion": [
                 [ap["s"]["fire_alarm"], ap["s"]["full_battery"]],
-                [ap["s"]["fire_alarm"], NotLTL (ap["s"]["low_battery"])]
+                [ap["s"]["fire_alarm"], NotLTL(ap["s"]["low_battery"])]
             ],
             "liveness": [
                 ap["s"]["full_battery"],
+                ap["s"]["low_battery"],
                 NotLTL(ap["s"]["fire_alarm"])
             ]
         }
