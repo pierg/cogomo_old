@@ -371,7 +371,7 @@ def create_cgt(context_goals: Dict, compose_with_context: True) -> CGTGoal:
         #     new_goals.append(ctx_goal)
         try:
             ctx_goals = composition(new_goals)
-            ctx_goals.context = ctx
+            # ctx_goals.context = ctx
             composed_goals.append(ctx_goals)
         except CGTFailException as e:
             print("FAILED OPE:\t" + e.failed_operation)

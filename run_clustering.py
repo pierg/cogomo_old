@@ -1,6 +1,7 @@
 import os
 import shutil
 import sys
+from copy import deepcopy
 from typing import List
 
 from checks.tools import And, Or
@@ -203,7 +204,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
     if no_clusters:
         """No Clustering, Conjunction of all the goals (with saturated G = A->G)"""
         try:
-            cgt = conjunction(list_of_goals)
+            cgt = conjunction(deepcopy(list_of_goals))
         except CGTFailException as e:
             print(pretty_cgt_exception(e))
             sys.exit()
