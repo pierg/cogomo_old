@@ -92,8 +92,6 @@ class FP_after_Q_until_R(Scope):
         super().__init__(formula)
 
 
-
-
 """Recurrence pattern"""
 class Recurrence_P_between_Q_and_R(Scope):
     """G((q & ! r & F r) -> ((F(p | r)) U r))"""
@@ -102,6 +100,13 @@ class Recurrence_P_between_Q_and_R(Scope):
         formula = "(G(({q} & ! {r} & F {r}) -> ((F({p} | {r})) U {r})))".format(p=p.formula, q=q.formula, r=r.formula)
         super().__init__(formula)
 
+
+class Recurrence_P_after_Q_until_R(Scope):
+    """G((q & ! r) -> ((F(p | r)) U r))"""
+
+    def __init__(self, p: LTL, q: LTL, r: LTL):
+        formula = "(G(({q} & ! {r}) -> (((F({p} | {r})) U {r}) | G((F({p} | {r}))))))".format(p=p.formula, q=q.formula, r=r.formula)
+        super().__init__(formula)
 
 
 
