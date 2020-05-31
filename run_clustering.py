@@ -22,7 +22,7 @@ except:
 
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
-ap, rules, goals, complete = get_inputs()
+ap, rules, goals = get_inputs()
 
 
 def pretty_print_goals(ap: dict, rules: dict, goals: List[CGTGoal]) -> str:
