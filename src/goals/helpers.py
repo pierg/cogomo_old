@@ -480,8 +480,7 @@ def syntax_fix(text: str):
 def generate_controller_input_text(assum, guaran, ins, outs):
     ret = "ASSUMPTIONS\n\n"
     for p in assum:
-        if p != "TRUE":
-            ret += "\t" + syntax_fix(p) + "\n"
+        ret += "\t" + syntax_fix(p) + "\n"
 
     ret += "\n\nCONSTRAINTS\n\n"
     ret += "# constraints are included in the guarantees\n"
