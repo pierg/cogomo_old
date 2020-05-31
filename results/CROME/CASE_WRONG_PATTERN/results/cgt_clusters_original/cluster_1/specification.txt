@@ -1,0 +1,28 @@
+ASSUMPTIONS
+
+	G( F(! (fire_alarm)))
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & ! guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) & G((fire_alarm) -> (go_safe_loc)))
+
+	G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point))))
+
+
+
+INPUTS
+
+	night_time, low_battery, full_battery, door_alarm, guard_entered, fire_alarm
+
+OUTPUTS
+
+	go_entrace, go_counter, go_back, go_warehouse, go_charging_point, go_safe_loc
+
+END
+

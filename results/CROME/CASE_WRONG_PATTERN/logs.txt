@@ -1,0 +1,1172 @@
+...updating repository ...
+/home/cogomo
+HEAD is now at e1c3fc7 small fix
+remote: Enumerating objects: 458, done.[K
+remote: Counting objects:   0% (1/458)[Kremote: Counting objects:   1% (5/458)[Kremote: Counting objects:   2% (10/458)[Kremote: Counting objects:   3% (14/458)[Kremote: Counting objects:   4% (19/458)[Kremote: Counting objects:   5% (23/458)[Kremote: Counting objects:   6% (28/458)[Kremote: Counting objects:   7% (33/458)[Kremote: Counting objects:   8% (37/458)[Kremote: Counting objects:   9% (42/458)[Kremote: Counting objects:  10% (46/458)[Kremote: Counting objects:  11% (51/458)[Kremote: Counting objects:  12% (55/458)[Kremote: Counting objects:  13% (60/458)[Kremote: Counting objects:  14% (65/458)[Kremote: Counting objects:  15% (69/458)[Kremote: Counting objects:  16% (74/458)[Kremote: Counting objects:  17% (78/458)[Kremote: Counting objects:  18% (83/458)[Kremote: Counting objects:  19% (88/458)[Kremote: Counting objects:  20% (92/458)[Kremote: Counting objects:  21% (97/458)[Kremote: Counting objects:  22% (101/458)[Kremote: Counting objects:  23% (106/458)[Kremote: Counting objects:  24% (110/458)[Kremote: Counting objects:  25% (115/458)[Kremote: Counting objects:  26% (120/458)[Kremote: Counting objects:  27% (124/458)[Kremote: Counting objects:  28% (129/458)[Kremote: Counting objects:  29% (133/458)[Kremote: Counting objects:  30% (138/458)[Kremote: Counting objects:  31% (142/458)[Kremote: Counting objects:  32% (147/458)[Kremote: Counting objects:  33% (152/458)[Kremote: Counting objects:  34% (156/458)[Kremote: Counting objects:  35% (161/458)[Kremote: Counting objects:  36% (165/458)[Kremote: Counting objects:  37% (170/458)[Kremote: Counting objects:  38% (175/458)[Kremote: Counting objects:  39% (179/458)[Kremote: Counting objects:  40% (184/458)[Kremote: Counting objects:  41% (188/458)[Kremote: Counting objects:  42% (193/458)[Kremote: Counting objects:  43% (197/458)[Kremote: Counting objects:  44% (202/458)[Kremote: Counting objects:  45% (207/458)[Kremote: Counting objects:  46% (211/458)[Kremote: Counting objects:  47% (216/458)[Kremote: Counting objects:  48% (220/458)[Kremote: Counting objects:  49% (225/458)[Kremote: Counting objects:  50% (229/458)[Kremote: Counting objects:  51% (234/458)[Kremote: Counting objects:  52% (239/458)[Kremote: Counting objects:  53% (243/458)[Kremote: Counting objects:  54% (248/458)[Kremote: Counting objects:  55% (252/458)[Kremote: Counting objects:  56% (257/458)[Kremote: Counting objects:  57% (262/458)[Kremote: Counting objects:  58% (266/458)[Kremote: Counting objects:  59% (271/458)[Kremote: Counting objects:  60% (275/458)[Kremote: Counting objects:  61% (280/458)[Kremote: Counting objects:  62% (284/458)[Kremote: Counting objects:  63% (289/458)[Kremote: Counting objects:  64% (294/458)[Kremote: Counting objects:  65% (298/458)[Kremote: Counting objects:  66% (303/458)[Kremote: Counting objects:  67% (307/458)[Kremote: Counting objects:  68% (312/458)[Kremote: Counting objects:  69% (317/458)[Kremote: Counting objects:  70% (321/458)[Kremote: Counting objects:  71% (326/458)[Kremote: Counting objects:  72% (330/458)[Kremote: Counting objects:  73% (335/458)[Kremote: Counting objects:  74% (339/458)[Kremote: Counting objects:  75% (344/458)[Kremote: Counting objects:  76% (349/458)[Kremote: Counting objects:  77% (353/458)[Kremote: Counting objects:  78% (358/458)[Kremote: Counting objects:  79% (362/458)[Kremote: Counting objects:  80% (367/458)[Kremote: Counting objects:  81% (371/458)[Kremote: Counting objects:  82% (376/458)[Kremote: Counting objects:  83% (381/458)[Kremote: Counting objects:  84% (385/458)[Kremote: Counting objects:  85% (390/458)[Kremote: Counting objects:  86% (394/458)[Kremote: Counting objects:  87% (399/458)[Kremote: Counting objects:  88% (404/458)[Kremote: Counting objects:  89% (408/458)[Kremote: Counting objects:  90% (413/458)[Kremote: Counting objects:  91% (417/458)[Kremote: Counting objects:  92% (422/458)[Kremote: Counting objects:  93% (426/458)[Kremote: Counting objects:  94% (431/458)[Kremote: Counting objects:  95% (436/458)[Kremote: Counting objects:  96% (440/458)[Kremote: Counting objects:  97% (445/458)[Kremote: Counting objects:  98% (449/458)[Kremote: Counting objects:  99% (454/458)[Kremote: Counting objects: 100% (458/458)[Kremote: Counting objects: 100% (458/458), done.[K
+remote: Compressing objects:   0% (1/168)[Kremote: Compressing objects:   1% (2/168)[Kremote: Compressing objects:   2% (4/168)[Kremote: Compressing objects:   3% (6/168)[Kremote: Compressing objects:   4% (7/168)[Kremote: Compressing objects:   5% (9/168)[Kremote: Compressing objects:   6% (11/168)[Kremote: Compressing objects:   7% (12/168)[Kremote: Compressing objects:   8% (14/168)[Kremote: Compressing objects:   9% (16/168)[Kremote: Compressing objects:  10% (17/168)[Kremote: Compressing objects:  11% (19/168)[Kremote: Compressing objects:  12% (21/168)[Kremote: Compressing objects:  13% (22/168)[Kremote: Compressing objects:  14% (24/168)[Kremote: Compressing objects:  15% (26/168)[Kremote: Compressing objects:  16% (27/168)[Kremote: Compressing objects:  17% (29/168)[Kremote: Compressing objects:  18% (31/168)[Kremote: Compressing objects:  19% (32/168)[Kremote: Compressing objects:  20% (34/168)[Kremote: Compressing objects:  21% (36/168)[Kremote: Compressing objects:  22% (37/168)[Kremote: Compressing objects:  23% (39/168)[Kremote: Compressing objects:  24% (41/168)[Kremote: Compressing objects:  25% (42/168)[Kremote: Compressing objects:  26% (44/168)[Kremote: Compressing objects:  27% (46/168)[Kremote: Compressing objects:  28% (48/168)[Kremote: Compressing objects:  29% (49/168)[Kremote: Compressing objects:  30% (51/168)[Kremote: Compressing objects:  31% (53/168)[Kremote: Compressing objects:  32% (54/168)[Kremote: Compressing objects:  33% (56/168)[Kremote: Compressing objects:  34% (58/168)[Kremote: Compressing objects:  35% (59/168)[Kremote: Compressing objects:  36% (61/168)[Kremote: Compressing objects:  37% (63/168)[Kremote: Compressing objects:  38% (64/168)[Kremote: Compressing objects:  39% (66/168)[Kremote: Compressing objects:  40% (68/168)[Kremote: Compressing objects:  41% (69/168)[Kremote: Compressing objects:  42% (71/168)[Kremote: Compressing objects:  43% (73/168)[Kremote: Compressing objects:  44% (74/168)[Kremote: Compressing objects:  45% (76/168)[Kremote: Compressing objects:  46% (78/168)[Kremote: Compressing objects:  47% (79/168)[Kremote: Compressing objects:  48% (81/168)[Kremote: Compressing objects:  49% (83/168)[Kremote: Compressing objects:  50% (84/168)[Kremote: Compressing objects:  51% (86/168)[Kremote: Compressing objects:  52% (88/168)[Kremote: Compressing objects:  53% (90/168)[Kremote: Compressing objects:  54% (91/168)[Kremote: Compressing objects:  55% (93/168)[Kremote: Compressing objects:  56% (95/168)[Kremote: Compressing objects:  57% (96/168)[Kremote: Compressing objects:  58% (98/168)[Kremote: Compressing objects:  59% (100/168)[Kremote: Compressing objects:  60% (101/168)[Kremote: Compressing objects:  61% (103/168)[Kremote: Compressing objects:  62% (105/168)[Kremote: Compressing objects:  63% (106/168)[Kremote: Compressing objects:  64% (108/168)[Kremote: Compressing objects:  65% (110/168)[Kremote: Compressing objects:  66% (111/168)[Kremote: Compressing objects:  67% (113/168)[Kremote: Compressing objects:  68% (115/168)[Kremote: Compressing objects:  69% (116/168)[Kremote: Compressing objects:  70% (118/168)[Kremote: Compressing objects:  71% (120/168)[Kremote: Compressing objects:  72% (121/168)[Kremote: Compressing objects:  73% (123/168)[Kremote: Compressing objects:  74% (125/168)[Kremote: Compressing objects:  75% (126/168)[Kremote: Compressing objects:  76% (128/168)[Kremote: Compressing objects:  77% (130/168)[Kremote: Compressing objects:  78% (132/168)[Kremote: Compressing objects:  79% (133/168)[Kremote: Compressing objects:  80% (135/168)[Kremote: Compressing objects:  81% (137/168)[Kremote: Compressing objects:  82% (138/168)[Kremote: Compressing objects:  83% (140/168)[Kremote: Compressing objects:  84% (142/168)[Kremote: Compressing objects:  85% (143/168)[Kremote: Compressing objects:  86% (145/168)[Kremote: Compressing objects:  87% (147/168)[Kremote: Compressing objects:  88% (148/168)[Kremote: Compressing objects:  89% (150/168)[Kremote: Compressing objects:  90% (152/168)[Kremote: Compressing objects:  91% (153/168)[Kremote: Compressing objects:  92% (155/168)[Kremote: Compressing objects:  93% (157/168)[Kremote: Compressing objects:  94% (158/168)[Kremote: Compressing objects:  95% (160/168)[Kremote: Compressing objects:  96% (162/168)[Kremote: Compressing objects:  97% (163/168)[Kremote: Compressing objects:  98% (165/168)[Kremote: Compressing objects:  99% (167/168)[Kremote: Compressing objects: 100% (168/168)[Kremote: Compressing objects: 100% (168/168), done.[K
+Receiving objects:   0% (1/3685)   Receiving objects:   1% (37/3685)   Receiving objects:   2% (74/3685)   Receiving objects:   3% (111/3685)   Receiving objects:   4% (148/3685)   Receiving objects:   5% (185/3685)   Receiving objects:   6% (222/3685)   Receiving objects:   7% (258/3685)   Receiving objects:   8% (295/3685)   Receiving objects:   9% (332/3685)   Receiving objects:  10% (369/3685)   Receiving objects:  11% (406/3685)   Receiving objects:  12% (443/3685)   Receiving objects:  13% (480/3685)   Receiving objects:  14% (516/3685)   Receiving objects:  15% (553/3685)   Receiving objects:  16% (590/3685)   Receiving objects:  17% (627/3685)   Receiving objects:  18% (664/3685)   Receiving objects:  19% (701/3685)   Receiving objects:  20% (737/3685)   Receiving objects:  21% (774/3685)   Receiving objects:  22% (811/3685)   Receiving objects:  23% (848/3685)   Receiving objects:  24% (885/3685)   Receiving objects:  25% (922/3685)   Receiving objects:  26% (959/3685)   Receiving objects:  27% (995/3685)   Receiving objects:  28% (1032/3685)   Receiving objects:  29% (1069/3685)   Receiving objects:  30% (1106/3685)   Receiving objects:  31% (1143/3685)   Receiving objects:  32% (1180/3685)   Receiving objects:  33% (1217/3685)   Receiving objects:  34% (1253/3685)   Receiving objects:  35% (1290/3685)   Receiving objects:  36% (1327/3685)   Receiving objects:  37% (1364/3685)   Receiving objects:  38% (1401/3685)   Receiving objects:  39% (1438/3685)   Receiving objects:  40% (1474/3685)   Receiving objects:  41% (1511/3685)   Receiving objects:  42% (1548/3685)   Receiving objects:  43% (1585/3685)   Receiving objects:  44% (1622/3685)   Receiving objects:  45% (1659/3685)   Receiving objects:  46% (1696/3685)   Receiving objects:  47% (1732/3685)   Receiving objects:  48% (1769/3685)   Receiving objects:  49% (1806/3685)   Receiving objects:  50% (1843/3685)   Receiving objects:  51% (1880/3685)   Receiving objects:  52% (1917/3685)   Receiving objects:  53% (1954/3685)   Receiving objects:  54% (1990/3685)   Receiving objects:  55% (2027/3685)   Receiving objects:  56% (2064/3685)   Receiving objects:  57% (2101/3685)   Receiving objects:  58% (2138/3685)   Receiving objects:  59% (2175/3685)   Receiving objects:  60% (2211/3685)   Receiving objects:  61% (2248/3685)   Receiving objects:  62% (2285/3685)   Receiving objects:  63% (2322/3685)   Receiving objects:  64% (2359/3685)   Receiving objects:  65% (2396/3685)   Receiving objects:  66% (2433/3685)   Receiving objects:  67% (2469/3685)   Receiving objects:  68% (2506/3685)   Receiving objects:  69% (2543/3685)   Receiving objects:  70% (2580/3685)   Receiving objects:  71% (2617/3685)   Receiving objects:  72% (2654/3685)   Receiving objects:  73% (2691/3685)   Receiving objects:  74% (2727/3685)   Receiving objects:  75% (2764/3685)   Receiving objects:  76% (2801/3685)   Receiving objects:  77% (2838/3685)   Receiving objects:  78% (2875/3685)   Receiving objects:  79% (2912/3685)   Receiving objects:  80% (2948/3685)   Receiving objects:  81% (2985/3685)   Receiving objects:  82% (3022/3685)   Receiving objects:  83% (3059/3685)   Receiving objects:  84% (3096/3685)   Receiving objects:  85% (3133/3685)   Receiving objects:  86% (3170/3685)   Receiving objects:  87% (3206/3685)   Receiving objects:  88% (3243/3685)   Receiving objects:  89% (3280/3685)   remote: Total 3685 (delta 325), reused 386 (delta 257), pack-reused 3227[K
+Receiving objects:  90% (3317/3685)   Receiving objects:  91% (3354/3685)   Receiving objects:  92% (3391/3685)   Receiving objects:  93% (3428/3685)   Receiving objects:  94% (3464/3685)   Receiving objects:  95% (3501/3685)   Receiving objects:  96% (3538/3685)   Receiving objects:  97% (3575/3685)   Receiving objects:  98% (3612/3685)   Receiving objects:  99% (3649/3685)   Receiving objects: 100% (3685/3685)   Receiving objects: 100% (3685/3685), 1.03 MiB | 2.55 MiB/s, done.
+Resolving deltas:   0% (0/2649)   Resolving deltas:   2% (61/2649)   Resolving deltas:   3% (85/2649)   Resolving deltas:   4% (118/2649)   Resolving deltas:  11% (302/2649)   Resolving deltas:  13% (346/2649)   Resolving deltas:  14% (375/2649)   Resolving deltas:  15% (400/2649)   Resolving deltas:  16% (425/2649)   Resolving deltas:  17% (467/2649)   Resolving deltas:  21% (557/2649)   Resolving deltas:  22% (593/2649)   Resolving deltas:  24% (653/2649)   Resolving deltas:  25% (668/2649)   Resolving deltas:  26% (689/2649)   Resolving deltas:  27% (732/2649)   Resolving deltas:  28% (757/2649)   Resolving deltas:  30% (803/2649)   Resolving deltas:  31% (845/2649)   Resolving deltas:  32% (848/2649)   Resolving deltas:  35% (936/2649)   Resolving deltas:  40% (1072/2649)   Resolving deltas:  41% (1093/2649)   Resolving deltas:  52% (1396/2649)   Resolving deltas:  75% (2010/2649)   Resolving deltas:  82% (2194/2649)   Resolving deltas:  83% (2199/2649)   Resolving deltas:  84% (2226/2649)   Resolving deltas:  85% (2255/2649)   Resolving deltas:  86% (2282/2649)   Resolving deltas:  87% (2305/2649)   Resolving deltas:  89% (2381/2649)   Resolving deltas:  90% (2386/2649)   Resolving deltas:  91% (2426/2649)   Resolving deltas:  92% (2446/2649)   Resolving deltas:  93% (2465/2649)   Resolving deltas:  94% (2508/2649)   Resolving deltas:  95% (2520/2649)   Resolving deltas:  97% (2582/2649)   Resolving deltas:  98% (2616/2649)   Resolving deltas:  99% (2623/2649)   Resolving deltas: 100% (2649/2649)   Resolving deltas: 100% (2649/2649), completed with 40 local objects.
+From https://github.com/pierg/cogomo
+   e1c3fc7..b7f33e0  master     -> origin/master
+Updating e1c3fc7..b7f33e0
+Fast-forward
+ Dockerfile                                         |   2 [32m+[m[31m-[m
+ bin/ubuntu_19.10/owl.jar                           | Bin [31m0[m -> [32m4251364[m bytes
+ bin/ubuntu_19.10/strix                             | Bin [31m0[m -> [32m17103616[m bytes
+ clustering_input.py                                | 133 [31m--------[m
+ clustering_run.py                                  |  63 [31m----[m
+ entrypoint.sh                                      |   4 [32m+[m[31m-[m
+ main_tests.py                                      | 257 [31m---------------[m
+ mission_specification.py                           | 187 [32m+++++++++++[m
+ .../input_text_files}/mission_example.txt          |   0
+ .../input_text_files}/mission_example_contexts.txt |   0
+ .../input_text_files}/pattern_example.json         |   0
+ .../input_text_files}/robots_components_simple.txt |   0
+ .../input_text_files}/robots_patterns_simple.txt   |   0
+ nusmvfile.smv                                      |  18 [32m+[m[31m-[m
+ output/clustering/context-based-cgt.txt            | 132 [31m--------[m
+ results/CROME/mission_specification.py             | 187 [32m+++++++++++[m
+ .../c1-nostrict/mission_specification.py           | 169 [32m++++++++++[m
+ results/clustering/c1/mission_specification.py     | 196 [32m++++++++++++[m
+ results/clustering/c2/mission_specification.py     | 170 [32m++++++++++[m
+ results/clustering/c3/mission_specification.py     | 170 [32m++++++++++[m
+ results/clustering/c4/mission_specification.py     | 171 [32m++++++++++[m
+ results/clustering/comb.sh                         |  46 [32m+++[m
+ .../n1-fixed-prompt/mission_specification.py       | 170 [32m++++++++++[m
+ results/clustering/n1/mission_specification.py     | 170 [32m++++++++++[m
+ results/clustering/n10-1/mission_specification.py  | 188 [32m+++++++++++[m
+ results/clustering/n10-2/mission_specification.py  | 188 [32m+++++++++++[m
+ results/clustering/n10-3/mission_specification.py  | 188 [32m+++++++++++[m
+ results/clustering/n10-4/mission_specification.py  | 188 [32m+++++++++++[m
+ results/clustering/n10-5/mission_specification.py  | 188 [32m+++++++++++[m
+ results/clustering/n10-6/mission_specification.py  | 187 [32m+++++++++++[m
+ results/clustering/n10-7/mission_specification.py  | 188 [32m+++++++++++[m
+ .../clustering/n10-8-1/mission_specification.py    | 189 [32m+++++++++++[m
+ .../clustering/n10-8-2/mission_specification.py    | 191 [32m+++++++++++[m
+ .../clustering/n10-8-3/mission_specification.py    | 192 [32m+++++++++++[m
+ results/clustering/n10-8/mission_specification.py  | 189 [32m+++++++++++[m
+ results/clustering/n10/mission_specification.py    | 185 [32m+++++++++++[m
+ results/clustering/n11-1/mission_specification.py  | 188 [32m+++++++++++[m
+ results/clustering/n11-2/mission_specification.py  | 188 [32m+++++++++++[m
+ results/clustering/n11-3/mission_specification.py  | 186 [32m+++++++++++[m
+ .../clustering/n11-4-good/mission_specification.py | 187 [32m+++++++++++[m
+ .../n11-4-patrol/mission_specification.py          | 187 [32m+++++++++++[m
+ .../n11-4-visit/mission_specification.py           | 187 [32m+++++++++++[m
+ results/clustering/n11-5/mission_specification.py  | 187 [32m+++++++++++[m
+ results/clustering/n11-6/mission_specification.py  | 186 [32m+++++++++++[m
+ results/clustering/n11/mission_specification.py    | 191 [32m+++++++++++[m
+ results/clustering/n12/mission_specification.py    | 186 [32m+++++++++++[m
+ results/clustering/n13-1/mission_specification.py  | 186 [32m+++++++++++[m
+ results/clustering/n13-2/mission_specification.py  | 190 [32m+++++++++++[m
+ results/clustering/n13-4/mission_specification.py  | 187 [32m+++++++++++[m
+ .../clustering/n13-good/mission_specification.py   | 187 [32m+++++++++++[m
+ .../clustering/n2-nofire/mission_specification.py  | 180 [32m+++++++++++[m
+ results/clustering/n2/mission_specification.py     | 180 [32m+++++++++++[m
+ results/clustering/n3/mission_specification.py     | 193 [32m++++++++++++[m
+ results/clustering/n4/mission_specification.py     | 195 [32m++++++++++++[m
+ results/clustering/n5/mission_specification.py     | 195 [32m++++++++++++[m
+ results/clustering/n6/mission_specification.py     | 195 [32m++++++++++++[m
+ results/clustering/n7/mission_specification.py     | 195 [32m++++++++++++[m
+ results/clustering/n8-2/mission_specification.py   | 188 [32m+++++++++++[m
+ results/clustering/n8-3/mission_specification.py   | 190 [32m+++++++++++[m
+ results/clustering/n8-4/mission_specification.py   | 190 [32m+++++++++++[m
+ results/clustering/n8-5/mission_specification.py   | 190 [32m+++++++++++[m
+ results/clustering/n8-6/mission_specification.py   | 190 [32m+++++++++++[m
+ results/clustering/n8-7/mission_specification.py   | 204 [32m++++++++++++[m
+ results/clustering/n8-8/mission_specification.py   | 204 [32m++++++++++++[m
+ results/clustering/n8/mission_specification.py     | 187 [32m+++++++++++[m
+ results/clustering/n9/mission_specification.py     | 202 [32m++++++++++++[m
+ results/clustering/pull.sh                         |   5 [32m+[m
+ results/clustering/push.sh                         |   7 [32m+[m
+ results/clustering/run.sh                          |  55 [32m++++[m
+ .../test-conflict/mission_specification.py         | 117 [32m+++++++[m
+ .../test-scopes-liveness/mission_specification.py  | 155 [32m+++++++++[m
+ .../test-scopes/mission_specification.py           | 155 [32m+++++++++[m
+ run.sh                                             |  30 [32m+[m[31m-[m
+ run_clustering.py                                  | 350 [32m+++++++++++++++++++++[m
+ run_clustering_combinations.py                     |  78 [32m+++++[m
+ mapping_run.py => run_mapping.py                   |   4 [32m+[m[31m-[m
+ src/checks/nusmv.py                                |   4 [32m+[m
+ src/checks/tools.py                                |   2 [32m+[m
+ src/contracts/contract.py                          |  26 [32m+[m[31m-[m
+ src/contracts/operations.py                        |   6 [32m+[m[31m-[m
+ src/controller/synthesis.py                        |  66 [32m+++[m[31m-[m
+ src/goals/cgtgoal.py                               |  57 [32m++[m[31m--[m
+ src/goals/helpers.py                               | 191 [32m+++++[m[31m------[m
+ src/goals/operations.py                            | 266 [32m++++++++++[m[31m------[m
+ src/helper/buchi.py                                | 185 [32m+++++++++[m[31m--[m
+ src/helper/tools.py                                |   2 [32m+[m[31m-[m
+ src/typescogomo/formula.py                         | 110 [32m++++[m[31m---[m
+ src/typescogomo/formulae.py                        |  92 [32m+++[m[31m---[m
+ src/typescogomo/guarantee.py                       |   6 [32m+[m[31m-[m
+ src/typescogomo/patterns.py                        | 222 [32m+++++++++++[m[31m--[m
+ src/typescogomo/scopes.py                          | 110 [32m++++++[m[31m-[m
+ src/z3/tests/test_component_selection.py           |   4 [32m+[m[31m-[m
+ src/z3/tests/test_greedy_selection.py              |   4 [32m+[m[31m-[m
+ tests/components/test_component_selection.py       |   6 [32m+[m[31m-[m
+ tests/components/test_port.py                      |   2 [32m+[m[31m-[m
+ tests/goals/test_consolidation.py                  |   4 [32m+[m[31m-[m
+ tests/goals/test_mapping.py                        |  12 [32m+[m[31m-[m
+ 97 files changed, 11567 insertions(+), 973 deletions(-)
+ create mode 100644 bin/ubuntu_19.10/owl.jar
+ create mode 100755 bin/ubuntu_19.10/strix
+ delete mode 100644 clustering_input.py
+ delete mode 100644 clustering_run.py
+ delete mode 100644 main_tests.py
+ create mode 100644 mission_specification.py
+ rename {input_files => missions/input_text_files}/mission_example.txt (100%)
+ rename {input_files => missions/input_text_files}/mission_example_contexts.txt (100%)
+ rename {input_files => missions/input_text_files}/pattern_example.json (100%)
+ rename {input_files => missions/input_text_files}/robots_components_simple.txt (100%)
+ rename {input_files => missions/input_text_files}/robots_patterns_simple.txt (100%)
+ delete mode 100644 output/clustering/context-based-cgt.txt
+ create mode 100644 results/CROME/mission_specification.py
+ create mode 100644 results/clustering/c1-nostrict/mission_specification.py
+ create mode 100644 results/clustering/c1/mission_specification.py
+ create mode 100644 results/clustering/c2/mission_specification.py
+ create mode 100644 results/clustering/c3/mission_specification.py
+ create mode 100644 results/clustering/c4/mission_specification.py
+ create mode 100755 results/clustering/comb.sh
+ create mode 100644 results/clustering/n1-fixed-prompt/mission_specification.py
+ create mode 100644 results/clustering/n1/mission_specification.py
+ create mode 100644 results/clustering/n10-1/mission_specification.py
+ create mode 100644 results/clustering/n10-2/mission_specification.py
+ create mode 100644 results/clustering/n10-3/mission_specification.py
+ create mode 100644 results/clustering/n10-4/mission_specification.py
+ create mode 100644 results/clustering/n10-5/mission_specification.py
+ create mode 100644 results/clustering/n10-6/mission_specification.py
+ create mode 100644 results/clustering/n10-7/mission_specification.py
+ create mode 100644 results/clustering/n10-8-1/mission_specification.py
+ create mode 100644 results/clustering/n10-8-2/mission_specification.py
+ create mode 100644 results/clustering/n10-8-3/mission_specification.py
+ create mode 100644 results/clustering/n10-8/mission_specification.py
+ create mode 100644 results/clustering/n10/mission_specification.py
+ create mode 100644 results/clustering/n11-1/mission_specification.py
+ create mode 100644 results/clustering/n11-2/mission_specification.py
+ create mode 100644 results/clustering/n11-3/mission_specification.py
+ create mode 100644 results/clustering/n11-4-good/mission_specification.py
+ create mode 100644 results/clustering/n11-4-patrol/mission_specification.py
+ create mode 100644 results/clustering/n11-4-visit/mission_specification.py
+ create mode 100644 results/clustering/n11-5/mission_specification.py
+ create mode 100644 results/clustering/n11-6/mission_specification.py
+ create mode 100644 results/clustering/n11/mission_specification.py
+ create mode 100644 results/clustering/n12/mission_specification.py
+ create mode 100644 results/clustering/n13-1/mission_specification.py
+ create mode 100644 results/clustering/n13-2/mission_specification.py
+ create mode 100644 results/clustering/n13-4/mission_specification.py
+ create mode 100644 results/clustering/n13-good/mission_specification.py
+ create mode 100644 results/clustering/n2-nofire/mission_specification.py
+ create mode 100644 results/clustering/n2/mission_specification.py
+ create mode 100644 results/clustering/n3/mission_specification.py
+ create mode 100644 results/clustering/n4/mission_specification.py
+ create mode 100644 results/clustering/n5/mission_specification.py
+ create mode 100644 results/clustering/n6/mission_specification.py
+ create mode 100644 results/clustering/n7/mission_specification.py
+ create mode 100644 results/clustering/n8-2/mission_specification.py
+ create mode 100644 results/clustering/n8-3/mission_specification.py
+ create mode 100644 results/clustering/n8-4/mission_specification.py
+ create mode 100644 results/clustering/n8-5/mission_specification.py
+ create mode 100644 results/clustering/n8-6/mission_specification.py
+ create mode 100644 results/clustering/n8-7/mission_specification.py
+ create mode 100644 results/clustering/n8-8/mission_specification.py
+ create mode 100644 results/clustering/n8/mission_specification.py
+ create mode 100644 results/clustering/n9/mission_specification.py
+ create mode 100755 results/clustering/pull.sh
+ create mode 100755 results/clustering/push.sh
+ create mode 100755 results/clustering/run.sh
+ create mode 100644 results/clustering/test-conflict/mission_specification.py
+ create mode 100644 results/clustering/test-scopes-liveness/mission_specification.py
+ create mode 100644 results/clustering/test-scopes/mission_specification.py
+ create mode 100644 run_clustering.py
+ create mode 100644 run_clustering_combinations.py
+ rename mapping_run.py => run_mapping.py (97%)
+...evaluation launch_script...
+Launching clustering...
+Copying custom input file if exists...
+Launching clustering...
+CUSTOM SPEC c2:
+/home/cogomo
+			SAT:	night_time
+			SAT:	day_time
+			SAT:	low_battery
+			SAT:	full_battery
+			SAT:	entrance
+			SAT:	shop
+			SAT:	get_med
+			SAT:	warehouse
+			SAT:	human_entered
+			SAT:	guard_entered
+			SAT:	door_alarm
+			SAT:	fire_alarm
+			SAT:	go_entrace
+			SAT:	go_counter
+			SAT:	go_back
+			SAT:	go_warehouse
+			SAT:	go_charging_point
+			SAT:	go_safe_loc
+			SAT:	contact_station
+			SAT:	welcome_client
+			SAT:	take_med
+			SAT:	give_med
+			SAT:	!(fire_alarm)
+			SAT:	night_time
+			SAT:	G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))
+			SAT:	G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))
+			SAT:	G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))
+GOAL:	'night-time-patroling'
+  A:	TRUE
+  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+
+			SAT:	(shop & day_time)
+			SAT:	(shop & day_time)
+			SAT:	(F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace)))))
+			SAT:	G((go_warehouse) -> (take_med))
+			SAT:	G((go_entrace) -> (give_med))
+			SAT:	((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))
+			SAT:	G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))
+			SAT:	G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))
+			SAT:	G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))
+GOAL:	'get-meds-to-clients'
+  A:	TRUE
+  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+GOAL:	'low-battery'
+  A:	TRUE
+  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+
+			SAT:	(day_time & entrance)
+			SAT:	(day_time & entrance)
+			SAT:	G((human_entered) -> F(welcome_client))
+			SAT:	G((human_entered) -> F(welcome_client))
+			SAT:	G((human_entered) -> F(welcome_client))
+GOAL:	'welcome-visitors'
+  A:	TRUE
+  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+
+			SAT:	night_time
+			SAT:	(G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))
+			SAT:	(G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))
+			SAT:	(G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))
+GOAL:	'shop-alarm'
+  A:	TRUE
+  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+
+
+			SAT:	G((fire_alarm) -> (go_safe_loc))
+			SAT:	G((fire_alarm) -> (go_safe_loc))
+			SAT:	G((fire_alarm) -> (go_safe_loc))
+GOAL:	'fire-alarm'
+  A:	TRUE
+  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+GOAL:	'night-time-patroling'
+  A:	TRUE
+  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+
+GOAL:	'get-meds-to-clients'
+  A:	TRUE
+  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+
+GOAL:	'low-battery'
+  A:	TRUE
+  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+
+GOAL:	'welcome-visitors'
+  A:	TRUE
+  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+
+GOAL:	'shop-alarm'
+  A:	TRUE
+  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+
+
+GOAL:	'fire-alarm'
+  A:	TRUE
+  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, warehouse, entrance, human_entered, door_alarm, night_time" --outs="go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter"
+
+
+/home/cogomo/output/results/goal_list/night-time-patroling/specification.txt IS REALIZABLE
+/home/cogomo/output/results/goal_list/night-time-patroling/controller.eps  ->   mealy machine generated
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, warehouse, entrance, human_entered, door_alarm, night_time" --outs="go_back, go_entrace, go_safe_loc, go_warehouse, give_med, go_charging_point, go_counter, take_med"
+
+
+/home/cogomo/output/results/goal_list/get-meds-to-clients/specification.txt IS REALIZABLE
+/home/cogomo/output/results/goal_list/get-meds-to-clients/controller.eps  ->   mealy machine generated
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (((G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, warehouse, entrance, human_entered, door_alarm, full_battery, low_battery, night_time" --outs="go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter"
+
+
+/home/cogomo/output/results/goal_list/low-battery/specification.txt IS REALIZABLE
+/home/cogomo/output/results/goal_list/low-battery/controller.eps  ->   mealy machine generated
+			SAT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, entrance, human_entered, warehouse, door_alarm, night_time" --outs="welcome_client, go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter"
+
+
+/home/cogomo/output/results/goal_list/welcome-visitors/specification.txt IS REALIZABLE
+/home/cogomo/output/results/goal_list/welcome-visitors/controller.eps  ->   mealy machine generated
+			SAT:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> (G((door_alarm & ! guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, door_alarm, shop, warehouse, entrance, human_entered, get_med, night_time" --outs="go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter"
+
+
+/home/cogomo/output/results/goal_list/shop-alarm/specification.txt IS REALIZABLE
+/home/cogomo/output/results/goal_list/shop-alarm/controller.eps  ->   mealy machine generated
+			SAT:	G((fire_alarm) -> (go_safe_loc))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((fire_alarm) -> (go_safe_loc)) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, warehouse, entrance, human_entered, door_alarm, night_time" --outs="go_back, go_warehouse, go_entrace, go_charging_point, go_safe_loc, go_counter"
+
+
+/home/cogomo/output/results/goal_list/fire-alarm/specification.txt IS REALIZABLE
+/home/cogomo/output/results/goal_list/fire-alarm/controller.eps  ->   mealy machine generated
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G((fire_alarm) -> (go_safe_loc)))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G((fire_alarm) -> (go_safe_loc)))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			VALID:	((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			VALID:	((G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			VALID:	((G((fire_alarm) -> (go_safe_loc))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			SAT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+			SAT:	(G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))
+			VALID:	(((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))) -> (G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))))
+			SAT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+			SAT:	(G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((fire_alarm) -> (go_safe_loc)))) -> (G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))))
+			SAT:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+			SAT:	(G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G((fire_alarm) -> (go_safe_loc)))) -> (G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))))
+The conjunction satisfiable.
+GOAL:	'fire-alarm^^get-meds-to-clients^^low-battery^^night-time-patroling^^shop-alarm^^welcome-visitors'
+  A:	TRUE
+  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+	/\ 
+  A:	TRUE
+  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+	/\ 
+  A:	TRUE
+  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+	/\ 
+  A:	TRUE
+  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+	/\ 
+  A:	TRUE
+  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+	/\ 
+  A:	TRUE
+  G:	G((fire_alarm) -> (go_safe_loc))
+
+	CONJUNCTION
+		GOAL:	'night-time-patroling'
+		  A:	TRUE
+		  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+		GOAL:	'get-meds-to-clients'
+		  A:	TRUE
+		  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+		GOAL:	'low-battery'
+		  A:	TRUE
+		  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+		GOAL:	'welcome-visitors'
+		  A:	TRUE
+		  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+		GOAL:	'shop-alarm'
+		  A:	TRUE
+		  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+
+		GOAL:	'fire-alarm'
+		  A:	TRUE
+		  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G((fire_alarm) -> (go_safe_loc)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G( F(! (fire_alarm)))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "((G( F(! (fire_alarm)))) -> (((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((night_time) -> (G((door_alarm & ! guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G((fire_alarm) -> (go_safe_loc))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="night_time, get_med, shop, day_time, low_battery, full_battery, human_entered, entrance, door_alarm, guard_entered, fire_alarm" --outs="go_entrace, go_counter, go_back, go_warehouse, take_med, give_med, go_charging_point, welcome_client, go_safe_loc"
+
+
+UNREALIZABLE
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+
+
+
+
+6 GOALS
+CONTEXTS:['night_time', '(shop & day_time)', 'TRUE', '(day_time & entrance)']
+
+
+
+
+
+__ALL_COMBINATIONS_(15)___________________________________________________________
+night_time			!((shop & day_time))			!(TRUE)			!((day_time & entrance))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+(shop & day_time)			!(night_time)			!(TRUE)			!((day_time & entrance))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+TRUE			!(night_time)			!((shop & day_time))			!((day_time & entrance))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+(day_time & entrance)			!(night_time)			!((shop & day_time))			!(TRUE)			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+night_time			(shop & day_time)			!(TRUE)			!((day_time & entrance))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+night_time			TRUE			!((shop & day_time))			!((day_time & entrance))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+night_time			(day_time & entrance)			!((shop & day_time))			!(TRUE)			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+(shop & day_time)			TRUE			!(night_time)			!((day_time & entrance))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+(shop & day_time)			(day_time & entrance)			!(night_time)			!(TRUE)			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+TRUE			(day_time & entrance)			!(night_time)			!((shop & day_time))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+night_time			(shop & day_time)			TRUE			!((day_time & entrance))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+night_time			(shop & day_time)			(day_time & entrance)			!(TRUE)			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+night_time			TRUE			(day_time & entrance)			!((shop & day_time))			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+(shop & day_time)			TRUE			(day_time & entrance)			!(night_time)			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+night_time			(shop & day_time)			TRUE			(day_time & entrance)			G(((shop & !(warehouse)) | (warehouse & !(shop))))			G(((day_time & !(night_time)) | (night_time & !(day_time))))			G(entrance -> shop)			G(human_entered -> shop)			G(get_med -> entrance)			G(fire_alarm -> warehouse)			G(door_alarm -> shop)			G(guard_entered -> shop)
+
+
+MERGING 15 CONTEXTS...
+			SAT:	(TRUE & !(night_time) & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+			SAT:	(night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+			SAT:	((shop & day_time) & TRUE & !(night_time) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+			SAT:	((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+
+
+__MERGED_____________________________________________________________________
+(TRUE & !(night_time) & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+(night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+((shop & day_time) & TRUE & !(night_time) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+
+
+MAPPING 6 GOALS TO 4 CONTEXTS
+Ctx: (TRUE & !(night_time) & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: TRUE
+Ctx: (TRUE & !(night_time) & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: TRUE
+			VALID:	(((night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (night_time))
+Ctx: (night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: night_time
+Ctx: (night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: TRUE
+			VALID:	(((night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (night_time))
+Ctx: (night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: night_time
+Ctx: (night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: TRUE
+			VALID:	((((shop & day_time) & TRUE & !(night_time) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((shop & day_time)))
+Ctx: ((shop & day_time) & TRUE & !(night_time) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: (shop & day_time)
+Ctx: ((shop & day_time) & TRUE & !(night_time) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: TRUE
+Ctx: ((shop & day_time) & TRUE & !(night_time) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: TRUE
+			VALID:	((((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((shop & day_time)))
+Ctx: ((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: (shop & day_time)
+Ctx: ((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: TRUE
+			VALID:	((((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((day_time & entrance)))
+Ctx: ((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: (day_time & entrance)
+Ctx: ((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop)) 	-->	 Goal_ctx: TRUE
+*** ALL GOAL HAVE BEEN MAPPED TO A CONTEXT ***
+			VALID:	((G((fire_alarm) -> (go_safe_loc))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+The composition is compatible, consistent and feasible
+Simplifying assumption TRUE
+			VALID:	((G((fire_alarm) -> (go_safe_loc))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G((fire_alarm) -> (go_safe_loc))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+Composed contract:
+  variables:	[ fire_alarm, go_safe_loc ]
+  assumptions      :	[ TRUE ]
+  guarantees_satur :	[ (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))), G((fire_alarm) -> (go_safe_loc)) ]
+  guarantees_unsat :	[ (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))), G((fire_alarm) -> (go_safe_loc)) ]
+
+GOAL:	'fire-alarm||low-battery'
+  A:	TRUE
+  G:	G((fire_alarm) -> (go_safe_loc))
+
+	COMPOSITION
+		GOAL:	'low-battery'
+		  A:	TRUE
+		  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+		GOAL:	'fire-alarm'
+		  A:	TRUE
+		  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))
+			VALID:	((((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))) -> ((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))))
+			SAT:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) & G((fire_alarm) -> (go_safe_loc)))) -> (((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))))
+The composition is compatible, consistent and feasible
+Simplifying assumption TRUE
+			VALID:	((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+Composed contract:
+  variables:	[ go_entrace, go_counter, go_back, go_warehouse, night_time, low_battery, full_battery, go_charging_point, door_alarm, guard_entered, fire_alarm, go_safe_loc ]
+  assumptions      :	[ TRUE, TRUE, TRUE ]
+  guarantees_satur :	[ G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))), (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))), (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))), G((fire_alarm) -> (go_safe_loc)) ]
+  guarantees_unsat :	[ G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))), (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))), (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))), G((fire_alarm) -> (go_safe_loc)) ]
+
+GOAL:	'fire-alarm||low-battery||night-time-patroling||shop-alarm'
+  A:	TRUE
+  G:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) & G((fire_alarm) -> (go_safe_loc)))
+
+	COMPOSITION
+		GOAL:	'night-time-patroling'
+		  A:	TRUE
+		  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+		GOAL:	'low-battery'
+		  A:	TRUE
+		  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+		GOAL:	'shop-alarm'
+		  A:	TRUE
+		  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+
+		GOAL:	'fire-alarm'
+		  A:	TRUE
+		  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	((((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))) -> ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))))
+The composition is compatible, consistent and feasible
+Simplifying assumption TRUE
+			VALID:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+Composed contract:
+  variables:	[ get_med, go_back, go_warehouse, go_entrace, take_med, give_med, shop, day_time, low_battery, full_battery, go_charging_point, fire_alarm, go_safe_loc ]
+  assumptions      :	[ TRUE, TRUE ]
+  guarantees_satur :	[ G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))), (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))), G((fire_alarm) -> (go_safe_loc)) ]
+  guarantees_unsat :	[ G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))), (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))), G((fire_alarm) -> (go_safe_loc)) ]
+
+GOAL:	'fire-alarm||get-meds-to-clients||low-battery'
+  A:	TRUE
+  G:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
+
+	COMPOSITION
+		GOAL:	'get-meds-to-clients'
+		  A:	TRUE
+		  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+		GOAL:	'low-battery'
+		  A:	TRUE
+		  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+		GOAL:	'fire-alarm'
+		  A:	TRUE
+		  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))
+			VALID:	((((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))) -> ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))))
+			SAT:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))) -> (((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))))
+The composition is compatible, consistent and feasible
+Simplifying assumption TRUE
+			VALID:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			VALID:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+Composed contract:
+  variables:	[ get_med, go_back, go_warehouse, go_entrace, take_med, give_med, shop, day_time, low_battery, full_battery, go_charging_point, human_entered, welcome_client, entrance, fire_alarm, go_safe_loc ]
+  assumptions      :	[ TRUE, TRUE, TRUE ]
+  guarantees_satur :	[ G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))), (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))), G((human_entered) -> F(welcome_client)), G((fire_alarm) -> (go_safe_loc)) ]
+  guarantees_unsat :	[ G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))), (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))), G((human_entered) -> F(welcome_client)), G((fire_alarm) -> (go_safe_loc)) ]
+
+GOAL:	'fire-alarm||get-meds-to-clients||low-battery||welcome-visitors'
+  A:	TRUE
+  G:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
+
+	COMPOSITION
+		GOAL:	'get-meds-to-clients'
+		  A:	TRUE
+		  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+		GOAL:	'low-battery'
+		  A:	TRUE
+		  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+		GOAL:	'welcome-visitors'
+		  A:	TRUE
+		  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+		GOAL:	'fire-alarm'
+		  A:	TRUE
+		  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+The conjunction satisfiable.
+GOAL:	'fire-alarm||get-meds-to-clients||low-battery^^fire-alarm||get-meds-to-clients||low-battery||welcome-visitors^^fire-alarm||low-battery^^fire-alarm||low-battery||night-time-patroling||shop-alarm'
+  A:	TRUE
+  G:	G((fire_alarm) -> (go_safe_loc))
+	/\ 
+  A:	TRUE
+  G:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) & G((fire_alarm) -> (go_safe_loc)))
+	/\ 
+  A:	TRUE
+  G:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
+	/\ 
+  A:	TRUE
+  G:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
+
+	CONJUNCTION
+		GOAL:	'fire-alarm||low-battery'
+		  A:	TRUE
+		  G:	G((fire_alarm) -> (go_safe_loc))
+
+			COMPOSITION
+				GOAL:	'low-battery'
+				  A:	TRUE
+				  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+				GOAL:	'fire-alarm'
+				  A:	TRUE
+				  G:	G((fire_alarm) -> (go_safe_loc))
+
+		GOAL:	'fire-alarm||low-battery||night-time-patroling||shop-alarm'
+		  A:	TRUE
+		  G:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) & G((fire_alarm) -> (go_safe_loc)))
+
+			COMPOSITION
+				GOAL:	'night-time-patroling'
+				  A:	TRUE
+				  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+				GOAL:	'low-battery'
+				  A:	TRUE
+				  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+				GOAL:	'shop-alarm'
+				  A:	TRUE
+				  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+
+				GOAL:	'fire-alarm'
+				  A:	TRUE
+				  G:	G((fire_alarm) -> (go_safe_loc))
+
+		GOAL:	'fire-alarm||get-meds-to-clients||low-battery'
+		  A:	TRUE
+		  G:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
+
+			COMPOSITION
+				GOAL:	'get-meds-to-clients'
+				  A:	TRUE
+				  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+				GOAL:	'low-battery'
+				  A:	TRUE
+				  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+				GOAL:	'fire-alarm'
+				  A:	TRUE
+				  G:	G((fire_alarm) -> (go_safe_loc))
+
+		GOAL:	'fire-alarm||get-meds-to-clients||low-battery||welcome-visitors'
+		  A:	TRUE
+		  G:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
+
+			COMPOSITION
+				GOAL:	'get-meds-to-clients'
+				  A:	TRUE
+				  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+				GOAL:	'low-battery'
+				  A:	TRUE
+				  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+				GOAL:	'welcome-visitors'
+				  A:	TRUE
+				  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+				GOAL:	'fire-alarm'
+				  A:	TRUE
+				  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+
+
+Synthetize the controller for the branches of the CGT composing it with the new context
+TRUE
+TRUE
+/home/cogomo/output/results/cgt_clusters_original/cluster_0/context.eps  ->   buchi generated
+			SAT:	G((fire_alarm) -> (go_safe_loc))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G( F(! (fire_alarm)))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "((G( F(! (fire_alarm)))) -> ((G((fire_alarm) -> (go_safe_loc)) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="fire_alarm" --outs="go_safe_loc, go_entrace, go_counter, go_back, go_warehouse, go_charging_point"
+
+
+/home/cogomo/output/results/cgt_clusters_original/cluster_0/specification.txt IS REALIZABLE
+/home/cogomo/output/results/cgt_clusters_original/cluster_0/controller.eps  ->   mealy machine generated
+TRUE
+TRUE
+/home/cogomo/output/results/cgt_clusters_original/cluster_1/context.eps  ->   buchi generated
+			SAT:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) & G((fire_alarm) -> (go_safe_loc)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G( F(! (fire_alarm)))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "((G( F(! (fire_alarm)))) -> (((((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G((door_alarm & ! guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) & G((fire_alarm) -> (go_safe_loc))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="night_time, low_battery, full_battery, door_alarm, guard_entered, fire_alarm" --outs="go_entrace, go_counter, go_back, go_warehouse, go_charging_point, go_safe_loc"
+
+
+UNREALIZABLE
+TRUE
+TRUE
+/home/cogomo/output/results/cgt_clusters_original/cluster_2/context.eps  ->   buchi generated
+			SAT:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G( F(! (fire_alarm)))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "((G( F(! (fire_alarm)))) -> ((((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="get_med, shop, day_time, low_battery, full_battery, fire_alarm" --outs="go_back, go_warehouse, go_entrace, take_med, give_med, go_charging_point, go_safe_loc, go_counter"
+
+
+/home/cogomo/output/results/cgt_clusters_original/cluster_2/specification.txt IS REALIZABLE
+/home/cogomo/output/results/cgt_clusters_original/cluster_2/controller.eps  ->   mealy machine generated
+TRUE
+TRUE
+/home/cogomo/output/results/cgt_clusters_original/cluster_3/context.eps  ->   buchi generated
+			SAT:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G( F(! (fire_alarm)))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "((G( F(! (fire_alarm)))) -> (((((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="get_med, shop, day_time, low_battery, full_battery, human_entered, entrance, fire_alarm" --outs="go_back, go_warehouse, go_entrace, take_med, give_med, go_charging_point, welcome_client, go_safe_loc, go_counter"
+
+
+/home/cogomo/output/results/cgt_clusters_original/cluster_3/specification.txt IS REALIZABLE
+/home/cogomo/output/results/cgt_clusters_original/cluster_3/controller.eps  ->   mealy machine generated
+
+Clustering process finished. Results generated.
+GOAL:	'night-time-patroling'
+  A:	TRUE
+  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+
+GOAL:	'get-meds-to-clients'
+  A:	TRUE
+  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+
+GOAL:	'low-battery'
+  A:	TRUE
+  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+
+GOAL:	'welcome-visitors'
+  A:	TRUE
+  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+
+GOAL:	'shop-alarm'
+  A:	TRUE
+  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+
+
+GOAL:	'fire-alarm'
+  A:	TRUE
+  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, warehouse, entrance, human_entered, door_alarm, night_time" --outs="go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter"
+
+
+/home/cogomo/output/results/complete/goal_list/night-time-patroling/specification.txt IS REALIZABLE
+/home/cogomo/output/results/complete/goal_list/night-time-patroling/controller.eps  ->   mealy machine generated
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, warehouse, entrance, human_entered, door_alarm, night_time" --outs="go_back, go_entrace, go_safe_loc, go_warehouse, give_med, go_charging_point, go_counter, take_med"
+
+
+/home/cogomo/output/results/complete/goal_list/get-meds-to-clients/specification.txt IS REALIZABLE
+/home/cogomo/output/results/complete/goal_list/get-meds-to-clients/controller.eps  ->   mealy machine generated
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (((G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, warehouse, entrance, human_entered, door_alarm, full_battery, low_battery, night_time" --outs="go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter"
+
+
+/home/cogomo/output/results/complete/goal_list/low-battery/specification.txt IS REALIZABLE
+/home/cogomo/output/results/complete/goal_list/low-battery/controller.eps  ->   mealy machine generated
+			SAT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, entrance, human_entered, warehouse, door_alarm, night_time" --outs="welcome_client, go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter"
+
+
+/home/cogomo/output/results/complete/goal_list/welcome-visitors/specification.txt IS REALIZABLE
+/home/cogomo/output/results/complete/goal_list/welcome-visitors/controller.eps  ->   mealy machine generated
+			SAT:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> (G((door_alarm & ! guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, door_alarm, shop, warehouse, entrance, human_entered, get_med, night_time" --outs="go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter"
+
+
+/home/cogomo/output/results/complete/goal_list/shop-alarm/specification.txt IS REALIZABLE
+/home/cogomo/output/results/complete/goal_list/shop-alarm/controller.eps  ->   mealy machine generated
+			SAT:	G((fire_alarm) -> (go_safe_loc))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((fire_alarm) -> (go_safe_loc)) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="guard_entered, fire_alarm, day_time, shop, get_med, warehouse, entrance, human_entered, door_alarm, night_time" --outs="go_back, go_warehouse, go_entrace, go_charging_point, go_safe_loc, go_counter"
+
+
+/home/cogomo/output/results/complete/goal_list/fire-alarm/specification.txt IS REALIZABLE
+/home/cogomo/output/results/complete/goal_list/fire-alarm/controller.eps  ->   mealy machine generated
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G((fire_alarm) -> (go_safe_loc)))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+			SAT:	(G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G((fire_alarm) -> (go_safe_loc)))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			VALID:	((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			VALID:	((G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+			VALID:	((G((fire_alarm) -> (go_safe_loc))) -> ((G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))))
+			SAT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+			SAT:	(G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))
+			VALID:	(((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))))) -> (G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))))
+			SAT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+			SAT:	(G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((fire_alarm) -> (go_safe_loc)))) -> (G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))))
+			SAT:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+			SAT:	(G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G((fire_alarm) -> (go_safe_loc)))
+			VALID:	(((G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G((fire_alarm) -> (go_safe_loc)))) -> (G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))))
+The conjunction satisfiable.
+GOAL:	'fire-alarm^^get-meds-to-clients^^low-battery^^night-time-patroling^^shop-alarm^^welcome-visitors'
+  A:	TRUE
+  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+	/\ 
+  A:	TRUE
+  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+	/\ 
+  A:	TRUE
+  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+	/\ 
+  A:	TRUE
+  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+	/\ 
+  A:	TRUE
+  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+	/\ 
+  A:	TRUE
+  G:	G((fire_alarm) -> (go_safe_loc))
+
+	CONJUNCTION
+		GOAL:	'night-time-patroling'
+		  A:	TRUE
+		  G:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+		GOAL:	'get-meds-to-clients'
+		  A:	TRUE
+		  G:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+		GOAL:	'low-battery'
+		  A:	TRUE
+		  G:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+		GOAL:	'welcome-visitors'
+		  A:	TRUE
+		  G:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+		GOAL:	'shop-alarm'
+		  A:	TRUE
+		  G:	G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+
+		GOAL:	'fire-alarm'
+		  A:	TRUE
+		  G:	G((fire_alarm) -> (go_safe_loc))
+
+
+			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((night_time) -> (G((door_alarm & !guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G((fire_alarm) -> (go_safe_loc)))
+			SAT:	G( F(!(fire_alarm)))
+			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
+			SAT:	G(((shop & !(warehouse)) | (warehouse & !(shop))))
+			SAT:	G(((day_time & !(night_time)) | (night_time & !(day_time))))
+			SAT:	G(entrance -> shop)
+			SAT:	G(human_entered -> shop)
+			SAT:	G(get_med -> entrance)
+			SAT:	G(fire_alarm -> warehouse)
+			SAT:	G(door_alarm -> shop)
+			SAT:	G(guard_entered -> shop)
+			SAT:	(G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+Formatting TRUE as true for strix
+
+
+RUNNING COMMAND:
+
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G((night_time) -> (G((door_alarm & ! guard_entered & F guard_entered) -> (go_entrace U guard_entered)))) & G((fire_alarm) -> (go_safe_loc))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="night_time, get_med, shop, day_time, low_battery, full_battery, human_entered, entrance, door_alarm, guard_entered, fire_alarm, warehouse" --outs="go_entrace, go_counter, go_back, go_warehouse, take_med, give_med, go_charging_point, welcome_client, go_safe_loc"
+
+

@@ -1,0 +1,70 @@
+name:    	night-time-patroling
+context: 	night_time
+patterns:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+name:    	get-meds-to-clients
+context: 	(shop & day_time)
+patterns:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+name:    	low-battery
+context: 	TRUE
+patterns:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+name:    	welcome-visitors
+context: 	(day_time & entrance)
+patterns:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+name:    	shop-alarm
+context: 	night_time
+patterns:	G((night_time) -> (G((door_alarm & ! guard_entered) -> (((F(go_entrace | guard_entered)) U guard_entered) | G((F(go_entrace | guard_entered)))))))
+
+name:    	fire-alarm
+context: 	TRUE
+patterns:	G((fire_alarm) -> (go_safe_loc))
+
+
+REALIZABILITY OF INDIVIDUAL GOALS
+night-time-patroling	YES	0.951sec
+get-meds-to-clients	YES	2.997sec
+low-battery	YES	0.968sec
+welcome-visitors	YES	1.008sec
+shop-alarm	YES	0.836sec
+fire-alarm	YES	0.766sec
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CGT WITH CONJUNCTION OF GOALS
+-->	6 goals: ['night-time-patroling', 'get-meds-to-clients', 'low-battery', 'welcome-visitors', 'shop-alarm', 'fire-alarm']
+REALIZABLE	YES		3.065sec
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CGT WITH CLUSTERS 	4/4 REALIZABLE
+FEASIBLE CLUSTERS:	 4/4
+CLUSTER 0
+SCENARIO:	TRUE
+-->	2 goals: ['low-battery', 'fire-alarm']
+REALIZABLE 	YES		0.757sec
+
+CLUSTER 1
+SCENARIO:	TRUE
+-->	4 goals: ['night-time-patroling', 'low-battery', 'shop-alarm', 'fire-alarm']
+REALIZABLE 	YES		0.951sec
+
+CLUSTER 2
+SCENARIO:	TRUE
+-->	3 goals: ['get-meds-to-clients', 'low-battery', 'fire-alarm']
+REALIZABLE 	YES		2.207sec
+
+CLUSTER 3
+SCENARIO:	TRUE
+-->	4 goals: ['get-meds-to-clients', 'low-battery', 'welcome-visitors', 'fire-alarm']
+REALIZABLE 	YES		2.050sec
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+~~~~~~~~~~'UNSAT-CORE' -  UNREALIZABLE GOALS~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

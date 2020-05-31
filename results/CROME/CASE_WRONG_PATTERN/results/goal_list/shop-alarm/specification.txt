@@ -1,0 +1,36 @@
+ASSUMPTIONS
+
+	G( F(! (fire_alarm)))
+	G(((shop & ! (warehouse)) | (warehouse & ! (shop))))
+	G(((day_time & ! (night_time)) | (night_time & ! (day_time))))
+	G(entrance -> shop)
+	G(human_entered -> shop)
+	G(get_med -> entrance)
+	G(fire_alarm -> warehouse)
+	G(door_alarm -> shop)
+	G(guard_entered -> shop)
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	G((night_time) -> (G((door_alarm & ! guard_entered & F guard_entered) -> (go_entrace U guard_entered))))
+
+	G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point))))
+
+
+
+INPUTS
+
+	guard_entered, fire_alarm, day_time, door_alarm, shop, warehouse, entrance, human_entered, get_med, night_time
+
+OUTPUTS
+
+	go_back, go_safe_loc, go_warehouse, go_charging_point, go_entrace, go_counter
+
+END
+
