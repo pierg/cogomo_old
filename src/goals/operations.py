@@ -363,12 +363,12 @@ def create_cgt(context_goals: Dict, compose_with_context: True) -> CGTGoal:
     composed_goals = []
     for i, (ctx, goals) in enumerate(context_goals.items()):
         new_goals = deepcopy(goals)
-        if compose_with_context:
-            # Creating new context goal so its composition refined the assumptions:
-            ctx_goal = CGTGoal(
-                name="ctx_" + str(i),
-                contracts=[Contract(assumptions=Assumptions(ctx))])
-            new_goals.append(ctx_goal)
+        # if compose_with_context:
+        #     # Creating new context goal so its composition refined the assumptions:
+        #     ctx_goal = CGTGoal(
+        #         name="ctx_" + str(i),
+        #         contracts=[Contract(assumptions=Assumptions(ctx))])
+        #     new_goals.append(ctx_goal)
         try:
             ctx_goals = composition(new_goals)
             ctx_goals.context = ctx

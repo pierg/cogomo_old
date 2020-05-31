@@ -1,10 +1,23 @@
 MODULE main
 VAR
+	low_battery: boolean;
+	door_alarm: boolean;
 	go_entrace: boolean;
-	go_counter: boolean;
+	night_time: boolean;
+	fire_alarm: boolean;
+	day_time: boolean;
+	shop: boolean;
+	get_med: boolean;
 	go_safe_loc: boolean;
-	go_back: boolean;
+	welcome_client: boolean;
+	guard_entered: boolean;
+	take_med: boolean;
+	full_battery: boolean;
+	entrance: boolean;
+	give_med: boolean;
 	go_warehouse: boolean;
 	go_charging_point: boolean;
+	go_back: boolean;
+	human_entered: boolean;
 
-LTLSPEC !(G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point)))))
+LTLSPEC ((G((fire_alarm) -> (go_safe_loc))) -> (G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))))
