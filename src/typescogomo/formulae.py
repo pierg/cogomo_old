@@ -156,7 +156,14 @@ class Guarantees(LTLs):
         # super().__init__(self.list)
 
     def set_context(self, context):
+        formulae_str = []
+
         for g in self.list:
             g.formula = "G((" + context.formula + ") -> " + g.formula + ")"
             g.variables.extend(context.variables)
-        pass
+            formulae_str.append(g.formula)
+            self.variables.extend(context.variables)
+
+        self.formula.formula = "G((" + context.formula + ") -> " + self.formula.formula + ")"
+        self.formula.variables.extend(context.variables)
+

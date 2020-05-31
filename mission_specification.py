@@ -23,6 +23,7 @@ def get_inputs():
             "night_time": LTL("night_time"),
             "day_time": LTL("day_time"),
             "low_battery": LTL("low_battery"),
+            "full_battery": LTL("full_battery"),
             "entrance": LTL("entrance"),
             "shop": LTL("shop"),
             "get_med": LTL("get_med"),
@@ -37,7 +38,8 @@ def get_inputs():
             "go_counter": LTL("go_counter"),
             "go_back": LTL("go_back"),
             "go_warehouse": LTL("go_warehouse"),
-            "go_charging_point": LTL("go_charging_point")
+            "go_charging_point": LTL("go_charging_point"),
+            "go_safe_loc": LTL("go_safe_loc")
         },
         "a": {
             "contact_station": LTL("contact_station"),
@@ -71,16 +73,20 @@ def get_inputs():
                 ap["l"]["go_counter"],
                 ap["l"]["go_back"],
                 ap["l"]["go_warehouse"],
-                ap["l"]["go_charging_point"]
+                ap["l"]["go_charging_point"],
+                ap["l"]["go_safe_loc"]
             ]],
             "inclusion": [
             ]
         },
         "environment": {
-            # "liveness": [
-            #     ap["s"]["alarm"],
-            #     NotLTL(ap["s"]["alarm"])
-            # ]
+            "mutex": [
+            ],
+            "inclusion": [
+            ],
+            "liveness": [
+                NotLTL(ap["s"]["fire_alarm"])
+            ]
         }
     }
 
@@ -93,7 +99,7 @@ def get_inputs():
                     ap["s"]["night_time"]
             )),
             contracts=[PContract([
-                Patroling([
+                StrictOrderPatroling([
                     ap["l"]["go_entrace"], ap["l"]["go_counter"], ap["l"]["go_back"], ap["l"]["go_warehouse"]
                 ])
             ])]
@@ -127,15 +133,12 @@ def get_inputs():
         CGTGoal(
             name="low-battery",
             description="always go the charging point and contact the main station when the battery is low",
-            context=(Context(
-                ap["s"]["low_battery"]
-            )),
             contracts=[PContract([
-                P_until_R(
+                Recurrence_P_between_Q_and_R(
+                    q=ap["s"]["low_battery"],
                     p=ap["l"]["go_charging_point"],
-                    r=NotLTL(ap["s"]["low_battery"])
-                ),
-                ap["a"]["contact_station"]
+                    r=ap["s"]["full_battery"]
+                )
             ])]
         ),
         CGTGoal(
@@ -154,18 +157,16 @@ def get_inputs():
             ])]
         ),
         CGTGoal(
-            name="door-alarm",
+            name="shop-alarm",
             description="if the door_alarm goes off at any time go to safety "
                         "location and stay there until there is no more door_alarm",
             context=(Context(
-                AndLTL([
-                    ap["s"]["door_alarm"]
-                ])
+                ap["s"]["night_time"]
             )),
             contracts=[PContract([
-                P_until_R(
-                    p=ap["l"]["go_warehouse"],
-                    r=ap["s"]["guard_entered"]
+                InstantReaction(
+                    trigger=ap["s"]["door_alarm"],
+                    reaction=ap["l"]["go_entrace"]
                 )
             ])]
         ),
@@ -173,13 +174,11 @@ def get_inputs():
             name="fire-alarm",
             description="if the door_alarm goes off at any time go to safety "
                         "location and stay there until there is no more door_alarm",
-            context=(Context(
-                AndLTL([
-                    ap["s"]["fire_alarm"]
-                ])
-            )),
             contracts=[PContract([
-                GlobalAvoidance(ap["l"]["go_warehouse"])
+                InstantReaction(
+                    trigger=ap["s"]["fire_alarm"],
+                    reaction=ap["l"]["go_safe_loc"]
+                )
             ])]
         )
     ]

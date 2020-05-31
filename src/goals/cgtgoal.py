@@ -53,6 +53,8 @@ class CGTGoal:
         if context is not None:
             self.set_context(context)
 
+        print(self)
+
 
     @property
     def name(self):
