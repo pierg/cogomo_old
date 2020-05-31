@@ -418,7 +418,7 @@ def extract_variables_name_from_dics(dics: List[Dict]) -> List[str]:
 def generate_general_controller_inputs_from_goal(ap: dict,
                                                  rules: dict,
                                                  goal: CGTGoal,
-                                                 context_rules_included=True) -> Tuple[
+                                                 complete=True) -> Tuple[
     List[str], List[str], List[str], List[str]]:
     variables = Variables()
     assumptions = []
@@ -446,11 +446,11 @@ def generate_general_controller_inputs_from_goal(ap: dict,
         guarantees.append(r.formula)
 
     """Adding context rules as assumptions if not already included (cgt includes them)"""
-    # if not context_rules_included:
-    context_rules = extract_ltl_rules(rules["context"])
-    for r in context_rules:
-        variables.extend(r.variables)
-        assumptions.append(r.formula)
+    if complete:
+        context_rules = extract_ltl_rules(rules["context"])
+        for r in context_rules:
+            variables.extend(r.variables)
+            assumptions.append(r.formula)
 
     # """Replacing TRUE with true, for strix"""
     # for a in assumptions:

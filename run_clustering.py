@@ -22,7 +22,7 @@ except:
 
 sys.path.append(os.path.join(os.getcwd(), os.path.pardir))
 
-ap, rules, goals = get_inputs()
+ap, rules, goals, complete = get_inputs()
 
 
 def pretty_print_goals(ap: dict, rules: dict, goals: List[CGTGoal]) -> str:
@@ -77,8 +77,8 @@ def create_general_controller_from_goals(goals: List[CGTGoal], folder_path: str,
     return controller_generated, trivial, exec_time
 
 
-def generate_controller_from_cgt(cgt: CGTGoal, folder_path):
-    assum, guaran, ins, outs = generate_general_controller_inputs_from_goal(ap, rules, cgt)
+def generate_controller_from_cgt(cgt: CGTGoal, folder_path, complete):
+    assum, guaran, ins, outs = generate_general_controller_inputs_from_goal(ap, rules, cgt, complete)
     save_to_file(generate_controller_input_text(assum, guaran, ins, outs),
                  folder_path + "specification.txt")
 
@@ -98,7 +98,7 @@ def generate_controller_from_cgt(cgt: CGTGoal, folder_path):
     return realizable, exec_time
 
 
-def generate_controllers_from_cgt_clustered(cgt: CGTGoal, folder_path):
+def generate_controllers_from_cgt_clustered(cgt: CGTGoal, folder_path, complete):
     realizables = []
     exec_times = []
     """Synthetize the controller for the branches of the CGT"""
@@ -107,7 +107,7 @@ def generate_controllers_from_cgt_clustered(cgt: CGTGoal, folder_path):
         from helper.buchi import generate_buchi
         sub_folder_path = folder_path + "cluster_" + str(i) + "/"
         generate_buchi(OrLTL(goal.context), sub_folder_path + "context")
-        realizable, exec_time = generate_controller_from_cgt(goal, sub_folder_path)
+        realizable, exec_time = generate_controller_from_cgt(goal, sub_folder_path, complete)
         realizables.append(realizable)
         exec_times.append(exec_time)
 
@@ -119,7 +119,8 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         general_or=False,
         no_clusters=False,
         clusters_origianl=False,
-        clusters_mutex=False):
+        clusters_mutex=False,
+        complete=True):
     """Print List of Goals"""
     for g in list_of_goals:
         print(g)
@@ -211,7 +212,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
 
         """Generate a controller from cgt root"""
         realizable_no_clusters, no_clusters_exec_time = generate_controller_from_cgt(cgt,
-                                                                                     result_folder + "/cgt_no_clusters/")
+                                                                                     result_folder + "/cgt_no_clusters/", complete)
 
         ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
         ret += "CGT WITH CONJUNCTION OF GOALS\n"
@@ -240,7 +241,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
 
         """Generate a controller for each branch of the CGT"""
         realizables_clustered, exec_times_clustered = generate_controllers_from_cgt_clustered(cgt_1,
-                                                                                              result_folder + "/cgt_clusters_mutex/")
+                                                                                              result_folder + "/cgt_clusters_mutex/", complete)
 
         ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
         ret += "CGT WITH MUTEX CLUSTERS \t  " + str(sum(realizables_clustered)) + "/" + str(
@@ -274,7 +275,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         save_to_file(str(cgt_2), result_folder + "/cgt_clusters_original/CGT.txt")
 
         realizables_original, exec_times_original = generate_controllers_from_cgt_clustered(cgt_2,
-                                                                                            result_folder + "/cgt_clusters_original/")
+                                                                                            result_folder + "/cgt_clusters_original/", complete)
 
         unrealizable_goals = {}
 
@@ -335,4 +336,15 @@ if __name__ == "__main__":
         general_or=False,
         no_clusters=True,
         clusters_origianl=True,
-        clusters_mutex=False)
+        clusters_mutex=False,
+        complete=False)
+
+    crealizable_no_clusters, crealizables_clustered, crealizables_original, cno_clusters_exec_time, cexec_times_clustered, cexec_times_original = run(
+        list_of_goals=goals,
+        result_folder=results_path + "/complete",
+        general_and=False,
+        general_or=False,
+        no_clusters=True,
+        clusters_origianl=True,
+        clusters_mutex=False,
+        complete=True)

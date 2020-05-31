@@ -60,7 +60,7 @@ def get_controller(assumptions: str, guarantees: str, ins: str, outs: str) -> Tu
         start_time = time.time()
         result = []
         try:
-            result = subprocess.check_output([strix_path + params], shell=True, timeout=100, encoding='UTF-8').split()
+            result = subprocess.check_output([strix_path + params], shell=True, timeout=1800, encoding='UTF-8').split()
         except subprocess.TimeoutExpired as e:
             print("TIMEOUT for synthesis, more than 100 sec")
             return "UNREALIZABLE", -100
