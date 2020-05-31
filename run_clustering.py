@@ -42,8 +42,7 @@ def create_general_controller_from_goals(goals: List[CGTGoal], folder_path: str,
     outputs = set()
 
     for goal in goals:
-        assum, guaran, ins, outs = generate_general_controller_inputs_from_goal(ap, rules, goal,
-                                                                                context_rules_included=False)
+        assum, guaran, ins, outs = generate_general_controller_inputs_from_goal(ap, rules, goal, complete=True)
         assumptions.extend(assum)
         guarantees.extend(guaran)
         inputs.update(set(ins))
