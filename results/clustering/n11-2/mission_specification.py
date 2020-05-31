@@ -99,7 +99,7 @@ def get_inputs():
                     ap["s"]["night_time"]
             )),
             contracts=[PContract([
-                Patroling([
+                StrictOrderPatroling([
                     ap["l"]["go_entrace"], ap["l"]["go_counter"], ap["l"]["go_back"], ap["l"]["go_warehouse"]
                 ])
             ])]
@@ -117,7 +117,7 @@ def get_inputs():
                 DelayedReaction(
                     trigger=ap["s"]["get_med"],
                     reaction=AndLTL([
-                        Visit([ap["l"]["go_back"], ap["l"]["go_warehouse"], ap["l"]["go_entrace"]]),
+                        StrictOrderVisit([ap["l"]["go_back"], ap["l"]["go_warehouse"], ap["l"]["go_entrace"]]),
                         InstantReaction(
                             trigger=ap["l"]["go_warehouse"],
                             reaction=ap["a"]["take_med"]
