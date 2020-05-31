@@ -82,7 +82,7 @@ def get_inputs():
             "liveness": [
                 # ap["s"]["guard_entered"],
                 # NotLTL(ap["s"]["guard_entered"]),
-                ap["s"]["low_battery"]
+                NotLTL(ap["s"]["low_battery"])
             ]
         }
     }
