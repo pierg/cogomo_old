@@ -96,6 +96,62 @@ class Patroling(CoreMovement):
         super().__init__(pattern_formula, locations, variables)
 
 
+class SequencedPatroling(CoreMovement):
+    """Keep visiting a set of locations in sequence, one after the other"""
+
+    def __init__(self, locations: List[LTL] = None):
+
+        variables = Variables()
+        pattern_formula = "G(F("
+
+        for n, location in enumerate(locations):
+            variables.extend(location.variables)
+            pattern_formula += location.formula
+            if n == len(locations) - 1:
+                for _ in range(len(locations)):
+                    pattern_formula += ")"
+            else:
+                pattern_formula += " & F("
+
+        pattern_formula += ")"
+
+        super().__init__(pattern_formula, locations, variables)
+
+
+class OrderPatroling(CoreMovement):
+    """Keep visiting a set of locations, but not in a particular order"""
+
+    def __init__(self, locations: List[LTL] = None):
+        variables = Variables()
+        pattern_formula = []
+
+        formula = "G("
+        for i, location in enumerate(locations):
+            variables.extend(location.variables)
+            formula += "F(" + location.formula
+            if i < len(locations) - 1:
+                formula += " & "
+        for i in range(0, len(locations)):
+            formula += ")"
+        formula += ")"
+        pattern_formula.append(formula)
+
+        for n, location in enumerate(locations):
+            if n < len(locations) - 1:
+                pattern_formula.append("(!" + locations[n + 1].formula + " U " + locations[n].formula + ")")
+
+        for n, location in enumerate(locations):
+            if n < len(locations):
+                pattern_formula.append("G(" + locations[(n + 1) % len(locations)].formula + " ->  " +
+                                       "X((!" + locations[(n + 1) % len(locations)].formula + ") U " + locations[n].formula + "))")
+
+
+        pattern_formula = And(pattern_formula)
+
+        super().__init__(pattern_formula, locations, variables)
+
+
+
 class StrictOrderPatroling(CoreMovement):
     """Keep visiting a set of locations, but not in a particular order"""
 
