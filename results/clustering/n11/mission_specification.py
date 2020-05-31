@@ -81,11 +81,10 @@ def get_inputs():
         },
         "environment": {
             "mutex": [
-                # [ap["s"]["full_battery"], ap["s"]["low_battery"]]
+                [ap["s"]["full_battery"], ap["s"]["low_battery"]]
             ],
             "inclusion": [
-                [ap["s"]["fire_alarm"], ap["s"]["full_battery"]],
-                [ap["s"]["fire_alarm"], NotLTL(ap["s"]["low_battery"])]
+                [ap["s"]["fire_alarm"], ap["s"]["full_battery"]]
             ],
             "liveness": [
                 ap["s"]["full_battery"],
@@ -138,8 +137,8 @@ def get_inputs():
             name="low-battery",
             description="always go the charging point and contact the main station when the battery is low",
             contracts=[PContract([
-                P_between_Q_and_R(
-                    q=NotLTL(ap["s"]["full_battery"]),
+                FP_between_Q_and_R(
+                    q=ap["s"]["low_battery"],
                     p=ap["l"]["go_charging_point"],
                     r=ap["s"]["full_battery"]
                 )
