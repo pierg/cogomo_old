@@ -81,14 +81,11 @@ def get_inputs():
         },
         "environment": {
             "mutex": [
-                # [ap["s"]["full_battery"], ap["s"]["low_battery"]]
             ],
             "inclusion": [
-                # [ap["s"]["fire_alarm"], ap["s"]["full_battery"]]
             ],
             "liveness": [
-                # ap["s"]["full_battery"],
-                # NotLTL(ap["s"]["fire_alarm"])
+                NotLTL(ap["s"]["fire_alarm"])
             ]
         }
     }
