@@ -1,7 +1,6 @@
 MODULE main
 VAR
-	p: boolean;
-	q: boolean;
-	r: boolean;
+	guard_entered: boolean;
+	shop: boolean;
 
-LTLSPEC G(F r -> (F(p | r) U r))
+LTLSPEC !(G(guard_entered -> shop))

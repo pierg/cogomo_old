@@ -372,7 +372,7 @@ class CGTGoal:
             if n > 0:
                 ret += "\t" * level + "\t/\\ \n"
 
-            ret += "\t" * level + "  CONTRACT:\t" + str(contract.guarantees) + "\n"
+            ret += "\t" * level + "CONTRACT:\t" + str(contract.guarantees) + "\n"
 
         ret += "\n"
         if self.refined_by is not None:
