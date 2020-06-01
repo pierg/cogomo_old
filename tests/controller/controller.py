@@ -4,7 +4,7 @@ from src.controller.strix import get_controller
 from src.controller.parser import parse_controller
 
 
-file_path = os.path.dirname(os.path.abspath(__file__)) + "/trials"
+file_path = os.path.dirname(os.path.abspath(__file__)) + "/clustering"
 
 if __name__ == "__main__":
 
