@@ -436,7 +436,7 @@ $(document).ready(function () {
     });
 
 
-    // Interval function that tests message latency by sending a "ping"
+    // Interval function that clustering message latency by sending a "ping"
     // message. The server then responds with a "pong" message and the
     // round trip time is measured.
     var ping_pong_times = [];
