@@ -1,0 +1,28 @@
+ASSUMPTIONS
+
+	G( F(! (fire_alarm)))
+
+
+CONSTRAINTS
+
+# constraints are included in the guarantees
+
+
+GUARANTEES
+
+	G((fire_alarm) -> (go_safe_loc))
+
+	G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point))))
+
+
+
+INPUTS
+
+	fire_alarm
+
+OUTPUTS
+
+	go_safe_loc, go_entrace, go_counter, go_back, go_warehouse, go_charging_point
+
+END
+
