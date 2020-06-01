@@ -380,7 +380,7 @@ class CGTGoal:
             level += 1
             for child in self.refined_by:
                 try:
-                    ret += child.__str__(level + 1)
+                    ret += child.print_cgt_CROME(level + 1)
                 except:
                     print("ERROR IN PRINT")
         return ret
