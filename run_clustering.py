@@ -106,7 +106,7 @@ def generate_controllers_from_cgt_clustered(cgt: CGTGoal, folder_path, complete)
     for i, goal in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
         sub_folder_path = folder_path + "cluster_" + str(i) + "/"
-        generate_buchi(OrLTL(goal.context), sub_folder_path + "context")
+        # generate_buchi(OrLTL(goal.context), sub_folder_path + "context")
         realizable, exec_time = generate_controller_from_cgt(goal, sub_folder_path, complete)
         realizables.append(realizable)
         exec_times.append(exec_time)
@@ -250,7 +250,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         ret += "FEASIBLE CLUSTERS:\t " + str(len(cluster_goals)) + "/" + str(len(context_goals.keys()))
         for i, goal in enumerate(cluster_goals):
             ret += "\nCLUSTER " + str(i) + "\n"
-            ret += "SCENARIO:\t" + str(OrLTL(goal.context).formula) + "\n-->\t" + str(
+            ret += "SCENARIO:\t" + str(goal.goal_context_to_show.formula) + "\n-->\t" + str(
                 len(goal.refined_by)) + " goals: " + str(
                 [g.name for g in goal.refined_by]) + "\n"
             if len(realizables_clustered) > 0:
@@ -286,7 +286,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         ret += "FEASIBLE CLUSTERS:\t " + str(len(original_goals)) + "/" + str(len(context_goals.keys()))
         for i, goal in enumerate(original_goals):
             ret += "\nCLUSTER " + str(i) + "\n"
-            ret += "SCENARIO:\t" + str(OrLTL(goal.context).formula) + "\n-->\t" + str(
+            ret += "SCENARIO:\t" + str(goal.goal_context_to_show.formula) + "\n-->\t" + str(
                 len(goal.refined_by)) + " goals: " + str(
                 [g.name for g in goal.refined_by]) + "\n"
             if len(realizables_original) > 0:

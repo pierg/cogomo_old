@@ -371,6 +371,7 @@ def create_cgt(context_goals: Dict, compose_with_context: True) -> CGTGoal:
         #     new_goals.append(ctx_goal)
         try:
             ctx_goals = composition(new_goals)
+            ctx_goals.goal_context_to_show = ctx
             # ctx_goals.context = ctx
             composed_goals.append(ctx_goals)
         except CGTFailException as e:
