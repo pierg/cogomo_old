@@ -192,6 +192,7 @@ class CGTGoal:
         for contract in self.contracts:
             contract.set_context(context)
 
+        self.goal_context_to_show = context
         self.goal_context.append(context)
             # contract.remove_contextual_assumptions()
             # contract.add_assumptions(context)
@@ -361,6 +362,28 @@ class CGTGoal:
             new_formula.append(Implies(ag_pairs[0], ag_pairs[1]))
         new_formula = And(new_formula)
         return LTL(new_formula, vars)
+
+
+    def print_cgt_CROME(self, level=0):
+        """Override the print behavior"""
+        ret = "\t" * level + "GOAL    :\t" + repr(self.name) + "\n"
+        ret += "\t" * level + "SCENARIO:\t" + str(self.goal_context_to_show.formula) + "\n"
+        for n, contract in enumerate(self.contracts):
+            if n > 0:
+                ret += "\t" * level + "\t/\\ \n"
+
+            ret += "\t" * level + "  CONTRACT:\t" + str(contract.guarantees) + "\n"
+
+        ret += "\n"
+        if self.refined_by is not None:
+            ret += "\t" * level + "\t" + self.refined_with + "\n"
+            level += 1
+            for child in self.refined_by:
+                try:
+                    ret += child.__str__(level + 1)
+                except:
+                    print("ERROR IN PRINT")
+        return ret
 
     def __str__(self, level=0):
         """Override the print behavior"""

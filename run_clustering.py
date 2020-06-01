@@ -209,6 +209,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
             print(pretty_cgt_exception(e))
             sys.exit()
         save_to_file(str(cgt), result_folder + "/cgt_no_clusters/CGT.txt")
+        save_to_file(str(cgt.print_cgt_CROME()), result_folder + "/cgt_no_clusters/CGT_CROME.txt")
 
         """Generate a controller from cgt root"""
         realizable_no_clusters, no_clusters_exec_time = generate_controller_from_cgt(cgt,
@@ -238,6 +239,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
             print(pretty_cgt_exception(e))
             sys.exit()
         save_to_file(str(cgt_1), result_folder + "/cgt_clusters_mutex/CGT.txt")
+        save_to_file(str(cgt_1.print_cgt_CROME()), result_folder + "/cgt_no_clusters/CGT_CROME.txt")
 
         """Generate a controller for each branch of the CGT"""
         realizables_clustered, exec_times_clustered = generate_controllers_from_cgt_clustered(cgt_1,
@@ -273,6 +275,7 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
             sys.exit()
 
         save_to_file(str(cgt_2), result_folder + "/cgt_clusters_original/CGT.txt")
+        save_to_file(str(cgt_2.print_cgt_CROME()), result_folder + "/cgt_no_clusters/CGT_CROME.txt")
 
         realizables_original, exec_times_original = generate_controllers_from_cgt_clustered(cgt_2,
                                                                                             result_folder + "/cgt_clusters_original/", complete)
