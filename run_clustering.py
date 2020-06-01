@@ -208,12 +208,12 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         except CGTFailException as e:
             print(pretty_cgt_exception(e))
             sys.exit()
-        save_to_file(str(cgt), result_folder + "/cgt_no_clusters/CGT.txt")
-        save_to_file(str(cgt.print_cgt_CROME()), result_folder + "/cgt_no_clusters/CGT_CROME.txt")
+        save_to_file(str(cgt), result_folder + "/CGT_no_clusters/CGT.txt")
+        save_to_file(str(cgt.print_cgt_CROME()), result_folder + "/CGT_no_clusters/CGT_CROME.txt")
 
         """Generate a controller from cgt root"""
         realizable_no_clusters, no_clusters_exec_time = generate_controller_from_cgt(cgt,
-                                                                                     result_folder + "/cgt_no_clusters/", complete)
+                                                                                     result_folder + "/CGT_no_clusters/", complete)
 
         ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
         ret += "CGT WITH CONJUNCTION OF GOALS\n"
@@ -274,11 +274,11 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
             print(pretty_cgt_exception(e))
             sys.exit()
 
-        save_to_file(str(cgt_2), result_folder + "/cgt_clusters_original/CGT.txt")
-        save_to_file(str(cgt_2.print_cgt_CROME()), result_folder + "/cgt_clusters_original/CGT_CROME.txt")
+        save_to_file(str(cgt_2), result_folder + "/CGT_with_clusters/CGT.txt")
+        save_to_file(str(cgt_2.print_cgt_CROME()), result_folder + "/CGT_with_clusters/CGT_CROME.txt")
 
         realizables_original, exec_times_original = generate_controllers_from_cgt_clustered(cgt_2,
-                                                                                            result_folder + "/cgt_clusters_original/", complete)
+                                                                                            result_folder + "/CGT_with_clusters/", complete)
 
         unrealizable_goals = {}
 

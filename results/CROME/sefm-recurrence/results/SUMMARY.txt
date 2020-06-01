@@ -24,18 +24,18 @@ patterns:	G((fire_alarm) -> (go_safe_loc))
 
 
 REALIZABILITY OF INDIVIDUAL GOALS
-night-time-patroling	YES	1.196sec
-get-meds-to-clients	YES	3.308sec
-low-battery	YES	1.121sec
-welcome-visitors	YES	1.136sec
-shop-alarm	YES	0.924sec
-fire-alarm	YES	0.870sec
+night-time-patroling	YES	0.886sec
+get-meds-to-clients	YES	3.346sec
+low-battery	YES	1.030sec
+welcome-visitors	YES	1.162sec
+shop-alarm	YES	0.914sec
+fire-alarm	YES	0.866sec
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CGT WITH CONJUNCTION OF GOALS
 -->	6 goals: ['night-time-patroling', 'get-meds-to-clients', 'low-battery', 'welcome-visitors', 'shop-alarm', 'fire-alarm']
-REALIZABLE	YES		3.302sec
+REALIZABLE	YES		3.052sec
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -46,22 +46,22 @@ FEASIBLE CLUSTERS:	 4/4
 CLUSTER 0
 SCENARIO:	(TRUE & !(night_time) & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
 -->	2 goals: ['low-battery', 'fire-alarm']
-REALIZABLE 	YES		0.880sec
+REALIZABLE 	YES		0.924sec
 
 CLUSTER 1
 SCENARIO:	(night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
 -->	4 goals: ['night-time-patroling', 'low-battery', 'shop-alarm', 'fire-alarm']
-REALIZABLE 	YES		1.109sec
+REALIZABLE 	YES		1.084sec
 
 CLUSTER 2
 SCENARIO:	((shop & day_time) & TRUE & !(night_time) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
 -->	3 goals: ['get-meds-to-clients', 'low-battery', 'fire-alarm']
-REALIZABLE 	YES		2.499sec
+REALIZABLE 	YES		2.349sec
 
 CLUSTER 3
 SCENARIO:	((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
 -->	4 goals: ['get-meds-to-clients', 'low-battery', 'welcome-visitors', 'fire-alarm']
-REALIZABLE 	YES		2.864sec
+REALIZABLE 	YES		2.601sec
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

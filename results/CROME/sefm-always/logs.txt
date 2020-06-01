@@ -1,164 +1,86 @@
 ...updating repository ...
 /home/cogomo
+Checking out files:  26% (111/419)   Checking out files:  27% (114/419)   Checking out files:  28% (118/419)   Checking out files:  29% (122/419)   Checking out files:  30% (126/419)   Checking out files:  31% (130/419)   Checking out files:  32% (135/419)   Checking out files:  33% (139/419)   Checking out files:  34% (143/419)   Checking out files:  35% (147/419)   Checking out files:  36% (151/419)   Checking out files:  37% (156/419)   Checking out files:  38% (160/419)   Checking out files:  39% (164/419)   Checking out files:  40% (168/419)   Checking out files:  41% (172/419)   Checking out files:  42% (176/419)   Checking out files:  43% (181/419)   Checking out files:  44% (185/419)   Checking out files:  45% (189/419)   Checking out files:  46% (193/419)   Checking out files:  47% (197/419)   Checking out files:  48% (202/419)   Checking out files:  49% (206/419)   Checking out files:  50% (210/419)   Checking out files:  51% (214/419)   Checking out files:  52% (218/419)   Checking out files:  53% (223/419)   Checking out files:  54% (227/419)   Checking out files:  55% (231/419)   Checking out files:  56% (235/419)   Checking out files:  57% (239/419)   Checking out files:  58% (244/419)   Checking out files:  59% (248/419)   Checking out files:  60% (252/419)   Checking out files:  61% (256/419)   Checking out files:  62% (260/419)   Checking out files:  63% (264/419)   Checking out files:  64% (269/419)   Checking out files:  65% (273/419)   Checking out files:  66% (277/419)   Checking out files:  67% (281/419)   Checking out files:  68% (285/419)   Checking out files:  69% (290/419)   Checking out files:  70% (294/419)   Checking out files:  71% (298/419)   Checking out files:  72% (302/419)   Checking out files:  73% (306/419)   Checking out files:  74% (311/419)   Checking out files:  75% (315/419)   Checking out files:  76% (319/419)   Checking out files:  77% (323/419)   Checking out files:  78% (327/419)   Checking out files:  79% (332/419)   Checking out files:  80% (336/419)   Checking out files:  81% (340/419)   Checking out files:  82% (344/419)   Checking out files:  83% (348/419)   Checking out files:  84% (352/419)   Checking out files:  85% (357/419)   Checking out files:  86% (361/419)   Checking out files:  87% (365/419)   Checking out files:  88% (369/419)   Checking out files:  89% (373/419)   Checking out files:  90% (378/419)   Checking out files:  91% (382/419)   Checking out files:  92% (386/419)   Checking out files:  93% (390/419)   Checking out files:  94% (394/419)   Checking out files:  95% (399/419)   Checking out files:  96% (403/419)   Checking out files:  97% (407/419)   Checking out files:  98% (411/419)   Checking out files:  99% (415/419)   Checking out files: 100% (419/419)   Checking out files: 100% (419/419), done.
 HEAD is now at e1c3fc7 small fix
-remote: Enumerating objects: 601, done.[K
-remote: Counting objects:   0% (1/601)[Kremote: Counting objects:   1% (7/601)[Kremote: Counting objects:   2% (13/601)[Kremote: Counting objects:   3% (19/601)[Kremote: Counting objects:   4% (25/601)[Kremote: Counting objects:   5% (31/601)[Kremote: Counting objects:   6% (37/601)[Kremote: Counting objects:   7% (43/601)[Kremote: Counting objects:   8% (49/601)[Kremote: Counting objects:   9% (55/601)[Kremote: Counting objects:  10% (61/601)[Kremote: Counting objects:  11% (67/601)[Kremote: Counting objects:  12% (73/601)[Kremote: Counting objects:  13% (79/601)[Kremote: Counting objects:  14% (85/601)[Kremote: Counting objects:  15% (91/601)[Kremote: Counting objects:  16% (97/601)[Kremote: Counting objects:  17% (103/601)[Kremote: Counting objects:  18% (109/601)[Kremote: Counting objects:  19% (115/601)[Kremote: Counting objects:  20% (121/601)[Kremote: Counting objects:  21% (127/601)[Kremote: Counting objects:  22% (133/601)[Kremote: Counting objects:  23% (139/601)[Kremote: Counting objects:  24% (145/601)[Kremote: Counting objects:  25% (151/601)[Kremote: Counting objects:  26% (157/601)[Kremote: Counting objects:  27% (163/601)[Kremote: Counting objects:  28% (169/601)[Kremote: Counting objects:  29% (175/601)[Kremote: Counting objects:  30% (181/601)[Kremote: Counting objects:  31% (187/601)[Kremote: Counting objects:  32% (193/601)[Kremote: Counting objects:  33% (199/601)[Kremote: Counting objects:  34% (205/601)[Kremote: Counting objects:  35% (211/601)[Kremote: Counting objects:  36% (217/601)[Kremote: Counting objects:  37% (223/601)[Kremote: Counting objects:  38% (229/601)[Kremote: Counting objects:  39% (235/601)[Kremote: Counting objects:  40% (241/601)[Kremote: Counting objects:  41% (247/601)[Kremote: Counting objects:  42% (253/601)[Kremote: Counting objects:  43% (259/601)[Kremote: Counting objects:  44% (265/601)[Kremote: Counting objects:  45% (271/601)[Kremote: Counting objects:  46% (277/601)[Kremote: Counting objects:  47% (283/601)[Kremote: Counting objects:  48% (289/601)[Kremote: Counting objects:  49% (295/601)[Kremote: Counting objects:  50% (301/601)[Kremote: Counting objects:  51% (307/601)[Kremote: Counting objects:  52% (313/601)[Kremote: Counting objects:  53% (319/601)[Kremote: Counting objects:  54% (325/601)[Kremote: Counting objects:  55% (331/601)[Kremote: Counting objects:  56% (337/601)[Kremote: Counting objects:  57% (343/601)[Kremote: Counting objects:  58% (349/601)[Kremote: Counting objects:  59% (355/601)[Kremote: Counting objects:  60% (361/601)[Kremote: Counting objects:  61% (367/601)[Kremote: Counting objects:  62% (373/601)[Kremote: Counting objects:  63% (379/601)[Kremote: Counting objects:  64% (385/601)[Kremote: Counting objects:  65% (391/601)[Kremote: Counting objects:  66% (397/601)[Kremote: Counting objects:  67% (403/601)[Kremote: Counting objects:  68% (409/601)[Kremote: Counting objects:  69% (415/601)[Kremote: Counting objects:  70% (421/601)[Kremote: Counting objects:  71% (427/601)[Kremote: Counting objects:  72% (433/601)[Kremote: Counting objects:  73% (439/601)[Kremote: Counting objects:  74% (445/601)[Kremote: Counting objects:  75% (451/601)[Kremote: Counting objects:  76% (457/601)[Kremote: Counting objects:  77% (463/601)[Kremote: Counting objects:  78% (469/601)[Kremote: Counting objects:  79% (475/601)[Kremote: Counting objects:  80% (481/601)[Kremote: Counting objects:  81% (487/601)[Kremote: Counting objects:  82% (493/601)[Kremote: Counting objects:  83% (499/601)[Kremote: Counting objects:  84% (505/601)[Kremote: Counting objects:  85% (511/601)[Kremote: Counting objects:  86% (517/601)[Kremote: Counting objects:  87% (523/601)[Kremote: Counting objects:  88% (529/601)[Kremote: Counting objects:  89% (535/601)[Kremote: Counting objects:  90% (541/601)[Kremote: Counting objects:  91% (547/601)[Kremote: Counting objects:  92% (553/601)[Kremote: Counting objects:  93% (559/601)[Kremote: Counting objects:  94% (565/601)[Kremote: Counting objects:  95% (571/601)[Kremote: Counting objects:  96% (577/601)[Kremote: Counting objects:  97% (583/601)[Kremote: Counting objects:  98% (589/601)[Kremote: Counting objects:  99% (595/601)[Kremote: Counting objects: 100% (601/601)[Kremote: Counting objects: 100% (601/601), done.[K
-remote: Compressing objects:   0% (1/241)[Kremote: Compressing objects:   1% (3/241)[Kremote: Compressing objects:   2% (5/241)[Kremote: Compressing objects:   3% (8/241)[Kremote: Compressing objects:   4% (10/241)[Kremote: Compressing objects:   5% (13/241)[Kremote: Compressing objects:   6% (15/241)[Kremote: Compressing objects:   7% (17/241)[Kremote: Compressing objects:   8% (20/241)[Kremote: Compressing objects:   9% (22/241)[Kremote: Compressing objects:  10% (25/241)[Kremote: Compressing objects:  11% (27/241)[Kremote: Compressing objects:  12% (29/241)[Kremote: Compressing objects:  13% (32/241)[Kremote: Compressing objects:  14% (34/241)[Kremote: Compressing objects:  15% (37/241)[Kremote: Compressing objects:  16% (39/241)[Kremote: Compressing objects:  17% (41/241)[Kremote: Compressing objects:  18% (44/241)[Kremote: Compressing objects:  19% (46/241)[Kremote: Compressing objects:  20% (49/241)[Kremote: Compressing objects:  21% (51/241)[Kremote: Compressing objects:  22% (54/241)[Kremote: Compressing objects:  23% (56/241)[Kremote: Compressing objects:  24% (58/241)[Kremote: Compressing objects:  25% (61/241)[Kremote: Compressing objects:  26% (63/241)[Kremote: Compressing objects:  27% (66/241)[Kremote: Compressing objects:  28% (68/241)[Kremote: Compressing objects:  29% (70/241)[Kremote: Compressing objects:  30% (73/241)[Kremote: Compressing objects:  31% (75/241)[Kremote: Compressing objects:  32% (78/241)[Kremote: Compressing objects:  33% (80/241)[Kremote: Compressing objects:  34% (82/241)[Kremote: Compressing objects:  35% (85/241)[Kremote: Compressing objects:  36% (87/241)[Kremote: Compressing objects:  37% (90/241)[Kremote: Compressing objects:  38% (92/241)[Kremote: Compressing objects:  39% (94/241)[Kremote: Compressing objects:  40% (97/241)[Kremote: Compressing objects:  41% (99/241)[Kremote: Compressing objects:  42% (102/241)[Kremote: Compressing objects:  43% (104/241)[Kremote: Compressing objects:  44% (107/241)[Kremote: Compressing objects:  45% (109/241)[Kremote: Compressing objects:  46% (111/241)[Kremote: Compressing objects:  47% (114/241)[Kremote: Compressing objects:  48% (116/241)[Kremote: Compressing objects:  49% (119/241)[Kremote: Compressing objects:  50% (121/241)[Kremote: Compressing objects:  51% (123/241)[Kremote: Compressing objects:  52% (126/241)[Kremote: Compressing objects:  53% (128/241)[Kremote: Compressing objects:  54% (131/241)[Kremote: Compressing objects:  55% (133/241)[Kremote: Compressing objects:  56% (135/241)[Kremote: Compressing objects:  57% (138/241)[Kremote: Compressing objects:  58% (140/241)[Kremote: Compressing objects:  59% (143/241)[Kremote: Compressing objects:  60% (145/241)[Kremote: Compressing objects:  61% (148/241)[Kremote: Compressing objects:  62% (150/241)[Kremote: Compressing objects:  63% (152/241)[Kremote: Compressing objects:  64% (155/241)[Kremote: Compressing objects:  65% (157/241)[Kremote: Compressing objects:  66% (160/241)[Kremote: Compressing objects:  67% (162/241)[Kremote: Compressing objects:  68% (164/241)[Kremote: Compressing objects:  69% (167/241)[Kremote: Compressing objects:  70% (169/241)[Kremote: Compressing objects:  71% (172/241)[Kremote: Compressing objects:  72% (174/241)[Kremote: Compressing objects:  73% (176/241)[Kremote: Compressing objects:  74% (179/241)[Kremote: Compressing objects:  75% (181/241)[Kremote: Compressing objects:  76% (184/241)[Kremote: Compressing objects:  77% (186/241)[Kremote: Compressing objects:  78% (188/241)[Kremote: Compressing objects:  79% (191/241)[Kremote: Compressing objects:  80% (193/241)[Kremote: Compressing objects:  81% (196/241)[Kremote: Compressing objects:  82% (198/241)[Kremote: Compressing objects:  83% (201/241)[Kremote: Compressing objects:  84% (203/241)[Kremote: Compressing objects:  85% (205/241)[Kremote: Compressing objects:  86% (208/241)[Kremote: Compressing objects:  87% (210/241)[Kremote: Compressing objects:  88% (213/241)[Kremote: Compressing objects:  89% (215/241)[Kremote: Compressing objects:  90% (217/241)[Kremote: Compressing objects:  91% (220/241)[Kremote: Compressing objects:  92% (222/241)[Kremote: Compressing objects:  93% (225/241)[Kremote: Compressing objects:  94% (227/241)[Kremote: Compressing objects:  95% (229/241)[Kremote: Compressing objects:  96% (232/241)[Kremote: Compressing objects:  97% (234/241)[Kremote: Compressing objects:  98% (237/241)[Kremote: Compressing objects:  99% (239/241)[Kremote: Compressing objects: 100% (241/241)[Kremote: Compressing objects: 100% (241/241), done.[K
-Receiving objects:   0% (1/3828)   Receiving objects:   1% (39/3828)   Receiving objects:   2% (77/3828)   Receiving objects:   3% (115/3828)   Receiving objects:   4% (154/3828)   Receiving objects:   5% (192/3828)   Receiving objects:   6% (230/3828)   Receiving objects:   7% (268/3828)   Receiving objects:   8% (307/3828)   Receiving objects:   9% (345/3828)   Receiving objects:  10% (383/3828)   Receiving objects:  11% (422/3828)   Receiving objects:  12% (460/3828)   Receiving objects:  13% (498/3828)   Receiving objects:  14% (536/3828)   Receiving objects:  15% (575/3828)   Receiving objects:  16% (613/3828)   Receiving objects:  17% (651/3828)   Receiving objects:  18% (690/3828)   Receiving objects:  19% (728/3828)   Receiving objects:  20% (766/3828)   Receiving objects:  21% (804/3828)   Receiving objects:  22% (843/3828)   Receiving objects:  23% (881/3828)   Receiving objects:  24% (919/3828)   Receiving objects:  25% (957/3828)   Receiving objects:  26% (996/3828)   Receiving objects:  27% (1034/3828)   Receiving objects:  28% (1072/3828)   Receiving objects:  29% (1111/3828)   Receiving objects:  30% (1149/3828)   Receiving objects:  31% (1187/3828)   Receiving objects:  32% (1225/3828)   Receiving objects:  33% (1264/3828)   Receiving objects:  34% (1302/3828)   Receiving objects:  35% (1340/3828)   Receiving objects:  36% (1379/3828)   Receiving objects:  37% (1417/3828)   Receiving objects:  38% (1455/3828)   Receiving objects:  39% (1493/3828)   Receiving objects:  40% (1532/3828)   Receiving objects:  41% (1570/3828)   Receiving objects:  42% (1608/3828)   Receiving objects:  43% (1647/3828)   Receiving objects:  44% (1685/3828)   Receiving objects:  45% (1723/3828)   Receiving objects:  46% (1761/3828)   Receiving objects:  47% (1800/3828)   Receiving objects:  48% (1838/3828)   Receiving objects:  49% (1876/3828)   Receiving objects:  50% (1914/3828)   Receiving objects:  51% (1953/3828)   Receiving objects:  52% (1991/3828)   Receiving objects:  53% (2029/3828)   Receiving objects:  54% (2068/3828)   Receiving objects:  55% (2106/3828)   Receiving objects:  56% (2144/3828)   Receiving objects:  57% (2182/3828)   Receiving objects:  58% (2221/3828)   Receiving objects:  59% (2259/3828)   Receiving objects:  60% (2297/3828)   Receiving objects:  61% (2336/3828)   Receiving objects:  62% (2374/3828)   Receiving objects:  63% (2412/3828)   Receiving objects:  64% (2450/3828)   Receiving objects:  65% (2489/3828)   Receiving objects:  66% (2527/3828)   Receiving objects:  67% (2565/3828)   Receiving objects:  68% (2604/3828)   Receiving objects:  69% (2642/3828)   Receiving objects:  70% (2680/3828)   Receiving objects:  71% (2718/3828)   Receiving objects:  72% (2757/3828)   Receiving objects:  73% (2795/3828)   Receiving objects:  74% (2833/3828)   Receiving objects:  75% (2871/3828)   Receiving objects:  76% (2910/3828)   Receiving objects:  77% (2948/3828)   Receiving objects:  78% (2986/3828)   Receiving objects:  79% (3025/3828)   Receiving objects:  80% (3063/3828)   Receiving objects:  81% (3101/3828)   Receiving objects:  82% (3139/3828)   Receiving objects:  83% (3178/3828)   Receiving objects:  84% (3216/3828)   Receiving objects:  85% (3254/3828)   Receiving objects:  86% (3293/3828)   Receiving objects:  87% (3331/3828)   Receiving objects:  88% (3369/3828)   Receiving objects:  89% (3407/3828)   Receiving objects:  90% (3446/3828)   Receiving objects:  91% (3484/3828)   Receiving objects:  92% (3522/3828)   Receiving objects:  93% (3561/3828)   Receiving objects:  94% (3599/3828)   remote: Total 3828 (delta 409), reused 515 (delta 327), pack-reused 3227[K
-Receiving objects:  95% (3637/3828), 1.09 MiB | 2.17 MiB/s   Receiving objects:  96% (3675/3828), 1.09 MiB | 2.17 MiB/s   Receiving objects:  97% (3714/3828), 1.09 MiB | 2.17 MiB/s   Receiving objects:  98% (3752/3828), 1.09 MiB | 2.17 MiB/s   Receiving objects:  99% (3790/3828), 1.09 MiB | 2.17 MiB/s   Receiving objects: 100% (3828/3828), 1.09 MiB | 2.17 MiB/s   Receiving objects: 100% (3828/3828), 1.12 MiB | 2.23 MiB/s, done.
-Resolving deltas:   0% (0/2733)   Resolving deltas:   1% (43/2733)   Resolving deltas:   6% (170/2733)   Resolving deltas:   8% (242/2733)   Resolving deltas:   9% (265/2733)   Resolving deltas:  11% (317/2733)   Resolving deltas:  13% (365/2733)   Resolving deltas:  14% (386/2733)   Resolving deltas:  15% (430/2733)   Resolving deltas:  16% (443/2733)   Resolving deltas:  19% (545/2733)   Resolving deltas:  20% (547/2733)   Resolving deltas:  23% (642/2733)   Resolving deltas:  24% (664/2733)   Resolving deltas:  25% (700/2733)   Resolving deltas:  26% (712/2733)   Resolving deltas:  27% (740/2733)   Resolving deltas:  28% (780/2733)   Resolving deltas:  29% (802/2733)   Resolving deltas:  30% (834/2733)   Resolving deltas:  32% (897/2733)   Resolving deltas:  33% (903/2733)   Resolving deltas:  36% (986/2733)   Resolving deltas:  41% (1132/2733)   Resolving deltas:  42% (1153/2733)   Resolving deltas:  44% (1208/2733)   Resolving deltas:  59% (1619/2733)   Resolving deltas:  78% (2139/2733)   Resolving deltas:  79% (2166/2733)   Resolving deltas:  80% (2187/2733)   Resolving deltas:  81% (2215/2733)   Resolving deltas:  82% (2246/2733)   Resolving deltas:  83% (2291/2733)   Resolving deltas:  84% (2299/2733)   Resolving deltas:  86% (2353/2733)   Resolving deltas:  87% (2393/2733)   Resolving deltas:  88% (2406/2733)   Resolving deltas:  89% (2450/2733)   Resolving deltas:  91% (2497/2733)   Resolving deltas:  92% (2515/2733)   Resolving deltas:  93% (2543/2733)   Resolving deltas:  94% (2586/2733)   Resolving deltas:  95% (2598/2733)   Resolving deltas:  97% (2660/2733)   Resolving deltas:  98% (2694/2733)   Resolving deltas:  99% (2718/2733)   Resolving deltas: 100% (2733/2733)   Resolving deltas: 100% (2733/2733), completed with 46 local objects.
+remote: Enumerating objects: 702, done.[K
+remote: Counting objects:   0% (1/702)[Kremote: Counting objects:   1% (8/702)[Kremote: Counting objects:   2% (15/702)[Kremote: Counting objects:   3% (22/702)[Kremote: Counting objects:   4% (29/702)[Kremote: Counting objects:   5% (36/702)[Kremote: Counting objects:   6% (43/702)[Kremote: Counting objects:   7% (50/702)[Kremote: Counting objects:   8% (57/702)[Kremote: Counting objects:   9% (64/702)[Kremote: Counting objects:  10% (71/702)[Kremote: Counting objects:  11% (78/702)[Kremote: Counting objects:  12% (85/702)[Kremote: Counting objects:  13% (92/702)[Kremote: Counting objects:  14% (99/702)[Kremote: Counting objects:  15% (106/702)remote: Counting objects:  16% (113/702)[Kremote: Counting objects:  17% (120/702)[Kremote: Counting objects:  18% (127/702)[Kremote: Counting objects:  19% (134/702)[Kremote: Counting objects:  20% (141/702)[Kremote: Counting objects:  21% (148/702)[Kremote: Counting objects:  22% (155/702)[Kremote: Counting objects:  23% (162/702)[Kremote: Counting objects:  24% (169/702)[Kremote: Counting objects:  25% (176/702)[Kremote: Counting objects:  26% (183/702)[Kremote: Counting objects:  27% (190/702)[Kremote: Counting objects:  28% (197/702)[Kremote: Counting objects:  29% (204/702)[Kremote: Counting objects:  30% (211/702)[Kremote: Counting objects:  31% (218/702)[Kremote: Counting objects:  32% (225/702)[Kremote: Counting objects:  33% (232/702)[Kremote: Counting objects:  34% (239/702)[Kremote: Counting objects:  35% (246/702)[Kremote: Counting objects:  36% (253/702)[Kremote: Counting objects:  37% (260/702)[Kremote: Counting objects:  38% (267/702)[Kremote: Counting objects:  39% (274/702)[Kremote: Counting objects:  40% (281/702)[Kremote: Counting objects:  41% (288/702)[Kremote: Counting objects:  42% (295/702)[Kremote: Counting objects:  43% (302/702)[Kremote: Counting objects:  44% (309/702)[Kremote: Counting objects:  45% (316/702)[Kremote: Counting objects:  46% (323/702)[Kremote: Counting objects:  47% (330/702)[Kremote: Counting objects:  48% (337/702)[Kremote: Counting objects:  49% (344/702)[Kremote: Counting objects:  50% (351/702)[Kremote: Counting objects:  51% (359/702)[Kremote: Counting objects:  52% (366/702)[Kremote: Counting objects:  53% (373/702)[Kremote: Counting objects:  54% (380/702)[Kremote: Counting objects:  55% (387/702)[Kremote: Counting objects:  56% (394/702)[Kremote: Counting objects:  57% (401/702)[Kremote: Counting objects:  58% (408/702)[Kremote: Counting objects:  59% (415/702)[Kremote: Counting objects:  60% (422/702)[Kremote: Counting objects:  61% (429/702)[Kremote: Counting objects:  62% (436/702)[Kremote: Counting objects:  63% (443/702)[Kremote: Counting objects:  64% (450/702)[Kremote: Counting objects:  65% (457/702)[Kremote: Counting objects:  66% (464/702)[Kremote: Counting objects:  67% (471/702)[Kremote: Counting objects:  68% (478/702)[Kremote: Counting objects:  69% (485/702)[Kremote: Counting objects:  70% (492/702)[Kremote: Counting objects:  71% (499/702)[Kremote: Counting objects:  72% (506/702)[Kremote: Counting objects:  73% (513/702)[Kremote: Counting objects:  74% (520/702)[Kremote: Counting objects:  75% (527/702)[Kremote: Counting objects:  76% (534/702)[Kremote: Counting objects:  77% (541/702)[Kremote: Counting objects:  78% (548/702)[Kremote: Counting objects:  79% (555/702)[Kremote: Counting objects:  80% (562/702)[Kremote: Counting objects:  81% (569/702)[Kremote: Counting objects:  82% (576/702)[Kremote: Counting objects:  83% (583/702)[Kremote: Counting objects:  84% (590/702)[Kremote: Counting objects:  85% (597/702)[Kremote: Counting objects:  86% (604/702)[Kremote: Counting objects:  87% (611/702)[Kremote: Counting objects:  88% (618/702)[Kremote: Counting objects:  89% (625/702)[Kremote: Counting objects:  90% (632/702)[Kremote: Counting objects:  91% (639/702)[Kremote: Counting objects:  92% (646/702)[Kremote: Counting objects:  93% (653/702)[Kremote: Counting objects:  94% (660/702)[Kremote: Counting objects:  95% (667/702)[Kremote: Counting objects:  96% (674/702)[Kremote: Counting objects:  97% (681/702)[Kremote: Counting objects:  98% (688/702)[Kremote: Counting objects:  99% (695/702)[Kremote: Counting objects: 100% (702/702)[Kremote: Counting objects: 100% (702/702), done.[K
+remote: Compressing objects:   0% (1/307)[Kremote: Compressing objects:   1% (4/307)[Kremote: Compressing objects:   2% (7/307)[Kremote: Compressing objects:   3% (10/307)[Kremote: Compressing objects:   4% (13/307)[Kremote: Compressing objects:   5% (16/307)[Kremote: Compressing objects:   6% (19/307)[Kremote: Compressing objects:   7% (22/307)[Kremote: Compressing objects:   8% (25/307)[Kremote: Compressing objects:   9% (28/307)[Kremote: Compressing objects:  10% (31/307)[Kremote: Compressing objects:  11% (34/307)[Kremote: Compressing objects:  12% (37/307)[Kremote: Compressing objects:  13% (40/307)[Kremote: Compressing objects:  14% (43/307)[Kremote: Compressing objects:  15% (47/307)[Kremote: Compressing objects:  16% (50/307)[Kremote: Compressing objects:  17% (53/307)[Kremote: Compressing objects:  18% (56/307)[Kremote: Compressing objects:  19% (59/307)[Kremote: Compressing objects:  20% (62/307)[Kremote: Compressing objects:  21% (65/307)[Kremote: Compressing objects:  22% (68/307)[Kremote: Compressing objects:  23% (71/307)[Kremote: Compressing objects:  24% (74/307)[Kremote: Compressing objects:  25% (77/307)[Kremote: Compressing objects:  26% (80/307)[Kremote: Compressing objects:  27% (83/307)[Kremote: Compressing objects:  28% (86/307)[Kremote: Compressing objects:  29% (90/307)[Kremote: Compressing objects:  30% (93/307)[Kremote: Compressing objects:  31% (96/307)[Kremote: Compressing objects:  32% (99/307)[Kremote: Compressing objects:  33% (102/307)[Kremote: Compressing objects:  34% (105/307)[Kremote: Compressing objects:  35% (108/307)[Kremote: Compressing objects:  36% (111/307)[Kremote: Compressing objects:  37% (114/307)[Kremote: Compressing objects:  38% (117/307)[Kremote: Compressing objects:  39% (120/307)[Kremote: Compressing objects:  40% (123/307)[Kremote: Compressing objects:  41% (126/307)[Kremote: Compressing objects:  42% (129/307)[Kremote: Compressing objects:  43% (133/307)[Kremote: Compressing objects:  44% (136/307)[Kremote: Compressing objects:  45% (139/307)[Kremote: Compressing objects:  46% (142/307)[Kremote: Compressing objects:  47% (145/307)[Kremote: Compressing objects:  48% (148/307)[Kremote: Compressing objects:  49% (151/307)[Kremote: Compressing objects:  50% (154/307)[Kremote: Compressing objects:  51% (157/307)[Kremote: Compressing objects:  52% (160/307)[Kremote: Compressing objects:  53% (163/307)[Kremote: Compressing objects:  54% (166/307)[Kremote: Compressing objects:  55% (169/307)[Kremote: Compressing objects:  56% (172/307)[Kremote: Compressing objects:  57% (175/307)[Kremote: Compressing objects:  58% (179/307)[Kremote: Compressing objects:  59% (182/307)[Kremote: Compressing objects:  60% (185/307)[Kremote: Compressing objects:  61% (188/307)[Kremote: Compressing objects:  62% (191/307)[Kremote: Compressing objects:  63% (194/307)[Kremote: Compressing objects:  64% (197/307)[Kremote: Compressing objects:  65% (200/307)[Kremote: Compressing objects:  66% (203/307)[Kremote: Compressing objects:  67% (206/307)[Kremote: Compressing objects:  68% (209/307)[Kremote: Compressing objects:  69% (212/307)[Kremote: Compressing objects:  70% (215/307)[Kremote: Compressing objects:  71% (218/307)[Kremote: Compressing objects:  72% (222/307)[Kremote: Compressing objects:  73% (225/307)[Kremote: Compressing objects:  74% (228/307)[Kremote: Compressing objects:  75% (231/307)[Kremote: Compressing objects:  76% (234/307)[Kremote: Compressing objects:  77% (237/307)[Kremote: Compressing objects:  78% (240/307)[Kremote: Compressing objects:  79% (243/307)[Kremote: Compressing objects:  80% (246/307)[Kremote: Compressing objects:  81% (249/307)[Kremote: Compressing objects:  82% (252/307)[Kremote: Compressing objects:  83% (255/307)[Kremote: Compressing objects:  84% (258/307)[Kremote: Compressing objects:  85% (261/307)[Kremote: Compressing objects:  86% (265/307)[Kremote: Compressing objects:  87% (268/307)[Kremote: Compressing objects:  88% (271/307)[Kremote: Compressing objects:  89% (274/307)[Kremote: Compressing objects:  90% (277/307)[Kremote: Compressing objects:  91% (280/307)[Kremote: Compressing objects:  92% (283/307)[Kremote: Compressing objects:  93% (286/307)[Kremote: Compressing objects:  94% (289/307)[Kremote: Compressing objects:  95% (292/307)[Kremote: Compressing objects:  96% (295/307)[Kremote: Compressing objects:  97% (298/307)[Kremote: Compressing objects:  98% (301/307)[Kremote: Compressing objects:  99% (304/307)[Kremote: Compressing objects: 100% (307/307)[Kremote: Compressing objects: 100% (307/307), done.[K
+Receiving objects:   0% (1/3929)   Receiving objects:   1% (40/3929)   Receiving objects:   2% (79/3929)   Receiving objects:   3% (118/3929)   Receiving objects:   4% (158/3929)   Receiving objects:   5% (197/3929)   Receiving objects:   6% (236/3929)   Receiving objects:   7% (276/3929)   Receiving objects:   8% (315/3929)   Receiving objects:   9% (354/3929)   Receiving objects:  10% (393/3929)   Receiving objects:  11% (433/3929)   Receiving objects:  12% (472/3929)   Receiving objects:  13% (511/3929)   Receiving objects:  14% (551/3929)   Receiving objects:  15% (590/3929)   Receiving objects:  16% (629/3929)   Receiving objects:  17% (668/3929)   Receiving objects:  18% (708/3929)   Receiving objects:  19% (747/3929)   Receiving objects:  20% (786/3929)   Receiving objects:  21% (826/3929)   Receiving objects:  22% (865/3929)   Receiving objects:  23% (904/3929)   Receiving objects:  24% (943/3929)   Receiving objects:  25% (983/3929)   Receiving objects:  26% (1022/3929)   Receiving objects:  27% (1061/3929)   Receiving objects:  28% (1101/3929)   Receiving objects:  29% (1140/3929)   Receiving objects:  30% (1179/3929)   Receiving objects:  31% (1218/3929)   Receiving objects:  32% (1258/3929)   Receiving objects:  33% (1297/3929)   Receiving objects:  34% (1336/3929)   Receiving objects:  35% (1376/3929)   Receiving objects:  36% (1415/3929)   Receiving objects:  37% (1454/3929)   Receiving objects:  38% (1494/3929)   Receiving objects:  39% (1533/3929)   Receiving objects:  40% (1572/3929)   Receiving objects:  41% (1611/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  42% (1651/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  43% (1690/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  44% (1729/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  45% (1769/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  46% (1808/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  47% (1847/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  48% (1886/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  49% (1926/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  50% (1965/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  51% (2004/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  52% (2044/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  53% (2083/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  54% (2122/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  55% (2161/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  56% (2201/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  57% (2240/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  58% (2279/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  59% (2319/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  60% (2358/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  61% (2397/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  62% (2436/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  63% (2476/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  64% (2515/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  65% (2554/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  66% (2594/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  67% (2633/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  68% (2672/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  69% (2712/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  70% (2751/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  71% (2790/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  72% (2829/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  73% (2869/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  74% (2908/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  75% (2947/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  76% (2987/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  77% (3026/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  78% (3065/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  79% (3104/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  80% (3144/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  81% (3183/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  82% (3222/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  83% (3262/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  84% (3301/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  85% (3340/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  86% (3379/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  87% (3419/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  88% (3458/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  89% (3497/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  90% (3537/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  91% (3576/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  92% (3615/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  93% (3654/3929), 620.01 KiB | 1.17 MiB/s   remote: Total 3929 (delta 470), reused 589 (delta 360), pack-reused 3227[K
+Receiving objects:  94% (3694/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  95% (3733/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  96% (3772/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  97% (3812/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  98% (3851/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects:  99% (3890/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects: 100% (3929/3929), 620.01 KiB | 1.17 MiB/s   Receiving objects: 100% (3929/3929), 1.14 MiB | 1.32 MiB/s, done.
+Resolving deltas:   0% (0/2794)   Resolving deltas:   3% (90/2794)   Resolving deltas:   5% (163/2794)   Resolving deltas:   6% (170/2794)   Resolving deltas:   7% (200/2794)   Resolving deltas:   9% (270/2794)   Resolving deltas:  12% (338/2794)   Resolving deltas:  13% (381/2794)   Resolving deltas:  14% (402/2794)   Resolving deltas:  15% (433/2794)   Resolving deltas:  16% (448/2794)   Resolving deltas:  17% (497/2794)   Resolving deltas:  19% (541/2794)   Resolving deltas:  20% (565/2794)   Resolving deltas:  22% (635/2794)   Resolving deltas:  23% (645/2794)   Resolving deltas:  24% (676/2794)   Resolving deltas:  25% (706/2794)   Resolving deltas:  26% (731/2794)   Resolving deltas:  28% (791/2794)   Resolving deltas:  30% (848/2794)   Resolving deltas:  34% (959/2794)   Resolving deltas:  39% (1104/2794)   Resolving deltas:  40% (1136/2794)   Resolving deltas:  41% (1158/2794)   Resolving deltas:  54% (1523/2794)   Resolving deltas:  74% (2090/2794)   Resolving deltas:  77% (2158/2794)   Resolving deltas:  78% (2188/2794)   Resolving deltas:  79% (2217/2794)   Resolving deltas:  80% (2237/2794)   Resolving deltas:  82% (2294/2794)   Resolving deltas:  84% (2366/2794)   Resolving deltas:  86% (2406/2794)   Resolving deltas:  87% (2446/2794)   Resolving deltas:  88% (2461/2794)   Resolving deltas:  89% (2509/2794)   Resolving deltas:  90% (2527/2794)   Resolving deltas:  91% (2550/2794)   Resolving deltas:  92% (2573/2794)   Resolving deltas:  93% (2601/2794)   Resolving deltas:  94% (2628/2794)   Resolving deltas:  95% (2659/2794)   Resolving deltas:  97% (2721/2794)   Resolving deltas:  98% (2755/2794)   Resolving deltas:  99% (2779/2794)   Resolving deltas: 100% (2794/2794)   Resolving deltas: 100% (2794/2794), completed with 46 local objects.
 From https://github.com/pierg/cogomo
-   e1c3fc7..0d5d8b7  master     -> origin/master
-Updating e1c3fc7..0d5d8b7
+   e1c3fc7..57595e2  master     -> origin/master
+Updating e1c3fc7..57595e2
 Fast-forward
  Dockerfile                                         |    2 [32m+[m[31m-[m
  bin/ubuntu_19.10/owl.jar                           |  Bin [31m0[m -> [32m4251364[m bytes
  bin/ubuntu_19.10/strix                             |  Bin [31m0[m -> [32m17103616[m bytes
- clustering_input.py                                |  133 [31m-[m
+ clustering_input.py                                |  133 [31m--[m
  clustering_run.py                                  |   63 [31m-[m
  entrypoint.sh                                      |    4 [32m+[m[31m-[m
- main_tests.py                                      |  257 [31m--[m
+ main_tests.py                                      |  257 [31m---[m
  mission_specification.py                           |  187 [32m++[m
  .../input_text_files}/mission_example.txt          |    0
  .../input_text_files}/mission_example_contexts.txt |    0
  .../input_text_files}/pattern_example.json         |    0
  .../input_text_files}/robots_components_simple.txt |    0
  .../input_text_files}/robots_patterns_simple.txt   |    0
- nusmvfile.smv                                      |   13 [32m+[m[31m-[m
- output/clustering/context-based-cgt.txt            |  132 [31m-[m
- results/CROME/CASE_GOOD/logs.txt                   | 1173 [32m+++++++++[m
- results/CROME/CASE_GOOD/mission_specification.py   |  187 [32m++[m
- results/CROME/CASE_GOOD/results/SUMMARY.txt        |   70 [32m+[m
- .../results/cgt_clusters_original/CGT.txt          |   86 [32m+[m
- .../cgt_clusters_original/cluster_0/context.dot    |    1 [32m+[m
- .../cgt_clusters_original/cluster_0/context.eps    |  252 [32m++[m
- .../cgt_clusters_original/cluster_0/controller.dot |    1 [32m+[m
- .../cgt_clusters_original/cluster_0/controller.eps |  252 [32m++[m
- .../cluster_0/specification.txt                    |   28 [32m+[m
- .../cgt_clusters_original/cluster_1/context.dot    |    1 [32m+[m
- .../cgt_clusters_original/cluster_1/context.eps    |  252 [32m++[m
- .../cgt_clusters_original/cluster_1/controller.dot |    1 [32m+[m
- .../cgt_clusters_original/cluster_1/controller.eps |  951 [32m+++++++[m
- .../cluster_1/specification.txt                    |   28 [32m+[m
- .../cgt_clusters_original/cluster_2/context.dot    |    1 [32m+[m
- .../cgt_clusters_original/cluster_2/context.eps    |  252 [32m++[m
- .../cgt_clusters_original/cluster_2/controller.dot |    1 [32m+[m
- .../cgt_clusters_original/cluster_2/controller.eps | 2192 [32m++++++++++++++++[m
- .../cluster_2/specification.txt                    |   28 [32m+[m
- .../cgt_clusters_original/cluster_3/context.dot    |    1 [32m+[m
- .../cgt_clusters_original/cluster_3/context.eps    |  252 [32m++[m
- .../cgt_clusters_original/cluster_3/controller.dot |    1 [32m+[m
- .../cgt_clusters_original/cluster_3/controller.eps | 1591 [32m++++++++++++[m
- .../cluster_3/specification.txt                    |   28 [32m+[m
- .../CASE_GOOD/results/cgt_no_clusters/CGT.txt      |   44 [32m+[m
- .../results/cgt_no_clusters/controller.dot         |    1 [32m+[m
- .../results/cgt_no_clusters/controller.eps         | 2712 [32m++++++++++++++++++++[m
- .../results/cgt_no_clusters/specification.txt      |   28 [32m+[m
- .../CROME/CASE_GOOD/results/complete/SUMMARY.txt   |   32 [32m+[m
- .../results/complete/cgt_no_clusters/CGT.txt       |   44 [32m+[m
- .../complete/cgt_no_clusters/specification.txt     |   36 [32m+[m
- .../complete/goal_list/fire-alarm/controller.dot   |    1 [32m+[m
- .../complete/goal_list/fire-alarm/controller.eps   |  264 [32m++[m
- .../goal_list/fire-alarm/specification.txt         |   36 [32m+[m
- .../goal_list/get-meds-to-clients/controller.dot   |    1 [32m+[m
- .../goal_list/get-meds-to-clients/controller.eps   |  791 [32m++++++[m
- .../get-meds-to-clients/specification.txt          |   36 [32m+[m
- .../complete/goal_list/low-battery/controller.dot  |    1 [32m+[m
- .../complete/goal_list/low-battery/controller.eps  |  258 [32m++[m
- .../goal_list/low-battery/specification.txt        |   36 [32m+[m
- .../goal_list/night-time-patroling/controller.dot  |    1 [32m+[m
- .../goal_list/night-time-patroling/controller.eps  |  636 [32m+++++[m
- .../night-time-patroling/specification.txt         |   36 [32m+[m
- .../complete/goal_list/shop-alarm/controller.dot   |    1 [32m+[m
- .../complete/goal_list/shop-alarm/controller.eps   |  412 [32m+++[m
- .../goal_list/shop-alarm/specification.txt         |   36 [32m+[m
- .../goal_list/welcome-visitors/controller.dot      |    1 [32m+[m
- .../goal_list/welcome-visitors/controller.eps      |  335 [32m+++[m
- .../goal_list/welcome-visitors/specification.txt   |   36 [32m+[m
- .../results/goal_list/fire-alarm/controller.dot    |    1 [32m+[m
- .../results/goal_list/fire-alarm/controller.eps    |  264 [32m++[m
- .../results/goal_list/fire-alarm/specification.txt |   36 [32m+[m
- .../goal_list/get-meds-to-clients/controller.dot   |    1 [32m+[m
- .../goal_list/get-meds-to-clients/controller.eps   |  791 [32m++++++[m
- .../get-meds-to-clients/specification.txt          |   36 [32m+[m
- .../results/goal_list/low-battery/controller.dot   |    1 [32m+[m
- .../results/goal_list/low-battery/controller.eps   |  258 [32m++[m
- .../goal_list/low-battery/specification.txt        |   36 [32m+[m
- .../goal_list/night-time-patroling/controller.dot  |    1 [32m+[m
- .../goal_list/night-time-patroling/controller.eps  |  636 [32m+++++[m
- .../night-time-patroling/specification.txt         |   36 [32m+[m
- .../results/goal_list/shop-alarm/controller.dot    |    1 [32m+[m
- .../results/goal_list/shop-alarm/controller.eps    |  412 [32m+++[m
- .../results/goal_list/shop-alarm/specification.txt |   36 [32m+[m
- .../goal_list/welcome-visitors/controller.dot      |    1 [32m+[m
- .../goal_list/welcome-visitors/controller.eps      |  335 [32m+++[m
- .../goal_list/welcome-visitors/specification.txt   |   36 [32m+[m
- results/CROME/CASE_WRONG_PATTERN/logs.txt          | 1172 [32m+++++++++[m
- .../CASE_WRONG_PATTERN/mission_specification.py    |  187 [32m++[m
- .../CROME/CASE_WRONG_PATTERN/results/SUMMARY.txt   |   74 [32m+[m
- .../results/cgt_clusters_original/CGT.txt          |   86 [32m+[m
- .../cgt_clusters_original/cluster_0/context.dot    |    1 [32m+[m
- .../cgt_clusters_original/cluster_0/context.eps    |  252 [32m++[m
- .../cgt_clusters_original/cluster_0/controller.dot |    1 [32m+[m
- .../cgt_clusters_original/cluster_0/controller.eps |  252 [32m++[m
- .../cluster_0/specification.txt                    |   28 [32m+[m
- .../cgt_clusters_original/cluster_1/context.dot    |    1 [32m+[m
- .../cgt_clusters_original/cluster_1/context.eps    |  252 [32m++[m
- .../cluster_1/specification.txt                    |   28 [32m+[m
- .../cgt_clusters_original/cluster_2/context.dot    |    1 [32m+[m
- .../cgt_clusters_original/cluster_2/context.eps    |  252 [32m++[m
- .../cgt_clusters_original/cluster_2/controller.dot |    1 [32m+[m
- .../cgt_clusters_original/cluster_2/controller.eps | 2192 [32m++++++++++++++++[m
- .../cluster_2/specification.txt                    |   28 [32m+[m
- .../cgt_clusters_original/cluster_3/context.dot    |    1 [32m+[m
- .../cgt_clusters_original/cluster_3/context.eps    |  252 [32m++[m
- .../cgt_clusters_original/cluster_3/controller.dot |    1 [32m+[m
- .../cgt_clusters_original/cluster_3/controller.eps | 1309 [32m++++++++++[m
- .../cluster_3/specification.txt                    |   28 [32m+[m
- .../results/cgt_no_clusters/CGT.txt                |   44 [32m+[m
- .../results/cgt_no_clusters/specification.txt      |   28 [32m+[m
- .../results/complete/SUMMARY.txt                   |   32 [32m+[m
- .../results/complete/cgt_no_clusters/CGT.txt       |   44 [32m+[m
- .../complete/cgt_no_clusters/specification.txt     |   36 [32m+[m
- .../complete/goal_list/fire-alarm/controller.dot   |    1 [32m+[m
- .../complete/goal_list/fire-alarm/controller.eps   |  264 [32m++[m
- .../goal_list/fire-alarm/specification.txt         |   36 [32m+[m
- .../goal_list/get-meds-to-clients/controller.dot   |    1 [32m+[m
- .../goal_list/get-meds-to-clients/controller.eps   |  791 [32m++++++[m
- .../get-meds-to-clients/specification.txt          |   36 [32m+[m
- .../complete/goal_list/low-battery/controller.dot  |    1 [32m+[m
- .../complete/goal_list/low-battery/controller.eps  |  258 [32m++[m
- .../goal_list/low-battery/specification.txt        |   36 [32m+[m
- .../goal_list/night-time-patroling/controller.dot  |    1 [32m+[m
- .../goal_list/night-time-patroling/controller.eps  |  638 [32m+++++[m
- .../night-time-patroling/specification.txt         |   36 [32m+[m
- .../complete/goal_list/shop-alarm/controller.dot   |    1 [32m+[m
- .../complete/goal_list/shop-alarm/controller.eps   |  462 [32m++++[m
- .../goal_list/shop-alarm/specification.txt         |   36 [32m+[m
- .../goal_list/welcome-visitors/controller.dot      |    1 [32m+[m
- .../goal_list/welcome-visitors/controller.eps      |  332 [32m+++[m
- .../goal_list/welcome-visitors/specification.txt   |   36 [32m+[m
- .../results/goal_list/fire-alarm/controller.dot    |    1 [32m+[m
- .../results/goal_list/fire-alarm/controller.eps    |  264 [32m++[m
- .../results/goal_list/fire-alarm/specification.txt |   36 [32m+[m
- .../goal_list/get-meds-to-clients/controller.dot   |    1 [32m+[m
- .../goal_list/get-meds-to-clients/controller.eps   |  791 [32m++++++[m
- .../get-meds-to-clients/specification.txt          |   36 [32m+[m
- .../results/goal_list/low-battery/controller.dot   |    1 [32m+[m
- .../results/goal_list/low-battery/controller.eps   |  258 [32m++[m
- .../goal_list/low-battery/specification.txt        |   36 [32m+[m
- .../goal_list/night-time-patroling/controller.dot  |    1 [32m+[m
- .../goal_list/night-time-patroling/controller.eps  |  638 [32m+++++[m
- .../night-time-patroling/specification.txt         |   36 [32m+[m
- .../results/goal_list/shop-alarm/controller.dot    |    1 [32m+[m
- .../results/goal_list/shop-alarm/controller.eps    |  462 [32m++++[m
- .../results/goal_list/shop-alarm/specification.txt |   36 [32m+[m
- .../goal_list/welcome-visitors/controller.dot      |    1 [32m+[m
- .../goal_list/welcome-visitors/controller.eps      |  332 [32m+++[m
- .../goal_list/welcome-visitors/specification.txt   |   36 [32m+[m
+ nusmvfile.smv                                      |   12 [32m+[m[31m-[m
+ output/clustering/context-based-cgt.txt            |  132 [31m--[m
  results/CROME/run.sh                               |   55 [32m+[m
+ results/CROME/sefm-always/logs.txt                 | 1812 [32m++++++++++++++++++++[m
+ results/CROME/sefm-always/mission_specification.py |  187 [32m++[m
+ .../sefm-always/results/CGT_no_clusters/CGT.txt    |   44 [32m+[m
+ .../results/CGT_no_clusters/specification.txt      |   28 [32m+[m
+ .../sefm-always/results/CGT_with_clusters/CGT.txt  |   86 [32m+[m
+ .../CGT_with_clusters/cluster_0/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_0/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_1/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_2/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_2/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_3/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_3/specification.txt  |   28 [32m+[m
+ results/CROME/sefm-always/results/SUMMARY.txt      |   74 [32m+[m
+ .../results/goal_list/fire-alarm/controller.dot    |    1 [32m+[m
+ .../results/goal_list/fire-alarm/specification.txt |   36 [32m+[m
+ .../goal_list/get-meds-to-clients/controller.dot   |    1 [32m+[m
+ .../get-meds-to-clients/specification.txt          |   36 [32m+[m
+ .../results/goal_list/low-battery/controller.dot   |    1 [32m+[m
+ .../goal_list/low-battery/specification.txt        |   36 [32m+[m
+ .../goal_list/night-time-patroling/controller.dot  |    1 [32m+[m
+ .../night-time-patroling/specification.txt         |   36 [32m+[m
+ .../results/goal_list/shop-alarm/specification.txt |   36 [32m+[m
+ .../goal_list/welcome-visitors/controller.dot      |    1 [32m+[m
+ .../goal_list/welcome-visitors/specification.txt   |   36 [32m+[m
+ results/CROME/sefm-recurrence/logs.txt             | 1435 [32m++++++++++++++++[m
+ .../CROME/sefm-recurrence/mission_specification.py |  187 [32m++[m
+ .../results/CGT_no_clusters/CGT.txt                |   44 [32m+[m
+ .../results/CGT_no_clusters/controller.dot         |    1 [32m+[m
+ .../results/CGT_no_clusters/specification.txt      |   28 [32m+[m
+ .../results/CGT_with_clusters/CGT.txt              |   86 [32m+[m
+ .../CGT_with_clusters/cluster_0/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_0/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_1/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_1/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_2/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_2/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_3/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_3/specification.txt  |   28 [32m+[m
+ results/CROME/sefm-recurrence/results/SUMMARY.txt  |   70 [32m+[m
+ .../results/goal_list/fire-alarm/controller.dot    |    1 [32m+[m
+ .../results/goal_list/fire-alarm/specification.txt |   36 [32m+[m
+ .../goal_list/get-meds-to-clients/controller.dot   |    1 [32m+[m
+ .../get-meds-to-clients/specification.txt          |   36 [32m+[m
+ .../results/goal_list/low-battery/controller.dot   |    1 [32m+[m
+ .../goal_list/low-battery/specification.txt        |   36 [32m+[m
+ .../goal_list/night-time-patroling/controller.dot  |    1 [32m+[m
+ .../night-time-patroling/specification.txt         |   36 [32m+[m
+ .../results/goal_list/shop-alarm/controller.dot    |    1 [32m+[m
+ .../results/goal_list/shop-alarm/specification.txt |   36 [32m+[m
+ .../goal_list/welcome-visitors/controller.dot      |    1 [32m+[m
+ .../goal_list/welcome-visitors/specification.txt   |   36 [32m+[m
  .../c1-nostrict/mission_specification.py           |  169 [32m++[m
- results/clustering/c1/mission_specification.py     |  196 [32m++[m
+ results/clustering/c1/mission_specification.py     |  196 [32m+++[m
  results/clustering/c2/mission_specification.py     |  170 [32m++[m
  results/clustering/c3/mission_specification.py     |  170 [32m++[m
  results/clustering/c4/mission_specification.py     |  171 [32m++[m
@@ -173,8 +95,8 @@ Fast-forward
  results/clustering/n10-6/mission_specification.py  |  187 [32m++[m
  results/clustering/n10-7/mission_specification.py  |  188 [32m++[m
  .../clustering/n10-8-1/mission_specification.py    |  189 [32m++[m
- .../clustering/n10-8-2/mission_specification.py    |  191 [32m++[m
- .../clustering/n10-8-3/mission_specification.py    |  192 [32m++[m
+ .../clustering/n10-8-2/mission_specification.py    |  191 [32m+++[m
+ .../clustering/n10-8-3/mission_specification.py    |  192 [32m+++[m
  results/clustering/n10-8/mission_specification.py  |  189 [32m++[m
  results/clustering/n10/mission_specification.py    |  185 [32m++[m
  results/clustering/n11-1/mission_specification.py  |  188 [32m++[m
@@ -185,7 +107,7 @@ Fast-forward
  .../n11-4-visit/mission_specification.py           |  187 [32m++[m
  results/clustering/n11-5/mission_specification.py  |  187 [32m++[m
  results/clustering/n11-6/mission_specification.py  |  186 [32m++[m
- results/clustering/n11/mission_specification.py    |  191 [32m++[m
+ results/clustering/n11/mission_specification.py    |  191 [32m+++[m
  results/clustering/n12/mission_specification.py    |  186 [32m++[m
  results/clustering/n13-1/mission_specification.py  |  186 [32m++[m
  results/clustering/n13-2/mission_specification.py  |  190 [32m++[m
@@ -193,47 +115,100 @@ Fast-forward
  .../clustering/n13-good/mission_specification.py   |  187 [32m++[m
  .../clustering/n2-nofire/mission_specification.py  |  180 [32m++[m
  results/clustering/n2/mission_specification.py     |  180 [32m++[m
- results/clustering/n3/mission_specification.py     |  193 [32m++[m
- results/clustering/n4/mission_specification.py     |  195 [32m++[m
- results/clustering/n5/mission_specification.py     |  195 [32m++[m
- results/clustering/n6/mission_specification.py     |  195 [32m++[m
- results/clustering/n7/mission_specification.py     |  195 [32m++[m
+ results/clustering/n3/mission_specification.py     |  193 [32m+++[m
+ results/clustering/n4/mission_specification.py     |  195 [32m+++[m
+ results/clustering/n5/mission_specification.py     |  195 [32m+++[m
+ results/clustering/n6/mission_specification.py     |  195 [32m+++[m
+ results/clustering/n7/mission_specification.py     |  195 [32m+++[m
  results/clustering/n8-2/mission_specification.py   |  188 [32m++[m
  results/clustering/n8-3/mission_specification.py   |  190 [32m++[m
  results/clustering/n8-4/mission_specification.py   |  190 [32m++[m
  results/clustering/n8-5/mission_specification.py   |  190 [32m++[m
  results/clustering/n8-6/mission_specification.py   |  190 [32m++[m
- results/clustering/n8-7/mission_specification.py   |  204 [32m++[m
- results/clustering/n8-8/mission_specification.py   |  204 [32m++[m
+ results/clustering/n8-7/mission_specification.py   |  204 [32m+++[m
+ results/clustering/n8-8/mission_specification.py   |  204 [32m+++[m
  results/clustering/n8/mission_specification.py     |  187 [32m++[m
- results/clustering/n9/mission_specification.py     |  202 [32m++[m
+ results/clustering/n9/mission_specification.py     |  202 [32m+++[m
  results/clustering/pull.sh                         |    5 [32m+[m
  results/clustering/push.sh                         |    7 [32m+[m
  results/clustering/run.sh                          |   55 [32m+[m
+ results/clustering/sefm-always/logs.txt            | 1812 [32m++++++++++++++++++++[m
  .../sefm-always/mission_specification.py           |  187 [32m++[m
+ .../sefm-always/results/CGT_no_clusters/CGT.txt    |   44 [32m+[m
+ .../results/CGT_no_clusters/specification.txt      |   28 [32m+[m
+ .../sefm-always/results/CGT_with_clusters/CGT.txt  |   86 [32m+[m
+ .../CGT_with_clusters/cluster_0/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_0/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_1/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_2/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_2/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_3/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_3/specification.txt  |   28 [32m+[m
+ results/clustering/sefm-always/results/SUMMARY.txt |   74 [32m+[m
+ .../results/goal_list/fire-alarm/controller.dot    |    1 [32m+[m
+ .../results/goal_list/fire-alarm/specification.txt |   36 [32m+[m
+ .../goal_list/get-meds-to-clients/controller.dot   |    1 [32m+[m
+ .../get-meds-to-clients/specification.txt          |   36 [32m+[m
+ .../results/goal_list/low-battery/controller.dot   |    1 [32m+[m
+ .../goal_list/low-battery/specification.txt        |   36 [32m+[m
+ .../goal_list/night-time-patroling/controller.dot  |    1 [32m+[m
+ .../night-time-patroling/specification.txt         |   36 [32m+[m
+ .../results/goal_list/shop-alarm/specification.txt |   36 [32m+[m
+ .../goal_list/welcome-visitors/controller.dot      |    1 [32m+[m
+ .../goal_list/welcome-visitors/specification.txt   |   36 [32m+[m
  .../sefm-betty-fixed/mission_specification.py      |  187 [32m++[m
  .../clustering/sefm-betty/mission_specification.py |  187 [32m++[m
- .../test-conflict/mission_specification.py         |  117 [32m+[m
+ results/clustering/sefm-recurrence/logs.txt        | 1435 [32m++++++++++++++++[m
+ .../sefm-recurrence/mission_specification.py       |  187 [32m++[m
+ .../results/CGT_no_clusters/CGT.txt                |   44 [32m+[m
+ .../results/CGT_no_clusters/controller.dot         |    1 [32m+[m
+ .../results/CGT_no_clusters/specification.txt      |   28 [32m+[m
+ .../results/CGT_with_clusters/CGT.txt              |   86 [32m+[m
+ .../CGT_with_clusters/cluster_0/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_0/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_1/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_1/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_2/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_2/specification.txt  |   28 [32m+[m
+ .../CGT_with_clusters/cluster_3/controller.dot     |    1 [32m+[m
+ .../CGT_with_clusters/cluster_3/specification.txt  |   28 [32m+[m
+ .../clustering/sefm-recurrence/results/SUMMARY.txt |   70 [32m+[m
+ .../results/goal_list/fire-alarm/controller.dot    |    1 [32m+[m
+ .../results/goal_list/fire-alarm/specification.txt |   36 [32m+[m
+ .../goal_list/get-meds-to-clients/controller.dot   |    1 [32m+[m
+ .../get-meds-to-clients/specification.txt          |   36 [32m+[m
+ .../results/goal_list/low-battery/controller.dot   |    1 [32m+[m
+ .../goal_list/low-battery/specification.txt        |   36 [32m+[m
+ .../goal_list/night-time-patroling/controller.dot  |    1 [32m+[m
+ .../night-time-patroling/specification.txt         |   36 [32m+[m
+ .../results/goal_list/shop-alarm/controller.dot    |    1 [32m+[m
+ .../results/goal_list/shop-alarm/specification.txt |   36 [32m+[m
+ .../goal_list/welcome-visitors/controller.dot      |    1 [32m+[m
+ .../goal_list/welcome-visitors/specification.txt   |   36 [32m+[m
+ .../test-conflict/mission_specification.py         |  117 [32m++[m
  .../test-scopes-liveness/mission_specification.py  |  155 [32m++[m
  .../test-scopes/mission_specification.py           |  155 [32m++[m
+ results/test/run.sh                                |   55 [32m+[m
+ results/test/sefm-always/mission_specification.py  |  187 [32m++[m
+ .../test/sefm-recurrence/mission_specification.py  |  187 [32m++[m
  run.sh                                             |   30 [32m+[m[31m-[m
- run_clustering.py                                  |  350 [32m+++[m
+ run_clustering.py                                  |  353 [32m++++[m
  run_clustering_combinations.py                     |   78 [32m+[m
  mapping_run.py => run_mapping.py                   |    4 [32m+[m[31m-[m
  src/checks/nusmv.py                                |    4 [32m+[m
  src/checks/tools.py                                |    2 [32m+[m
  src/contracts/contract.py                          |   26 [32m+[m[31m-[m
  src/contracts/operations.py                        |    6 [32m+[m[31m-[m
- src/controller/synthesis.py                        |   74 [32m+[m[31m-[m
- src/goals/cgtgoal.py                               |   58 [32m+[m[31m-[m
- src/goals/helpers.py                               |  191 [32m+[m[31m-[m
- src/goals/operations.py                            |  267 [32m+[m[31m-[m
+ src/controller/synthesis.py                        |   68 [32m+[m[31m-[m
+ src/goals/cgtgoal.py                               |   81 [32m+[m[31m-[m
+ src/goals/helpers.py                               |  191 [32m++[m[31m-[m
+ src/goals/operations.py                            |  267 [32m++[m[31m-[m
  src/helper/buchi.py                                |  185 [32m+[m[31m-[m
  src/helper/tools.py                                |    2 [32m+[m[31m-[m
  src/typescogomo/formula.py                         |  110 [32m+[m[31m-[m
  src/typescogomo/formulae.py                        |   92 [32m+[m[31m-[m
  src/typescogomo/guarantee.py                       |    6 [32m+[m[31m-[m
- src/typescogomo/patterns.py                        |  222 [32m+[m[31m-[m
+ src/typescogomo/patterns.py                        |  222 [32m++[m[31m-[m
  src/typescogomo/scopes.py                          |  119 [32m+[m[31m-[m
  src/z3/tests/test_component_selection.py           |    4 [32m+[m[31m-[m
  src/z3/tests/test_greedy_selection.py              |    4 [32m+[m[31m-[m
@@ -243,7 +218,7 @@ Fast-forward
  tests/goals/test_mapping.py                        |   12 [32m+[m[31m-[m
  web/static/assets/js/ltl/app.js                    |    2 [32m+[m[31m-[m
  web/static/assets/js/z3/app.js                     |    2 [32m+[m[31m-[m
- 232 files changed, 40888 insertions(+), 979 deletions(-)
+ 206 files changed, 21784 insertions(+), 976 deletions(-)
  create mode 100644 bin/ubuntu_19.10/owl.jar
  create mode 100755 bin/ubuntu_19.10/strix
  delete mode 100644 clustering_input.py
@@ -256,137 +231,58 @@ Fast-forward
  rename {input_files => missions/input_text_files}/robots_components_simple.txt (100%)
  rename {input_files => missions/input_text_files}/robots_patterns_simple.txt (100%)
  delete mode 100644 output/clustering/context-based-cgt.txt
- create mode 100644 results/CROME/CASE_GOOD/logs.txt
- create mode 100644 results/CROME/CASE_GOOD/mission_specification.py
- create mode 100644 results/CROME/CASE_GOOD/results/SUMMARY.txt
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/CGT.txt
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_0/context.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_0/context.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_0/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_0/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_0/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_1/context.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_1/context.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_1/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_1/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_1/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_2/context.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_2/context.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_2/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_2/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_2/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_3/context.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_3/context.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_3/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_3/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_clusters_original/cluster_3/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_no_clusters/CGT.txt
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_no_clusters/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_no_clusters/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/cgt_no_clusters/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/SUMMARY.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/cgt_no_clusters/CGT.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/cgt_no_clusters/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/fire-alarm/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/fire-alarm/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/fire-alarm/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/get-meds-to-clients/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/get-meds-to-clients/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/get-meds-to-clients/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/low-battery/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/low-battery/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/low-battery/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/night-time-patroling/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/night-time-patroling/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/night-time-patroling/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/shop-alarm/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/shop-alarm/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/shop-alarm/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/welcome-visitors/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/welcome-visitors/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/complete/goal_list/welcome-visitors/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/fire-alarm/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/fire-alarm/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/fire-alarm/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/get-meds-to-clients/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/get-meds-to-clients/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/get-meds-to-clients/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/low-battery/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/low-battery/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/low-battery/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/night-time-patroling/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/night-time-patroling/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/night-time-patroling/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/shop-alarm/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/shop-alarm/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/shop-alarm/specification.txt
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/welcome-visitors/controller.dot
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/welcome-visitors/controller.eps
- create mode 100644 results/CROME/CASE_GOOD/results/goal_list/welcome-visitors/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/logs.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/mission_specification.py
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/SUMMARY.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/CGT.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_0/context.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_0/context.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_0/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_0/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_0/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_1/context.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_1/context.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_1/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_2/context.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_2/context.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_2/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_2/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_2/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_3/context.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_3/context.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_3/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_3/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_clusters_original/cluster_3/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_no_clusters/CGT.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/cgt_no_clusters/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/SUMMARY.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/cgt_no_clusters/CGT.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/cgt_no_clusters/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/fire-alarm/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/fire-alarm/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/fire-alarm/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/get-meds-to-clients/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/get-meds-to-clients/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/get-meds-to-clients/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/low-battery/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/low-battery/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/low-battery/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/night-time-patroling/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/night-time-patroling/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/night-time-patroling/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/shop-alarm/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/shop-alarm/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/shop-alarm/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/welcome-visitors/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/welcome-visitors/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/complete/goal_list/welcome-visitors/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/fire-alarm/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/fire-alarm/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/fire-alarm/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/get-meds-to-clients/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/get-meds-to-clients/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/get-meds-to-clients/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/low-battery/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/low-battery/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/low-battery/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/night-time-patroling/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/night-time-patroling/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/night-time-patroling/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/shop-alarm/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/shop-alarm/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/shop-alarm/specification.txt
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/welcome-visitors/controller.dot
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/welcome-visitors/controller.eps
- create mode 100644 results/CROME/CASE_WRONG_PATTERN/results/goal_list/welcome-visitors/specification.txt
  create mode 100755 results/CROME/run.sh
+ create mode 100644 results/CROME/sefm-always/logs.txt
+ create mode 100644 results/CROME/sefm-always/mission_specification.py
+ create mode 100644 results/CROME/sefm-always/results/CGT_no_clusters/CGT.txt
+ create mode 100644 results/CROME/sefm-always/results/CGT_no_clusters/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/CGT_with_clusters/CGT.txt
+ create mode 100644 results/CROME/sefm-always/results/CGT_with_clusters/cluster_0/controller.dot
+ create mode 100644 results/CROME/sefm-always/results/CGT_with_clusters/cluster_0/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/CGT_with_clusters/cluster_1/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/CGT_with_clusters/cluster_2/controller.dot
+ create mode 100644 results/CROME/sefm-always/results/CGT_with_clusters/cluster_2/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/CGT_with_clusters/cluster_3/controller.dot
+ create mode 100644 results/CROME/sefm-always/results/CGT_with_clusters/cluster_3/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/SUMMARY.txt
+ create mode 100644 results/CROME/sefm-always/results/goal_list/fire-alarm/controller.dot
+ create mode 100644 results/CROME/sefm-always/results/goal_list/fire-alarm/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/goal_list/get-meds-to-clients/controller.dot
+ create mode 100644 results/CROME/sefm-always/results/goal_list/get-meds-to-clients/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/goal_list/low-battery/controller.dot
+ create mode 100644 results/CROME/sefm-always/results/goal_list/low-battery/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/goal_list/night-time-patroling/controller.dot
+ create mode 100644 results/CROME/sefm-always/results/goal_list/night-time-patroling/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/goal_list/shop-alarm/specification.txt
+ create mode 100644 results/CROME/sefm-always/results/goal_list/welcome-visitors/controller.dot
+ create mode 100644 results/CROME/sefm-always/results/goal_list/welcome-visitors/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/logs.txt
+ create mode 100644 results/CROME/sefm-recurrence/mission_specification.py
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_no_clusters/CGT.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_no_clusters/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_no_clusters/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/CGT.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/cluster_0/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/cluster_0/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/cluster_1/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/cluster_1/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/cluster_2/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/cluster_2/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/cluster_3/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/CGT_with_clusters/cluster_3/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/SUMMARY.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/fire-alarm/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/fire-alarm/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/get-meds-to-clients/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/get-meds-to-clients/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/low-battery/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/low-battery/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/night-time-patroling/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/night-time-patroling/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/shop-alarm/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/shop-alarm/specification.txt
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/welcome-visitors/controller.dot
+ create mode 100644 results/CROME/sefm-recurrence/results/goal_list/welcome-visitors/specification.txt
  create mode 100644 results/clustering/c1-nostrict/mission_specification.py
  create mode 100644 results/clustering/c1/mission_specification.py
  create mode 100644 results/clustering/c2/mission_specification.py
@@ -440,12 +336,65 @@ Fast-forward
  create mode 100755 results/clustering/pull.sh
  create mode 100755 results/clustering/push.sh
  create mode 100755 results/clustering/run.sh
+ create mode 100644 results/clustering/sefm-always/logs.txt
  create mode 100644 results/clustering/sefm-always/mission_specification.py
+ create mode 100644 results/clustering/sefm-always/results/CGT_no_clusters/CGT.txt
+ create mode 100644 results/clustering/sefm-always/results/CGT_no_clusters/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/CGT_with_clusters/CGT.txt
+ create mode 100644 results/clustering/sefm-always/results/CGT_with_clusters/cluster_0/controller.dot
+ create mode 100644 results/clustering/sefm-always/results/CGT_with_clusters/cluster_0/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/CGT_with_clusters/cluster_1/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/CGT_with_clusters/cluster_2/controller.dot
+ create mode 100644 results/clustering/sefm-always/results/CGT_with_clusters/cluster_2/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/CGT_with_clusters/cluster_3/controller.dot
+ create mode 100644 results/clustering/sefm-always/results/CGT_with_clusters/cluster_3/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/SUMMARY.txt
+ create mode 100644 results/clustering/sefm-always/results/goal_list/fire-alarm/controller.dot
+ create mode 100644 results/clustering/sefm-always/results/goal_list/fire-alarm/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/goal_list/get-meds-to-clients/controller.dot
+ create mode 100644 results/clustering/sefm-always/results/goal_list/get-meds-to-clients/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/goal_list/low-battery/controller.dot
+ create mode 100644 results/clustering/sefm-always/results/goal_list/low-battery/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/goal_list/night-time-patroling/controller.dot
+ create mode 100644 results/clustering/sefm-always/results/goal_list/night-time-patroling/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/goal_list/shop-alarm/specification.txt
+ create mode 100644 results/clustering/sefm-always/results/goal_list/welcome-visitors/controller.dot
+ create mode 100644 results/clustering/sefm-always/results/goal_list/welcome-visitors/specification.txt
  create mode 100644 results/clustering/sefm-betty-fixed/mission_specification.py
  create mode 100644 results/clustering/sefm-betty/mission_specification.py
+ create mode 100644 results/clustering/sefm-recurrence/logs.txt
+ create mode 100644 results/clustering/sefm-recurrence/mission_specification.py
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_no_clusters/CGT.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_no_clusters/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_no_clusters/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/CGT.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/cluster_0/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/cluster_0/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/cluster_1/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/cluster_1/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/cluster_2/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/cluster_2/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/cluster_3/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/CGT_with_clusters/cluster_3/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/SUMMARY.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/fire-alarm/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/fire-alarm/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/get-meds-to-clients/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/get-meds-to-clients/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/low-battery/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/low-battery/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/night-time-patroling/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/night-time-patroling/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/shop-alarm/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/shop-alarm/specification.txt
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/welcome-visitors/controller.dot
+ create mode 100644 results/clustering/sefm-recurrence/results/goal_list/welcome-visitors/specification.txt
  create mode 100644 results/clustering/test-conflict/mission_specification.py
  create mode 100644 results/clustering/test-scopes-liveness/mission_specification.py
  create mode 100644 results/clustering/test-scopes/mission_specification.py
+ create mode 100755 results/test/run.sh
+ create mode 100644 results/test/sefm-always/mission_specification.py
+ create mode 100644 results/test/sefm-recurrence/mission_specification.py
  create mode 100644 run_clustering.py
  create mode 100644 run_clustering_combinations.py
  rename mapping_run.py => run_mapping.py (97%)
@@ -583,11 +532,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_charging_point, go_warehouse, go_entrace, go_back"
 
 
 /home/cogomo/output/results/goal_list/night-time-patroling/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/goal_list/night-time-patroling/controller.eps  ->   mealy machine generated
 			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -605,11 +555,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="take_med, go_counter, give_med, go_safe_loc, go_back, go_charging_point, go_warehouse, go_entrace"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_charging_point, give_med, take_med, go_warehouse, go_entrace, go_back"
 
 
 /home/cogomo/output/results/goal_list/get-meds-to-clients/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/goal_list/get-meds-to-clients/controller.eps  ->   mealy machine generated
 			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -627,11 +578,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (((G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, low_battery, night_time, full_battery, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (((G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="full_battery, human_entered, low_battery, shop, get_med, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_warehouse, go_entrace, go_back, go_charging_point"
 
 
 /home/cogomo/output/results/goal_list/low-battery/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/goal_list/low-battery/controller.eps  ->   mealy machine generated
 			SAT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -649,11 +601,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, welcome_client, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, entrance, night_time, guard_entered, day_time" --outs="go_safe_loc, go_counter, welcome_client, go_warehouse, go_entrace, go_back, go_charging_point"
 
 
 /home/cogomo/output/results/goal_list/welcome-visitors/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/goal_list/welcome-visitors/controller.eps  ->   mealy machine generated
 			SAT:	G((night_time) -> (G(door_alarm & !guard_entered -> ((go_entrace U guard_entered) | G go_entrace))))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -671,7 +624,7 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> (G(door_alarm & ! guard_entered -> ((go_entrace U guard_entered) | G go_entrace)))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="door_alarm, warehouse, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> (G(door_alarm & ! guard_entered -> ((go_entrace U guard_entered) | G go_entrace)))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_charging_point, go_warehouse, go_entrace, go_back"
 
 
 UNREALIZABLE
@@ -692,11 +645,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((fire_alarm) -> (go_safe_loc)) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((fire_alarm) -> (go_safe_loc)) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_warehouse, go_back, go_entrace, go_charging_point"
 
 
 /home/cogomo/output/results/goal_list/fire-alarm/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/goal_list/fire-alarm/controller.eps  ->   mealy machine generated
 			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
 			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))))
 			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
@@ -1098,6 +1052,9 @@ GOAL:	'fire-alarm||get-meds-to-clients||low-battery^^fire-alarm||get-meds-to-cli
 
 
 Synthetize the controller for the branches of the CGT composing it with the new context
+TRUE
+TRUE
+/home/cogomo/output/results/cgt_clusters_original/cluster_0/context.eps  ->   buchi generated
 			SAT:	G((fire_alarm) -> (go_safe_loc))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1112,6 +1069,10 @@ RUNNING COMMAND:
 
 /home/cogomo/output/results/cgt_clusters_original/cluster_0/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/cgt_clusters_original/cluster_0/controller.eps  ->   mealy machine generated
+TRUE
+TRUE
+/home/cogomo/output/results/cgt_clusters_original/cluster_1/context.eps  ->   buchi generated
 			SAT:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G(door_alarm & !guard_entered -> ((go_entrace U guard_entered) | G go_entrace))))) & G((fire_alarm) -> (go_safe_loc)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1125,6 +1086,9 @@ RUNNING COMMAND:
 
 
 UNREALIZABLE
+TRUE
+TRUE
+/home/cogomo/output/results/cgt_clusters_original/cluster_2/context.eps  ->   buchi generated
 			SAT:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1139,6 +1103,10 @@ RUNNING COMMAND:
 
 /home/cogomo/output/results/cgt_clusters_original/cluster_2/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/cgt_clusters_original/cluster_2/controller.eps  ->   mealy machine generated
+TRUE
+TRUE
+/home/cogomo/output/results/cgt_clusters_original/cluster_3/context.eps  ->   buchi generated
 			SAT:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1153,6 +1121,7 @@ RUNNING COMMAND:
 
 /home/cogomo/output/results/cgt_clusters_original/cluster_3/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/cgt_clusters_original/cluster_3/controller.eps  ->   mealy machine generated
 
 Clustering process finished. Results generated.
 GOAL:	'night-time-patroling'
@@ -1202,11 +1171,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_charging_point, go_warehouse, go_entrace, go_back"
 
 
 /home/cogomo/output/results/complete/goal_list/night-time-patroling/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/complete/goal_list/night-time-patroling/controller.eps  ->   mealy machine generated
 			SAT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1224,11 +1194,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="take_med, go_counter, give_med, go_safe_loc, go_back, go_charging_point, go_warehouse, go_entrace"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_charging_point, give_med, take_med, go_warehouse, go_entrace, go_back"
 
 
 /home/cogomo/output/results/complete/goal_list/get-meds-to-clients/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/complete/goal_list/get-meds-to-clients/controller.eps  ->   mealy machine generated
 			SAT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1246,11 +1217,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (((G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, low_battery, night_time, full_battery, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (((G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="full_battery, human_entered, low_battery, shop, get_med, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_warehouse, go_entrace, go_back, go_charging_point"
 
 
 /home/cogomo/output/results/complete/goal_list/low-battery/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/complete/goal_list/low-battery/controller.eps  ->   mealy machine generated
 			SAT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1268,11 +1240,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, welcome_client, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, entrance, night_time, guard_entered, day_time" --outs="go_safe_loc, go_counter, welcome_client, go_warehouse, go_entrace, go_back, go_charging_point"
 
 
 /home/cogomo/output/results/complete/goal_list/welcome-visitors/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/complete/goal_list/welcome-visitors/controller.eps  ->   mealy machine generated
 			SAT:	G((night_time) -> (G(door_alarm & !guard_entered -> ((go_entrace U guard_entered) | G go_entrace))))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1290,7 +1263,7 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> (G(door_alarm & ! guard_entered -> ((go_entrace U guard_entered) | G go_entrace)))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="door_alarm, warehouse, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((night_time) -> (G(door_alarm & ! guard_entered -> ((go_entrace U guard_entered) | G go_entrace)))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_charging_point, go_warehouse, go_entrace, go_back"
 
 
 UNREALIZABLE
@@ -1311,11 +1284,12 @@ Formatting TRUE as true for strix
 
 RUNNING COMMAND:
 
-/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((fire_alarm) -> (go_safe_loc)) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered" --outs="go_counter, go_back, go_charging_point, go_warehouse, go_entrace, go_safe_loc"
+/home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> ((G((fire_alarm) -> (go_safe_loc)) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time" --outs="go_safe_loc, go_counter, go_warehouse, go_back, go_entrace, go_charging_point"
 
 
 /home/cogomo/output/results/complete/goal_list/fire-alarm/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/complete/goal_list/fire-alarm/controller.eps  ->   mealy machine generated
 			SAT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
 			SAT:	(G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))))
 			VALID:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
@@ -1725,6 +1699,9 @@ GOAL:	'fire-alarm||get-meds-to-clients||low-battery^^fire-alarm||get-meds-to-cli
 
 
 Synthetize the controller for the branches of the CGT composing it with the new context
+TRUE
+TRUE
+/home/cogomo/output/results/complete/cgt_clusters_original/cluster_0/context.eps  ->   buchi generated
 			SAT:	G((fire_alarm) -> (go_safe_loc))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1747,6 +1724,10 @@ RUNNING COMMAND:
 
 /home/cogomo/output/results/complete/cgt_clusters_original/cluster_0/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/complete/cgt_clusters_original/cluster_0/controller.eps  ->   mealy machine generated
+TRUE
+TRUE
+/home/cogomo/output/results/complete/cgt_clusters_original/cluster_1/context.eps  ->   buchi generated
 			SAT:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G(door_alarm & !guard_entered -> ((go_entrace U guard_entered) | G go_entrace))))) & G((fire_alarm) -> (go_safe_loc)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1768,6 +1749,9 @@ RUNNING COMMAND:
 
 
 UNREALIZABLE
+TRUE
+TRUE
+/home/cogomo/output/results/complete/cgt_clusters_original/cluster_2/context.eps  ->   buchi generated
 			SAT:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1790,6 +1774,10 @@ RUNNING COMMAND:
 
 /home/cogomo/output/results/complete/cgt_clusters_original/cluster_2/specification.txt IS REALIZABLE
 DOT file generated
+/home/cogomo/output/results/complete/cgt_clusters_original/cluster_2/controller.eps  ->   mealy machine generated
+TRUE
+TRUE
+/home/cogomo/output/results/complete/cgt_clusters_original/cluster_3/context.eps  ->   buchi generated
 			SAT:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
 			SAT:	G( F(!(fire_alarm)))
 			SAT:	G(((go_entrace & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_counter & !(go_entrace) & !(go_back) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_back & !(go_entrace) & !(go_counter) & !(go_warehouse) & !(go_charging_point) & !(go_safe_loc)) | (go_warehouse & !(go_entrace) & !(go_counter) & !(go_back) & !(go_charging_point) & !(go_safe_loc)) | (go_charging_point & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_safe_loc)) | (go_safe_loc & !(go_entrace) & !(go_counter) & !(go_back) & !(go_warehouse) & !(go_charging_point))))
@@ -1810,3 +1798,9 @@ RUNNING COMMAND:
 /home/cogomo/bin/ubuntu_19_10/strix -k --dot -f "(((G( F(! (fire_alarm))) & G(((shop & ! (warehouse)) | (warehouse & ! (shop)))) & G(((day_time & ! (night_time)) | (night_time & ! (day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))) -> (((((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (! go_warehouse U go_back) & (! go_entrace U go_warehouse) & (! go_back U (go_back & X(! go_back U(go_warehouse)))) & (! go_warehouse U (go_warehouse & X(! go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & !  full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc))) & G(((go_entrace & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_counter & ! (go_entrace) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_back & ! (go_entrace) & ! (go_counter) & ! (go_warehouse) & ! (go_charging_point) & ! (go_safe_loc)) | (go_warehouse & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_charging_point) & ! (go_safe_loc)) | (go_charging_point & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_safe_loc)) | (go_safe_loc & ! (go_entrace) & ! (go_counter) & ! (go_back) & ! (go_warehouse) & ! (go_charging_point)))))))" --ins="get_med, shop, day_time, low_battery, full_battery, human_entered, entrance, fire_alarm, warehouse, night_time, door_alarm, guard_entered" --outs="go_back, go_warehouse, go_entrace, take_med, give_med, go_charging_point, welcome_client, go_safe_loc, go_counter"
 
 
+TIMEOUT for synthesis, more than 100 sec
+UNREALIZABLE
+
+Clustering process finished. Results generated.
+Process finished, results avilable
+Clustering finished, exiting...

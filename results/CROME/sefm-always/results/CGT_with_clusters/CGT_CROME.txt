@@ -1,0 +1,83 @@
+GOAL    :	'fire-alarm||get-meds-to-clients||low-battery^^fire-alarm||get-meds-to-clients||low-battery||welcome-visitors^^fire-alarm||low-battery^^fire-alarm||low-battery||night-time-patroling||shop-alarm'
+SCENARIO:	TRUE
+CONTRACT:	G((fire_alarm) -> (go_safe_loc))
+	/\ 
+CONTRACT:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G(door_alarm & !guard_entered -> ((go_entrace U guard_entered) | G go_entrace))))) & G((fire_alarm) -> (go_safe_loc)))
+	/\ 
+CONTRACT:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
+	/\ 
+CONTRACT:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
+
+	CONJUNCTION
+		GOAL    :	'fire-alarm||low-battery'
+		SCENARIO:	(TRUE & !(night_time) & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+		CONTRACT:	G((fire_alarm) -> (go_safe_loc))
+
+			COMPOSITION
+				GOAL    :	'low-battery'
+				SCENARIO:	TRUE
+				CONTRACT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+				GOAL    :	'fire-alarm'
+				SCENARIO:	TRUE
+				CONTRACT:	G((fire_alarm) -> (go_safe_loc))
+
+		GOAL    :	'fire-alarm||low-battery||night-time-patroling||shop-alarm'
+		SCENARIO:	(night_time & TRUE & !((shop & day_time)) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+		CONTRACT:	(((G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((night_time) -> (G(door_alarm & !guard_entered -> ((go_entrace U guard_entered) | G go_entrace))))) & G((fire_alarm) -> (go_safe_loc)))
+
+			COMPOSITION
+				GOAL    :	'night-time-patroling'
+				SCENARIO:	night_time
+				CONTRACT:	G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))
+
+				GOAL    :	'low-battery'
+				SCENARIO:	TRUE
+				CONTRACT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+				GOAL    :	'shop-alarm'
+				SCENARIO:	night_time
+				CONTRACT:	G((night_time) -> (G(door_alarm & !guard_entered -> ((go_entrace U guard_entered) | G go_entrace))))
+
+				GOAL    :	'fire-alarm'
+				SCENARIO:	TRUE
+				CONTRACT:	G((fire_alarm) -> (go_safe_loc))
+
+		GOAL    :	'fire-alarm||get-meds-to-clients||low-battery'
+		SCENARIO:	((shop & day_time) & TRUE & !(night_time) & !((day_time & entrance)) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+		CONTRACT:	((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G((fire_alarm) -> (go_safe_loc)))
+
+			COMPOSITION
+				GOAL    :	'get-meds-to-clients'
+				SCENARIO:	(shop & day_time)
+				CONTRACT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+				GOAL    :	'low-battery'
+				SCENARIO:	TRUE
+				CONTRACT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+				GOAL    :	'fire-alarm'
+				SCENARIO:	TRUE
+				CONTRACT:	G((fire_alarm) -> (go_safe_loc))
+
+		GOAL    :	'fire-alarm||get-meds-to-clients||low-battery||welcome-visitors'
+		SCENARIO:	((shop & day_time) & TRUE & (day_time & entrance) & !(night_time) & G(((shop & !(warehouse)) | (warehouse & !(shop)))) & G(((day_time & !(night_time)) | (night_time & !(day_time)))) & G(entrance -> shop) & G(human_entered -> shop) & G(get_med -> entrance) & G(fire_alarm -> warehouse) & G(door_alarm -> shop) & G(guard_entered -> shop))
+		CONTRACT:	(((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med)))))) & (G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))) & G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))) & G((fire_alarm) -> (go_safe_loc)))
+
+			COMPOSITION
+				GOAL    :	'get-meds-to-clients'
+				SCENARIO:	(shop & day_time)
+				CONTRACT:	G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))
+
+				GOAL    :	'low-battery'
+				SCENARIO:	TRUE
+				CONTRACT:	(G((low_battery & ! full_battery & F full_battery) -> ((F(go_charging_point | full_battery)) U full_battery)))
+
+				GOAL    :	'welcome-visitors'
+				SCENARIO:	(day_time & entrance)
+				CONTRACT:	G(((day_time & entrance)) -> G((human_entered) -> F(welcome_client)))
+
+				GOAL    :	'fire-alarm'
+				SCENARIO:	TRUE
+				CONTRACT:	G((fire_alarm) -> (go_safe_loc))
+

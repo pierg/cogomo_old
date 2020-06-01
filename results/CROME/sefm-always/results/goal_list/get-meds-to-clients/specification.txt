@@ -26,11 +26,11 @@ GUARANTEES
 
 INPUTS
 
-	warehouse, door_alarm, entrance, guard_entered, shop, fire_alarm, get_med, night_time, day_time, human_entered
+	human_entered, get_med, shop, warehouse, door_alarm, fire_alarm, night_time, entrance, guard_entered, day_time
 
 OUTPUTS
 
-	take_med, go_counter, give_med, go_safe_loc, go_back, go_charging_point, go_warehouse, go_entrace
+	go_safe_loc, go_counter, go_charging_point, give_med, take_med, go_warehouse, go_entrace, go_back
 
 END
 
