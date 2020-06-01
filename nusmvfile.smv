@@ -1,14 +1,7 @@
 MODULE main
 VAR
-	go_safe_loc: boolean;
-	night_time: boolean;
-	go_counter: boolean;
-	fire_alarm: boolean;
-	go_warehouse: boolean;
-	go_charging_point: boolean;
-	low_battery: boolean;
-	full_battery: boolean;
-	go_back: boolean;
-	go_entrace: boolean;
+	p: boolean;
+	q: boolean;
+	r: boolean;
 
-LTLSPEC ((G((fire_alarm) -> (go_safe_loc))) -> (G((night_time) -> G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+LTLSPEC G(F r -> (F(p | r) U r))

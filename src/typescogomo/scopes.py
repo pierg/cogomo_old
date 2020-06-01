@@ -109,6 +109,15 @@ class Recurrence_P_after_Q_until_R(Scope):
         super().__init__(formula)
 
 
+class Recurrence_P_after_Q_until_R_fixed(Scope):
+    """G((q & ! r & F r) -> (F(p) U r))"""
+
+    def __init__(self, p: LTL, q: LTL, r: LTL):
+        formula = "(G(({q} & ! {r} & F {r}) -> (F({p}) U {r})))".format(p=p.formula, q=q.formula, r=r.formula)
+        super().__init__(formula)
+
+
+
 
 """Other patterns defined"""
 
