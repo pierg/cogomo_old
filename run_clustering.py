@@ -106,7 +106,7 @@ def generate_controllers_from_cgt_clustered(cgt: CGTGoal, folder_path, complete)
     for i, goal in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
         sub_folder_path = folder_path + "cluster_" + str(i) + "/"
-        # generate_buchi(OrLTL(goal.context), sub_folder_path + "context")
+        generate_buchi(OrLTL(goal.context), sub_folder_path + "context")
         realizable, exec_time = generate_controller_from_cgt(goal, sub_folder_path, complete)
         realizables.append(realizable)
         exec_times.append(exec_time)

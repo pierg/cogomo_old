@@ -119,10 +119,10 @@ def create_controller_if_exists(controller_input_file: str) -> Tuple[bool, float
     save_to_file(result, dot_file_name + ".dot")
     print("DOT file generated")
 
-    #
-    # src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
-    # src.render(cleanup=True)
-    # print(dot_file_name + ".eps  ->   mealy machine generated")
+
+    src = Source(result, directory=dot_file_path, filename=dot_file_name, format="eps")
+    src.render(cleanup=True)
+    print(dot_file_name + ".eps  ->   mealy machine generated")
     return True, exec_time
 
 
