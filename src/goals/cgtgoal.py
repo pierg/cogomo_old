@@ -49,7 +49,7 @@ class CGTGoal:
         else:
             raise AttributeError
 
-        self.goal_context_to_show = None
+        self.goal_context_to_show = LTL("TRUE")
         self.goal_context = []
         if context is not None:
             self.set_context(context)
