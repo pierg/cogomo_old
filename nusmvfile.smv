@@ -1,6 +1,5 @@
 MODULE main
 VAR
-	guard_entered: boolean;
-	shop: boolean;
+	heavy_item_pickup: boolean;
 
-LTLSPEC !(G(guard_entered -> shop))
+LTLSPEC ((G(heavy_item_pickup)) -> (TRUE))

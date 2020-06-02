@@ -2,9 +2,9 @@ import sys
 import os
 import shutil
 
-
 from components.components import ComponentsLibrary, Component, SimpleComponent
-from goals.operations import create_contextual_clusters, mapping, pretty_print_summary_clustering, create_cgt, CGTFailException, \
+from goals.operations import create_contextual_clusters, mapping, pretty_print_summary_clustering, create_cgt, \
+    CGTFailException, \
     pretty_cgt_exception
 from helper.tools import save_to_file
 from src.goals.cgtgoal import *
@@ -66,17 +66,17 @@ if __name__ == "__main__":
 
     for ctx, goals in context_goals.items():
         from helper.buchi import generate_buchi
+
         g_name = "||".join(g.name for g in goals)
         generate_buchi(ctx, file_path + "/buchi/" + g_name)
 
-    save_to_file(pretty_print_summary_clustering(context_goals), file_path + "/context-goals")
+    # save_to_file(pretty_print_summary_clustering(context_goals), file_path + "/context-goals")
 
     try:
-        cgt = create_cgt(context_goals)
+        cgt = create_cgt(context_goals, compose_with_context=False)
     except CGTFailException as e:
         print(pretty_cgt_exception(e))
         sys.exit()
-
 
     save_to_file(str(cgt), file_path + "/cgt_1_contexual")
 
