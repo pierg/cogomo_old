@@ -57,8 +57,8 @@ class Contract:
         self.assumptions.remove_kind("context")
 
     def merge_with(self, other):
-        self.add_guarantees(other.guarantees.list)
-        self.add_assumptions(other.assumptions.list)
+        self.add_guarantees(other.guarantees.set)
+        self.add_assumptions(other.assumptions.set)
         self.check_feasibility()
 
     def check_feasibility(self):
@@ -109,7 +109,7 @@ class Contract:
     def __str__(self):
         """Override the print behavior"""
         astr = '  variables:\t[ '
-        for var in self.variables.list:
+        for var in self.variables.set:
             astr += str(var) + ', '
         astr = astr[:-2] + ' ]\n  assumptions      :\t[ '
         for assumption in self.assumptions.list:

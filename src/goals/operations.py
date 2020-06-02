@@ -56,13 +56,13 @@ def conjunction(goals: List[CGTGoal],
 
             for contract_1 in pair_of_goals[0].contracts:
 
-                assumptions_set.extend(contract_1.assumptions.list)
-                guarantees_set.extend(contract_1.guarantees.list)
+                assumptions_set.extend(contract_1.assumptions.set)
+                guarantees_set.extend(contract_1.guarantees.set)
 
                 for contract_2 in pair_of_goals[1].contracts:
 
-                    assumptions_set.extend(contract_2.assumptions.list)
-                    guarantees_set.extend(contract_2.guarantees.list)
+                    assumptions_set.extend(contract_2.assumptions.set)
+                    guarantees_set.extend(contract_2.guarantees.set)
 
                     try:
                         Assumptions(assumptions_set)

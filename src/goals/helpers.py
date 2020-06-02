@@ -187,7 +187,7 @@ def add_constraints_to_all_contexts(comb_contexts: List[List[Context]], rules: L
                 for rule in rules:
                     if rule in rules_added:
                         continue
-                    if c.variables.n_shared_variables_with(rule.variables) > 0:
+                    if len(c.variables & rule.variables) > 0:
                         comb.append(rule)
                         rules_added.append(rule)
 
@@ -410,7 +410,7 @@ def extract_variables_name_from_dics(dics: List[Dict]) -> List[str]:
     vars_name = []
     for d in dics:
         for k, v in d.items():
-            for var in v.variables.list:
+            for var in v.variables.set:
                 vars_name.append(var.name)
     return vars_name
 
@@ -462,7 +462,7 @@ def generate_general_controller_inputs_from_goal(ap: dict,
     controllable = []
 
     """Splitting the variables between uncontrollable and controllable"""
-    for v in variables.list:
+    for v in variables.set:
         if v.name in ap["s"]:
             uncontrollable.append(v.name)
         else:
@@ -520,7 +520,7 @@ def extract_saturated_guarantees_from(goals: Union[CGTGoal, List[CGTGoal]]) -> L
         for contract in goal.contracts:
             a_boolean, a_new_vars, a_old_vars = traslate_boolean(str(contract.assumptions.formula))
             g_boolean, g_new_vars, g_old_vars = traslate_boolean(str(contract.guarantees.formula))
-            vars = [v.name for v in contract.variables.list]
+            vars = [v.name for v in contract.variables.set]
             goal_variables.update(vars)
             a_new_vars.extend(g_old_vars)
             a_old_vars.extend(g_old_vars)

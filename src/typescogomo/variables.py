@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import List, Union
+from typing import List, Union, Set
 from helper.tools import extract_terms
 
 
@@ -55,84 +55,118 @@ class BoundedNat(Integer):
         super().__init__(name, min=0, max=100, port_type=port_type)
 
 
-class Variables(object):
+class Variables(set):
+    """Redefining Variables as a set of Types"""
 
-    def __init__(self, variables: Union[List['Type'], Type] = None):
-        if variables is None:
-            self.__variables = []
+    # def __init__(self, variables: Union[List['Type'], Type, List['Variables']] = None):
+    #     if variables is None:
+    #         self.__variables = set()
+    #     else:
+    #         if isinstance(variables, Type):
+    #             self.__variables = {variables}
+    #         elif isinstance(variables, list):
+    #             for e in variables:
+    #                 if isinstance(e, Type):
+    #                     self.__variables.add(e)
+    #                 elif isinstance(e, Variables):
+    #                     self.__variables = self.__variables | e.set
+    #                 else:
+    #                     raise AttributeError
+    #         else:
+    #             raise AttributeError
+    #
+    # @property
+    # def set(self) -> Set['Variables']:
+    #     return self.__variables
+    #
+    # @set.setter
+    # def set(self, value: Set['Variables']):
+    #     self.__variables = value
+
+    # def __or__(self, other):
+    #     """self | other
+    #     Returns a new Variables having set the unions of the the sets"""
+    #     if not isinstance(other, Variables):
+    #         raise AttributeError
+    #     res = deepcopy(self)
+    #     res.set = res.set | other.set
+    #     return res
+    #
+    # def __and__(self, other):
+    #     """self & other
+    #     Returns a new Variables having set the intersection of the the sets"""
+    #     if not isinstance(other, Variables):
+    #         raise AttributeError
+    #     res = deepcopy(self)
+    #     res.set = res.set & other.set
+    #     return res
+    #
+    # def
+
+    def add(self, other):
+        if not isinstance(other, Type):
+            raise AttributeError
         else:
-            if isinstance(variables, Type):
-                variables = [variables]
-            self.__variables = variables
-
-    @property
-    def list(self):
-        return self.__variables
-
-    @list.setter
-    def list(self, value):
-        self.__variables = value
-
-    def __add__(self, other):
-        res = deepcopy(self)
-        res.extend(other)
-        return res
+            super().add(other)
 
     def get_nusmv_names(self):
         """Get List[str] for nuxmv"""
         tuple_vars = []
-        for v in self.list:
+        for v in self:
             tuple_vars.append(v.name + ": " + v.basic_type)
         return tuple_vars
 
     def get_nusmv_types(self):
         """Get List[str] for nuxmv"""
         tuple_vars = []
-        for v in self.list:
+        for v in self:
             tuple_vars.append(v.port_type + ": " + v.basic_type)
         return tuple_vars
 
-    def n_shared_variables_with(self, other: 'Variables'):
-        return len(list(set(self.list) & set(other.list)))
-
-    def shared_variables_with(self, other: 'Variables') -> List[Type]:
-        vars_names = list(set(self.list) & set(other.list))
-        return vars_names
-
-    def extend(self, other: 'Variables'):
-        for v in other.list:
-            self.add(v)
-
-    def add(self, var: Union['Type', List['Type']]):
-        if isinstance(var, Type):
-            var = [var]
-
-        for v in var:
-            for ex_v in self.list:
-                if v.name == ex_v.name:
-                    type_a = type(v).__name__
-                    type_b = type(ex_v).__name__
-                    if type_a != type_b:
-                        raise Exception("Variable " + str(v) + " is already present but "
-                                                               "is of tyoe " + type_a + " instead of " + type_b)
-                    else:
-                        return
-
-            self.list.append(v)
-
-    def remove(self, var: Union['Type', List['Type']]):
-
-        if isinstance(var, Type):
-            var = [var]
-
-        for v in var:
-            if v in self.list:
-                self.list.remove(v)
-            else:
-                Exception("Variable " + v.name + " not found, it cannot be removed")
+    # def n_shared_variables_with(self, other: 'Variables'):
+    #     return len(list(self.set & other.set))
+    #
+    # def shared_variables_with(self, other: 'Variables') -> List[Type]:
+    #     vars_names = list(set(self.set) & set(other.set))
+    #     return vars_names
+    #
+    # def extend(self, other: 'Variables'):
+    #     for v in other.set:
+    #         self.add(v)
+    #
+    # def add(self, var: Union['Type', List['Type']]):
+    #     if isinstance(var, Type):
+    #         var = [var]
+    #
+    #     for v in var:
+    #         for ex_v in self.set:
+    #             if v.name == ex_v.name:
+    #                 type_a = type(v).__name__
+    #                 type_b = type(ex_v).__name__
+    #                 if type_a != type_b:
+    #                     raise Exception("Variable " + str(v) + " is already present but "
+    #                                                            "is of tyoe " + type_a + " instead of " + type_b)
+    #                 else:
+    #                     return
+    #
+    #         self.set.append(v)
+    #
+    # def remove(self, var: Union['Type', List['Type']]):
+    #
+    #     if isinstance(var, Type):
+    #         var = [var]
+    #
+    #     for v in var:
+    #         if v in self.set:
+    #             self.set.remove(v)
+    #         else:
+    #             Exception("Variable " + v.name + " not found, it cannot be removed")
 
 
 def extract_variable(formula: str) -> 'Variables':
+    if formula == "TRUE" or formula == "FALSE":
+        return Variables()
+
     var_names = extract_terms(formula)
 
     context_vars: List[Type] = []

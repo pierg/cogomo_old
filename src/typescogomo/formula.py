@@ -1,54 +1,130 @@
 from copy import deepcopy
-from typing import Tuple, Union, List
+from typing import Tuple, Union, List, Set
 
 from checks.nusmv import check_satisfiability, check_validity
-from checks.tools import And, Implies, Not
+from checks.tools import And, Implies, Not, Or
 from typescogomo.variables import Variables, extract_variable
 
 
 class LTL:
 
-    def __init__(self, formula: str, variables: Variables = None):
-        if (formula == "TRUE" or formula == "FALSE") and variables is None:
-            self.__formula: str = formula
-            self.__variables: Variables = Variables()
-            return
+    def __init__(self,
+                 formula: str = None,
+                 variables: Variables = None,
+                 cnf: Set['LTL'] = None):
+        """Basic LTL formula.
+        It can be build by a single formula (str) or by a conjunction of other LTL formulae (CNF form)"""
 
-        if formula is not None:
+        if formula is not None and cnf is None:
 
             if variables is None:
                 variables = extract_variable(str(formula))
 
+            """String representing the LTL"""
             self.__formula: str = formula
+
+            """Variables present in the formula"""
             self.__variables: Variables = variables
+
+            """List of LTL that conjoined result in the formula"""
+            self.__cnf: Set['LTL'] = {self}
 
             if not self.is_satisfiable():
                 raise InconsistentException(self, self)
+
+        elif cnf is not None and formula is None:
+
+            cnf_str = [x.formula for x in cnf]
+
+            self.__formula: str = And(cnf_str)
+
+            self.__variables: Variables = Variables()
+
+            for x in cnf:
+                self.__variables |= x.variables
+
+            self.__cnf: Set['LTL'] = cnf
+
+        else:
+            raise Exception("Wrong parameters LTL construction")
 
     @property
     def formula(self) -> str:
         return self.__formula
 
-    @formula.setter
-    def formula(self, value: str):
-        self.__formula = value
-
     @property
-    def variables(self):
+    def variables(self) -> Variables:
         return self.__variables
 
-    @variables.setter
-    def variables(self, value: Variables):
-        self.__variables = value
+    @property
+    def cnf(self) -> Set['LTL']:
+        return self.__cnf
+
+    def __and__(self, other: 'LTL'):
+        """self & other
+        Returns a new LTL that is the conjunction of self with other"""
+        if not isinstance(other, LTL):
+            return AttributeError
+        return LTL(
+            cnf={self, other}
+        )
+
+    def __iand__(self, other):
+        """self &= other
+        Modifies self with the conjunction with other"""
+        if not isinstance(other, LTL):
+            return AttributeError
+
+        self.__formula = And([self.formula, other.formula])
+        self.__variables = Variables(self.variables | other.variables)
+        self.__cnf |= other.cnf
+
+        if not self.is_satisfiable():
+            raise InconsistentException(self, other)
+
+    def __or__(self, other):
+        """self | other
+        Returns a new LTL that is the disjunction of self with other"""
+        if not isinstance(other, LTL):
+            return AttributeError
+        return LTL(
+            formula=Or([self.formula, other.formula]),
+            variables=Variables(self.variables | other.variables)
+        )
+
+    def __ior__(self, other):
+        """self |= other
+        Modifies self with the disjunction with other"""
+        if not isinstance(other, LTL):
+            return AttributeError
+
+        self.__formula = Or([self.formula, other.formula])
+        self.__variables = Variables(self.variables | other.variables)
+
+        """TODO: maybe not needed"""
+        if not self.is_satisfiable():
+            raise InconsistentException(self, other)
+
+    def __neg__(self):
+        """~ self
+        Return a new LTL that is the negation of self"""
+        return LTL(
+            formula=Not(self.formula),
+            variables=self.variables
+        )
 
     def negate(self):
         """Modifies the LTL formula with its negation"""
-        self.formula = '!(' + self.formula + ')'
+        self.__formula = Not(self.formula)
 
     def is_true(self):
         return self.formula == "TRUE"
 
     def is_satisfiable(self):
+        if self.formula == "TRUE":
+            return True
+        if self.formula == "FALSE":
+            return False
         return check_satisfiability(self.variables.get_nusmv_names(), self.formula)
 
     def conjoin_with(self, others: Union['LTL', List['LTL']]) -> List['LTL']:
@@ -115,7 +191,7 @@ class LTL:
         """Check if the set of behaviours is smaller or equal in the other set of behaviours but on the types"""
         variables = self.variables + other.variables
         proposition = Implies(self.formula, other.formula)
-        for v in variables.list:
+        for v in variables.set:
             proposition = proposition.replace(v.name, v.port_type)
         return check_validity(variables.get_nusmv_types(), proposition)
 
@@ -191,7 +267,7 @@ def AndLTL(formulas: List[LTL]) -> LTL:
 
 def ImpliesLTL(one: LTL, two: LTL) -> LTL:
     """Returns an LTL formula representing the logical implication of list_propoositions"""
-    vars =  one.variables
+    vars = one.variables
     vars += two.variables
     formula = "(" + one.formula + ") -> (" + two.formula + ")"
     return LTL(formula, vars)

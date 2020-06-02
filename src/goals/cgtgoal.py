@@ -230,7 +230,7 @@ class CGTGoal:
         only if the Contract guarantees concern the 'expectations' guarantees and are consistent with them"""
         for contract in self.contracts:
             for expectation in expectations:
-                if len(list(set(contract.variables.list) & set(expectation.variables.list))) > 0:
+                if len(list(set(contract.variables.set) & set(expectation.variables.set))) > 0:
                     if contract.guarantees.are_satisfiable_with(expectation.guarantees):
                         contract.add_assumptions(expectation.assumptions.list)
 

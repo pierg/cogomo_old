@@ -51,7 +51,7 @@ class Component(Contract):
         """Override the print behavior"""
         astr = '  component id:\t ' + self.id + '\n'
         astr += '  variables:\t[ '
-        for var in self.variables.list:
+        for var in self.variables.set:
             astr += str(var) + ', '
         astr = astr[:-2] + ' ]\n  assumptions      :\t[ '
         for assumption in self.assumptions.list:
@@ -115,7 +115,7 @@ class ComponentsLibrary:
         """How many different variables are needed for each port"""
         ports_n: Dict[str, int] = {}
         variables = to_be_refined.variables
-        for v in variables.list:
+        for v in variables.set:
             if hasattr(v, "port_type"):
                 if v.port_type not in ports_n:
                     ports_n[v.port_type] = 1
@@ -196,7 +196,7 @@ class ComponentsLibrary:
             ports_n_candidate: Dict[str, int] = {}
 
             for component in candidate:
-                for v in component.variables.list:
+                for v in component.variables.set:
                     if v.port_type not in ports_n_candidate:
                         ports_n_candidate[v.port_type] = 1
                     else:

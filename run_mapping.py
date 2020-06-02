@@ -25,9 +25,6 @@ if __name__ == "__main__":
     """The designer specifies a mission using the predefined catalogue of patterns 
        In addition to the patterns to use the designer specifies also in which context each goal can be active"""
 
-    """Import the goals from file"""
-    # list_of_goals = parse("./input_files/robots_patterns_simple.txt")
-
     """Or define them here"""
     """Order Visit pattern of 3 locations in the context 'day'"""
     """Order Visit pattern of 2 locations in the context '!day'"""
