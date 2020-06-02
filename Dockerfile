@@ -66,7 +66,7 @@ RUN \
 
 WORKDIR /home
 
-RUN git clone -b master --single-branch https://github.com/pierg/cogomo.git
+RUN git clone -b mapping --single-branch https://github.com/pierg/cogomo.git
 
 RUN python3 -m pip install --user --upgrade pip
 
