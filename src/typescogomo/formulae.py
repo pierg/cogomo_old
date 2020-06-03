@@ -2,8 +2,8 @@ from typing import Union, List
 
 from checks.tools import And
 from typescogomo.formula import LTL, InconsistentException
-from typescogomo.assumption import Assumption
-from typescogomo.guarantee import Guarantee
+from typescogomo.subtypes.assumption import Assumption
+from typescogomo.subtypes.guarantee import Guarantee
 from typescogomo.variables import Variables
 
 

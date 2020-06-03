@@ -1,16 +1,14 @@
 from copy import deepcopy
 from itertools import product, combinations
-from typing import List, Dict, Tuple
+from typing import List, Dict
 from components.components import ComponentsLibrary
 from src.contracts.contract import Contract, InconsistentContracts, IncompatibleContracts, UnfeasibleContracts
 from src.contracts.operations import compose_contracts
 from src.goals.cgtgoal import CGTGoal
-from typescogomo.assumption import Context
-from typescogomo.formula import InconsistentException
-from typescogomo.formulae import Guarantees, Assumptions
-from src.goals.helpers import extract_ltl_rules, map_goals_to_contexts, filter_and_simplify_contexts, \
-    extract_unique_contexts_from_goals, extract_all_combinations_and_negations_from_contexts, \
-    add_constraints_to_all_contexts, merge_contexes, context_based_specification_clustering
+from typescogomo.subtypes.context import Context
+from src.goals.helpers import extract_ltl_rules, extract_unique_contexts_from_goals, \
+    extract_all_combinations_and_negations_from_contexts, \
+    context_based_specification_clustering
 
 
 class CGTFailException(Exception):
@@ -51,36 +49,20 @@ def conjunction(goals: List[CGTGoal],
         """For each contract pair, checks the consistency of the guarantees among the goals that have common assumptions"""
         for pair_of_goals in combinations(goals, r=2):
 
-            assumptions_set = []
-            guarantees_set = []
-
             for contract_1 in pair_of_goals[0].contracts:
-
-                assumptions_set.extend(contract_1.assumptions.set)
-                guarantees_set.extend(contract_1.guarantees.set)
 
                 for contract_2 in pair_of_goals[1].contracts:
 
-                    assumptions_set.extend(contract_2.assumptions.set)
-                    guarantees_set.extend(contract_2.guarantees.set)
+                    if contract_1.assumptions.is_satisfiable_with(contract_2.assumptions):
 
-                    try:
-                        Assumptions(assumptions_set)
-
-                        try:
-                            Guarantees(guarantees_set)
-                        except InconsistentException:
+                        if not contract_1.guarantees.is_satisfiable_with(contract_2.guarantees):
                             raise CGTFailException(failed_operation="conjunction",
                                                    faild_motivation="inconsistent",
                                                    goals_involved_a=[pair_of_goals[0]],
                                                    goals_involved_b=[pair_of_goals[1]])
-                    except :
-                        """If the assumptions are mutually exclusive it's ok"""
-                        pass
 
     print("The conjunction satisfiable.")
 
-    # Creating new list of contracts
     list_of_new_contracts = []
 
     for goal in goals:
@@ -148,9 +130,9 @@ def composition(goals: List[CGTGoal],
             goals_failed = []
             for goal in goals:
                 for contract in goal.contracts:
-                    if e.guarantee_1 <= contract.guarantees.formula:
+                    if e.guarantee_1 <= contract.guarantees:
                         goals_involved.append(goal)
-                    if e.guarantee_2 >= contract.guarantees.formula:
+                    if e.guarantee_2 >= contract.guarantees:
                         goals_failed.append(goal)
             raise CGTFailException(failed_operation="composition",
                                    faild_motivation="inconsistent",
@@ -163,9 +145,9 @@ def composition(goals: List[CGTGoal],
             goals_failed = []
             for goal in goals:
                 for contract in goal.contracts:
-                    if e.assumptions_1 <= contract.assumptions.formula:
+                    if e.assumptions_1 <= contract.assumptions:
                         goals_involved.append(goal)
-                    if e.assumptions_2 <= contract.assumptions.formula:
+                    if e.assumptions_2 <= contract.assumptions:
                         goals_failed.append(goal)
             raise CGTFailException(failed_operation="composition",
                                    faild_motivation="incompatible",
@@ -178,9 +160,9 @@ def composition(goals: List[CGTGoal],
             goals_failed = []
             for goal in goals:
                 for contract in goal.contracts:
-                    if e.assumptions.formula <= contract.assumptions.formula:
+                    if e.assumptions.formula <= contract.assumptions:
                         goals_involved.append(goal)
-                    if e.guarantees.formula <= contract.assumptions.formula:
+                    if e.guarantees.formula <= contract.assumptions:
                         goals_failed.append(goal)
             raise CGTFailException(failed_operation="composition",
                                    faild_motivation="unfeasible",

@@ -17,8 +17,8 @@ class Component(Contract):
     def __init__(self,
                  component_id: str,
                  description: str = None,
-                 assumptions: Assumptions = None,
-                 guarantees: Guarantees = None):
+                 assumptions: Assumption = None,
+                 guarantees: Guarantee = None):
         super().__init__(assumptions=assumptions,
                          guarantees=guarantees)
 
@@ -54,13 +54,13 @@ class Component(Contract):
         for var in self.variables.set:
             astr += str(var) + ', '
         astr = astr[:-2] + ' ]\n  assumptions      :\t[ '
-        for assumption in self.assumptions.list:
+        for assumption in self.assumptions.cnf:
             astr += assumption.formula + ', '
         astr = astr[:-2] + ' ]\n  guarantees_satur :\t[ '
-        for guarantee in self.guarantees.list:
+        for guarantee in self.guarantees.cnf:
             astr += guarantee.saturated + ', '
         astr = astr[:-2] + ' ]\n  guarantees_unsat :\t[ '
-        for guarantee in self.guarantees.list:
+        for guarantee in self.guarantees.cnf:
             astr += guarantee.unsaturated + ', '
         return astr[:-2] + ' ]\n'
 
@@ -107,7 +107,7 @@ class ComponentsLibrary:
             self.add_component(component)
 
     def extract_selection(self,
-                          assumptions: Assumptions,
+                          assumptions: Assumption,
                           to_be_refined: LTLs) -> List[List['Component']]:
         """Extract all candidate compositions in the library whose guarantees, once combined, refine 'to_be_refined'
         and are consistent 'assumptions'. It also performs other tasks (filters and select the candidates)."""
@@ -239,8 +239,8 @@ class BooleanComponent(Component):
         for g in guarantees_str:
             guarantees.append(Guarantee(g, Variables(Boolean(g))))
 
-        assumptions = Assumptions(assumptions)
-        guarantees = Guarantees(guarantees)
+        assumptions = Assumption(assumptions)
+        guarantees = Guarantee(guarantees)
 
         guarantees.saturate_with(assumptions)
 

@@ -4,8 +4,16 @@ from typing import List
 def And(propositions: List[str]) -> str:
     """Returns an str formula representing the logical AND of list_propoositions"""
     if len(propositions) > 1:
+
+        if "FALSE" in propositions:
+            return "FALSE"
+
+        """Remove all TRUE elements"""
+        propositions = list(filter("TRUE".__ne__, propositions))
+
         conj = ' & '.join(propositions)
         return "(" + conj + ")"
+
     elif len(propositions) == 1:
         return propositions[0]
     else:
@@ -27,13 +35,11 @@ def Or(propositions: List[str]) -> str:
     if len(propositions) > 1:
         if "TRUE" in propositions:
             return "TRUE"
-        ret = "("
-        for i, elem in enumerate(propositions):
-            ret += elem
-            if i < len(propositions) - 1:
-                ret += " | "
-        ret += ")"
-        return ret
+        """Remove all FALSE elements"""
+        propositions = list(filter("FALSE".__ne__, propositions))
+
+        res = " | ".join(propositions)
+        return "(" + res + ")"
     elif len(propositions) == 1:
         return propositions[0]
     else:

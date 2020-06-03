@@ -1,8 +1,6 @@
 from checks.tools import And
 from src.contracts.contract import *
-from typescogomo.assumption import Domain
 from typescogomo.formulae import LTL
-from typescogomo.variables import extract_variable
 
 
 class Pattern(LTL):

@@ -2,8 +2,7 @@ from copy import deepcopy
 from typing import List
 
 from contracts.contract import Contract
-from src.typescogomo.assumption import Context
-from typescogomo.assumption import Expectation
+from typescogomo.subtypes.context import Context
 from typescogomo.formula import LTL
 from typescogomo.formulae import Guarantees
 from src.checks.tools import Or, And, Implies
@@ -49,13 +48,12 @@ class CGTGoal:
         else:
             raise AttributeError
 
-        self.goal_context_to_show = LTL("TRUE")
-        self.goal_context = []
+        self.__context = context
+
         if context is not None:
             self.set_context(context)
 
         print(self)
-
 
     @property
     def name(self):
@@ -102,29 +100,11 @@ class CGTGoal:
 
     @property
     def context(self):
-        """Return a list of contexts, each is in OR with each other"""
-        if len(self.goal_context) > 0:
-            return self.goal_context
-        else:
-            return [LTL("TRUE")]
-        # contexts = []
-        # for contract in self.contracts:
-        #     cs = contract.assumptions.get_kind("context")
-        #     if cs is not None:
-        #         f = []
-        #         v = []
-        #         for c in cs:
-        #             f.append(c.formula)
-        #             v.extend(c.variables.list)
-        #         from typescogomo.variables import Variables
-        #         c = Context(formula=And(f), variables=Variables(v))
-        #         contexts.append(c)
-        # if len(contexts) > 0:
-        #     return contexts
-        # return [LTL("TRUE")]
+        return self.__context
 
     @context.setter
     def context(self, value: Context):
+        self.__context = value
         self.set_context(value)
 
     @property
@@ -172,9 +152,15 @@ class CGTGoal:
             contract.propagate_assumptions_from(
                 refined_by[0].contracts[i]
             )
-            contract.refines(
-                refined_by[0].contracts[i]
-            )
+            from goals.operations import CGTFailException
+            if not contract <= refined_by[0].contracts[i]:
+                raise CGTFailException(
+                    failed_operation="propagation",
+                    faild_motivation="wrong refinement",
+                    goals_involved_a=[self],
+                    goals_involved_b=refined_by
+                )
+
         self.__refined_by = refined_by
         self.__refined_with = "REFINEMENT"
         if consolidate:
@@ -191,24 +177,6 @@ class CGTGoal:
         """Add context to guarantees as G(context -> guarantee)"""
         for contract in self.contracts:
             contract.set_context(context)
-
-        self.goal_context_to_show = context
-        self.goal_context.append(context)
-            # contract.remove_contextual_assumptions()
-            # contract.add_assumptions(context)
-        # self.consolidate_bottom_up()
-
-    def add_context(self, context: Context):
-        """Add the context as assumptions of all the contracts in the node"""
-        if context is not None:
-            for contract in self.contracts:
-                contract.add_assumptions(context)
-
-            if self.refined_by is None:
-                self.consolidate_bottom_up()
-            else:
-                for goal in self.refined_by:
-                    goal.add_context(context)
 
     def add_domain_properties(self):
         """Adding Domain Properties to 'cgt' (i.e. descriptive statements about the problem world (such as physical laws)
@@ -231,8 +199,8 @@ class CGTGoal:
         for contract in self.contracts:
             for expectation in expectations:
                 if len(list(set(contract.variables.set) & set(expectation.variables.set))) > 0:
-                    if contract.guarantees.are_satisfiable_with(expectation.guarantees):
-                        contract.add_assumptions(expectation.assumptions.list)
+                    if contract.guarantees.is_satisfiable_with(expectation.guarantees):
+                        contract.assumptions &= expectation.assumptions
 
         if self.refined_by is None:
             self.consolidate_bottom_up()
@@ -328,8 +296,8 @@ class CGTGoal:
         a_list = []
         vars = Variables()
         for c in self.contracts:
-            a_list.append(c.assumptions.formula.formula)
-            vars.extend(c.assumptions.formula.variables)
+            a_list.append(c.assumptions.formula)
+            vars |= c.assumptions.variables
         new_formula = Or(a_list)
         return LTL(new_formula, vars)
 
@@ -337,37 +305,22 @@ class CGTGoal:
         g_list = []
         vars = Variables()
         for c in self.contracts:
-            g_list.append(c.guarantees.formula.formula)
-            vars.extend(c.guarantees.formula.variables)
+            g_list.append(c.guarantees.formula)
+            vars |= c.guarantees.variables
         new_formula = And(g_list)
         return LTL(new_formula, vars)
-
 
     def get_variables(self) -> Variables:
         vars = Variables()
         for c in self.contracts:
-            vars.extend(c.guarantees.formula.variables)
-            vars.extend(c.assumptions.formula.variables)
+            vars |= c.guarantees.variables
+            vars |= c.assumptions.variables
         return vars
-
-    def get_ltl_saturated_guarantees(self) -> LTL:
-        assumptions_guarantee_pairs = []
-        vars = Variables()
-        for c in self.contracts:
-            assumptions_guarantee_pairs.append((c.assumptions.formula.formula, c.guarantees.formula.formula))
-            vars.extend(c.assumptions.formula.variables)
-            vars.extend(c.guarantees.formula.variables)
-        new_formula = []
-        for ag_pairs in assumptions_guarantee_pairs:
-            new_formula.append(Implies(ag_pairs[0], ag_pairs[1]))
-        new_formula = And(new_formula)
-        return LTL(new_formula, vars)
-
 
     def print_cgt_CROME(self, level=0):
         """Override the print behavior"""
         ret = "\t" * level + "GOAL    :\t" + repr(self.name) + "\n"
-        ret += "\t" * level + "SCENARIO:\t" + str(self.goal_context_to_show.formula) + "\n"
+        ret += "\t" * level + "SCENARIO:\t" + str(self.context.formula) + "\n"
         for n, contract in enumerate(self.contracts):
             if n > 0:
                 ret += "\t" * level + "\t/\\ \n"

@@ -4,8 +4,8 @@ from copy import deepcopy
 from typing import Union, Dict, List, Tuple
 from checks.tools import Not, Or, And, Implies
 from helper.tools import traslate_boolean
-from typescogomo.assumption import Context
-from typescogomo.formulae import LTLs, Assumptions
+from typescogomo.subtypes.context import Context
+from typescogomo.formulae import LTLs
 from typescogomo.formula import LTL, InconsistentException
 from typescogomo.variables import Type, Variables
 from goals.cgtgoal import CGTGoal

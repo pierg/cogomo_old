@@ -1,27 +1,27 @@
-from typing import List, Union, Pattern
+from typing import List
 
-from typescogomo.assumption import Assumption, Context
+from typescogomo.subtypes.assumption import Assumption
 from typescogomo.formula import LTL, InconsistentException
-from typescogomo.guarantee import Guarantee
+from typescogomo.subtypes.context import Context
+from typescogomo.subtypes.guarantee import Guarantee
 from typescogomo.variables import Variables, Boolean
-from typescogomo.formulae import Assumptions, Guarantees
 
 
 class Contract:
     def __init__(self,
-                 assumptions: Assumptions = None,
-                 guarantees: Guarantees = None
+                 assumptions: Assumption = None,
+                 guarantees: Guarantee = None
                  ):
 
         """List of assumptions in conjunction"""
         if assumptions is None:
-            self.__assumptions = Assumptions()
+            self.__assumptions = Assumption()
         else:
             self.__assumptions = assumptions
 
         """List of guarantees in conjunction. All guarantees are saturated"""
         if guarantees is None:
-            self.__guarantees = Guarantees()
+            self.__guarantees = Guarantee()
         else:
             self.__guarantees = guarantees
 
@@ -29,73 +29,68 @@ class Contract:
 
     @property
     def variables(self):
-        a_vars = self.assumptions.variables
-        g_vars = self.guarantees.variables
-        return a_vars + g_vars
+        return self.assumptions.variables | self.guarantees.variables
 
     @property
-    def assumptions(self) -> Assumptions:
+    def assumptions(self) -> Assumption:
         return self.__assumptions
 
     @assumptions.setter
-    def assumptions(self, values: Assumptions):
+    def assumptions(self, values: Assumption):
+        if not isinstance(values, Assumption):
+            raise AttributeError
         self.__assumptions = values
 
     @property
-    def guarantees(self) -> Guarantees:
+    def guarantees(self) -> Guarantee:
         return self.__guarantees
 
     @guarantees.setter
-    def guarantees(self, values: Guarantees):
+    def guarantees(self, values: Guarantee):
+        if not isinstance(values, Guarantee):
+            raise AttributeError
         self.__guarantees = values
 
+    """Contract refinement"""
+
+    def __le__(self, other):
+        """self <= other
+        If has smaller guarantees and bigger assumptions"""
+        if self.assumptions >= other.assumptions and self.guarantees <= other.guarantees:
+            return True
+        else:
+            return False
+
+    def merge_with(self, other: 'Contract'):
+
+        try:
+            self.assumptions &= other.assumptions
+        except InconsistentException as e:
+            raise IncompatibleContracts(e.conj_a, e.conj_b)
+
+        try:
+            self.guarantees &= other.guarantees
+        except InconsistentException as e:
+            raise InconsistentContracts(e.conj_a, e.conj_b)
+
+        self.check_feasibility()
+
+    def check_feasibility(self):
+        if not self.assumptions.is_satisfiable_with(self.guarantees):
+            raise UnfeasibleContracts(self.assumptions, self.guarantees)
+
+    def propagate_assumptions_from(self, c: 'Contract'):
+
+        self.assumptions &= c.assumptions
 
     def set_context(self, context: Context):
         self.guarantees.set_context(context)
 
-    def remove_contextual_assumptions(self):
-        self.assumptions.remove_kind("context")
-
-    def merge_with(self, other):
-        self.add_guarantees(other.guarantees.set)
-        self.add_assumptions(other.assumptions.set)
-        self.check_feasibility()
-
-    def check_feasibility(self):
-        if not self.assumptions.are_satisfiable_with(self.guarantees):
-            raise UnfeasibleContracts(self.assumptions, self.guarantees)
-
-    def add_assumptions(self, assumptions: Union[List[Assumption], Assumption]):
-
-        try:
-            self.assumptions.add(assumptions)
-        except InconsistentException as e:
-            raise IncompatibleContracts(e.conj_a, e.conj_b)
-
-        if isinstance(self.guarantees, Guarantees):
-            self.guarantees.saturate_with(self.assumptions)
-
-    def add_guarantees(self, guarantees: Union[List[Guarantee], Guarantee]):
-        try:
-            self.guarantees.add(guarantees)
-        except InconsistentException as e:
-            raise InconsistentContracts(e.conj_a, e.conj_b)
-
-    def propagate_assumptions_from(self, c: 'Contract'):
-
-        self.assumptions.extend(c.assumptions)
-
-    def refines(self, other: 'Contract') -> bool:
-
-        smaller_g = self.guarantees.formula <= other.guarantees.formula
-        bigger_a = self.assumptions.formula >= other.assumptions.formula
-        return smaller_g and bigger_a
-
     def cost(self):
         """Used for component selection. Always [0, 1]
         Lower is better"""
-        lg = len(self.guarantees.list)
-        la = len(self.assumptions.list)
+        lg = len(self.guarantees.cnf)
+        la = len(self.assumptions.cnf)
 
         """heuristic
         Low: guarantees while assuming little (assumption set is bigger)
@@ -109,35 +104,34 @@ class Contract:
     def __str__(self):
         """Override the print behavior"""
         astr = '  variables:\t[ '
-        for var in self.variables.set:
+        for var in self.variables:
             astr += str(var) + ', '
         astr = astr[:-2] + ' ]\n  assumptions      :\t[ '
-        for assumption in self.assumptions.list:
+        for assumption in self.assumptions.cnf:
             astr += assumption.formula + ', '
         astr = astr[:-2] + ' ]\n  guarantees_satur :\t[ '
-        for guarantee in self.guarantees.list:
+        for guarantee in self.guarantees.cnf:
             astr += guarantee.saturated + ', '
         astr = astr[:-2] + ' ]\n  guarantees_unsat :\t[ '
-        for guarantee in self.guarantees.list:
+        for guarantee in self.guarantees.cnf:
             astr += guarantee.unsaturated + ', '
         return astr[:-2] + ' ]\n'
 
 
-
 class IncompatibleContracts(Exception):
-    def __init__(self, assumptions_1: Assumption, assumptions_2: Assumption):
+    def __init__(self, assumptions_1: LTL, assumptions_2: LTL):
         self.assumptions_1 = assumptions_1
         self.assumptions_2 = assumptions_2
 
 
 class InconsistentContracts(Exception):
-    def __init__(self, guarantee_1: Guarantee, guarantee_2: Guarantee):
+    def __init__(self, guarantee_1: LTL, guarantee_2: LTL):
         self.guarantee_1 = guarantee_1
         self.guarantee_2 = guarantee_2
 
 
 class UnfeasibleContracts(Exception):
-    def __init__(self, assumptions: Assumptions, guarantees: Guarantees):
+    def __init__(self, assumptions: LTL, guarantees: LTL):
         self.assumptions = assumptions
         self.guarantees = guarantees
 
@@ -148,17 +142,17 @@ class BooleanContract(Contract):
                  assumptions_str: List[str],
                  guarantees_str: List[str]):
 
-        assumptions = []
-        guarantees = []
+        assumptions = set()
+        guarantees = set()
 
         for a in assumptions_str:
-            assumptions.append(Assumption(a, Variables(Boolean(a))))
+            assumptions.add(Assumption(a, Variables({Boolean(a)})))
 
         for g in guarantees_str:
-            guarantees.append(Guarantee(g, Variables(Boolean(g))))
+            guarantees.add(Guarantee(g, Variables({Boolean(g)})))
 
-        assumptions = Assumptions(assumptions)
-        guarantees = Guarantees(guarantees)
+        assumptions = Assumption(cnf=assumptions)
+        guarantees = Guarantee(cnf=guarantees)
 
         guarantees.saturate_with(assumptions)
 
@@ -172,25 +166,25 @@ class SimpleContract(Contract):
                  guarantees: List[str],
                  assumptions: List[str] = None):
 
-        guarantees_obj = []
+        guarantees_obj = set()
 
         from typescogomo.variables import extract_variable
 
         for g in guarantees:
-            guarantees_obj.append(Guarantee(g, extract_variable(g)))
+            guarantees_obj.add(Guarantee(g, extract_variable(g)))
 
-        guarantees_obj = Guarantees(guarantees_obj)
+        guarantees_obj = Guarantee(cnf=guarantees_obj)
 
         if assumptions is None:
-            assumptions_obj = Assumptions()
+            assumptions_obj = Assumption()
 
         else:
-            assumptions_obj = []
+            assumptions_obj = set()
 
             for a in assumptions:
-                assumptions_obj.append(Assumption(a, extract_variable(a)))
+                assumptions_obj.add(Assumption(a, extract_variable(a)))
 
-            assumptions_obj = Assumptions(assumptions_obj)
+            assumptions_obj = Assumption(cnf=assumptions_obj)
             guarantees_obj.saturate_with(assumptions_obj)
 
         super().__init__(assumptions=assumptions_obj,
@@ -204,12 +198,12 @@ class PContract(Contract):
 
         variables = Variables()
 
-        guarantees = []
+        guarantees = set()
 
         for p in patterns:
-            variables.extend(p.variables)
-            guarantees.append(Guarantee(p.formula, p.variables))
+            variables |= p.variables
+            guarantees.add(Guarantee(p.formula, p.variables))
 
-        guarantees = Guarantees(guarantees)
+        guarantees = Guarantee(cnf=guarantees)
 
         super().__init__(guarantees=guarantees)

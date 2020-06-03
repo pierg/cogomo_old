@@ -1,5 +1,4 @@
-from copy import deepcopy
-from typing import List, Union, Set
+from typing import Set
 from helper.tools import extract_terms
 
 
@@ -109,6 +108,9 @@ class Variables(set):
         else:
             super().add(other)
 
+    def __or__(self, other):
+        return super().__or__(other)
+
     def get_nusmv_names(self):
         """Get List[str] for nuxmv"""
         tuple_vars = []
@@ -169,17 +171,13 @@ def extract_variable(formula: str) -> 'Variables':
 
     var_names = extract_terms(formula)
 
-    context_vars: List[Type] = []
+    vars: Set[Type] = set()
 
     try:
         int(var_names[1])
-        """TODO: remove hard-coding"""
-        if var_names[0] == "time":
-            context_vars.append(Integer(var_names[0], 0, 24))
-        else:
-            context_vars.append(BoundedNat(var_names[0]))
+        vars.add(BoundedNat(var_names[0]))
     except:
         for var_name in var_names:
-            context_vars.append(Boolean(var_name))
+            vars.add(Boolean(var_name))
 
-    return Variables(context_vars)
+    return Variables(vars)

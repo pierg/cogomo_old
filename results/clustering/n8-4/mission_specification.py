@@ -1,9 +1,8 @@
 import os
 
 from src.goals.cgtgoal import *
-from src.typescogomo.assumption import *
 from src.typescogomo.patterns import *
-from typescogomo.formula import OrLTL, AndLTL, NotLTL
+from typescogomo.formula import AndLTL, NotLTL
 from typescogomo.scopes import *
 
 

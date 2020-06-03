@@ -1,6 +1,6 @@
 MODULE main
 VAR
-	f: boolean;
 	b: boolean;
+	f: boolean;
 
-LTLSPEC ((f) -> (b))
+LTLSPEC !((f & b))

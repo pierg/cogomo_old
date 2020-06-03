@@ -3,12 +3,11 @@ import os
 import shutil
 
 from components.components import ComponentsLibrary, Component, SimpleComponent
-from goals.operations import create_contextual_clusters, mapping, pretty_print_summary_clustering, create_cgt, \
-    CGTFailException, \
+from goals.operations import create_contextual_clusters, mapping, create_cgt, \
     pretty_cgt_exception
 from helper.tools import save_to_file
 from src.goals.cgtgoal import *
-from src.typescogomo.assumption import *
+from typescogomo.subtypes.assumption import *
 from src.contracts.patterns import *
 from typescogomo.scopes import *
 from typescogomo.variables import BoundedNat

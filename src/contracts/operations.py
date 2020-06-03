@@ -1,7 +1,6 @@
 from copy import deepcopy
 from typing import List
 from src.contracts.contract import Contract, InconsistentContracts, IncompatibleContracts, UnfeasibleContracts
-from typescogomo.formula import InconsistentException
 
 
 def compose_contracts(contracts: List[Contract]) -> Contract:
@@ -28,14 +27,14 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
             print("Contracts unfeasible")
             raise e
 
-
     print("The composition is compatible, consistent and feasible")
 
     a_removed = []
     g_used = []
+
     """For each combination of assumption/guarantees verify if some g_i -> a_i and simplify a_i"""
-    for a_elem in list(new_contract.assumptions.list):
-        for g_elem in list(new_contract.guarantees.list):
+    for a_elem in list(new_contract.assumptions.cnf):
+        for g_elem in list(new_contract.guarantees.cnf):
             if g_elem not in g_used and a_elem not in a_removed:
                 if g_elem <= a_elem:
                     print("Simplifying assumption " + str(a_elem))

@@ -5,7 +5,7 @@ import platform
 from graphviz import Source
 
 from helper.tools import traslate_boolean, save_to_file
-from typescogomo.formula import AndLTL, NotLTL, ImpliesLTL
+from typescogomo.formula import AndLTL, NotLTL
 from typescogomo.patterns import *
 from typescogomo.scopes import *
 from typescogomo.variables import Boolean

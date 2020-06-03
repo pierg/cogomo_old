@@ -147,7 +147,7 @@ def greedy_selection(candidate_compositions: List[List[Component]]) -> List[Comp
             for component_b in candidate_b:
                 contract_b.merge_with(component_b)
 
-            if contract_a.refines(contract_b):
+            if contract_a <= contract_b:
                 candidates_points[tuple(candidate_a)] += 1
             else:
                 candidates_points[tuple(candidate_b)] += 1
