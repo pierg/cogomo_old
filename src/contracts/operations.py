@@ -1,6 +1,7 @@
 from copy import deepcopy
 from typing import List
 from src.contracts.contract import Contract, InconsistentContracts, IncompatibleContracts, UnfeasibleContracts
+from typescogomo.subtypes.assumption import Assumption
 
 
 def compose_contracts(contracts: List[Contract]) -> Contract:
@@ -12,6 +13,13 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
         raise Exception("No contract specified in the composition")
 
     new_contract = deepcopy(contracts[0])
+
+    c1_a = deepcopy(contracts[0].assumptions.cnf)
+
+    assumptions = Assumption(cnf=deepcopy(contracts[0].assumptions.cnf))
+
+    new_contract = Contract()
+
 
     """Populate the data structure while checking for compatibility and consistency"""
     for contract in contracts[1:]:
