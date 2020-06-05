@@ -28,6 +28,10 @@ class LTL:
             """List of LTL that conjoined result in the formula"""
             self.__cnf: Set['LTL'] = {self}
 
+            if not skip_checks:
+                if not self.is_satisfiable():
+                    raise InconsistentException(self, self)
+
         elif cnf is not None and formula is None:
 
             cnf_str = [x.formula for x in cnf]
@@ -41,9 +45,12 @@ class LTL:
 
             self.__cnf: Set[Union['LTL']] = cnf
 
-        if not skip_checks:
-            if not self.is_satisfiable():
-                raise InconsistentException(self, self)
+            if not skip_checks:
+                if not self.is_satisfiable():
+                    raise InconsistentException(self, self)
+
+        elif cnf is None and formula is None:
+            pass
 
         else:
             raise Exception("Wrong parameters LTL construction")
