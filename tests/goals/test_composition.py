@@ -77,3 +77,7 @@ def test_three_contracts_composition():
     print(goal_composed)
 
     assert str(goal_composed.get_ltl_assumptions()) == "((a & c) & e)"
+
+
+if __name__ == '__main__':
+    test_composition_pointers()
