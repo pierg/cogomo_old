@@ -68,7 +68,8 @@ def conjunction(goals: List[CGTGoal],
     for goal in goals:
         contracts = goal.contracts
         for contract in contracts:
-            new_contract = deepcopy(contract)
+            new_contract = Contract(assumptions=contract.assumptions.copy(),
+                                    guarantees=contract.guarantees.copy())
             list_of_new_contracts.append(new_contract)
 
     conjoined_goal = CGTGoal(name=name,

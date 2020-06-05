@@ -1,4 +1,6 @@
 from typing import Set
+
+from checks.tools import Or, Implies, Not
 from typescogomo.formula import LTL
 from typescogomo.variables import Variables
 
@@ -15,6 +17,44 @@ class Assumption(LTL):
             self.__kind = "assumed"
         else:
             self.__kind = kind
+
+
+    def __and__(self, other: 'Assumption'):
+        """self & other
+        Returns a new LTL that is the conjunction of self with other"""
+        if not isinstance(other, Assumption):
+            return AttributeError
+        return Assumption(
+            cnf={self, other}
+        )
+
+    def __or__(self, other):
+        """self | other
+        Returns a new LTL that is the disjunction of self with other"""
+        if not isinstance(other, Assumption):
+            return AttributeError
+        return Assumption(
+            formula=Or([self.formula, other.formula]),
+            variables=Variables(self.variables | other.variables)
+        )
+
+    def __neg__(self):
+        """~ self
+        Returns a new LTL that is the negation of self"""
+        return Assumption(
+            formula=Not(self.formula),
+            variables=self.variables
+        )
+
+    def __rshift__(self, other):
+        """>> self
+        Returns a new LTL that is the result of self -> other (implies)"""
+        if not isinstance(other, Assumption):
+            return AttributeError
+        return Assumption(
+            formula=Implies(self.formula, other.formula),
+            variables=Variables(self.variables | other.variables)
+        )
 
     @property
     def kind(self) -> str:

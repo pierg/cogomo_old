@@ -1,6 +1,6 @@
 from typing import Set
 
-from checks.tools import Implies, And
+from checks.tools import Implies, And, Not, Or
 from typescogomo.subtypes.assumption import Assumption
 from typescogomo.formula import LTL
 from typescogomo.variables import Variables
@@ -44,6 +44,45 @@ class Guarantee(LTL):
                 super().__init__(self.__unsaturated, variables, cnf=None)
 
         self.__context = None
+        
+        
+    def __and__(self, other: 'Guarantee'):
+        """self & other
+        Returns a new LTL that is the conjunction of self with other"""
+        if not isinstance(other, Guarantee):
+            return AttributeError
+        return Guarantee(
+            cnf={self, other}
+        )
+
+    def __or__(self, other):
+        """self | other
+        Returns a new LTL that is the disjunction of self with other"""
+        if not isinstance(other, Guarantee):
+            return AttributeError
+        return Guarantee(
+            formula=Or([self.formula, other.formula]),
+            variables=Variables(self.variables | other.variables)
+        )
+
+    def __neg__(self):
+        """~ self
+        Returns a new LTL that is the negation of self"""
+        return Guarantee(
+            formula=Not(self.formula),
+            variables=self.variables
+        )
+
+    def __rshift__(self, other):
+        """>> self
+        Returns a new LTL that is the result of self -> other (implies)"""
+        if not isinstance(other, Guarantee):
+            return AttributeError
+        return Guarantee(
+            formula=Implies(self.formula, other.formula),
+            variables=Variables(self.variables | other.variables)
+        )
+    
 
     @property
     def unsaturated(self) -> str:

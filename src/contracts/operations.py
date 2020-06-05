@@ -12,14 +12,8 @@ def compose_contracts(contracts: List[Contract]) -> Contract:
     if len(contracts) == 0:
         raise Exception("No contract specified in the composition")
 
-    new_contract = deepcopy(contracts[0])
-
-    c1_a = deepcopy(contracts[0].assumptions.cnf)
-
-    assumptions = Assumption(cnf=deepcopy(contracts[0].assumptions.cnf))
-
-    new_contract = Contract()
-
+    new_contract = Contract(assumptions=contracts[0].assumptions.copy(),
+                            guarantees=contracts[0].guarantees.copy())
 
     """Populate the data structure while checking for compatibility and consistency"""
     for contract in contracts[1:]:

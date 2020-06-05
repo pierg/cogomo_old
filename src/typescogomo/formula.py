@@ -50,7 +50,8 @@ class LTL:
                     raise InconsistentException(self, self)
 
         elif cnf is None and formula is None:
-            pass
+            self.__formula: str = "TRUE"
+            self.__cnf: Set['LTL'] = {self}
 
         else:
             raise Exception("Wrong parameters LTL construction")
@@ -98,42 +99,6 @@ class LTL:
 
         return self
 
-    def __and__(self, other: 'LTL'):
-        """self & other
-        Returns a new LTL that is the conjunction of self with other"""
-        if not isinstance(other, LTL):
-            return AttributeError
-        return LTL(
-            cnf={self, other}
-        )
-
-    def __or__(self, other):
-        """self | other
-        Returns a new LTL that is the disjunction of self with other"""
-        if not isinstance(other, LTL):
-            return AttributeError
-        return LTL(
-            formula=Or([self.formula, other.formula]),
-            variables=Variables(self.variables | other.variables)
-        )
-
-    def __neg__(self):
-        """~ self
-        Returns a new LTL that is the negation of self"""
-        return LTL(
-            formula=Not(self.formula),
-            variables=self.variables
-        )
-
-    def __rshift__(self, other):
-        """>> self
-        Returns a new LTL that is the result of self -> other (implies)"""
-        if not isinstance(other, LTL):
-            return AttributeError
-        return LTL(
-            formula=Implies(self.formula, other.formula),
-            variables=Variables(self.variables | other.variables)
-        )
 
     """Refinement operators"""
 
@@ -181,6 +146,10 @@ class LTL:
 
     def __hash__(self):
         return hash(self.__formula)
+
+    def copy(self):
+        """Return a new LTL which is a copy of self"""
+        return self & self
 
     def negate(self):
         """Modifies the LTL formula with its negation"""

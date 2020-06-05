@@ -1,9 +1,9 @@
-from src.goals.operations import composition
+from src.goals.operations import conjunction, conjunction
 from src.contracts.contract import *
 from src.goals.cgtgoal import *
 
 
-def test_composition_pointers():
+def test_conjunction_pointers():
     goal_list = [
         CGTGoal(
             name="goal_1",
@@ -15,7 +15,7 @@ def test_composition_pointers():
         )
     ]
 
-    cgt = composition(
+    cgt = conjunction(
         goal_list,
         name="goal_composed",
         description="description of goal_composed")
@@ -27,12 +27,12 @@ def test_composition_pointers():
 
     print(cgt)
     print(goal_list[0])
-    goal_list[0] = composition([goal_list[0], new_goal])
+    goal_list[0] = conjunction([goal_list[0], new_goal])
     print(goal_list[0])
     print(cgt)
 
 
-def test_two_contracts_composition():
+def test_two_contracts_conjunction():
     goal_list = [
         CGTGoal(
             name="goal_1",
@@ -44,7 +44,7 @@ def test_two_contracts_composition():
         )
     ]
 
-    goal_composed = composition(
+    goal_composed = conjunction(
         goal_list,
         name="goal_composed",
         description="description of goal_composed")
@@ -53,7 +53,7 @@ def test_two_contracts_composition():
 
 
 
-def test_three_contracts_composition():
+def test_three_contracts_conjunction():
     goal_list = [
         CGTGoal(
             name="goal_1",
@@ -69,17 +69,17 @@ def test_three_contracts_composition():
         )
     ]
 
-    goal_composed = composition(
+    goal_composed = conjunction(
         goal_list,
         name="goal_composed",
         description="description of goal_composed")
 
     print(goal_composed)
 
-    assert str(goal_composed.get_ltl_assumptions()) == "((a & c) & e)"
+    assert str(goal_composed.get_ltl_assumptions()) == "(a | c | e)"
 
 
 if __name__ == '__main__':
-    test_composition_pointers()
-    test_two_contracts_composition()
-    test_three_contracts_composition
+    test_conjunction_pointers()
+    test_two_contracts_conjunction()
+    test_three_contracts_conjunction()
