@@ -95,8 +95,12 @@ class Contract(object):
         self.variables[name] = value
 
     def add_assumptions(self, assumptions):
-        for assumption in assumptions:
-            self.add_assumption(assumption)
+        if isinstance(assumptions, list):
+            for assumption in assumptions:
+                self.add_assumption(assumption)
+        else:
+            self.add_assumption(assumptions)
+
 
     def add_assumption(self, assumption):
         """Adds an assumption to the contract assumptions

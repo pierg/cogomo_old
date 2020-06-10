@@ -4,6 +4,7 @@
 import os
 import sys
 
+from input_files.platooning_component_library import component_library
 from src_z3.parser import parse
 from src_z3.cgtgoal import *
 
@@ -83,6 +84,10 @@ if __name__ == "__main__":
         name="following_communication",
         description="followin mode of the platoon"
     )
+
+
+
+    # mapping_complete(component_library, specification)
 
 
     print(following_mode)
