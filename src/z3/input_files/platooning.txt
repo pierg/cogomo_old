@@ -7,6 +7,7 @@ CONSTANTS:
     TR_max        := 27000000   # bits/s
     L             := 3200       # bits
     MAX_PLATOON   := 5          # maximum number of vehicles
+    Delta_m       := 1          # meters
 
 GOAL:
 	NAME:
@@ -177,6 +178,21 @@ GOAL:
 	    a_l <= 0.52
 		s_l >= 0
 		s_l < 150
+
+
+GOAL:
+	NAME:
+		retrieve_distance
+    DESCRIPTION:
+        retrieve distance from vehicle in front
+    VARIABLES:
+        distance_front        := REAL   # distance measured
+        distance_real         := REAL   # real distance
+	ASSUMPTIONS:
+        --
+	GUARANTEES:
+		distance_front >= 0
+	    distance_front - distance_real <= Delta_m
 
 ENDGOALS
 

@@ -73,6 +73,21 @@ class CGTGoal:
         else:
             return 1
 
+
+    def get_goal_with_name(self, name):
+        result = []
+        if self.sub_goals is not None and len(self.sub_goals) > 0:
+            for child in self.sub_goals:
+                child_name = child.name
+                print("NAME:  " + child_name)
+                if child_name == name:
+                    result.append(child)
+                else:
+                    result.extend(child.get_goal_with_name(name))
+        return result
+
+
+
     def render_contracts(self):
         contracts = []
         for n, contract in enumerate(self.contracts):

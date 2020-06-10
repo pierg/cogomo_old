@@ -18,15 +18,17 @@ if __name__ == "__main__":
     goals = parse('./input_files/platooning.txt')
 
     """Declare New Goals that are built on top of existing goals"""
-    keep_short_distance = None
+    adjust_speed_distance = None
     follow_leader = None
     speed_control = None
 
     try:
-        keep_short_distance = conjoin_goals(
+        adjust_speed_distance = conjoin_goals(
             [goals["accelerate_distance"], goals["decelerate_distance"], goals["maintainspeed_distance"]],
-            name="keep_short_distance",
+            name="adjust_speed_distance",
             description="keep a short distance from the vehicle ahead")
+
+        keep_short_distance = compose_goals([adjust_speed_distance, goals["retrieve_distance"]], "keep_short_distance")
 
         follow_leader = conjoin_goals(
             [goals["accelerate_follow"], goals["decelerate_follow"], goals["maintainspeed_follow"]],
@@ -44,6 +46,9 @@ if __name__ == "__main__":
 
     except Exception:
         """Let's prioritize 'keep_short_distance' over 'follow_leader' """
+
+        keep_short_distance = compose_goals([adjust_speed_distance, goals["retrieve_distance"]], "keep_short_distance")
+
 
         print("\nPrioritizing goals...")
         prioritize_goal(keep_short_distance, follow_leader)
@@ -81,13 +86,16 @@ if __name__ == "__main__":
 
     following_mode = compose_goals(
         [speed_control, goals['communicate_with_platoon_leader']],
-        name="following_communication",
+        name="following_mode",
         description="followin mode of the platoon"
     )
 
 
+    print(following_mode)
 
-    # mapping_complete(component_library, specification)
+
+    goal_to_map = following_mode.get_goal_with_name("retrieve_distance")[0]
+    mapping_complete(component_library, goal_to_map)
 
 
     print(following_mode)
