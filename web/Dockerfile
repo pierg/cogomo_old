@@ -1,9 +1,12 @@
 FROM ubuntu:19.04
 
 # Install keyboard-configuration separately to avoid travis hanging waiting for keyboard selection
-RUN \
-    apt -y update && \
-    apt install -y keyboard-configuration
+#RUN \
+#    apt -y update && \
+#    apt install -y keyboard-configuration
+
+
+RUN apt -y update
 
 # Install general things
 RUN \
