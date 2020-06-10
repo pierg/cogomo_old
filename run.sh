@@ -45,6 +45,10 @@ else
           echo "Waiting for commands..."
           break
           ;;
+         -w)
+          echo "Launching the web-server..."
+          python3 ./web/webapp.py
+          ;;
         *)
           break
           ;;
