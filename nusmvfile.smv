@@ -1,5 +1,17 @@
 MODULE main
 VAR
-	heavy_item_pickup: boolean;
+	low_battery: boolean;
+	day_time: boolean;
+	go_warehouse: boolean;
+	fire_alarm: boolean;
+	go_safe_loc: boolean;
+	go_back: boolean;
+	go_charging_point: boolean;
+	give_med: boolean;
+	shop: boolean;
+	go_entrace: boolean;
+	get_med: boolean;
+	full_battery: boolean;
+	take_med: boolean;
 
-LTLSPEC ((G(heavy_item_pickup)) -> (TRUE))
+LTLSPEC ((G(((shop & day_time)) -> G((get_med) -> F(((F(go_back & F(go_warehouse & F(go_entrace))) & (!go_warehouse U go_back) & (!go_entrace U go_warehouse) & (!go_back U (go_back & X(!go_back U(go_warehouse)))) & (!go_warehouse U (go_warehouse & X(!go_warehouse U(go_entrace))))) & G((go_warehouse) -> (take_med)) & G((go_entrace) -> (give_med))))))) -> (G((fire_alarm) -> (go_safe_loc))))
