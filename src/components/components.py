@@ -4,8 +4,6 @@ from src.contracts.contract import *
 
 import itertools as it
 
-from typescogomo.formulae import LTL, LTLs
-
 
 class NoComponentsAvailable(Exception):
     pass
@@ -108,7 +106,7 @@ class ComponentsLibrary:
 
     def extract_selection(self,
                           assumptions: Assumption,
-                          to_be_refined: LTLs) -> List[List['Component']]:
+                          to_be_refined: LTL) -> List[List['Component']]:
         """Extract all candidate compositions in the library whose guarantees, once combined, refine 'to_be_refined'
         and are consistent 'assumptions'. It also performs other tasks (filters and select the candidates)."""
 

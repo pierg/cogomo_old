@@ -1,9 +1,8 @@
 import os
 
 from src.goals.cgtgoal import *
-from src.typescogomo.patterns import *
 from typescogomo.formula import NotLTL
-from typescogomo.scopes import *
+from typescogomo.subtypes.scopes import *
 
 
 def get_inputs():

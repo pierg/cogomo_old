@@ -5,7 +5,6 @@ from typing import Union, Dict, List, Tuple
 from checks.tools import Not, Or, And, Implies
 from helper.tools import traslate_boolean
 from typescogomo.subtypes.context import Context
-from typescogomo.formulae import LTLs
 from typescogomo.formula import LTL, InconsistentException
 from typescogomo.variables import Type, Variables
 from goals.cgtgoal import CGTGoal
@@ -109,7 +108,7 @@ def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
                 variables: Variables = Variables()
                 ltl = "G("
                 for vs in cvars:
-                    variables.extend(vs.variables)
+                    variables |= vs.variables
                 cvars_str = [n.formula for n in cvars]
                 clauses = []
                 for vs_a in cvars_str:
@@ -130,7 +129,7 @@ def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
                 variables: Variables = Variables()
                 ltl = "G("
                 for i, vs in enumerate(cvars):
-                    variables.extend(vs.variables)
+                    variables |= vs.variables
                     ltl += str(vs)
                     if i < (len(cvars) - 1):
                         ltl += " -> "
@@ -398,7 +397,7 @@ def prioritize_goal(first_priority_goal, second_priority_goal):
     stronger_assumptions_list = []
 
     for contract in first_priority_goal.contracts:
-        variables.extend(contract.variables)
+        variables |= contract.variables
         stronger_assumptions_list.append(And(contract.assumptions))
 
     for contract in second_priority_goal.contracts:

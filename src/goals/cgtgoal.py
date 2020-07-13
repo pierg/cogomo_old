@@ -4,8 +4,8 @@ from typing import List
 from contracts.contract import Contract
 from typescogomo.subtypes.context import Context
 from typescogomo.formula import LTL
-from typescogomo.formulae import Guarantees
-from src.checks.tools import Or, And, Implies
+from src.checks.tools import Or, And
+from typescogomo.subtypes.guarantee import Guarantee
 from typescogomo.variables import Variables
 
 
@@ -114,6 +114,23 @@ class CGTGoal:
     @connected_to.setter
     def connected_to(self, value):
         self.__connected_to = value
+
+
+    def __copy__(self):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        result.__dict__.update(self.__dict__)
+        return result
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
+
+
 
     def get_refinement_by(self):
         return self.refined_by, self.refined_with
@@ -247,7 +264,7 @@ class CGTGoal:
         else:
             print("No substitution has been performed")
 
-    def abstract_guarantees_of(self, goal_name: str, guarantees: Guarantees, abstract_name: str = None):
+    def abstract_guarantees_of(self, goal_name: str, guarantees: Guarantee, abstract_name: str = None):
 
         goals = self.get_all_goals_with_name(goal_name)
         if abstract_name is None:

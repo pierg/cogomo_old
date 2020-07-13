@@ -1,7 +1,7 @@
-from typing import Set
+from typing import Set, Union
 
-from checks.tools import Or, Implies, Not
-from typescogomo.formula import LTL
+from checks.tools import Or, Implies, Not, And
+from typescogomo.formula import LTL, InconsistentException
 from typescogomo.variables import Variables
 
 
@@ -18,27 +18,29 @@ class Assumption(LTL):
         else:
             self.__kind = kind
 
-
-    def __and__(self, other: 'Assumption'):
+    def __and__(self, other: 'LTL') -> Union['Assumption', 'LTL']:
         """self & other
         Returns a new LTL that is the conjunction of self with other"""
-        if not isinstance(other, Assumption):
-            return AttributeError
-        return Assumption(
-            cnf={self, other}
-        )
+        if isinstance(other, Assumption):
+            return Assumption(cnf={self, other})
+        else:
+            return LTL(cnf={self, other})
 
-    def __or__(self, other):
+    def __or__(self, other: 'LTL') -> Union['Assumption', 'LTL']:
         """self | other
         Returns a new LTL that is the disjunction of self with other"""
-        if not isinstance(other, Assumption):
-            return AttributeError
-        return Assumption(
-            formula=Or([self.formula, other.formula]),
-            variables=Variables(self.variables | other.variables)
-        )
+        if isinstance(other, Assumption):
+            return Assumption(
+                formula=Or([self.formula, other.formula]),
+                variables=Variables(self.variables | other.variables)
+            )
+        else:
+            return LTL(
+                formula=Or([self.formula, other.formula]),
+                variables=Variables(self.variables | other.variables)
+            )
 
-    def __neg__(self):
+    def __invert__(self) -> 'Assumption':
         """~ self
         Returns a new LTL that is the negation of self"""
         return Assumption(
@@ -46,15 +48,19 @@ class Assumption(LTL):
             variables=self.variables
         )
 
-    def __rshift__(self, other):
+    def __rshift__(self, other: 'LTL') -> Union['Assumption', 'LTL']:
         """>> self
         Returns a new LTL that is the result of self -> other (implies)"""
-        if not isinstance(other, Assumption):
-            return AttributeError
-        return Assumption(
-            formula=Implies(self.formula, other.formula),
-            variables=Variables(self.variables | other.variables)
-        )
+        if isinstance(other, Assumption):
+            return Assumption(
+                formula=Implies(self.formula, other.formula),
+                variables=Variables(self.variables | other.variables)
+            )
+        else:
+            return LTL(
+                formula=Implies(self.formula, other.formula),
+                variables=Variables(self.variables | other.variables)
+            )
 
     @property
     def kind(self) -> str:

@@ -13,6 +13,7 @@ from goals.operations import create_contextual_clusters, create_cgt, CGTFailExce
 from helper.tools import save_to_file
 
 from mission_specification import get_inputs
+
 # from typescogomo.formula import OrLTL
 
 results_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
@@ -147,7 +148,6 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         else:
             goals_res += g.name + "\t" + "NO\t" + format(exec_time, '.3f') + "sec\n"
 
-
     summary_file_name = result_folder + "/SUMMARY.txt"
     dirname = os.path.dirname(summary_file_name)
     if not os.path.exists(dirname):
@@ -156,7 +156,6 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         f.write(pretty_print_goals(ap, rules, goals))
         f.write("\nREALIZABILITY OF INDIVIDUAL GOALS\n" + goals_res)
     f.close()
-
 
     if general_and:
         """Generate controller from goals as is, where the assumptions are in AND"""
@@ -213,7 +212,8 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
 
         """Generate a controller from cgt root"""
         realizable_no_clusters, no_clusters_exec_time = generate_controller_from_cgt(cgt,
-                                                                                     result_folder + "/CGT_no_clusters/", complete)
+                                                                                     result_folder + "/CGT_no_clusters/",
+                                                                                     complete)
 
         ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
         ret += "CGT WITH CONJUNCTION OF GOALS\n"
@@ -243,7 +243,8 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
 
         """Generate a controller for each branch of the CGT"""
         realizables_clustered, exec_times_clustered = generate_controllers_from_cgt_clustered(cgt_1,
-                                                                                              result_folder + "/cgt_clusters_mutex/", complete)
+                                                                                              result_folder + "/cgt_clusters_mutex/",
+                                                                                              complete)
 
         ret = "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
         ret += "CGT WITH MUTEX CLUSTERS \t  " + str(sum(realizables_clustered)) + "/" + str(
@@ -278,7 +279,8 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         save_to_file(str(cgt_2.print_cgt_CROME()), result_folder + "/CGT_with_clusters/CGT_CROME.txt")
 
         realizables_original, exec_times_original = generate_controllers_from_cgt_clustered(cgt_2,
-                                                                                            result_folder + "/CGT_with_clusters/", complete)
+                                                                                            result_folder + "/CGT_with_clusters/",
+                                                                                            complete)
 
         unrealizable_goals = {}
 
@@ -312,8 +314,6 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         f = open(summary_file_name, "a+")
         f.write(ret)
         f.close()
-
-
 
     # save_to_file(pretty_print_summary_clustering(list_of_goals,
     #                                              controller_generated_and,

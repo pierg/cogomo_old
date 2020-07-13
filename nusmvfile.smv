@@ -1,9 +1,6 @@
 MODULE main
 VAR
-	night_time: boolean;
-	go_counter: boolean;
-	go_warehouse: boolean;
-	go_back: boolean;
-	go_entrace: boolean;
+	shop: boolean;
+	guard_entered: boolean;
 
-LTLSPEC !(G((night_time) -> (G(F(go_entrace & F(go_counter & F(go_back & F(go_warehouse))))))))
+LTLSPEC !(G(guard_entered -> shop))

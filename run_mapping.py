@@ -9,7 +9,7 @@ from helper.tools import save_to_file
 from src.goals.cgtgoal import *
 from typescogomo.subtypes.assumption import *
 from src.contracts.patterns import *
-from typescogomo.scopes import *
+from typescogomo.subtypes.scopes import *
 from typescogomo.variables import BoundedNat
 
 file_path = os.path.dirname(os.path.abspath(__file__)) + "/output/mapping"

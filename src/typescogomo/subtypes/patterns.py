@@ -1,6 +1,7 @@
-from checks.tools import And
-from src.contracts.contract import *
-from typescogomo.formulae import LTL
+from typing import List, Union, Set
+from checks.tools import And, Or, Implies
+from typescogomo.formula import LTL
+from typescogomo.variables import Variables
 
 
 class Pattern(LTL):
@@ -8,9 +9,53 @@ class Pattern(LTL):
     General Pattern Class
     """
 
-    def __init__(self, formula: str, variables: Variables = None):
-        super().__init__(formula, variables)
+    def __init__(self, formula: str = None, variables: Variables = None, cnf: Set['Pattern'] = None):
+        super().__init__(formula, variables, cnf)
         self.domain_properties = []
+        
+    def __and__(self, other: 'LTL') -> Union['Pattern', 'LTL']:
+        """self & other
+        Returns a new LTL that is the conjunction of self with other"""
+        if isinstance(other, Pattern):
+            return Pattern(cnf={self, other})
+        else:
+            return LTL(cnf={self, other})
+
+    def __or__(self, other: 'LTL') -> Union['Pattern', 'LTL']:
+        """self | other
+        Returns a new LTL that is the disjunction of self with other"""
+        if isinstance(other, Pattern):
+            return Pattern(
+                formula=Or([self.formula, other.formula]),
+                variables=Variables(self.variables | other.variables)
+            )
+        else:
+            return LTL(
+                formula=Or([self.formula, other.formula]),
+                variables=Variables(self.variables | other.variables)
+            )
+
+    def __invert__(self) -> 'Pattern':
+        """~ self
+        Returns a new LTL that is the negation of self"""
+        return Pattern(
+            formula=Not(self.formula),
+            variables=self.variables
+        )
+
+    def __rshift__(self, other: 'LTL') -> Union['Pattern', 'LTL']:
+        """>> self
+        Returns a new LTL that is the result of self -> other (implies)"""
+        if isinstance(other, Pattern):
+            return Pattern(
+                formula=Implies(self.formula, other.formula),
+                variables=Variables(self.variables | other.variables)
+            )
+        else:
+            return LTL(
+                formula=Implies(self.formula, other.formula),
+                variables=Variables(self.variables | other.variables)
+            )
 
 
 class CoreMovement(Pattern):
@@ -19,27 +64,6 @@ class CoreMovement(Pattern):
 
     def __init__(self, pattern_formula: str, locations: List[LTL], variables: Variables):
         super().__init__(pattern_formula, variables)
-
-        """Domain Property: A robot cannot be in the same location at the same time"""
-
-        # # Eliminating duplicates
-        # list_locations = list(dict.fromkeys(locations))
-        #
-        # ltl_formula = "G("
-        # for i, loc in enumerate(list_locations):
-        #     ltl_formula += "(" + loc.formula
-        #     for loc_other in list_locations:
-        #         if loc != loc_other:
-        #             ltl_formula += " & !" + loc_other.formula
-        #     ltl_formula += ")"
-        #     if i < len(list_locations) - 1:
-        #         ltl_formula += " | "
-        #
-        # ltl_formula += ")"
-        #
-        # super().__init__(And([pattern_formula, ltl_formula]), variables)
-        #
-        # self.domain_properties.append(Domain(ltl_formula, variables))
 
 
 class Visit(CoreMovement):

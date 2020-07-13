@@ -122,6 +122,14 @@ class LTL:
         return LTL(formula=formula, variables=variables)
 
 
+    def __invert__(self):
+        """Returns a new LTL with the negation of self"""
+
+        formula = Not(self.formula)
+
+        return LTL(formula=formula, variables=self.variables)
+
+
     """Refinement operators"""
 
     def __lt__(self, other: 'LTL'):
@@ -167,7 +175,10 @@ class LTL:
         return check_validity(list(variables), "((" + other.formula + ") -> (" + self.formula + "))")
 
     def __hash__(self):
-        return hash(self.__formula)
+        try:
+            return hash(self.__formula)
+        except Exception as e:
+            print(e)
 
     def copy(self):
         """Return a new LTL which is a copy of self"""

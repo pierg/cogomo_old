@@ -1,4 +1,4 @@
-from typing import Set
+from typing import Set, Union
 
 from checks.tools import Implies, And, Not, Or
 from typescogomo.subtypes.assumption import Assumption
@@ -44,28 +44,30 @@ class Guarantee(LTL):
                 super().__init__(self.__unsaturated, variables, cnf=None)
 
         self.__context = None
-        
-        
-    def __and__(self, other: 'Guarantee'):
+
+    def __and__(self, other: 'LTL') -> Union['Guarantee', 'LTL']:
         """self & other
         Returns a new LTL that is the conjunction of self with other"""
-        if not isinstance(other, Guarantee):
-            return AttributeError
-        return Guarantee(
-            cnf={self, other}
-        )
+        if isinstance(other, Guarantee):
+            return Guarantee(cnf={self, other})
+        else:
+            return LTL(cnf={self, other})
 
-    def __or__(self, other):
+    def __or__(self, other: 'LTL') -> Union['Guarantee', 'LTL']:
         """self | other
         Returns a new LTL that is the disjunction of self with other"""
-        if not isinstance(other, Guarantee):
-            return AttributeError
-        return Guarantee(
-            formula=Or([self.formula, other.formula]),
-            variables=Variables(self.variables | other.variables)
-        )
+        if isinstance(other, Guarantee):
+            return Guarantee(
+                formula=Or([self.formula, other.formula]),
+                variables=Variables(self.variables | other.variables)
+            )
+        else:
+            return LTL(
+                formula=Or([self.formula, other.formula]),
+                variables=Variables(self.variables | other.variables)
+            )
 
-    def __neg__(self):
+    def __invert__(self) -> 'Guarantee':
         """~ self
         Returns a new LTL that is the negation of self"""
         return Guarantee(
@@ -73,16 +75,19 @@ class Guarantee(LTL):
             variables=self.variables
         )
 
-    def __rshift__(self, other):
+    def __rshift__(self, other: 'LTL') -> Union['Guarantee', 'LTL']:
         """>> self
         Returns a new LTL that is the result of self -> other (implies)"""
-        if not isinstance(other, Guarantee):
-            return AttributeError
-        return Guarantee(
-            formula=Implies(self.formula, other.formula),
-            variables=Variables(self.variables | other.variables)
-        )
-    
+        if isinstance(other, Guarantee):
+            return Guarantee(
+                formula=Implies(self.formula, other.formula),
+                variables=Variables(self.variables | other.variables)
+            )
+        else:
+            return LTL(
+                formula=Implies(self.formula, other.formula),
+                variables=Variables(self.variables | other.variables)
+            )
 
     @property
     def unsaturated(self) -> str:
@@ -99,6 +104,8 @@ class Guarantee(LTL):
     def set_context(self, context):
         self.__context = context
         if USE_SATURATED_GUARANTEES:
-            super().__init__("G((" + context.formula + ") -> (" + self.saturated + "))", Variables(self.variables | context.variables))
+            super().__init__("G((" + context.formula + ") -> (" + self.saturated + "))",
+                             Variables(self.variables | context.variables))
         else:
-            super().__init__("G((" + context.formula + ") -> (" + self.formula + "))", Variables(self.variables | context.variables))
+            super().__init__("G((" + context.formula + ") -> (" + self.formula + "))",
+                             Variables(self.variables | context.variables))

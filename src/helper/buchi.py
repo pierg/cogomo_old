@@ -1,14 +1,11 @@
 import os
 import subprocess
-import platform
 
 from graphviz import Source
 
 from helper.tools import traslate_boolean, save_to_file
-from typescogomo.formula import AndLTL, NotLTL
-from typescogomo.patterns import *
-from typescogomo.scopes import *
-from typescogomo.variables import Boolean
+from typescogomo.formula import NotLTL
+from typescogomo.subtypes.scopes import *
 
 results_folder = results_path = os.path.dirname(os.path.abspath(__file__)) + "/output/"
 

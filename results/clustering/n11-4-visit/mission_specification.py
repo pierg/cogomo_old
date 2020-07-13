@@ -1,9 +1,9 @@
 import os
 
 from src.goals.cgtgoal import *
-from src.typescogomo.patterns import *
+from typescogomo.subtypes.patterns import *
 from typescogomo.formula import AndLTL, NotLTL
-from typescogomo.scopes import *
+from typescogomo.subtypes.scopes import *
 
 
 def get_inputs():
