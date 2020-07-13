@@ -142,7 +142,7 @@ def extract_ltl_rules(context_rules: Dict) -> List[LTL]:
         for cvars in context_rules["liveness"]:
             variables: Variables = Variables()
             ltl = "G( F("
-            variables.extend(cvars.variables)
+            variables |= cvars.variables
             ltl += str(cvars)
             ltl += "))"
             ltl_list.append(LTL(formula=ltl, variables=variables))
@@ -431,25 +431,25 @@ def generate_general_controller_inputs_from_goal(ap: dict,
     g = goal.get_ltl_guarantees().formula
     if g != "TRUE":
         guarantees.append(g)
-    variables.extend(goal.get_variables())
+    variables |= goal.get_variables()
 
     """Adding liveness rules of the environemnt as assumptions"""
     liveness_rules = extract_ltl_rules(rules["environment"])
     for r in liveness_rules:
-        variables.extend(r.variables)
+        variables |= r.variables
         assumptions.append(r.formula)
 
     """Adding domain rules of the robot as guarantees"""
     domain_rules = extract_ltl_rules(rules["domain"])
     for r in domain_rules:
-        variables.extend(r.variables)
+        variables |= r.variables
         guarantees.append(r.formula)
 
     """Adding context rules as assumptions if not already included (cgt includes them)"""
     if complete:
         context_rules = extract_ltl_rules(rules["context"])
         for r in context_rules:
-            variables.extend(r.variables)
+            variables |= r.variables
             assumptions.append(r.formula)
 
     # """Replacing TRUE with true, for strix"""
@@ -462,7 +462,7 @@ def generate_general_controller_inputs_from_goal(ap: dict,
     controllable = []
 
     """Splitting the variables between uncontrollable and controllable"""
-    for v in variables.set:
+    for v in variables:
         if v.name in ap["s"]:
             uncontrollable.append(v.name)
         else:

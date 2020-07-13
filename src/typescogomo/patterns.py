@@ -50,7 +50,7 @@ class Visit(CoreMovement):
         pattern_formula = []
 
         for location in locations:
-            variables.extend(location.variables)
+            variables |= location.variables
             pattern_formula.append("F(" + location.formula + ")")
 
         pattern_formula = And(pattern_formula)
@@ -67,7 +67,7 @@ class SequencedVisit(CoreMovement):
         pattern_formula = "F("
 
         for n, location in enumerate(locations):
-            variables.extend(location.variables)
+            variables |= location.variables
             pattern_formula += location.formula
             if n == len(locations) - 1:
                 for _ in range(len(locations)):
@@ -86,7 +86,7 @@ class Patroling(CoreMovement):
         pattern_formula = []
 
         for location in locations:
-            variables.extend(location.variables)
+            variables |= location.variables
             pattern_formula.append("G(F(" + location.formula + "))")
 
         pattern_formula = And(pattern_formula)
@@ -103,7 +103,7 @@ class SequencedPatroling(CoreMovement):
         pattern_formula = "G(F("
 
         for n, location in enumerate(locations):
-            variables.extend(location.variables)
+            variables |= location.variables
             pattern_formula += location.formula
             if n == len(locations) - 1:
                 for _ in range(len(locations)):
@@ -125,7 +125,7 @@ class OrderPatroling(CoreMovement):
 
         formula = "G("
         for i, location in enumerate(locations):
-            variables.extend(location.variables)
+            variables |= location.variables
             formula += "F(" + location.formula
             if i < len(locations) - 1:
                 formula += " & "
@@ -141,13 +141,12 @@ class OrderPatroling(CoreMovement):
         for n, location in enumerate(locations):
             if n < len(locations):
                 pattern_formula.append("G(" + locations[(n + 1) % len(locations)].formula + " ->  " +
-                                       "X((!" + locations[(n + 1) % len(locations)].formula + ") U " + locations[n].formula + "))")
-
+                                       "X((!" + locations[(n + 1) % len(locations)].formula + ") U " + locations[
+                                           n].formula + "))")
 
         pattern_formula = And(pattern_formula)
 
         super().__init__(pattern_formula, locations, variables)
-
 
 
 class StrictOrderPatroling(CoreMovement):
@@ -159,7 +158,7 @@ class StrictOrderPatroling(CoreMovement):
 
         formula = "G("
         for i, location in enumerate(locations):
-            variables.extend(location.variables)
+            variables |= location.variables
             formula += "F(" + location.formula
             if i < len(locations) - 1:
                 formula += " & "
@@ -175,17 +174,18 @@ class StrictOrderPatroling(CoreMovement):
         for n, location in enumerate(locations):
             if n < len(locations):
                 pattern_formula.append("G(" + locations[(n + 1) % len(locations)].formula + " ->  " +
-                                       "X((!" + locations[(n + 1) % len(locations)].formula + ") U " + locations[n].formula + "))")
+                                       "X((!" + locations[(n + 1) % len(locations)].formula + ") U " + locations[
+                                           n].formula + "))")
 
         for n, location in enumerate(locations):
             if n < len(locations) - 1:
                 pattern_formula.append("G(" + locations[n].formula + " ->  " +
-                                       "X((!" + locations[n].formula + ") U " + locations[(n + 1) % len(locations)].formula + "))")
+                                       "X((!" + locations[n].formula + ") U " + locations[
+                                           (n + 1) % len(locations)].formula + "))")
 
         pattern_formula = And(pattern_formula)
 
         super().__init__(pattern_formula, locations, variables)
-
 
 
 class StrictOrderVisit(CoreMovement):
@@ -197,7 +197,7 @@ class StrictOrderVisit(CoreMovement):
 
         formula = ""
         for i, location in enumerate(locations):
-            variables.extend(location.variables)
+            variables |= location.variables
             formula += "F(" + location.formula
             if i < len(locations) - 1:
                 formula += " & "
@@ -211,12 +211,13 @@ class StrictOrderVisit(CoreMovement):
 
         for n, location in enumerate(locations):
             if n < len(locations) - 1:
-                pattern_formula.append("(!" + locations[n].formula + " U (" + locations[n].formula + " & X(!" + locations[n].formula + " U(" + locations[n+1].formula + "))))")
+                pattern_formula.append(
+                    "(!" + locations[n].formula + " U (" + locations[n].formula + " & X(!" + locations[
+                        n].formula + " U(" + locations[n + 1].formula + "))))")
 
         pattern_formula = And(pattern_formula)
 
         super().__init__(pattern_formula, locations, variables)
-
 
 
 # if __name__ == '__main__':
@@ -235,38 +236,7 @@ class OrderedVisit(CoreMovement):
 
         guarantee = "F("
         for n, location in enumerate(locations):
-            variables.extend(location.variables)
-            guarantee += location.formula
-            if n == len(locations) - 1:
-                for _ in range(len(locations)):
-                    guarantee += ")"
-            else:
-                guarantee += " & F("
-
-        pattern_formula.append(guarantee)
-
-        for n, location in enumerate(locations):
-            if n < len(locations) - 1:
-                pattern_formula.append("(!" + locations[n + 1].formula + " U " + locations[n].formula + ")")
-
-        pattern_formula = And(pattern_formula)
-
-        super().__init__(pattern_formula, locations, variables)
-
-
-class OrderedVisit(CoreMovement):
-    """Sequence visit does not forbid to visit a successor location before its predecessor, but only that after the
-    predecessor is visited the successor is also visited. Ordered visit forbids a successor to be visited
-    before its predecessor."""
-
-    def __init__(self, locations: List[LTL]):
-
-        variables = Variables()
-        pattern_formula = []
-
-        guarantee = "F("
-        for n, location in enumerate(locations):
-            variables.extend(location.variables)
+            variables |= location.variables
             guarantee += location.formula
             if n == len(locations) - 1:
                 for _ in range(len(locations)):
@@ -308,57 +278,43 @@ class DelayedReaction(TriggerPattern):
     """Delayed Reaction Pattern"""
 
     def __init__(self, trigger: LTL, reaction: LTL):
-        variables = Variables()
-        variables.extend(trigger.variables)
-        variables.extend(reaction.variables)
         pattern_formula = "G(({t}) -> F({r}))".format(t=trigger.formula, r=reaction.formula)
 
-        super().__init__(pattern_formula, variables)
+        super().__init__(pattern_formula, Variables(trigger.variables | reaction.variables))
 
 
 class InstantReaction(Pattern):
     """Instant Reaction Pattern"""
 
     def __init__(self, trigger: LTL, reaction: LTL):
-        variables = Variables()
-        variables.extend(trigger.variables)
-        variables.extend(reaction.variables)
         pattern_formula = "G(({t}) -> ({r}))".format(t=trigger.formula, r=reaction.formula)
 
-        super().__init__(pattern_formula, variables)
+        super().__init__(pattern_formula, Variables(trigger.variables | reaction.variables))
 
 
 class PromptReaction(Pattern):
     """The occurrence of a stimulus triggers a counteraction promptly, i.e. in the next time instant."""
 
     def __init__(self, trigger: LTL, reaction: LTL):
-        variables = Variables()
-        variables.extend(trigger.variables)
-        variables.extend(reaction.variables)
         pattern_formula = "G(({t}) -> X({r}))".format(t=trigger.formula, r=reaction.formula)
 
-        super().__init__(pattern_formula, variables)
+        super().__init__(pattern_formula, Variables(trigger.variables | reaction.variables))
 
 
 class BoundReaction(Pattern):
     """A counteraction must be performed every time and only when a speciﬁc location is entered."""
 
     def __init__(self, trigger: LTL, reaction: LTL):
-        variables = Variables()
-        variables.extend(trigger.variables)
-        variables.extend(reaction.variables)
         pattern_formula = "G( (({t}) -> ({r})) & (({r}) -> ({t})))".format(t=trigger.formula, r=reaction.formula)
 
-        super().__init__(pattern_formula, variables)
+        super().__init__(pattern_formula, Variables(trigger.variables | reaction.variables))
 
 
 class BoundDelay(Pattern):
-    """A counteraction must be performed, in the next time instant, every time and only when a speciﬁc location is entered."""
+    """A counteraction must be performed, in the next time instant,
+    every time and only when a speciﬁc location is entered."""
 
     def __init__(self, trigger: LTL, reaction: LTL):
-        variables = Variables()
-        variables.extend(trigger.variables)
-        variables.extend(reaction.variables)
         pattern_formula = "G( (({t}) -> X({r})) & (X({r}) -> ({t})))".format(t=trigger.formula, r=reaction.formula)
 
-        super().__init__(pattern_formula, variables)
+        super().__init__(pattern_formula, Variables(trigger.variables | reaction.variables))

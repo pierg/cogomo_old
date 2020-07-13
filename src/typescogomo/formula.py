@@ -25,7 +25,7 @@ class LTL:
             """Variables present in the formula"""
             self.__variables: Variables = variables
 
-            """List of LTL that conjoined result in the formula"""
+            """Set of LTL that conjoined result in the formula"""
             self.__cnf: Set['LTL'] = {self}
 
             if not skip_checks:
@@ -52,6 +52,7 @@ class LTL:
         elif cnf is None and formula is None:
             self.__formula: str = "TRUE"
             self.__cnf: Set['LTL'] = {self}
+            self.__variables: Variables = Variables()
 
         else:
             raise Exception("Wrong parameters LTL construction")
@@ -98,6 +99,27 @@ class LTL:
             raise InconsistentException(self, other)
 
         return self
+
+
+
+    def __and__(self, other):
+        """self & other
+        Returns a new LTL with the conjunction with other"""
+        if not isinstance(other, LTL):
+            return AttributeError
+
+        return LTL(cnf={self, other})
+
+    def __or__(self, other):
+        """self | other
+        Returns a new LTL with the disjunction with other"""
+        if not isinstance(other, LTL):
+            return AttributeError
+
+        formula = Or([self.formula, other.formula])
+        variables = Variables(self.variables | other.variables)
+
+        return LTL(formula=formula, variables=variables)
 
 
     """Refinement operators"""

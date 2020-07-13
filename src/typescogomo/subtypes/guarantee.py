@@ -99,6 +99,6 @@ class Guarantee(LTL):
     def set_context(self, context):
         self.__context = context
         if USE_SATURATED_GUARANTEES:
-            super().__init__("G((" + context + ") -> (" + self.saturated + "))", self.variables, self.cnf)
+            super().__init__("G((" + context.formula + ") -> (" + self.saturated + "))", Variables(self.variables | context.variables))
         else:
-            super().__init__("G((" + context + ") -> (" + self.formula + "))", self.variables, self.cnf)
+            super().__init__("G((" + context.formula + ") -> (" + self.formula + "))", Variables(self.variables | context.variables))

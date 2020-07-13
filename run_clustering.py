@@ -13,7 +13,7 @@ from goals.operations import create_contextual_clusters, create_cgt, CGTFailExce
 from helper.tools import save_to_file
 
 from mission_specification import get_inputs
-from typescogomo.formula import OrLTL
+# from typescogomo.formula import OrLTL
 
 results_path = os.path.dirname(os.path.abspath(__file__)) + "/output/results"
 try:
@@ -30,7 +30,7 @@ def pretty_print_goals(ap: dict, rules: dict, goals: List[CGTGoal]) -> str:
     ret = ""
     for g in goals:
         ret += "name:    \t" + g.name + "\n"
-        ret += "context: \t" + str(OrLTL(g.context)) + "\n"
+        ret += "context: \t" + str(g.context) + "\n"
         ret += "patterns:\t" + str(g.contracts[0].guarantees.formula) + "\n"
         ret += "\n"
     return ret
@@ -106,7 +106,7 @@ def generate_controllers_from_cgt_clustered(cgt: CGTGoal, folder_path, complete)
     for i, goal in enumerate(cgt.refined_by):
         from helper.buchi import generate_buchi
         sub_folder_path = folder_path + "cluster_" + str(i) + "/"
-        generate_buchi(OrLTL(goal.context), sub_folder_path + "context")
+        generate_buchi(goal.context, sub_folder_path + "context")
         realizable, exec_time = generate_controller_from_cgt(goal, sub_folder_path, complete)
         realizables.append(realizable)
         exec_times.append(exec_time)
