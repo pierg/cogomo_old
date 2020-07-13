@@ -1,5 +1,4 @@
 from typing import Set, Union
-
 from checks.tools import Implies, And, Not, Or
 from typescogomo.subtypes.assumption import Assumption
 from typescogomo.formula import LTL
@@ -13,20 +12,18 @@ class Guarantee(LTL):
     def __init__(self,
                  formula: str = None,
                  variables: Variables = None,
-                 cnf: Set['Guarantee'] = None,
+                 cnf: Set['LTL'] = None,
                  saturated: str = None):
 
         if formula is None and cnf is not None:
-            unsat = []
-            sat = []
+            formulae = []
             for g in cnf:
-                if not isinstance(g, Guarantee):
+                if not isinstance(g, LTL):
                     raise AttributeError
-                unsat.append(g.unsaturated)
-                sat.append(g.saturated)
+                formulae.append(g.formula)
 
-            self.__saturated = And(sat)
-            self.__unsaturated = And(unsat)
+            self.__saturated = And(formulae)
+            self.__unsaturated = And(formulae)
 
             super().__init__(cnf=cnf)
 

@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import List
 
 from typescogomo.subtypes.assumption import Assumption
@@ -50,6 +51,15 @@ class Contract:
         if not isinstance(values, Guarantee):
             raise AttributeError
         self.__guarantees = values
+
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
 
     """Contract refinement"""
 
@@ -199,10 +209,10 @@ class PContract(Contract):
         variables = Variables()
 
         guarantees = set()
-
         for p in patterns:
-            variables |= p.variables
-            guarantees.add(Guarantee(p.formula, p.variables))
+            guarantees.add(p)
+            # variables |= p.variables
+            # guarantees.add(Guarantee(p.formula, p.variables))
 
         guarantees = Guarantee(cnf=guarantees)
 

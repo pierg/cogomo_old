@@ -52,6 +52,8 @@ class CGTGoal:
 
         if context is not None:
             self.set_context(context)
+        else:
+            self.__context = Context()
 
         print(self)
 

@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import Set, Union
 from checks.nusmv import check_satisfiability, check_validity
 from checks.tools import And, Implies, Not, Or
@@ -45,7 +46,7 @@ class LTL:
 
             self.__cnf: Set[Union['LTL']] = cnf
 
-            if not skip_checks:
+            if not skip_checks and len(cnf) > 1:
                 if not self.is_satisfiable():
                     raise InconsistentException(self, self)
 
@@ -68,6 +69,15 @@ class LTL:
     @property
     def cnf(self) -> Set['LTL']:
         return self.__cnf
+
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
 
     """Logic Operators"""
 
@@ -178,7 +188,7 @@ class LTL:
         try:
             return hash(self.__formula)
         except Exception as e:
-            print(e)
+            raise e
 
     def copy(self):
         """Return a new LTL which is a copy of self"""
@@ -203,6 +213,8 @@ class LTL:
         return check_satisfiability(self.variables.get_nusmv_names(), self.formula)
 
     def is_satisfiable_with(self, other):
+        if self.formula == "TRUE":
+            return True
         try:
             self.__and__(other)
         except InconsistentException:

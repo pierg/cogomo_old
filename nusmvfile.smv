@@ -1,6 +1,6 @@
 MODULE main
 VAR
-	shop: boolean;
 	guard_entered: boolean;
+	shop: boolean;
 
 LTLSPEC !(G(guard_entered -> shop))
