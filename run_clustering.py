@@ -315,16 +315,6 @@ def run(list_of_goals: List[CGTGoal], result_folder: str,
         f.write(ret)
         f.close()
 
-    # save_to_file(pretty_print_summary_clustering(list_of_goals,
-    #                                              controller_generated_and,
-    #                                              trivial_and,
-    #                                              controller_generated_or,
-    #                                              trivial_or,
-    #                                              realizable_no_clusters,
-    #                                              context_goals,
-    #                                              realizables_clustered,
-    #                                              realizables_original),
-    #              result_folder + "/SUMMARY.txt")
 
     print("\nClustering process finished. Results generated.")
 
